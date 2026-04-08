@@ -1,29 +1,9 @@
-import { PrismaAdapter } from "@auth/prisma-adapter";
-import { type DefaultSession, type NextAuthConfig } from "next-auth";
-import DiscordProvider from "next-auth/providers/discord";
+import { type NextAuthConfig } from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
+import bcrypt from "bcryptjs";
+import { z } from "zod";
 
 import { db } from "~/server/db";
-
-/**
- * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
- * object and keep type safety.
- *
- * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
- */
-declare module "next-auth" {
-  interface Session extends DefaultSession {
-    user: {
-      id: string;
-      // ...other properties
-      // role: UserRole;
-    } & DefaultSession["user"];
-  }
-
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
-}
 
 /**
  * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
@@ -32,7 +12,71 @@ declare module "next-auth" {
  */
 export const authConfig = {
   providers: [
-    DiscordProvider,
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        const parsed = z
+          .object({
+            email: z.string().email(),
+            password: z.string().min(1),
+          })
+          .safeParse(credentials);
+
+        if (!parsed.success) return null;
+
+        const { email, password } = parsed.data;
+
+        const user = (await (db as unknown as { user: any }).user.findUnique({
+          where: { email },
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            password: true,
+            role: {
+              select: {
+                id: true,
+                name: true,
+                rolePermissions: {
+                  select: {
+                    permission: { select: { name: true } },
+                  },
+                },
+              },
+            },
+          },
+        })) as
+          | {
+              id: string;
+              name: string | null;
+              email: string;
+              password: string;
+              role: {
+                id: string;
+                name: string;
+                rolePermissions: Array<{ permission: { name: string } }>;
+              };
+            }
+          | null;
+
+        if (!user) return null;
+
+        const ok = await bcrypt.compare(password, user.password);
+        if (!ok) return null;
+
+        return {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+          permissions: user.role.rolePermissions.map((rp) => rp.permission.name),
+        };
+      },
+    }),
     /**
      * ...add more providers here.
      *
@@ -43,13 +87,27 @@ export const authConfig = {
      * @see https://next-auth.js.org/providers/github
      */
   ],
-  adapter: PrismaAdapter(db),
+  session: { strategy: "jwt" },
   callbacks: {
-    session: ({ session, user }) => ({
+    jwt: async ({ token, user }) => {
+      if (user) {
+        const u = user as unknown as {
+          role?: { id: string; name: string };
+          permissions?: string[];
+        };
+
+        token.role = u.role;
+        token.permissions = u.permissions ?? [];
+      }
+      return token;
+    },
+    session: ({ session, token }) => ({
       ...session,
       user: {
         ...session.user,
-        id: user.id,
+        id: token.sub!,
+        role: token.role!,
+        permissions: token.permissions ?? [],
       },
     }),
   },

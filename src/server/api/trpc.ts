@@ -131,3 +131,25 @@ export const protectedProcedure = t.procedure
       },
     });
   });
+
+/**
+ * Admin-only procedure
+ */
+export const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
+  if (ctx.session.user.role.name !== "admin") {
+    throw new TRPCError({ code: "FORBIDDEN" });
+  }
+  return next();
+});
+
+/**
+ * Permission-gated procedure
+ */
+export const permissionProcedure = (permissionName: string) =>
+  protectedProcedure.use(({ ctx, next }) => {
+    const perms = ctx.session.user.permissions;
+    if (!perms.includes(permissionName)) {
+      throw new TRPCError({ code: "FORBIDDEN" });
+    }
+    return next();
+  });

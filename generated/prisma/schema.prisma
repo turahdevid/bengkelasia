@@ -15,16 +15,34 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model Role {
+  id          String  @id @default(cuid())
+  name        String  @unique
+  description String?
 
-  createdBy   User   @relation(fields: [createdById], references: [id])
-  createdById String
+  users           User[]
+  rolePermissions RolePermission[]
+}
+
+model Permission {
+  id   String @id @default(cuid())
+  name String @unique
+
+  rolePermissions RolePermission[]
 
   @@index([name])
+}
+
+model RolePermission {
+  roleId       String
+  permissionId String
+
+  role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, permissionId])
+  @@index([roleId])
+  @@index([permissionId])
 }
 
 // Necessary for Next auth
@@ -58,12 +76,18 @@ model Session {
 model User {
   id            String    @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String    @unique
   emailVerified DateTime?
   image         String?
-  accounts      Account[]
-  sessions      Session[]
-  posts         Post[]
+  password      String
+
+  roleId String
+  role   Role   @relation(fields: [roleId], references: [id])
+
+  accounts Account[]
+  sessions Session[]
+
+  @@index([roleId])
 }
 
 model VerificationToken {
