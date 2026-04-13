@@ -215,6 +215,13 @@ exports.Prisma.VehicleScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.BrandScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.WorkOrderScalarFieldEnum = {
   id: 'id',
   woNumber: 'woNumber',
@@ -222,6 +229,7 @@ exports.Prisma.WorkOrderScalarFieldEnum = {
   customerId: 'customerId',
   vehicleId: 'vehicleId',
   advisorId: 'advisorId',
+  jobType: 'jobType',
   odo: 'odo',
   complaint: 'complaint',
   preCheck: 'preCheck',
@@ -253,10 +261,52 @@ exports.Prisma.WorkOrderItemScalarFieldEnum = {
   name: 'name',
   qty: 'qty',
   price: 'price',
+  productId: 'productId',
+  hpp: 'hpp',
   sparepartId: 'sparepartId',
   oilId: 'oilId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ProductScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  type: 'type',
+  brandId: 'brandId',
+  unitId: 'unitId',
+  buyPriceDefault: 'buyPriceDefault',
+  sellPrice: 'sellPrice',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.UnitScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.StockBatchScalarFieldEnum = {
+  id: 'id',
+  productId: 'productId',
+  qty: 'qty',
+  remaining: 'remaining',
+  buyPrice: 'buyPrice',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.StockMovementScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  productId: 'productId',
+  batchId: 'batchId',
+  qty: 'qty',
+  buyPrice: 'buyPrice',
+  workOrderId: 'workOrderId',
+  workOrderItemId: 'workOrderItemId',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.SparepartScalarFieldEnum = {
@@ -367,12 +417,18 @@ exports.Prisma.VehicleOrderByRelevanceFieldEnum = {
   note: 'note'
 };
 
+exports.Prisma.BrandOrderByRelevanceFieldEnum = {
+  id: 'id',
+  name: 'name'
+};
+
 exports.Prisma.WorkOrderOrderByRelevanceFieldEnum = {
   id: 'id',
   woNumber: 'woNumber',
   customerId: 'customerId',
   vehicleId: 'vehicleId',
   advisorId: 'advisorId',
+  jobType: 'jobType',
   complaint: 'complaint',
   preCheck: 'preCheck',
   postCheck: 'postCheck'
@@ -387,8 +443,34 @@ exports.Prisma.WorkOrderItemOrderByRelevanceFieldEnum = {
   id: 'id',
   workOrderId: 'workOrderId',
   name: 'name',
+  productId: 'productId',
   sparepartId: 'sparepartId',
   oilId: 'oilId'
+};
+
+exports.Prisma.ProductOrderByRelevanceFieldEnum = {
+  id: 'id',
+  name: 'name',
+  brandId: 'brandId',
+  unitId: 'unitId'
+};
+
+exports.Prisma.UnitOrderByRelevanceFieldEnum = {
+  id: 'id',
+  name: 'name'
+};
+
+exports.Prisma.StockBatchOrderByRelevanceFieldEnum = {
+  id: 'id',
+  productId: 'productId'
+};
+
+exports.Prisma.StockMovementOrderByRelevanceFieldEnum = {
+  id: 'id',
+  productId: 'productId',
+  batchId: 'batchId',
+  workOrderId: 'workOrderId',
+  workOrderItemId: 'workOrderItemId'
 };
 
 exports.Prisma.SparepartOrderByRelevanceFieldEnum = {
@@ -404,6 +486,10 @@ exports.Prisma.OilOrderByRelevanceFieldEnum = {
 };
 exports.WorkOrderStatus = exports.$Enums.WorkOrderStatus = {
   DRAFT: 'DRAFT',
+  ANTRIAN: 'ANTRIAN',
+  PROSES: 'PROSES',
+  SELESAI: 'SELESAI',
+  DIAMBIL: 'DIAMBIL',
   OPEN: 'OPEN',
   DONE: 'DONE',
   CANCELLED: 'CANCELLED'
@@ -420,6 +506,16 @@ exports.WorkOrderItemType = exports.$Enums.WorkOrderItemType = {
   OLI: 'OLI'
 };
 
+exports.ProductType = exports.$Enums.ProductType = {
+  SPAREPART: 'SPAREPART',
+  OIL: 'OIL'
+};
+
+exports.StockMovementType = exports.$Enums.StockMovementType = {
+  IN: 'IN',
+  OUT: 'OUT'
+};
+
 exports.Prisma.ModelName = {
   Role: 'Role',
   Permission: 'Permission',
@@ -431,9 +527,14 @@ exports.Prisma.ModelName = {
   VerificationToken: 'VerificationToken',
   Customer: 'Customer',
   Vehicle: 'Vehicle',
+  Brand: 'Brand',
   WorkOrder: 'WorkOrder',
   WorkOrderMechanic: 'WorkOrderMechanic',
   WorkOrderItem: 'WorkOrderItem',
+  Product: 'Product',
+  Unit: 'Unit',
+  StockBatch: 'StockBatch',
+  StockMovement: 'StockMovement',
   Sparepart: 'Sparepart',
   Oil: 'Oil'
 };

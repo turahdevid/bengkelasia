@@ -147,6 +147,101 @@ async function main() {
       roleId: ownerRoleId,
     },
   });
+
+  const unitNames = ["pcs", "botol", "liter"] as const;
+  const inv = db as any;
+  const units = await Promise.all(
+    unitNames.map((name) =>
+      inv.unit.upsert({
+        where: { name },
+        update: {},
+        create: { name },
+        select: { id: true, name: true },
+      }),
+    ),
+  );
+
+  const unitIdByName = new Map(units.map((u: { id: string; name: string }) => [u.name, u.id] as const));
+
+  const brandNames = ["Shell", "Yamalube"] as const;
+  const brands = await Promise.all(
+    brandNames.map((name) =>
+      inv.brand.upsert({
+        where: { name },
+        update: {},
+        create: { name },
+        select: { id: true, name: true },
+      }),
+    ),
+  );
+
+  const brandIdByName = new Map(
+    brands.map((b: { id: string; name: string }) => [b.name, b.id] as const),
+  );
+
+  const defaultProducts = [
+    {
+      name: "Busi Standar",
+      type: "SPAREPART" as const,
+      brandName: null as string | null,
+      unitName: "pcs" as const,
+      sellPrice: 25000,
+    },
+    {
+      name: "Filter Oli",
+      type: "SPAREPART" as const,
+      brandName: null as string | null,
+      unitName: "pcs" as const,
+      sellPrice: 30000,
+    },
+    {
+      name: "Oli 10W-40 1L",
+      type: "OIL" as const,
+      brandName: "Shell",
+      unitName: "liter" as const,
+      sellPrice: 65000,
+    },
+    {
+      name: "Oli 10W-40 1L",
+      type: "OIL" as const,
+      brandName: "Yamalube",
+      unitName: "liter" as const,
+      sellPrice: 60000,
+    },
+  ];
+
+  for (const p of defaultProducts) {
+    const unitId = unitIdByName.get(p.unitName);
+    if (!unitId) throw new Error(`Seed failed: missing unitId for ${p.unitName}`);
+
+    const brandId = p.brandName ? brandIdByName.get(p.brandName) : null;
+    if (p.type === "OIL" && !brandId) {
+      throw new Error(`Seed failed: missing brandId for ${p.brandName}`);
+    }
+
+    const exists = await inv.product.findFirst({
+      where: {
+        name: p.name,
+        type: p.type,
+        brandId: brandId,
+        unitId,
+      },
+      select: { id: true },
+    });
+
+    if (!exists) {
+      await inv.product.create({
+        data: {
+          name: p.name,
+          type: p.type,
+          brandId: brandId,
+          unitId,
+          sellPrice: p.sellPrice,
+        },
+        select: { id: true },
+      });
+    }
+  }
 }
 
 main()

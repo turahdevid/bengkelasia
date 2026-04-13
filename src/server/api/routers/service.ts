@@ -6,6 +6,17 @@ import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 const woIdSchema = z.string().min(1);
 
+const woStatusSchema = z.enum([
+  "DRAFT",
+  "ANTRIAN",
+  "PROSES",
+  "SELESAI",
+  "DIAMBIL",
+  "OPEN",
+  "DONE",
+  "CANCELLED",
+]);
+
 const paginationSchema = z.object({
   page: z.number().int().min(1).default(1),
   limit: z.union([z.literal(10), z.literal(20), z.literal(50)]).default(10),
@@ -50,6 +61,22 @@ function parseWoSequence(woNumber: string) {
   return n;
 }
 
+function assertStatusTransition(params: { current: string; next: string }) {
+  const { current, next } = params;
+  const ok =
+    (current === "DRAFT" && next === "ANTRIAN") ||
+    (current === "ANTRIAN" && next === "PROSES") ||
+    (current === "PROSES" && next === "SELESAI") ||
+    (current === "SELESAI" && next === "DIAMBIL");
+
+  if (!ok) {
+    throw new TRPCError({
+      code: "BAD_REQUEST",
+      message: `Transisi status tidak valid: ${current} -> ${next}`,
+    });
+  }
+}
+
 const customerSearchSchema = z.object({
   query: z.string().trim().min(1).max(120),
   limit: z.number().int().min(1).max(20).default(10),
@@ -69,6 +96,30 @@ const oilSearchSchema = z.object({
   limit: z.number().int().min(1).max(100).default(50),
 });
 
+const productSearchSchema = z.object({
+  query: z.string().trim().max(120).optional(),
+  limit: z.number().int().min(1).max(100).default(50),
+});
+
+const addInventoryItemSchema = z.object({
+  workOrderId: z.string().min(1),
+  productId: z.string().min(1),
+  qty: z.number().int().min(1).max(10_000),
+});
+
+const replaceJasaItemsSchema = z.object({
+  workOrderId: z.string().min(1),
+  items: z
+    .array(
+      z.object({
+        name: z.string().trim().min(1).max(190),
+        qty: z.number().int().min(1).max(10_000),
+        price: moneySchema,
+      }),
+    )
+    .max(200),
+});
+
 const workOrderItemInputSchema = z.object({
   type: z.enum(["JASA", "SPAREPART", "OLI"]),
   name: z.string().trim().min(1).max(190),
@@ -82,6 +133,121 @@ type WorkOrderItemInput = z.infer<typeof workOrderItemInputSchema>;
 
 function calcSubtotal(items: WorkOrderItemInput[]) {
   return items.reduce((acc, it) => acc + it.qty * it.price, 0);
+}
+
+async function getStockAvailableByProductId(tx: {
+  stockBatch: {
+    groupBy: Function;
+  };
+}, productIds: string[]) {
+  if (productIds.length === 0) return new Map<string, number>();
+
+  const grouped = (await (tx.stockBatch.groupBy as any)({
+    by: ["productId"],
+    where: { productId: { in: productIds }, remaining: { gt: 0 } },
+    _sum: { remaining: true },
+  })) as Array<{ productId: string; _sum: { remaining: number | null } }>;
+
+  return new Map(grouped.map((g) => [g.productId, g._sum.remaining ?? 0] as const));
+}
+
+async function fifoDeductAndComputeHpp(params: {
+  tx: any;
+  workOrderId: string;
+  productId: string;
+  qty: number;
+  itemType: "SPAREPART" | "OLI";
+}) {
+  const { tx, workOrderId, productId, qty, itemType } = params;
+
+  const product = await tx.product.findUnique({
+    where: { id: productId },
+    select: {
+      id: true,
+      name: true,
+      type: true,
+      brand: { select: { name: true } },
+      sellPrice: true,
+    },
+  });
+
+  if (!product) {
+    throw new TRPCError({ code: "NOT_FOUND", message: "Produk tidak ditemukan" });
+  }
+
+  if (itemType === "SPAREPART" && product.type !== "SPAREPART") {
+    throw new TRPCError({ code: "BAD_REQUEST", message: "Produk bukan sparepart" });
+  }
+  if (itemType === "OLI" && product.type !== "OIL") {
+    throw new TRPCError({ code: "BAD_REQUEST", message: "Produk bukan oli" });
+  }
+
+  const batches = await tx.stockBatch.findMany({
+    where: { productId, remaining: { gt: 0 } },
+    orderBy: { createdAt: "asc" },
+    select: { id: true, remaining: true, buyPrice: true },
+  });
+
+  let need = qty;
+  const plan: Array<{ batchId: string; take: number; buyPrice: number; remainingBefore: number }> = [];
+
+  for (const b of batches) {
+    if (need <= 0) break;
+    const take = Math.min(need, b.remaining);
+    if (take <= 0) continue;
+    plan.push({ batchId: b.id, take, buyPrice: b.buyPrice, remainingBefore: b.remaining });
+    need -= take;
+  }
+
+  if (need > 0) {
+    throw new TRPCError({ code: "BAD_REQUEST", message: "Stok tidak cukup" });
+  }
+
+  const totalHpp = plan.reduce((acc, p) => acc + p.take * p.buyPrice, 0);
+  const hppPerItem = Math.floor(totalHpp / qty);
+
+  const itemName =
+    itemType === "OLI"
+      ? `${product.brand?.name ?? ""} ${product.name}`.trim()
+      : product.name;
+
+  const woItem = await tx.workOrderItem.create({
+    data: {
+      workOrderId,
+      type: itemType,
+      productId: product.id,
+      name: itemName,
+      qty,
+      price: product.sellPrice,
+      hpp: hppPerItem,
+    },
+    select: { id: true },
+  });
+
+  for (const step of plan) {
+    const newRemaining = step.remainingBefore - step.take;
+    await tx.stockBatch.update({
+      where: { id: step.batchId },
+      data: { remaining: newRemaining },
+      select: { id: true },
+    });
+  }
+
+  if (plan.length > 0) {
+    await tx.stockMovement.createMany({
+      data: plan.map((p) => ({
+        type: "OUT",
+        productId: product.id,
+        batchId: p.batchId,
+        qty: p.take,
+        buyPrice: p.buyPrice,
+        workOrderId,
+        workOrderItemId: woItem.id,
+      })),
+    });
+  }
+
+  return { id: woItem.id };
 }
 
 function calcGrandTotal(params: {
@@ -227,6 +393,61 @@ export const serviceRouter = createTRPCRouter({
       return rows;
     }),
 
+  createDraft: protectedProcedure
+    .input(
+      z
+        .object({
+          dateTime: isoDateTimeSchema.optional(),
+        })
+        .optional(),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const db = ctx.db as any;
+      const prefix = woNumberPrefixForDate(new Date());
+
+      const latest = await db.workOrder.findFirst({
+        where: { woNumber: { startsWith: `${prefix}-` } },
+        orderBy: { createdAt: "desc" },
+        select: { woNumber: true },
+      });
+
+      const lastSeq = latest ? parseWoSequence(latest.woNumber) : null;
+      const seq = (lastSeq ?? 0) + 1;
+      const woNumber = formatWoNumber(prefix, seq);
+
+      try {
+        const wo = await db.workOrder.create({
+          data: {
+            woNumber,
+            status: "DRAFT",
+            ...(input?.dateTime ? { createdAt: new Date(input.dateTime) } : {}),
+          },
+          select: { id: true, woNumber: true, status: true },
+        });
+
+        return wo;
+      } catch (err: unknown) {
+        if (err instanceof Prisma.PrismaClientKnownRequestError) {
+          if (err.code === "P2002") {
+            throw new TRPCError({
+              code: "CONFLICT",
+              message: "Nomor WO sudah dipakai. Silakan coba lagi.",
+            });
+          }
+        }
+
+        if (err instanceof Error && err.name === "PrismaClientValidationError") {
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message:
+              "Prisma Client / database belum sinkron untuk WorkOrder. Jalankan: pnpm prisma db push, pnpm prisma generate, lalu restart dev server.",
+          });
+        }
+
+        throw err;
+      }
+    }),
+
   searchCustomers: protectedProcedure
     .input(customerSearchSchema)
     .query(async ({ ctx, input }) => {
@@ -247,6 +468,45 @@ export const serviceRouter = createTRPCRouter({
       });
 
       return items;
+    }),
+
+  listProductsSparepart: protectedProcedure
+    .input(productSearchSchema)
+    .query(async ({ ctx, input }) => {
+      const q = input.query?.trim();
+      const db = ctx.db as any;
+
+      const items = await db.product.findMany({
+        where: {
+          type: "SPAREPART",
+          ...(q
+            ? {
+                OR: [
+                  { name: { contains: q } },
+                  { brand: { name: { contains: q } } },
+                ],
+              }
+            : {}),
+        },
+        orderBy: [{ name: "asc" }],
+        take: input.limit,
+        select: {
+          id: true,
+          name: true,
+          brand: { select: { name: true } },
+          sellPrice: true,
+        },
+      });
+
+      const stockByProductId = await getStockAvailableByProductId(db, items.map((p: { id: string }) => p.id));
+
+      return items.map((p: any) => ({
+        id: p.id as string,
+        name: p.name as string,
+        brand: (p.brand?.name as string | undefined) ?? null,
+        sellPrice: p.sellPrice as number,
+        stockAvailable: stockByProductId.get(p.id as string) ?? 0,
+      }));
     }),
 
   listVehiclesByCustomer: protectedProcedure
@@ -342,10 +602,137 @@ export const serviceRouter = createTRPCRouter({
     return Array.from(byBrand.entries()).map(([brand, items]) => ({ brand, items }));
   }),
 
+  listProductsOilGrouped: protectedProcedure
+    .input(productSearchSchema)
+    .query(async ({ ctx, input }) => {
+      const q = input.query?.trim();
+      const db = ctx.db as any;
+
+      const items = await db.product.findMany({
+        where: {
+          type: "OIL",
+          ...(q
+            ? {
+                OR: [
+                  { name: { contains: q } },
+                  { brand: { name: { contains: q } } },
+                ],
+              }
+            : {}),
+        },
+        orderBy: [{ brand: { name: "asc" } }, { name: "asc" }],
+        take: input.limit,
+        select: {
+          id: true,
+          name: true,
+          brand: { select: { name: true } },
+          sellPrice: true,
+        },
+      });
+
+      const stockByProductId = await getStockAvailableByProductId(db, items.map((p: { id: string }) => p.id));
+
+      const byBrand = new Map<
+        string,
+        Array<{ id: string; name: string; brand: string; sellPrice: number; stockAvailable: number }>
+      >();
+
+      for (const p of items) {
+        const brand = ((p.brand?.name as string | undefined) ?? "-").trim() || "-";
+        const arr = byBrand.get(brand) ?? [];
+        arr.push({
+          id: p.id as string,
+          name: p.name as string,
+          brand,
+          sellPrice: p.sellPrice as number,
+          stockAvailable: stockByProductId.get(p.id as string) ?? 0,
+        });
+        byBrand.set(brand, arr);
+      }
+
+      return Array.from(byBrand.entries()).map(([brand, items]) => ({ brand, items }));
+    }),
+
+  addSparepartItem: protectedProcedure
+    .input(addInventoryItemSchema)
+    .mutation(async ({ ctx, input }) => {
+      const wo = await ctx.db.workOrder.findUnique({
+        where: { id: input.workOrderId },
+        select: { id: true },
+      });
+      if (!wo) throw new TRPCError({ code: "NOT_FOUND", message: "WO tidak ditemukan" });
+
+      return ctx.db.$transaction((tx) =>
+        fifoDeductAndComputeHpp({
+          tx,
+          workOrderId: input.workOrderId,
+          productId: input.productId,
+          qty: input.qty,
+          itemType: "SPAREPART",
+        }),
+      );
+    }),
+
+  addOilItem: protectedProcedure
+    .input(addInventoryItemSchema)
+    .mutation(async ({ ctx, input }) => {
+      const wo = await ctx.db.workOrder.findUnique({
+        where: { id: input.workOrderId },
+        select: { id: true },
+      });
+      if (!wo) throw new TRPCError({ code: "NOT_FOUND", message: "WO tidak ditemukan" });
+
+      return ctx.db.$transaction((tx) =>
+        fifoDeductAndComputeHpp({
+          tx,
+          workOrderId: input.workOrderId,
+          productId: input.productId,
+          qty: input.qty,
+          itemType: "OLI",
+        }),
+      );
+    }),
+
+  replaceJasaItems: protectedProcedure
+    .input(replaceJasaItemsSchema)
+    .mutation(async ({ ctx, input }) => {
+      const wo = await ctx.db.workOrder.findUnique({
+        where: { id: input.workOrderId },
+        select: { id: true },
+      });
+      if (!wo) throw new TRPCError({ code: "NOT_FOUND", message: "WO tidak ditemukan" });
+
+      await ctx.db.$transaction(async (tx) => {
+        await tx.workOrderItem.deleteMany({
+          where: {
+            workOrderId: input.workOrderId,
+            type: "JASA",
+          },
+        });
+
+        if (input.items.length > 0) {
+          await tx.workOrderItem.createMany({
+            data: input.items.map((it) => ({
+              workOrderId: input.workOrderId,
+              type: "JASA",
+              name: it.name,
+              qty: it.qty,
+              price: it.price,
+              hpp: 0,
+            })),
+          });
+        }
+      });
+
+      return { ok: true };
+    }),
+
   getById: protectedProcedure
     .input(z.object({ id: woIdSchema }))
     .query(async ({ ctx, input }) => {
-      const wo = await ctx.db.workOrder.findUnique({
+      const db = ctx.db as any;
+
+      const wo = await db.workOrder.findUnique({
         where: { id: input.id },
         select: {
           id: true,
@@ -354,6 +741,8 @@ export const serviceRouter = createTRPCRouter({
           customerId: true,
           vehicleId: true,
           advisorId: true,
+          advisor: { select: { name: true, email: true } },
+          jobType: true,
           odo: true,
           complaint: true,
           preCheck: true,
@@ -389,6 +778,8 @@ export const serviceRouter = createTRPCRouter({
               name: true,
               qty: true,
               price: true,
+              hpp: true,
+              productId: true,
               sparepartId: true,
               oilId: true,
             },
@@ -399,6 +790,225 @@ export const serviceRouter = createTRPCRouter({
       if (!wo) throw new TRPCError({ code: "NOT_FOUND", message: "WO tidak ditemukan" });
 
       return wo;
+    }),
+
+  updatePartial: protectedProcedure
+    .input(
+      z.object({
+        id: woIdSchema,
+
+        // Customer & Vehicle
+        customerId: z.string().min(1).nullable().optional(),
+        vehicleId: z.string().min(1).nullable().optional(),
+        newCustomer: z
+          .object({
+            name: z.string().trim().min(2).max(120),
+            phone: z.string().trim().min(6).max(30),
+            address: z.string().trim().min(1).max(500).optional(),
+          })
+          .optional(),
+        newVehicle: z
+          .object({
+            plateNumber: z
+              .string()
+              .trim()
+              .min(3)
+              .max(16)
+              .transform((v) => v.toUpperCase().replace(/\s+/g, " ")),
+            brand: z.string().trim().min(1).max(60),
+            model: z.string().trim().min(1).max(60),
+            currentOdometer: z.number().int().min(0).max(2_000_000).optional(),
+          })
+          .optional(),
+
+        // Order Info
+        woNumber: z.string().trim().min(1).max(50).optional(),
+        dateTime: isoDateTimeSchema.optional(),
+        jobType: z.string().trim().min(1).max(120).nullable().optional(),
+        odo: z.number().int().min(0).max(2_000_000).nullable().optional(),
+        complaint: optionalNoteSchema.nullable().optional(),
+
+        advisorId: z.string().min(1).nullable().optional(),
+        mechanicIds: z.array(z.string().min(1)).max(20).optional(),
+
+        // Checking & Reminder
+        preCheck: optionalNoteSchema.nullable().optional(),
+        postCheck: optionalNoteSchema.nullable().optional(),
+        estimatedDoneAt: isoDateTimeSchema.nullable().optional(),
+        reminderNextOdo: z.number().int().min(0).max(2_000_000).nullable().optional(),
+        reminderNextDate: isoDateTimeSchema.nullable().optional(),
+
+        // Payment
+        dp: moneySchema.optional(),
+        discountPercent: percentSchema.optional(),
+        taxPercent: percentSchema.optional(),
+        paidAmount: moneySchema.optional(),
+        paymentMethod: z.enum(["CASH", "TRANSFER"]).optional(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const db = ctx.db as any;
+      const current = await ctx.db.workOrder.findUnique({
+        where: { id: input.id },
+        select: { id: true, status: true },
+      });
+      if (!current) throw new TRPCError({ code: "NOT_FOUND", message: "WO tidak ditemukan" });
+
+      const res = await db.$transaction(async (tx: any) => {
+        let customerId: string | null | undefined = input.customerId;
+        let vehicleId: string | null | undefined = input.vehicleId;
+
+        if (input.newCustomer || input.newVehicle) {
+          if (!input.newCustomer || !input.newVehicle) {
+            throw new TRPCError({
+              code: "BAD_REQUEST",
+              message: "Jika input customer baru, kendaraan baru juga wajib diisi (dan sebaliknya)",
+            });
+          }
+
+          const customer = await tx.customer.create({
+            data: {
+              name: input.newCustomer.name,
+              phone: input.newCustomer.phone,
+              address: input.newCustomer.address,
+            },
+            select: { id: true },
+          });
+
+          const vehicle = await tx.vehicle.create({
+            data: {
+              customerId: customer.id,
+              plateNumber: input.newVehicle.plateNumber,
+              brand: input.newVehicle.brand,
+              model: input.newVehicle.model,
+              currentOdometer: input.newVehicle.currentOdometer,
+            },
+            select: { id: true },
+          });
+
+          customerId = customer.id;
+          vehicleId = vehicle.id;
+        }
+
+        if (customerId && vehicleId) {
+          const v = await tx.vehicle.findUnique({
+            where: { id: vehicleId },
+            select: { id: true, customerId: true },
+          });
+          if (!v || v.customerId !== customerId) {
+            throw new TRPCError({
+              code: "BAD_REQUEST",
+              message: "Kendaraan tidak sesuai customer",
+            });
+          }
+        }
+
+        const updated = await tx.workOrder.update({
+          where: { id: input.id },
+          data: {
+            ...(input.woNumber ? { woNumber: input.woNumber } : {}),
+            ...(input.dateTime ? { createdAt: new Date(input.dateTime) } : {}),
+
+            ...(input.jobType !== undefined ? { jobType: input.jobType } : {}),
+
+            ...(customerId !== undefined ? { customerId } : {}),
+            ...(vehicleId !== undefined ? { vehicleId } : {}),
+
+            ...(input.advisorId !== undefined ? { advisorId: input.advisorId } : {}),
+            ...(input.odo !== undefined ? { odo: input.odo } : {}),
+            ...(input.complaint !== undefined ? { complaint: input.complaint } : {}),
+            ...(input.preCheck !== undefined ? { preCheck: input.preCheck } : {}),
+            ...(input.postCheck !== undefined ? { postCheck: input.postCheck } : {}),
+            ...(input.estimatedDoneAt !== undefined
+              ? { estimatedDoneAt: input.estimatedDoneAt ? new Date(input.estimatedDoneAt) : null }
+              : {}),
+            ...(input.reminderNextOdo !== undefined ? { reminderNextOdo: input.reminderNextOdo } : {}),
+            ...(input.reminderNextDate !== undefined
+              ? { reminderNextDate: input.reminderNextDate ? new Date(input.reminderNextDate) : null }
+              : {}),
+
+            ...(input.dp !== undefined ? { dp: input.dp } : {}),
+            ...(input.discountPercent !== undefined ? { discountPercent: input.discountPercent } : {}),
+            ...(input.taxPercent !== undefined ? { taxPercent: input.taxPercent } : {}),
+            ...(input.paidAmount !== undefined ? { paidAmount: input.paidAmount } : {}),
+            ...(input.paymentMethod !== undefined ? { paymentMethod: input.paymentMethod } : {}),
+          },
+          select: { id: true },
+        });
+
+        if (input.mechanicIds) {
+          await tx.workOrderMechanic.deleteMany({ where: { workOrderId: updated.id } });
+          if (input.mechanicIds.length > 0) {
+            await tx.workOrderMechanic.createMany({
+              data: input.mechanicIds.map((userId) => ({
+                workOrderId: updated.id,
+                userId,
+              })),
+              skipDuplicates: true,
+            });
+          }
+        }
+
+        const items = await tx.workOrderItem.findMany({
+          where: { workOrderId: updated.id },
+          select: { qty: true, price: true },
+        });
+
+        const subtotal = items.reduce((acc: number, it: { qty: number; price: number }) => acc + it.qty * it.price, 0);
+        const woNow = await tx.workOrder.findUnique({
+          where: { id: updated.id },
+          select: {
+            discountPercent: true,
+            taxPercent: true,
+            paidAmount: true,
+          },
+        });
+
+        const grandTotal = calcGrandTotal({
+          itemsSubtotal: subtotal,
+          discountPercent: woNow?.discountPercent ?? 0,
+          taxPercent: woNow?.taxPercent ?? 0,
+        });
+        const changeAmount = Math.max(0, (woNow?.paidAmount ?? 0) - grandTotal);
+
+        await tx.workOrder.update({
+          where: { id: updated.id },
+          data: { subtotal, grandTotal, changeAmount },
+          select: { id: true },
+        });
+
+        return updated;
+      });
+
+      return { id: res.id };
+    }),
+
+  setStatus: protectedProcedure
+    .input(
+      z.object({
+        id: woIdSchema,
+        status: woStatusSchema,
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const db = ctx.db as any;
+      const wo = await ctx.db.workOrder.findUnique({
+        where: { id: input.id },
+        select: { id: true, status: true },
+      });
+      if (!wo) throw new TRPCError({ code: "NOT_FOUND", message: "WO tidak ditemukan" });
+
+      if (wo.status !== input.status) {
+        assertStatusTransition({ current: wo.status, next: input.status });
+      }
+
+      await db.workOrder.update({
+        where: { id: input.id },
+        data: { status: input.status },
+        select: { id: true },
+      });
+
+      return { ok: true };
     }),
 
   searchWorkOrders: protectedProcedure
@@ -586,17 +1196,23 @@ export const serviceRouter = createTRPCRouter({
             });
           }
 
-          await tx.workOrderItem.deleteMany({ where: { workOrderId: wo.id } });
-          if (input.items.length > 0) {
+          await tx.workOrderItem.deleteMany({
+            where: {
+              workOrderId: wo.id,
+              type: "JASA",
+            },
+          });
+
+          const jasaItems = input.items.filter((it) => it.type === "JASA");
+          if (jasaItems.length > 0) {
             await tx.workOrderItem.createMany({
-              data: input.items.map((it) => ({
+              data: jasaItems.map((it) => ({
                 workOrderId: wo.id,
                 type: it.type,
                 name: it.name,
                 qty: it.qty,
                 price: it.price,
-                sparepartId: it.sparepartId ?? null,
-                oilId: it.oilId ?? null,
+                hpp: 0,
               })),
             });
           }

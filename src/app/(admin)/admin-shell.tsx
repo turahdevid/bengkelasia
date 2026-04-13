@@ -24,6 +24,8 @@ import { cn } from "~/lib/utils";
 
 const MANAGEMENT_ITEMS = [
   { href: "/admin/rbac", label: "Manajemen Akses", icon: Users },
+  { href: "/admin/product", label: "Product", icon: Tags },
+  { href: "/admin/stock-in", label: "Stock In", icon: Tags },
   { href: "/admin/brands", label: "Brand", icon: Car },
   { href: "/admin/users", label: "User", icon: Users },
   { href: "/admin/employees", label: "Pegawai", icon: Users },
@@ -54,6 +56,8 @@ function getTitleFromPath(pathname: string) {
   const match = NAV_ITEMS.find((i) => i.href === pathname);
   if (match) return match.label;
   if (pathname.startsWith("/admin/rbac")) return "Manajemen Akses";
+  if (pathname.startsWith("/admin/product")) return "Product";
+  if (pathname.startsWith("/admin/stock-in")) return "Stock In";
   if (pathname.startsWith("/admin/brands")) return "Brand";
   if (pathname.startsWith("/admin/users")) return "User";
   if (pathname.startsWith("/admin/employees")) return "Pegawai";

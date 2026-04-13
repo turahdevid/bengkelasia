@@ -163,6 +163,10 @@ model Vehicle {
 
 enum WorkOrderStatus {
     DRAFT
+    ANTRIAN
+    PROSES
+    SELESAI
+    DIAMBIL
     OPEN
     DONE
     CANCELLED
@@ -174,6 +178,29 @@ enum WorkOrderItemType {
     OLI
 }
 
+enum ProductType {
+    SPAREPART
+    OIL
+}
+
+enum StockMovementType {
+    IN
+    OUT
+}
+
+model Brand {
+    id String @id @default(cuid())
+
+    name String @unique
+
+    products Product[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([name])
+}
+
 enum PaymentMethod {
     CASH
     TRANSFER
@@ -182,16 +209,18 @@ enum PaymentMethod {
 model WorkOrder {
     id       String @id @default(cuid())
     woNumber String @unique
-    status   WorkOrderStatus @default(OPEN)
+    status   WorkOrderStatus @default(DRAFT)
 
-    customerId String
-    customer   Customer @relation(fields: [customerId], references: [id], onDelete: Restrict)
+    customerId String?
+    customer   Customer? @relation(fields: [customerId], references: [id], onDelete: SetNull)
 
-    vehicleId String
-    vehicle   Vehicle @relation(fields: [vehicleId], references: [id], onDelete: Restrict)
+    vehicleId String?
+    vehicle   Vehicle? @relation(fields: [vehicleId], references: [id], onDelete: SetNull)
 
     advisorId String?
     advisor   User? @relation("WorkOrderAdvisor", fields: [advisorId], references: [id], onDelete: SetNull)
+
+    jobType   String?
 
     odo       Int?
     complaint String?
@@ -215,6 +244,7 @@ model WorkOrder {
 
     items     WorkOrderItem[]
     mechanics WorkOrderMechanic[]
+    stockMovements StockMovement[]
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
@@ -249,19 +279,110 @@ model WorkOrderItem {
     qty   Int
     price Int
 
+    productId String?
+    product   Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+
+    hpp Int @default(0)
+
     sparepartId String?
     sparepart   Sparepart? @relation(fields: [sparepartId], references: [id], onDelete: SetNull)
 
     oilId String?
     oil   Oil? @relation(fields: [oilId], references: [id], onDelete: SetNull)
 
+    stockMovements StockMovement[]
+
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
     @@index([workOrderId])
     @@index([type])
+    @@index([productId])
     @@index([sparepartId])
     @@index([oilId])
+}
+
+model Product {
+    id String @id @default(cuid())
+
+    name String
+    type ProductType
+    brandId String?
+    brand   Brand? @relation(fields: [brandId], references: [id], onDelete: Restrict)
+    unitId String
+    unit   Unit @relation(fields: [unitId], references: [id], onDelete: Restrict)
+    buyPriceDefault Int @default(0)
+    sellPrice Int
+
+    stockBatches StockBatch[]
+    movements StockMovement[]
+    workOrderItems WorkOrderItem[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([type])
+    @@index([brandId])
+    @@index([name])
+    @@index([unitId])
+}
+
+model Unit {
+    id String @id @default(cuid())
+    name String @unique
+
+    products Product[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([name])
+}
+
+model StockBatch {
+    id String @id @default(cuid())
+
+    productId String
+    product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+    qty Int
+    remaining Int
+    buyPrice Int
+    createdAt DateTime @default(now())
+
+    movements StockMovement[]
+
+    @@index([productId, createdAt])
+    @@index([productId])
+    @@index([createdAt])
+}
+
+model StockMovement {
+    id String @id @default(cuid())
+
+    type StockMovementType
+
+    productId String
+    product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+    batchId String?
+    batch StockBatch? @relation(fields: [batchId], references: [id], onDelete: SetNull)
+
+    qty Int
+    buyPrice Int?
+
+    workOrderId String?
+    workOrder WorkOrder? @relation(fields: [workOrderId], references: [id], onDelete: SetNull)
+
+    workOrderItemId String?
+    workOrderItem WorkOrderItem? @relation(fields: [workOrderItemId], references: [id], onDelete: SetNull)
+
+    createdAt DateTime @default(now())
+
+    @@index([productId, createdAt])
+    @@index([batchId])
+    @@index([workOrderId])
+    @@index([workOrderItemId])
 }
 
 model Sparepart {
