@@ -1,0 +1,17 @@
+import * as React from "react";
+
+export function useDebouncedValue<T>(value: T, delayMs: number) {
+  const [debounced, setDebounced] = React.useState(value);
+
+  React.useEffect(() => {
+    const handle = window.setTimeout(() => {
+      setDebounced(value);
+    }, delayMs);
+
+    return () => {
+      window.clearTimeout(handle);
+    };
+  }, [delayMs, value]);
+
+  return debounced;
+}

@@ -142,10 +142,113 @@ exports.Prisma.UserScalarFieldEnum = {
   roleId: 'roleId'
 };
 
+exports.Prisma.EmployeeScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  position: 'position',
+  phone: 'phone',
+  address: 'address',
+  joinDate: 'joinDate',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.VerificationTokenScalarFieldEnum = {
   identifier: 'identifier',
   token: 'token',
   expires: 'expires'
+};
+
+exports.Prisma.CustomerScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  phone: 'phone',
+  address: 'address',
+  birthDate: 'birthDate',
+  note: 'note',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.VehicleScalarFieldEnum = {
+  id: 'id',
+  customerId: 'customerId',
+  plateNumber: 'plateNumber',
+  brand: 'brand',
+  model: 'model',
+  year: 'year',
+  color: 'color',
+  engineNumber: 'engineNumber',
+  chassisNumber: 'chassisNumber',
+  currentOdometer: 'currentOdometer',
+  note: 'note',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.WorkOrderScalarFieldEnum = {
+  id: 'id',
+  woNumber: 'woNumber',
+  status: 'status',
+  customerId: 'customerId',
+  vehicleId: 'vehicleId',
+  advisorId: 'advisorId',
+  odo: 'odo',
+  complaint: 'complaint',
+  preCheck: 'preCheck',
+  postCheck: 'postCheck',
+  estimatedDoneAt: 'estimatedDoneAt',
+  reminderNextOdo: 'reminderNextOdo',
+  reminderNextDate: 'reminderNextDate',
+  dp: 'dp',
+  discountPercent: 'discountPercent',
+  taxPercent: 'taxPercent',
+  subtotal: 'subtotal',
+  grandTotal: 'grandTotal',
+  paidAmount: 'paidAmount',
+  changeAmount: 'changeAmount',
+  paymentMethod: 'paymentMethod',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.WorkOrderMechanicScalarFieldEnum = {
+  workOrderId: 'workOrderId',
+  userId: 'userId'
+};
+
+exports.Prisma.WorkOrderItemScalarFieldEnum = {
+  id: 'id',
+  workOrderId: 'workOrderId',
+  type: 'type',
+  name: 'name',
+  qty: 'qty',
+  price: 'price',
+  sparepartId: 'sparepartId',
+  oilId: 'oilId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SparepartScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  brand: 'brand',
+  price: 'price',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.OilScalarFieldEnum = {
+  id: 'id',
+  brand: 'brand',
+  name: 'name',
+  price: 'price',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -203,11 +306,91 @@ exports.Prisma.UserOrderByRelevanceFieldEnum = {
   roleId: 'roleId'
 };
 
+exports.Prisma.EmployeeOrderByRelevanceFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  position: 'position',
+  phone: 'phone',
+  address: 'address'
+};
+
 exports.Prisma.VerificationTokenOrderByRelevanceFieldEnum = {
   identifier: 'identifier',
   token: 'token'
 };
 
+exports.Prisma.CustomerOrderByRelevanceFieldEnum = {
+  id: 'id',
+  name: 'name',
+  phone: 'phone',
+  address: 'address',
+  note: 'note'
+};
+
+exports.Prisma.VehicleOrderByRelevanceFieldEnum = {
+  id: 'id',
+  customerId: 'customerId',
+  plateNumber: 'plateNumber',
+  brand: 'brand',
+  model: 'model',
+  color: 'color',
+  engineNumber: 'engineNumber',
+  chassisNumber: 'chassisNumber',
+  note: 'note'
+};
+
+exports.Prisma.WorkOrderOrderByRelevanceFieldEnum = {
+  id: 'id',
+  woNumber: 'woNumber',
+  customerId: 'customerId',
+  vehicleId: 'vehicleId',
+  advisorId: 'advisorId',
+  complaint: 'complaint',
+  preCheck: 'preCheck',
+  postCheck: 'postCheck'
+};
+
+exports.Prisma.WorkOrderMechanicOrderByRelevanceFieldEnum = {
+  workOrderId: 'workOrderId',
+  userId: 'userId'
+};
+
+exports.Prisma.WorkOrderItemOrderByRelevanceFieldEnum = {
+  id: 'id',
+  workOrderId: 'workOrderId',
+  name: 'name',
+  sparepartId: 'sparepartId',
+  oilId: 'oilId'
+};
+
+exports.Prisma.SparepartOrderByRelevanceFieldEnum = {
+  id: 'id',
+  name: 'name',
+  brand: 'brand'
+};
+
+exports.Prisma.OilOrderByRelevanceFieldEnum = {
+  id: 'id',
+  brand: 'brand',
+  name: 'name'
+};
+exports.WorkOrderStatus = exports.$Enums.WorkOrderStatus = {
+  DRAFT: 'DRAFT',
+  OPEN: 'OPEN',
+  DONE: 'DONE',
+  CANCELLED: 'CANCELLED'
+};
+
+exports.WorkOrderItemType = exports.$Enums.WorkOrderItemType = {
+  JASA: 'JASA',
+  SPAREPART: 'SPAREPART',
+  OLI: 'OLI'
+};
+
+exports.PaymentMethod = exports.$Enums.PaymentMethod = {
+  CASH: 'CASH',
+  TRANSFER: 'TRANSFER'
+};
 
 exports.Prisma.ModelName = {
   Role: 'Role',
@@ -216,7 +399,15 @@ exports.Prisma.ModelName = {
   Account: 'Account',
   Session: 'Session',
   User: 'User',
-  VerificationToken: 'VerificationToken'
+  Employee: 'Employee',
+  VerificationToken: 'VerificationToken',
+  Customer: 'Customer',
+  Vehicle: 'Vehicle',
+  WorkOrder: 'WorkOrder',
+  WorkOrderMechanic: 'WorkOrderMechanic',
+  WorkOrderItem: 'WorkOrderItem',
+  Sparepart: 'Sparepart',
+  Oil: 'Oil'
 };
 /**
  * Create the Client
@@ -229,7 +420,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\win10\\Downloads\\bengkel\\bengkelasia\\generated\\prisma",
+      "value": "C:\\Users\\DELL\\Documents\\project\\bengkel\\bengkelasia\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -243,7 +434,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\win10\\Downloads\\bengkel\\bengkelasia\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\DELL\\Documents\\project\\bengkel\\bengkelasia\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -257,7 +448,6 @@ const config = {
     "db"
   ],
   "activeProvider": "mysql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -266,13 +456,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"mysql\"\n  // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below\n  // Further reading:\n  // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema\n  // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Role {\n  id          String  @id @default(cuid())\n  name        String  @unique\n  description String?\n\n  users           User[]\n  rolePermissions RolePermission[]\n}\n\nmodel Permission {\n  id   String @id @default(cuid())\n  name String @unique\n\n  rolePermissions RolePermission[]\n\n  @@index([name])\n}\n\nmodel RolePermission {\n  roleId       String\n  permissionId String\n\n  role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)\n  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)\n\n  @@id([roleId, permissionId])\n  @@index([roleId])\n  @@index([permissionId])\n}\n\n// Necessary for Next auth\nmodel Account {\n  id                       String  @id @default(cuid())\n  userId                   String\n  type                     String\n  provider                 String\n  providerAccountId        String\n  refresh_token            String? @db.Text\n  access_token             String? // @db.Text\n  expires_at               Int?\n  token_type               String?\n  scope                    String?\n  id_token                 String? // @db.Text\n  session_state            String?\n  user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)\n  refresh_token_expires_in Int?\n\n  @@unique([provider, providerAccountId])\n}\n\nmodel Session {\n  id           String   @id @default(cuid())\n  sessionToken String   @unique\n  userId       String\n  expires      DateTime\n  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n}\n\nmodel User {\n  id            String    @id @default(cuid())\n  name          String?\n  email         String    @unique\n  emailVerified DateTime?\n  image         String?\n  password      String\n\n  roleId String\n  role   Role   @relation(fields: [roleId], references: [id])\n\n  accounts Account[]\n  sessions Session[]\n\n  @@index([roleId])\n}\n\nmodel VerificationToken {\n  identifier String\n  token      String   @unique\n  expires    DateTime\n\n  @@unique([identifier, token])\n}\n",
-  "inlineSchemaHash": "6a7041e2a8429213e0cffc0be4a7364920eb9da9fe1ded07db2a4f1b1e30bdb3",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"mysql\"\n  // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below\n  // Further reading:\n  // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema\n  // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Role {\n  id          String  @id @default(cuid())\n  name        String  @unique\n  description String?\n\n  users           User[]\n  rolePermissions RolePermission[]\n}\n\nmodel Permission {\n  id   String @id @default(cuid())\n  name String @unique\n\n  rolePermissions RolePermission[]\n\n  @@index([name])\n}\n\nmodel RolePermission {\n  roleId       String\n  permissionId String\n\n  role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)\n  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)\n\n  @@id([roleId, permissionId])\n  @@index([roleId])\n  @@index([permissionId])\n}\n\n// Necessary for Next auth\nmodel Account {\n  id                       String  @id @default(cuid())\n  userId                   String\n  type                     String\n  provider                 String\n  providerAccountId        String\n  refresh_token            String? @db.Text\n  access_token             String? // @db.Text\n  expires_at               Int?\n  token_type               String?\n  scope                    String?\n  id_token                 String? // @db.Text\n  session_state            String?\n  user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)\n  refresh_token_expires_in Int?\n\n  @@unique([provider, providerAccountId])\n}\n\nmodel Session {\n  id           String   @id @default(cuid())\n  sessionToken String   @unique\n  userId       String\n  expires      DateTime\n  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n}\n\nmodel User {\n  id            String    @id @default(cuid())\n  name          String?\n  email         String    @unique\n  emailVerified DateTime?\n  image         String?\n  password      String\n\n  roleId String\n  role   Role   @relation(fields: [roleId], references: [id])\n\n  accounts Account[]\n  sessions Session[]\n\n  employee Employee?\n\n  advisorWorkOrders  WorkOrder[]         @relation(\"WorkOrderAdvisor\")\n  mechanicWorkOrders WorkOrderMechanic[]\n\n  @@index([roleId])\n}\n\nmodel Employee {\n  id String @id @default(cuid())\n\n  userId String @unique\n  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  position  String\n  phone     String?\n  address   String?\n  joinDate  DateTime?\n  isActive  Boolean   @default(true)\n  createdAt DateTime  @default(now())\n  updatedAt DateTime  @updatedAt\n\n  @@index([position])\n  @@index([isActive])\n}\n\nmodel VerificationToken {\n  identifier String\n  token      String   @unique\n  expires    DateTime\n\n  @@unique([identifier, token])\n}\n\nmodel Customer {\n  id        String    @id @default(cuid())\n  name      String\n  phone     String\n  address   String?\n  birthDate DateTime?\n  note      String?\n  createdAt DateTime  @default(now())\n  updatedAt DateTime  @updatedAt\n\n  vehicles   Vehicle[]\n  workOrders WorkOrder[]\n\n  @@index([phone])\n  @@index([birthDate])\n}\n\nmodel Vehicle {\n  id              String   @id @default(cuid())\n  customerId      String\n  plateNumber     String   @unique\n  brand           String\n  model           String\n  year            Int?\n  color           String?\n  engineNumber    String?\n  chassisNumber   String?\n  currentOdometer Int?\n  note            String?\n  createdAt       DateTime @default(now())\n  updatedAt       DateTime @updatedAt\n\n  customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)\n\n  workOrders WorkOrder[]\n\n  @@index([customerId])\n  @@index([plateNumber])\n}\n\nenum WorkOrderStatus {\n  DRAFT\n  OPEN\n  DONE\n  CANCELLED\n}\n\nenum WorkOrderItemType {\n  JASA\n  SPAREPART\n  OLI\n}\n\nenum PaymentMethod {\n  CASH\n  TRANSFER\n}\n\nmodel WorkOrder {\n  id       String          @id @default(cuid())\n  woNumber String          @unique\n  status   WorkOrderStatus @default(OPEN)\n\n  customerId String\n  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Restrict)\n\n  vehicleId String\n  vehicle   Vehicle @relation(fields: [vehicleId], references: [id], onDelete: Restrict)\n\n  advisorId String?\n  advisor   User?   @relation(\"WorkOrderAdvisor\", fields: [advisorId], references: [id], onDelete: SetNull)\n\n  odo       Int?\n  complaint String?\n\n  preCheck         String?\n  postCheck        String?\n  estimatedDoneAt  DateTime?\n  reminderNextOdo  Int?\n  reminderNextDate DateTime?\n\n  dp              Int @default(0)\n  discountPercent Int @default(0)\n  taxPercent      Int @default(0)\n\n  subtotal   Int @default(0)\n  grandTotal Int @default(0)\n\n  paidAmount    Int           @default(0)\n  changeAmount  Int           @default(0)\n  paymentMethod PaymentMethod @default(CASH)\n\n  items     WorkOrderItem[]\n  mechanics WorkOrderMechanic[]\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@index([createdAt])\n  @@index([woNumber])\n  @@index([customerId])\n  @@index([vehicleId])\n  @@index([status])\n}\n\nmodel WorkOrderMechanic {\n  workOrderId String\n  userId      String\n\n  workOrder WorkOrder @relation(fields: [workOrderId], references: [id], onDelete: Cascade)\n  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@id([workOrderId, userId])\n  @@index([userId])\n}\n\nmodel WorkOrderItem {\n  id String @id @default(cuid())\n\n  workOrderId String\n  workOrder   WorkOrder @relation(fields: [workOrderId], references: [id], onDelete: Cascade)\n\n  type WorkOrderItemType\n\n  name  String\n  qty   Int\n  price Int\n\n  sparepartId String?\n  sparepart   Sparepart? @relation(fields: [sparepartId], references: [id], onDelete: SetNull)\n\n  oilId String?\n  oil   Oil?    @relation(fields: [oilId], references: [id], onDelete: SetNull)\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@index([workOrderId])\n  @@index([type])\n  @@index([sparepartId])\n  @@index([oilId])\n}\n\nmodel Sparepart {\n  id String @id @default(cuid())\n\n  name     String\n  brand    String\n  price    Int\n  isActive Boolean @default(true)\n\n  workOrderItems WorkOrderItem[]\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@index([name])\n  @@index([brand])\n  @@index([isActive])\n}\n\nmodel Oil {\n  id String @id @default(cuid())\n\n  brand    String\n  name     String\n  price    Int\n  isActive Boolean @default(true)\n\n  workOrderItems WorkOrderItem[]\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@index([brand])\n  @@index([name])\n  @@index([isActive])\n}\n",
+  "inlineSchemaHash": "e1d450d331f579e621d630452e0ef0e2af210a055f4d27c6897de65d0a613be0",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"Role\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"users\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"RoleToUser\"},{\"name\":\"rolePermissions\",\"kind\":\"object\",\"type\":\"RolePermission\",\"relationName\":\"RoleToRolePermission\"}],\"dbName\":null},\"Permission\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"rolePermissions\",\"kind\":\"object\",\"type\":\"RolePermission\",\"relationName\":\"PermissionToRolePermission\"}],\"dbName\":null},\"RolePermission\":{\"fields\":[{\"name\":\"roleId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"permissionId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"object\",\"type\":\"Role\",\"relationName\":\"RoleToRolePermission\"},{\"name\":\"permission\",\"kind\":\"object\",\"type\":\"Permission\",\"relationName\":\"PermissionToRolePermission\"}],\"dbName\":null},\"Account\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"provider\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"providerAccountId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"refresh_token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"access_token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expires_at\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"token_type\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"scope\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"id_token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"session_state\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"AccountToUser\"},{\"name\":\"refresh_token_expires_in\",\"kind\":\"scalar\",\"type\":\"Int\"}],\"dbName\":null},\"Session\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sessionToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expires\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"SessionToUser\"}],\"dbName\":null},\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"emailVerified\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"image\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"roleId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"object\",\"type\":\"Role\",\"relationName\":\"RoleToUser\"},{\"name\":\"accounts\",\"kind\":\"object\",\"type\":\"Account\",\"relationName\":\"AccountToUser\"},{\"name\":\"sessions\",\"kind\":\"object\",\"type\":\"Session\",\"relationName\":\"SessionToUser\"}],\"dbName\":null},\"VerificationToken\":{\"fields\":[{\"name\":\"identifier\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expires\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"Role\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"users\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"RoleToUser\"},{\"name\":\"rolePermissions\",\"kind\":\"object\",\"type\":\"RolePermission\",\"relationName\":\"RoleToRolePermission\"}],\"dbName\":null},\"Permission\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"rolePermissions\",\"kind\":\"object\",\"type\":\"RolePermission\",\"relationName\":\"PermissionToRolePermission\"}],\"dbName\":null},\"RolePermission\":{\"fields\":[{\"name\":\"roleId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"permissionId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"object\",\"type\":\"Role\",\"relationName\":\"RoleToRolePermission\"},{\"name\":\"permission\",\"kind\":\"object\",\"type\":\"Permission\",\"relationName\":\"PermissionToRolePermission\"}],\"dbName\":null},\"Account\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"provider\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"providerAccountId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"refresh_token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"access_token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expires_at\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"token_type\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"scope\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"id_token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"session_state\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"AccountToUser\"},{\"name\":\"refresh_token_expires_in\",\"kind\":\"scalar\",\"type\":\"Int\"}],\"dbName\":null},\"Session\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sessionToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expires\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"SessionToUser\"}],\"dbName\":null},\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"emailVerified\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"image\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"roleId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"object\",\"type\":\"Role\",\"relationName\":\"RoleToUser\"},{\"name\":\"accounts\",\"kind\":\"object\",\"type\":\"Account\",\"relationName\":\"AccountToUser\"},{\"name\":\"sessions\",\"kind\":\"object\",\"type\":\"Session\",\"relationName\":\"SessionToUser\"},{\"name\":\"employee\",\"kind\":\"object\",\"type\":\"Employee\",\"relationName\":\"EmployeeToUser\"},{\"name\":\"advisorWorkOrders\",\"kind\":\"object\",\"type\":\"WorkOrder\",\"relationName\":\"WorkOrderAdvisor\"},{\"name\":\"mechanicWorkOrders\",\"kind\":\"object\",\"type\":\"WorkOrderMechanic\",\"relationName\":\"UserToWorkOrderMechanic\"}],\"dbName\":null},\"Employee\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"EmployeeToUser\"},{\"name\":\"position\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"address\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"joinDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"VerificationToken\":{\"fields\":[{\"name\":\"identifier\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expires\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Customer\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"address\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"birthDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"note\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"vehicles\",\"kind\":\"object\",\"type\":\"Vehicle\",\"relationName\":\"CustomerToVehicle\"},{\"name\":\"workOrders\",\"kind\":\"object\",\"type\":\"WorkOrder\",\"relationName\":\"CustomerToWorkOrder\"}],\"dbName\":null},\"Vehicle\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"customerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"plateNumber\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"brand\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"model\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"year\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"color\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"engineNumber\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"chassisNumber\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"currentOdometer\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"note\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"customer\",\"kind\":\"object\",\"type\":\"Customer\",\"relationName\":\"CustomerToVehicle\"},{\"name\":\"workOrders\",\"kind\":\"object\",\"type\":\"WorkOrder\",\"relationName\":\"VehicleToWorkOrder\"}],\"dbName\":null},\"WorkOrder\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"woNumber\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"WorkOrderStatus\"},{\"name\":\"customerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"customer\",\"kind\":\"object\",\"type\":\"Customer\",\"relationName\":\"CustomerToWorkOrder\"},{\"name\":\"vehicleId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"vehicle\",\"kind\":\"object\",\"type\":\"Vehicle\",\"relationName\":\"VehicleToWorkOrder\"},{\"name\":\"advisorId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"advisor\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"WorkOrderAdvisor\"},{\"name\":\"odo\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"complaint\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"preCheck\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"postCheck\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"estimatedDoneAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"reminderNextOdo\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"reminderNextDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"dp\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"discountPercent\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"taxPercent\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"subtotal\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"grandTotal\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"paidAmount\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"changeAmount\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"paymentMethod\",\"kind\":\"enum\",\"type\":\"PaymentMethod\"},{\"name\":\"items\",\"kind\":\"object\",\"type\":\"WorkOrderItem\",\"relationName\":\"WorkOrderToWorkOrderItem\"},{\"name\":\"mechanics\",\"kind\":\"object\",\"type\":\"WorkOrderMechanic\",\"relationName\":\"WorkOrderToWorkOrderMechanic\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"WorkOrderMechanic\":{\"fields\":[{\"name\":\"workOrderId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"workOrder\",\"kind\":\"object\",\"type\":\"WorkOrder\",\"relationName\":\"WorkOrderToWorkOrderMechanic\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"UserToWorkOrderMechanic\"}],\"dbName\":null},\"WorkOrderItem\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"workOrderId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"workOrder\",\"kind\":\"object\",\"type\":\"WorkOrder\",\"relationName\":\"WorkOrderToWorkOrderItem\"},{\"name\":\"type\",\"kind\":\"enum\",\"type\":\"WorkOrderItemType\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"qty\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"price\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"sparepartId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sparepart\",\"kind\":\"object\",\"type\":\"Sparepart\",\"relationName\":\"SparepartToWorkOrderItem\"},{\"name\":\"oilId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"oil\",\"kind\":\"object\",\"type\":\"Oil\",\"relationName\":\"OilToWorkOrderItem\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Sparepart\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"brand\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"price\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"workOrderItems\",\"kind\":\"object\",\"type\":\"WorkOrderItem\",\"relationName\":\"SparepartToWorkOrderItem\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Oil\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"brand\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"price\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"workOrderItems\",\"kind\":\"object\",\"type\":\"WorkOrderItem\",\"relationName\":\"OilToWorkOrderItem\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),

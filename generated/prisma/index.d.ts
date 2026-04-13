@@ -44,10 +44,94 @@ export type Session = $Result.DefaultSelection<Prisma.$SessionPayload>
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
 /**
+ * Model Employee
+ * 
+ */
+export type Employee = $Result.DefaultSelection<Prisma.$EmployeePayload>
+/**
  * Model VerificationToken
  * 
  */
 export type VerificationToken = $Result.DefaultSelection<Prisma.$VerificationTokenPayload>
+/**
+ * Model Customer
+ * 
+ */
+export type Customer = $Result.DefaultSelection<Prisma.$CustomerPayload>
+/**
+ * Model Vehicle
+ * 
+ */
+export type Vehicle = $Result.DefaultSelection<Prisma.$VehiclePayload>
+/**
+ * Model WorkOrder
+ * 
+ */
+export type WorkOrder = $Result.DefaultSelection<Prisma.$WorkOrderPayload>
+/**
+ * Model WorkOrderMechanic
+ * 
+ */
+export type WorkOrderMechanic = $Result.DefaultSelection<Prisma.$WorkOrderMechanicPayload>
+/**
+ * Model WorkOrderItem
+ * 
+ */
+export type WorkOrderItem = $Result.DefaultSelection<Prisma.$WorkOrderItemPayload>
+/**
+ * Model Sparepart
+ * 
+ */
+export type Sparepart = $Result.DefaultSelection<Prisma.$SparepartPayload>
+/**
+ * Model Oil
+ * 
+ */
+export type Oil = $Result.DefaultSelection<Prisma.$OilPayload>
+
+/**
+ * Enums
+ */
+export namespace $Enums {
+  export const WorkOrderStatus: {
+  DRAFT: 'DRAFT',
+  OPEN: 'OPEN',
+  DONE: 'DONE',
+  CANCELLED: 'CANCELLED'
+};
+
+export type WorkOrderStatus = (typeof WorkOrderStatus)[keyof typeof WorkOrderStatus]
+
+
+export const WorkOrderItemType: {
+  JASA: 'JASA',
+  SPAREPART: 'SPAREPART',
+  OLI: 'OLI'
+};
+
+export type WorkOrderItemType = (typeof WorkOrderItemType)[keyof typeof WorkOrderItemType]
+
+
+export const PaymentMethod: {
+  CASH: 'CASH',
+  TRANSFER: 'TRANSFER'
+};
+
+export type PaymentMethod = (typeof PaymentMethod)[keyof typeof PaymentMethod]
+
+}
+
+export type WorkOrderStatus = $Enums.WorkOrderStatus
+
+export const WorkOrderStatus: typeof $Enums.WorkOrderStatus
+
+export type WorkOrderItemType = $Enums.WorkOrderItemType
+
+export const WorkOrderItemType: typeof $Enums.WorkOrderItemType
+
+export type PaymentMethod = $Enums.PaymentMethod
+
+export const PaymentMethod: typeof $Enums.PaymentMethod
 
 /**
  * ##  Prisma Client ʲˢ
@@ -228,6 +312,16 @@ export class PrismaClient<
   get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.employee`: Exposes CRUD operations for the **Employee** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Employees
+    * const employees = await prisma.employee.findMany()
+    * ```
+    */
+  get employee(): Prisma.EmployeeDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.verificationToken`: Exposes CRUD operations for the **VerificationToken** model.
     * Example usage:
     * ```ts
@@ -236,6 +330,76 @@ export class PrismaClient<
     * ```
     */
   get verificationToken(): Prisma.VerificationTokenDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.customer`: Exposes CRUD operations for the **Customer** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Customers
+    * const customers = await prisma.customer.findMany()
+    * ```
+    */
+  get customer(): Prisma.CustomerDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.vehicle`: Exposes CRUD operations for the **Vehicle** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Vehicles
+    * const vehicles = await prisma.vehicle.findMany()
+    * ```
+    */
+  get vehicle(): Prisma.VehicleDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.workOrder`: Exposes CRUD operations for the **WorkOrder** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more WorkOrders
+    * const workOrders = await prisma.workOrder.findMany()
+    * ```
+    */
+  get workOrder(): Prisma.WorkOrderDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.workOrderMechanic`: Exposes CRUD operations for the **WorkOrderMechanic** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more WorkOrderMechanics
+    * const workOrderMechanics = await prisma.workOrderMechanic.findMany()
+    * ```
+    */
+  get workOrderMechanic(): Prisma.WorkOrderMechanicDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.workOrderItem`: Exposes CRUD operations for the **WorkOrderItem** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more WorkOrderItems
+    * const workOrderItems = await prisma.workOrderItem.findMany()
+    * ```
+    */
+  get workOrderItem(): Prisma.WorkOrderItemDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.sparepart`: Exposes CRUD operations for the **Sparepart** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Spareparts
+    * const spareparts = await prisma.sparepart.findMany()
+    * ```
+    */
+  get sparepart(): Prisma.SparepartDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.oil`: Exposes CRUD operations for the **Oil** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Oils
+    * const oils = await prisma.oil.findMany()
+    * ```
+    */
+  get oil(): Prisma.OilDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -683,7 +847,15 @@ export namespace Prisma {
     Account: 'Account',
     Session: 'Session',
     User: 'User',
-    VerificationToken: 'VerificationToken'
+    Employee: 'Employee',
+    VerificationToken: 'VerificationToken',
+    Customer: 'Customer',
+    Vehicle: 'Vehicle',
+    WorkOrder: 'WorkOrder',
+    WorkOrderMechanic: 'WorkOrderMechanic',
+    WorkOrderItem: 'WorkOrderItem',
+    Sparepart: 'Sparepart',
+    Oil: 'Oil'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -702,7 +874,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "role" | "permission" | "rolePermission" | "account" | "session" | "user" | "verificationToken"
+      modelProps: "role" | "permission" | "rolePermission" | "account" | "session" | "user" | "employee" | "verificationToken" | "customer" | "vehicle" | "workOrder" | "workOrderMechanic" | "workOrderItem" | "sparepart" | "oil"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1102,6 +1274,72 @@ export namespace Prisma {
           }
         }
       }
+      Employee: {
+        payload: Prisma.$EmployeePayload<ExtArgs>
+        fields: Prisma.EmployeeFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.EmployeeFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmployeePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.EmployeeFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmployeePayload>
+          }
+          findFirst: {
+            args: Prisma.EmployeeFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmployeePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.EmployeeFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmployeePayload>
+          }
+          findMany: {
+            args: Prisma.EmployeeFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmployeePayload>[]
+          }
+          create: {
+            args: Prisma.EmployeeCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmployeePayload>
+          }
+          createMany: {
+            args: Prisma.EmployeeCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.EmployeeDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmployeePayload>
+          }
+          update: {
+            args: Prisma.EmployeeUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmployeePayload>
+          }
+          deleteMany: {
+            args: Prisma.EmployeeDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.EmployeeUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.EmployeeUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmployeePayload>
+          }
+          aggregate: {
+            args: Prisma.EmployeeAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateEmployee>
+          }
+          groupBy: {
+            args: Prisma.EmployeeGroupByArgs<ExtArgs>
+            result: $Utils.Optional<EmployeeGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.EmployeeCountArgs<ExtArgs>
+            result: $Utils.Optional<EmployeeCountAggregateOutputType> | number
+          }
+        }
+      }
       VerificationToken: {
         payload: Prisma.$VerificationTokenPayload<ExtArgs>
         fields: Prisma.VerificationTokenFieldRefs
@@ -1165,6 +1403,468 @@ export namespace Prisma {
           count: {
             args: Prisma.VerificationTokenCountArgs<ExtArgs>
             result: $Utils.Optional<VerificationTokenCountAggregateOutputType> | number
+          }
+        }
+      }
+      Customer: {
+        payload: Prisma.$CustomerPayload<ExtArgs>
+        fields: Prisma.CustomerFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CustomerFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomerPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CustomerFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomerPayload>
+          }
+          findFirst: {
+            args: Prisma.CustomerFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomerPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CustomerFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomerPayload>
+          }
+          findMany: {
+            args: Prisma.CustomerFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomerPayload>[]
+          }
+          create: {
+            args: Prisma.CustomerCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomerPayload>
+          }
+          createMany: {
+            args: Prisma.CustomerCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.CustomerDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomerPayload>
+          }
+          update: {
+            args: Prisma.CustomerUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomerPayload>
+          }
+          deleteMany: {
+            args: Prisma.CustomerDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CustomerUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.CustomerUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomerPayload>
+          }
+          aggregate: {
+            args: Prisma.CustomerAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCustomer>
+          }
+          groupBy: {
+            args: Prisma.CustomerGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CustomerGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CustomerCountArgs<ExtArgs>
+            result: $Utils.Optional<CustomerCountAggregateOutputType> | number
+          }
+        }
+      }
+      Vehicle: {
+        payload: Prisma.$VehiclePayload<ExtArgs>
+        fields: Prisma.VehicleFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.VehicleFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehiclePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.VehicleFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehiclePayload>
+          }
+          findFirst: {
+            args: Prisma.VehicleFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehiclePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.VehicleFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehiclePayload>
+          }
+          findMany: {
+            args: Prisma.VehicleFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehiclePayload>[]
+          }
+          create: {
+            args: Prisma.VehicleCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehiclePayload>
+          }
+          createMany: {
+            args: Prisma.VehicleCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.VehicleDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehiclePayload>
+          }
+          update: {
+            args: Prisma.VehicleUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehiclePayload>
+          }
+          deleteMany: {
+            args: Prisma.VehicleDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.VehicleUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.VehicleUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehiclePayload>
+          }
+          aggregate: {
+            args: Prisma.VehicleAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateVehicle>
+          }
+          groupBy: {
+            args: Prisma.VehicleGroupByArgs<ExtArgs>
+            result: $Utils.Optional<VehicleGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.VehicleCountArgs<ExtArgs>
+            result: $Utils.Optional<VehicleCountAggregateOutputType> | number
+          }
+        }
+      }
+      WorkOrder: {
+        payload: Prisma.$WorkOrderPayload<ExtArgs>
+        fields: Prisma.WorkOrderFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.WorkOrderFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.WorkOrderFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderPayload>
+          }
+          findFirst: {
+            args: Prisma.WorkOrderFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.WorkOrderFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderPayload>
+          }
+          findMany: {
+            args: Prisma.WorkOrderFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderPayload>[]
+          }
+          create: {
+            args: Prisma.WorkOrderCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderPayload>
+          }
+          createMany: {
+            args: Prisma.WorkOrderCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.WorkOrderDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderPayload>
+          }
+          update: {
+            args: Prisma.WorkOrderUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderPayload>
+          }
+          deleteMany: {
+            args: Prisma.WorkOrderDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.WorkOrderUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.WorkOrderUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderPayload>
+          }
+          aggregate: {
+            args: Prisma.WorkOrderAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateWorkOrder>
+          }
+          groupBy: {
+            args: Prisma.WorkOrderGroupByArgs<ExtArgs>
+            result: $Utils.Optional<WorkOrderGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.WorkOrderCountArgs<ExtArgs>
+            result: $Utils.Optional<WorkOrderCountAggregateOutputType> | number
+          }
+        }
+      }
+      WorkOrderMechanic: {
+        payload: Prisma.$WorkOrderMechanicPayload<ExtArgs>
+        fields: Prisma.WorkOrderMechanicFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.WorkOrderMechanicFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderMechanicPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.WorkOrderMechanicFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderMechanicPayload>
+          }
+          findFirst: {
+            args: Prisma.WorkOrderMechanicFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderMechanicPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.WorkOrderMechanicFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderMechanicPayload>
+          }
+          findMany: {
+            args: Prisma.WorkOrderMechanicFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderMechanicPayload>[]
+          }
+          create: {
+            args: Prisma.WorkOrderMechanicCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderMechanicPayload>
+          }
+          createMany: {
+            args: Prisma.WorkOrderMechanicCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.WorkOrderMechanicDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderMechanicPayload>
+          }
+          update: {
+            args: Prisma.WorkOrderMechanicUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderMechanicPayload>
+          }
+          deleteMany: {
+            args: Prisma.WorkOrderMechanicDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.WorkOrderMechanicUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.WorkOrderMechanicUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderMechanicPayload>
+          }
+          aggregate: {
+            args: Prisma.WorkOrderMechanicAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateWorkOrderMechanic>
+          }
+          groupBy: {
+            args: Prisma.WorkOrderMechanicGroupByArgs<ExtArgs>
+            result: $Utils.Optional<WorkOrderMechanicGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.WorkOrderMechanicCountArgs<ExtArgs>
+            result: $Utils.Optional<WorkOrderMechanicCountAggregateOutputType> | number
+          }
+        }
+      }
+      WorkOrderItem: {
+        payload: Prisma.$WorkOrderItemPayload<ExtArgs>
+        fields: Prisma.WorkOrderItemFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.WorkOrderItemFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderItemPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.WorkOrderItemFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderItemPayload>
+          }
+          findFirst: {
+            args: Prisma.WorkOrderItemFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderItemPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.WorkOrderItemFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderItemPayload>
+          }
+          findMany: {
+            args: Prisma.WorkOrderItemFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderItemPayload>[]
+          }
+          create: {
+            args: Prisma.WorkOrderItemCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderItemPayload>
+          }
+          createMany: {
+            args: Prisma.WorkOrderItemCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.WorkOrderItemDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderItemPayload>
+          }
+          update: {
+            args: Prisma.WorkOrderItemUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderItemPayload>
+          }
+          deleteMany: {
+            args: Prisma.WorkOrderItemDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.WorkOrderItemUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.WorkOrderItemUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkOrderItemPayload>
+          }
+          aggregate: {
+            args: Prisma.WorkOrderItemAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateWorkOrderItem>
+          }
+          groupBy: {
+            args: Prisma.WorkOrderItemGroupByArgs<ExtArgs>
+            result: $Utils.Optional<WorkOrderItemGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.WorkOrderItemCountArgs<ExtArgs>
+            result: $Utils.Optional<WorkOrderItemCountAggregateOutputType> | number
+          }
+        }
+      }
+      Sparepart: {
+        payload: Prisma.$SparepartPayload<ExtArgs>
+        fields: Prisma.SparepartFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SparepartFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SparepartPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SparepartFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SparepartPayload>
+          }
+          findFirst: {
+            args: Prisma.SparepartFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SparepartPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SparepartFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SparepartPayload>
+          }
+          findMany: {
+            args: Prisma.SparepartFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SparepartPayload>[]
+          }
+          create: {
+            args: Prisma.SparepartCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SparepartPayload>
+          }
+          createMany: {
+            args: Prisma.SparepartCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.SparepartDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SparepartPayload>
+          }
+          update: {
+            args: Prisma.SparepartUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SparepartPayload>
+          }
+          deleteMany: {
+            args: Prisma.SparepartDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SparepartUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.SparepartUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SparepartPayload>
+          }
+          aggregate: {
+            args: Prisma.SparepartAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSparepart>
+          }
+          groupBy: {
+            args: Prisma.SparepartGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SparepartGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SparepartCountArgs<ExtArgs>
+            result: $Utils.Optional<SparepartCountAggregateOutputType> | number
+          }
+        }
+      }
+      Oil: {
+        payload: Prisma.$OilPayload<ExtArgs>
+        fields: Prisma.OilFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.OilFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OilPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.OilFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OilPayload>
+          }
+          findFirst: {
+            args: Prisma.OilFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OilPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.OilFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OilPayload>
+          }
+          findMany: {
+            args: Prisma.OilFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OilPayload>[]
+          }
+          create: {
+            args: Prisma.OilCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OilPayload>
+          }
+          createMany: {
+            args: Prisma.OilCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.OilDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OilPayload>
+          }
+          update: {
+            args: Prisma.OilUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OilPayload>
+          }
+          deleteMany: {
+            args: Prisma.OilDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.OilUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.OilUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OilPayload>
+          }
+          aggregate: {
+            args: Prisma.OilAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateOil>
+          }
+          groupBy: {
+            args: Prisma.OilGroupByArgs<ExtArgs>
+            result: $Utils.Optional<OilGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.OilCountArgs<ExtArgs>
+            result: $Utils.Optional<OilCountAggregateOutputType> | number
           }
         }
       }
@@ -1270,7 +1970,15 @@ export namespace Prisma {
     account?: AccountOmit
     session?: SessionOmit
     user?: UserOmit
+    employee?: EmployeeOmit
     verificationToken?: VerificationTokenOmit
+    customer?: CustomerOmit
+    vehicle?: VehicleOmit
+    workOrder?: WorkOrderOmit
+    workOrderMechanic?: WorkOrderMechanicOmit
+    workOrderItem?: WorkOrderItemOmit
+    sparepart?: SparepartOmit
+    oil?: OilOmit
   }
 
   /* Types for Logging */
@@ -1424,11 +2132,15 @@ export namespace Prisma {
   export type UserCountOutputType = {
     accounts: number
     sessions: number
+    advisorWorkOrders: number
+    mechanicWorkOrders: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | UserCountOutputTypeCountAccountsArgs
     sessions?: boolean | UserCountOutputTypeCountSessionsArgs
+    advisorWorkOrders?: boolean | UserCountOutputTypeCountAdvisorWorkOrdersArgs
+    mechanicWorkOrders?: boolean | UserCountOutputTypeCountMechanicWorkOrdersArgs
   }
 
   // Custom InputTypes
@@ -1454,6 +2166,193 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SessionWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountAdvisorWorkOrdersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WorkOrderWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountMechanicWorkOrdersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WorkOrderMechanicWhereInput
+  }
+
+
+  /**
+   * Count Type CustomerCountOutputType
+   */
+
+  export type CustomerCountOutputType = {
+    vehicles: number
+    workOrders: number
+  }
+
+  export type CustomerCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    vehicles?: boolean | CustomerCountOutputTypeCountVehiclesArgs
+    workOrders?: boolean | CustomerCountOutputTypeCountWorkOrdersArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * CustomerCountOutputType without action
+   */
+  export type CustomerCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomerCountOutputType
+     */
+    select?: CustomerCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * CustomerCountOutputType without action
+   */
+  export type CustomerCountOutputTypeCountVehiclesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VehicleWhereInput
+  }
+
+  /**
+   * CustomerCountOutputType without action
+   */
+  export type CustomerCountOutputTypeCountWorkOrdersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WorkOrderWhereInput
+  }
+
+
+  /**
+   * Count Type VehicleCountOutputType
+   */
+
+  export type VehicleCountOutputType = {
+    workOrders: number
+  }
+
+  export type VehicleCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    workOrders?: boolean | VehicleCountOutputTypeCountWorkOrdersArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * VehicleCountOutputType without action
+   */
+  export type VehicleCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VehicleCountOutputType
+     */
+    select?: VehicleCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * VehicleCountOutputType without action
+   */
+  export type VehicleCountOutputTypeCountWorkOrdersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WorkOrderWhereInput
+  }
+
+
+  /**
+   * Count Type WorkOrderCountOutputType
+   */
+
+  export type WorkOrderCountOutputType = {
+    items: number
+    mechanics: number
+  }
+
+  export type WorkOrderCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    items?: boolean | WorkOrderCountOutputTypeCountItemsArgs
+    mechanics?: boolean | WorkOrderCountOutputTypeCountMechanicsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * WorkOrderCountOutputType without action
+   */
+  export type WorkOrderCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderCountOutputType
+     */
+    select?: WorkOrderCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * WorkOrderCountOutputType without action
+   */
+  export type WorkOrderCountOutputTypeCountItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WorkOrderItemWhereInput
+  }
+
+  /**
+   * WorkOrderCountOutputType without action
+   */
+  export type WorkOrderCountOutputTypeCountMechanicsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WorkOrderMechanicWhereInput
+  }
+
+
+  /**
+   * Count Type SparepartCountOutputType
+   */
+
+  export type SparepartCountOutputType = {
+    workOrderItems: number
+  }
+
+  export type SparepartCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    workOrderItems?: boolean | SparepartCountOutputTypeCountWorkOrderItemsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * SparepartCountOutputType without action
+   */
+  export type SparepartCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SparepartCountOutputType
+     */
+    select?: SparepartCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * SparepartCountOutputType without action
+   */
+  export type SparepartCountOutputTypeCountWorkOrderItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WorkOrderItemWhereInput
+  }
+
+
+  /**
+   * Count Type OilCountOutputType
+   */
+
+  export type OilCountOutputType = {
+    workOrderItems: number
+  }
+
+  export type OilCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    workOrderItems?: boolean | OilCountOutputTypeCountWorkOrderItemsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * OilCountOutputType without action
+   */
+  export type OilCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OilCountOutputType
+     */
+    select?: OilCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * OilCountOutputType without action
+   */
+  export type OilCountOutputTypeCountWorkOrderItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WorkOrderItemWhereInput
   }
 
 
@@ -6400,6 +7299,9 @@ export namespace Prisma {
     role?: boolean | RoleDefaultArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
+    employee?: boolean | User$employeeArgs<ExtArgs>
+    advisorWorkOrders?: boolean | User$advisorWorkOrdersArgs<ExtArgs>
+    mechanicWorkOrders?: boolean | User$mechanicWorkOrdersArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -6420,6 +7322,9 @@ export namespace Prisma {
     role?: boolean | RoleDefaultArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
+    employee?: boolean | User$employeeArgs<ExtArgs>
+    advisorWorkOrders?: boolean | User$advisorWorkOrdersArgs<ExtArgs>
+    mechanicWorkOrders?: boolean | User$mechanicWorkOrdersArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -6429,6 +7334,9 @@ export namespace Prisma {
       role: Prisma.$RolePayload<ExtArgs>
       accounts: Prisma.$AccountPayload<ExtArgs>[]
       sessions: Prisma.$SessionPayload<ExtArgs>[]
+      employee: Prisma.$EmployeePayload<ExtArgs> | null
+      advisorWorkOrders: Prisma.$WorkOrderPayload<ExtArgs>[]
+      mechanicWorkOrders: Prisma.$WorkOrderMechanicPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6781,6 +7689,9 @@ export namespace Prisma {
     role<T extends RoleDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RoleDefaultArgs<ExtArgs>>): Prisma__RoleClient<$Result.GetResult<Prisma.$RolePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     accounts<T extends User$accountsArgs<ExtArgs> = {}>(args?: Subset<T, User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    employee<T extends User$employeeArgs<ExtArgs> = {}>(args?: Subset<T, User$employeeArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    advisorWorkOrders<T extends User$advisorWorkOrdersArgs<ExtArgs> = {}>(args?: Subset<T, User$advisorWorkOrdersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkOrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    mechanicWorkOrders<T extends User$mechanicWorkOrdersArgs<ExtArgs> = {}>(args?: Subset<T, User$mechanicWorkOrdersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkOrderMechanicPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7208,6 +8119,73 @@ export namespace Prisma {
   }
 
   /**
+   * User.employee
+   */
+  export type User$employeeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Employee
+     */
+    select?: EmployeeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Employee
+     */
+    omit?: EmployeeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmployeeInclude<ExtArgs> | null
+    where?: EmployeeWhereInput
+  }
+
+  /**
+   * User.advisorWorkOrders
+   */
+  export type User$advisorWorkOrdersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrder
+     */
+    select?: WorkOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrder
+     */
+    omit?: WorkOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderInclude<ExtArgs> | null
+    where?: WorkOrderWhereInput
+    orderBy?: WorkOrderOrderByWithRelationInput | WorkOrderOrderByWithRelationInput[]
+    cursor?: WorkOrderWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WorkOrderScalarFieldEnum | WorkOrderScalarFieldEnum[]
+  }
+
+  /**
+   * User.mechanicWorkOrders
+   */
+  export type User$mechanicWorkOrdersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderMechanic
+     */
+    select?: WorkOrderMechanicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrderMechanic
+     */
+    omit?: WorkOrderMechanicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderMechanicInclude<ExtArgs> | null
+    where?: WorkOrderMechanicWhereInput
+    orderBy?: WorkOrderMechanicOrderByWithRelationInput | WorkOrderMechanicOrderByWithRelationInput[]
+    cursor?: WorkOrderMechanicWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WorkOrderMechanicScalarFieldEnum | WorkOrderMechanicScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7223,6 +8201,979 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Employee
+   */
+
+  export type AggregateEmployee = {
+    _count: EmployeeCountAggregateOutputType | null
+    _min: EmployeeMinAggregateOutputType | null
+    _max: EmployeeMaxAggregateOutputType | null
+  }
+
+  export type EmployeeMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    position: string | null
+    phone: string | null
+    address: string | null
+    joinDate: Date | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type EmployeeMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    position: string | null
+    phone: string | null
+    address: string | null
+    joinDate: Date | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type EmployeeCountAggregateOutputType = {
+    id: number
+    userId: number
+    position: number
+    phone: number
+    address: number
+    joinDate: number
+    isActive: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type EmployeeMinAggregateInputType = {
+    id?: true
+    userId?: true
+    position?: true
+    phone?: true
+    address?: true
+    joinDate?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type EmployeeMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    position?: true
+    phone?: true
+    address?: true
+    joinDate?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type EmployeeCountAggregateInputType = {
+    id?: true
+    userId?: true
+    position?: true
+    phone?: true
+    address?: true
+    joinDate?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type EmployeeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Employee to aggregate.
+     */
+    where?: EmployeeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Employees to fetch.
+     */
+    orderBy?: EmployeeOrderByWithRelationInput | EmployeeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: EmployeeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Employees from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Employees.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Employees
+    **/
+    _count?: true | EmployeeCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: EmployeeMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: EmployeeMaxAggregateInputType
+  }
+
+  export type GetEmployeeAggregateType<T extends EmployeeAggregateArgs> = {
+        [P in keyof T & keyof AggregateEmployee]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateEmployee[P]>
+      : GetScalarType<T[P], AggregateEmployee[P]>
+  }
+
+
+
+
+  export type EmployeeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EmployeeWhereInput
+    orderBy?: EmployeeOrderByWithAggregationInput | EmployeeOrderByWithAggregationInput[]
+    by: EmployeeScalarFieldEnum[] | EmployeeScalarFieldEnum
+    having?: EmployeeScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: EmployeeCountAggregateInputType | true
+    _min?: EmployeeMinAggregateInputType
+    _max?: EmployeeMaxAggregateInputType
+  }
+
+  export type EmployeeGroupByOutputType = {
+    id: string
+    userId: string
+    position: string
+    phone: string | null
+    address: string | null
+    joinDate: Date | null
+    isActive: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: EmployeeCountAggregateOutputType | null
+    _min: EmployeeMinAggregateOutputType | null
+    _max: EmployeeMaxAggregateOutputType | null
+  }
+
+  type GetEmployeeGroupByPayload<T extends EmployeeGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<EmployeeGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof EmployeeGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], EmployeeGroupByOutputType[P]>
+            : GetScalarType<T[P], EmployeeGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type EmployeeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    position?: boolean
+    phone?: boolean
+    address?: boolean
+    joinDate?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["employee"]>
+
+
+
+  export type EmployeeSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    position?: boolean
+    phone?: boolean
+    address?: boolean
+    joinDate?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type EmployeeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "position" | "phone" | "address" | "joinDate" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["employee"]>
+  export type EmployeeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $EmployeePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Employee"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      position: string
+      phone: string | null
+      address: string | null
+      joinDate: Date | null
+      isActive: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["employee"]>
+    composites: {}
+  }
+
+  type EmployeeGetPayload<S extends boolean | null | undefined | EmployeeDefaultArgs> = $Result.GetResult<Prisma.$EmployeePayload, S>
+
+  type EmployeeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<EmployeeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: EmployeeCountAggregateInputType | true
+    }
+
+  export interface EmployeeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Employee'], meta: { name: 'Employee' } }
+    /**
+     * Find zero or one Employee that matches the filter.
+     * @param {EmployeeFindUniqueArgs} args - Arguments to find a Employee
+     * @example
+     * // Get one Employee
+     * const employee = await prisma.employee.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends EmployeeFindUniqueArgs>(args: SelectSubset<T, EmployeeFindUniqueArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Employee that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {EmployeeFindUniqueOrThrowArgs} args - Arguments to find a Employee
+     * @example
+     * // Get one Employee
+     * const employee = await prisma.employee.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends EmployeeFindUniqueOrThrowArgs>(args: SelectSubset<T, EmployeeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Employee that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmployeeFindFirstArgs} args - Arguments to find a Employee
+     * @example
+     * // Get one Employee
+     * const employee = await prisma.employee.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends EmployeeFindFirstArgs>(args?: SelectSubset<T, EmployeeFindFirstArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Employee that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmployeeFindFirstOrThrowArgs} args - Arguments to find a Employee
+     * @example
+     * // Get one Employee
+     * const employee = await prisma.employee.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends EmployeeFindFirstOrThrowArgs>(args?: SelectSubset<T, EmployeeFindFirstOrThrowArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Employees that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmployeeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Employees
+     * const employees = await prisma.employee.findMany()
+     * 
+     * // Get first 10 Employees
+     * const employees = await prisma.employee.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const employeeWithIdOnly = await prisma.employee.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends EmployeeFindManyArgs>(args?: SelectSubset<T, EmployeeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Employee.
+     * @param {EmployeeCreateArgs} args - Arguments to create a Employee.
+     * @example
+     * // Create one Employee
+     * const Employee = await prisma.employee.create({
+     *   data: {
+     *     // ... data to create a Employee
+     *   }
+     * })
+     * 
+     */
+    create<T extends EmployeeCreateArgs>(args: SelectSubset<T, EmployeeCreateArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Employees.
+     * @param {EmployeeCreateManyArgs} args - Arguments to create many Employees.
+     * @example
+     * // Create many Employees
+     * const employee = await prisma.employee.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends EmployeeCreateManyArgs>(args?: SelectSubset<T, EmployeeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Employee.
+     * @param {EmployeeDeleteArgs} args - Arguments to delete one Employee.
+     * @example
+     * // Delete one Employee
+     * const Employee = await prisma.employee.delete({
+     *   where: {
+     *     // ... filter to delete one Employee
+     *   }
+     * })
+     * 
+     */
+    delete<T extends EmployeeDeleteArgs>(args: SelectSubset<T, EmployeeDeleteArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Employee.
+     * @param {EmployeeUpdateArgs} args - Arguments to update one Employee.
+     * @example
+     * // Update one Employee
+     * const employee = await prisma.employee.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends EmployeeUpdateArgs>(args: SelectSubset<T, EmployeeUpdateArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Employees.
+     * @param {EmployeeDeleteManyArgs} args - Arguments to filter Employees to delete.
+     * @example
+     * // Delete a few Employees
+     * const { count } = await prisma.employee.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends EmployeeDeleteManyArgs>(args?: SelectSubset<T, EmployeeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Employees.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmployeeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Employees
+     * const employee = await prisma.employee.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends EmployeeUpdateManyArgs>(args: SelectSubset<T, EmployeeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Employee.
+     * @param {EmployeeUpsertArgs} args - Arguments to update or create a Employee.
+     * @example
+     * // Update or create a Employee
+     * const employee = await prisma.employee.upsert({
+     *   create: {
+     *     // ... data to create a Employee
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Employee we want to update
+     *   }
+     * })
+     */
+    upsert<T extends EmployeeUpsertArgs>(args: SelectSubset<T, EmployeeUpsertArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Employees.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmployeeCountArgs} args - Arguments to filter Employees to count.
+     * @example
+     * // Count the number of Employees
+     * const count = await prisma.employee.count({
+     *   where: {
+     *     // ... the filter for the Employees we want to count
+     *   }
+     * })
+    **/
+    count<T extends EmployeeCountArgs>(
+      args?: Subset<T, EmployeeCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], EmployeeCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Employee.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmployeeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends EmployeeAggregateArgs>(args: Subset<T, EmployeeAggregateArgs>): Prisma.PrismaPromise<GetEmployeeAggregateType<T>>
+
+    /**
+     * Group by Employee.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmployeeGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends EmployeeGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: EmployeeGroupByArgs['orderBy'] }
+        : { orderBy?: EmployeeGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, EmployeeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEmployeeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Employee model
+   */
+  readonly fields: EmployeeFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Employee.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__EmployeeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Employee model
+   */
+  interface EmployeeFieldRefs {
+    readonly id: FieldRef<"Employee", 'String'>
+    readonly userId: FieldRef<"Employee", 'String'>
+    readonly position: FieldRef<"Employee", 'String'>
+    readonly phone: FieldRef<"Employee", 'String'>
+    readonly address: FieldRef<"Employee", 'String'>
+    readonly joinDate: FieldRef<"Employee", 'DateTime'>
+    readonly isActive: FieldRef<"Employee", 'Boolean'>
+    readonly createdAt: FieldRef<"Employee", 'DateTime'>
+    readonly updatedAt: FieldRef<"Employee", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Employee findUnique
+   */
+  export type EmployeeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Employee
+     */
+    select?: EmployeeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Employee
+     */
+    omit?: EmployeeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmployeeInclude<ExtArgs> | null
+    /**
+     * Filter, which Employee to fetch.
+     */
+    where: EmployeeWhereUniqueInput
+  }
+
+  /**
+   * Employee findUniqueOrThrow
+   */
+  export type EmployeeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Employee
+     */
+    select?: EmployeeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Employee
+     */
+    omit?: EmployeeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmployeeInclude<ExtArgs> | null
+    /**
+     * Filter, which Employee to fetch.
+     */
+    where: EmployeeWhereUniqueInput
+  }
+
+  /**
+   * Employee findFirst
+   */
+  export type EmployeeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Employee
+     */
+    select?: EmployeeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Employee
+     */
+    omit?: EmployeeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmployeeInclude<ExtArgs> | null
+    /**
+     * Filter, which Employee to fetch.
+     */
+    where?: EmployeeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Employees to fetch.
+     */
+    orderBy?: EmployeeOrderByWithRelationInput | EmployeeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Employees.
+     */
+    cursor?: EmployeeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Employees from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Employees.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Employees.
+     */
+    distinct?: EmployeeScalarFieldEnum | EmployeeScalarFieldEnum[]
+  }
+
+  /**
+   * Employee findFirstOrThrow
+   */
+  export type EmployeeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Employee
+     */
+    select?: EmployeeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Employee
+     */
+    omit?: EmployeeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmployeeInclude<ExtArgs> | null
+    /**
+     * Filter, which Employee to fetch.
+     */
+    where?: EmployeeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Employees to fetch.
+     */
+    orderBy?: EmployeeOrderByWithRelationInput | EmployeeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Employees.
+     */
+    cursor?: EmployeeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Employees from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Employees.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Employees.
+     */
+    distinct?: EmployeeScalarFieldEnum | EmployeeScalarFieldEnum[]
+  }
+
+  /**
+   * Employee findMany
+   */
+  export type EmployeeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Employee
+     */
+    select?: EmployeeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Employee
+     */
+    omit?: EmployeeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmployeeInclude<ExtArgs> | null
+    /**
+     * Filter, which Employees to fetch.
+     */
+    where?: EmployeeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Employees to fetch.
+     */
+    orderBy?: EmployeeOrderByWithRelationInput | EmployeeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Employees.
+     */
+    cursor?: EmployeeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Employees from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Employees.
+     */
+    skip?: number
+    distinct?: EmployeeScalarFieldEnum | EmployeeScalarFieldEnum[]
+  }
+
+  /**
+   * Employee create
+   */
+  export type EmployeeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Employee
+     */
+    select?: EmployeeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Employee
+     */
+    omit?: EmployeeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmployeeInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Employee.
+     */
+    data: XOR<EmployeeCreateInput, EmployeeUncheckedCreateInput>
+  }
+
+  /**
+   * Employee createMany
+   */
+  export type EmployeeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Employees.
+     */
+    data: EmployeeCreateManyInput | EmployeeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Employee update
+   */
+  export type EmployeeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Employee
+     */
+    select?: EmployeeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Employee
+     */
+    omit?: EmployeeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmployeeInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Employee.
+     */
+    data: XOR<EmployeeUpdateInput, EmployeeUncheckedUpdateInput>
+    /**
+     * Choose, which Employee to update.
+     */
+    where: EmployeeWhereUniqueInput
+  }
+
+  /**
+   * Employee updateMany
+   */
+  export type EmployeeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Employees.
+     */
+    data: XOR<EmployeeUpdateManyMutationInput, EmployeeUncheckedUpdateManyInput>
+    /**
+     * Filter which Employees to update
+     */
+    where?: EmployeeWhereInput
+    /**
+     * Limit how many Employees to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Employee upsert
+   */
+  export type EmployeeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Employee
+     */
+    select?: EmployeeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Employee
+     */
+    omit?: EmployeeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmployeeInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Employee to update in case it exists.
+     */
+    where: EmployeeWhereUniqueInput
+    /**
+     * In case the Employee found by the `where` argument doesn't exist, create a new Employee with this data.
+     */
+    create: XOR<EmployeeCreateInput, EmployeeUncheckedCreateInput>
+    /**
+     * In case the Employee was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<EmployeeUpdateInput, EmployeeUncheckedUpdateInput>
+  }
+
+  /**
+   * Employee delete
+   */
+  export type EmployeeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Employee
+     */
+    select?: EmployeeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Employee
+     */
+    omit?: EmployeeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmployeeInclude<ExtArgs> | null
+    /**
+     * Filter which Employee to delete.
+     */
+    where: EmployeeWhereUniqueInput
+  }
+
+  /**
+   * Employee deleteMany
+   */
+  export type EmployeeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Employees to delete
+     */
+    where?: EmployeeWhereInput
+    /**
+     * Limit how many Employees to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Employee without action
+   */
+  export type EmployeeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Employee
+     */
+    select?: EmployeeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Employee
+     */
+    omit?: EmployeeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmployeeInclude<ExtArgs> | null
   }
 
 
@@ -8087,6 +10038,7375 @@ export namespace Prisma {
 
 
   /**
+   * Model Customer
+   */
+
+  export type AggregateCustomer = {
+    _count: CustomerCountAggregateOutputType | null
+    _min: CustomerMinAggregateOutputType | null
+    _max: CustomerMaxAggregateOutputType | null
+  }
+
+  export type CustomerMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    phone: string | null
+    address: string | null
+    birthDate: Date | null
+    note: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CustomerMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    phone: string | null
+    address: string | null
+    birthDate: Date | null
+    note: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CustomerCountAggregateOutputType = {
+    id: number
+    name: number
+    phone: number
+    address: number
+    birthDate: number
+    note: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type CustomerMinAggregateInputType = {
+    id?: true
+    name?: true
+    phone?: true
+    address?: true
+    birthDate?: true
+    note?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CustomerMaxAggregateInputType = {
+    id?: true
+    name?: true
+    phone?: true
+    address?: true
+    birthDate?: true
+    note?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CustomerCountAggregateInputType = {
+    id?: true
+    name?: true
+    phone?: true
+    address?: true
+    birthDate?: true
+    note?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type CustomerAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Customer to aggregate.
+     */
+    where?: CustomerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Customers to fetch.
+     */
+    orderBy?: CustomerOrderByWithRelationInput | CustomerOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CustomerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Customers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Customers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Customers
+    **/
+    _count?: true | CustomerCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CustomerMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CustomerMaxAggregateInputType
+  }
+
+  export type GetCustomerAggregateType<T extends CustomerAggregateArgs> = {
+        [P in keyof T & keyof AggregateCustomer]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCustomer[P]>
+      : GetScalarType<T[P], AggregateCustomer[P]>
+  }
+
+
+
+
+  export type CustomerGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CustomerWhereInput
+    orderBy?: CustomerOrderByWithAggregationInput | CustomerOrderByWithAggregationInput[]
+    by: CustomerScalarFieldEnum[] | CustomerScalarFieldEnum
+    having?: CustomerScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CustomerCountAggregateInputType | true
+    _min?: CustomerMinAggregateInputType
+    _max?: CustomerMaxAggregateInputType
+  }
+
+  export type CustomerGroupByOutputType = {
+    id: string
+    name: string
+    phone: string
+    address: string | null
+    birthDate: Date | null
+    note: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: CustomerCountAggregateOutputType | null
+    _min: CustomerMinAggregateOutputType | null
+    _max: CustomerMaxAggregateOutputType | null
+  }
+
+  type GetCustomerGroupByPayload<T extends CustomerGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CustomerGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CustomerGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CustomerGroupByOutputType[P]>
+            : GetScalarType<T[P], CustomerGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CustomerSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    phone?: boolean
+    address?: boolean
+    birthDate?: boolean
+    note?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    vehicles?: boolean | Customer$vehiclesArgs<ExtArgs>
+    workOrders?: boolean | Customer$workOrdersArgs<ExtArgs>
+    _count?: boolean | CustomerCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["customer"]>
+
+
+
+  export type CustomerSelectScalar = {
+    id?: boolean
+    name?: boolean
+    phone?: boolean
+    address?: boolean
+    birthDate?: boolean
+    note?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type CustomerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "phone" | "address" | "birthDate" | "note" | "createdAt" | "updatedAt", ExtArgs["result"]["customer"]>
+  export type CustomerInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    vehicles?: boolean | Customer$vehiclesArgs<ExtArgs>
+    workOrders?: boolean | Customer$workOrdersArgs<ExtArgs>
+    _count?: boolean | CustomerCountOutputTypeDefaultArgs<ExtArgs>
+  }
+
+  export type $CustomerPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Customer"
+    objects: {
+      vehicles: Prisma.$VehiclePayload<ExtArgs>[]
+      workOrders: Prisma.$WorkOrderPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      phone: string
+      address: string | null
+      birthDate: Date | null
+      note: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["customer"]>
+    composites: {}
+  }
+
+  type CustomerGetPayload<S extends boolean | null | undefined | CustomerDefaultArgs> = $Result.GetResult<Prisma.$CustomerPayload, S>
+
+  type CustomerCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CustomerFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CustomerCountAggregateInputType | true
+    }
+
+  export interface CustomerDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Customer'], meta: { name: 'Customer' } }
+    /**
+     * Find zero or one Customer that matches the filter.
+     * @param {CustomerFindUniqueArgs} args - Arguments to find a Customer
+     * @example
+     * // Get one Customer
+     * const customer = await prisma.customer.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CustomerFindUniqueArgs>(args: SelectSubset<T, CustomerFindUniqueArgs<ExtArgs>>): Prisma__CustomerClient<$Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Customer that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CustomerFindUniqueOrThrowArgs} args - Arguments to find a Customer
+     * @example
+     * // Get one Customer
+     * const customer = await prisma.customer.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CustomerFindUniqueOrThrowArgs>(args: SelectSubset<T, CustomerFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CustomerClient<$Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Customer that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomerFindFirstArgs} args - Arguments to find a Customer
+     * @example
+     * // Get one Customer
+     * const customer = await prisma.customer.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CustomerFindFirstArgs>(args?: SelectSubset<T, CustomerFindFirstArgs<ExtArgs>>): Prisma__CustomerClient<$Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Customer that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomerFindFirstOrThrowArgs} args - Arguments to find a Customer
+     * @example
+     * // Get one Customer
+     * const customer = await prisma.customer.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CustomerFindFirstOrThrowArgs>(args?: SelectSubset<T, CustomerFindFirstOrThrowArgs<ExtArgs>>): Prisma__CustomerClient<$Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Customers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomerFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Customers
+     * const customers = await prisma.customer.findMany()
+     * 
+     * // Get first 10 Customers
+     * const customers = await prisma.customer.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const customerWithIdOnly = await prisma.customer.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CustomerFindManyArgs>(args?: SelectSubset<T, CustomerFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Customer.
+     * @param {CustomerCreateArgs} args - Arguments to create a Customer.
+     * @example
+     * // Create one Customer
+     * const Customer = await prisma.customer.create({
+     *   data: {
+     *     // ... data to create a Customer
+     *   }
+     * })
+     * 
+     */
+    create<T extends CustomerCreateArgs>(args: SelectSubset<T, CustomerCreateArgs<ExtArgs>>): Prisma__CustomerClient<$Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Customers.
+     * @param {CustomerCreateManyArgs} args - Arguments to create many Customers.
+     * @example
+     * // Create many Customers
+     * const customer = await prisma.customer.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CustomerCreateManyArgs>(args?: SelectSubset<T, CustomerCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Customer.
+     * @param {CustomerDeleteArgs} args - Arguments to delete one Customer.
+     * @example
+     * // Delete one Customer
+     * const Customer = await prisma.customer.delete({
+     *   where: {
+     *     // ... filter to delete one Customer
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CustomerDeleteArgs>(args: SelectSubset<T, CustomerDeleteArgs<ExtArgs>>): Prisma__CustomerClient<$Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Customer.
+     * @param {CustomerUpdateArgs} args - Arguments to update one Customer.
+     * @example
+     * // Update one Customer
+     * const customer = await prisma.customer.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CustomerUpdateArgs>(args: SelectSubset<T, CustomerUpdateArgs<ExtArgs>>): Prisma__CustomerClient<$Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Customers.
+     * @param {CustomerDeleteManyArgs} args - Arguments to filter Customers to delete.
+     * @example
+     * // Delete a few Customers
+     * const { count } = await prisma.customer.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CustomerDeleteManyArgs>(args?: SelectSubset<T, CustomerDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Customers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomerUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Customers
+     * const customer = await prisma.customer.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CustomerUpdateManyArgs>(args: SelectSubset<T, CustomerUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Customer.
+     * @param {CustomerUpsertArgs} args - Arguments to update or create a Customer.
+     * @example
+     * // Update or create a Customer
+     * const customer = await prisma.customer.upsert({
+     *   create: {
+     *     // ... data to create a Customer
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Customer we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CustomerUpsertArgs>(args: SelectSubset<T, CustomerUpsertArgs<ExtArgs>>): Prisma__CustomerClient<$Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Customers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomerCountArgs} args - Arguments to filter Customers to count.
+     * @example
+     * // Count the number of Customers
+     * const count = await prisma.customer.count({
+     *   where: {
+     *     // ... the filter for the Customers we want to count
+     *   }
+     * })
+    **/
+    count<T extends CustomerCountArgs>(
+      args?: Subset<T, CustomerCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CustomerCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Customer.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomerAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CustomerAggregateArgs>(args: Subset<T, CustomerAggregateArgs>): Prisma.PrismaPromise<GetCustomerAggregateType<T>>
+
+    /**
+     * Group by Customer.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomerGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CustomerGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CustomerGroupByArgs['orderBy'] }
+        : { orderBy?: CustomerGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CustomerGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCustomerGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Customer model
+   */
+  readonly fields: CustomerFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Customer.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CustomerClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    vehicles<T extends Customer$vehiclesArgs<ExtArgs> = {}>(args?: Subset<T, Customer$vehiclesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    workOrders<T extends Customer$workOrdersArgs<ExtArgs> = {}>(args?: Subset<T, Customer$workOrdersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkOrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Customer model
+   */
+  interface CustomerFieldRefs {
+    readonly id: FieldRef<"Customer", 'String'>
+    readonly name: FieldRef<"Customer", 'String'>
+    readonly phone: FieldRef<"Customer", 'String'>
+    readonly address: FieldRef<"Customer", 'String'>
+    readonly birthDate: FieldRef<"Customer", 'DateTime'>
+    readonly note: FieldRef<"Customer", 'String'>
+    readonly createdAt: FieldRef<"Customer", 'DateTime'>
+    readonly updatedAt: FieldRef<"Customer", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Customer findUnique
+   */
+  export type CustomerFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Customer
+     */
+    select?: CustomerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Customer
+     */
+    omit?: CustomerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomerInclude<ExtArgs> | null
+    /**
+     * Filter, which Customer to fetch.
+     */
+    where: CustomerWhereUniqueInput
+  }
+
+  /**
+   * Customer findUniqueOrThrow
+   */
+  export type CustomerFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Customer
+     */
+    select?: CustomerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Customer
+     */
+    omit?: CustomerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomerInclude<ExtArgs> | null
+    /**
+     * Filter, which Customer to fetch.
+     */
+    where: CustomerWhereUniqueInput
+  }
+
+  /**
+   * Customer findFirst
+   */
+  export type CustomerFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Customer
+     */
+    select?: CustomerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Customer
+     */
+    omit?: CustomerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomerInclude<ExtArgs> | null
+    /**
+     * Filter, which Customer to fetch.
+     */
+    where?: CustomerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Customers to fetch.
+     */
+    orderBy?: CustomerOrderByWithRelationInput | CustomerOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Customers.
+     */
+    cursor?: CustomerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Customers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Customers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Customers.
+     */
+    distinct?: CustomerScalarFieldEnum | CustomerScalarFieldEnum[]
+  }
+
+  /**
+   * Customer findFirstOrThrow
+   */
+  export type CustomerFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Customer
+     */
+    select?: CustomerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Customer
+     */
+    omit?: CustomerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomerInclude<ExtArgs> | null
+    /**
+     * Filter, which Customer to fetch.
+     */
+    where?: CustomerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Customers to fetch.
+     */
+    orderBy?: CustomerOrderByWithRelationInput | CustomerOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Customers.
+     */
+    cursor?: CustomerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Customers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Customers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Customers.
+     */
+    distinct?: CustomerScalarFieldEnum | CustomerScalarFieldEnum[]
+  }
+
+  /**
+   * Customer findMany
+   */
+  export type CustomerFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Customer
+     */
+    select?: CustomerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Customer
+     */
+    omit?: CustomerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomerInclude<ExtArgs> | null
+    /**
+     * Filter, which Customers to fetch.
+     */
+    where?: CustomerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Customers to fetch.
+     */
+    orderBy?: CustomerOrderByWithRelationInput | CustomerOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Customers.
+     */
+    cursor?: CustomerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Customers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Customers.
+     */
+    skip?: number
+    distinct?: CustomerScalarFieldEnum | CustomerScalarFieldEnum[]
+  }
+
+  /**
+   * Customer create
+   */
+  export type CustomerCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Customer
+     */
+    select?: CustomerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Customer
+     */
+    omit?: CustomerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomerInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Customer.
+     */
+    data: XOR<CustomerCreateInput, CustomerUncheckedCreateInput>
+  }
+
+  /**
+   * Customer createMany
+   */
+  export type CustomerCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Customers.
+     */
+    data: CustomerCreateManyInput | CustomerCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Customer update
+   */
+  export type CustomerUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Customer
+     */
+    select?: CustomerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Customer
+     */
+    omit?: CustomerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomerInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Customer.
+     */
+    data: XOR<CustomerUpdateInput, CustomerUncheckedUpdateInput>
+    /**
+     * Choose, which Customer to update.
+     */
+    where: CustomerWhereUniqueInput
+  }
+
+  /**
+   * Customer updateMany
+   */
+  export type CustomerUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Customers.
+     */
+    data: XOR<CustomerUpdateManyMutationInput, CustomerUncheckedUpdateManyInput>
+    /**
+     * Filter which Customers to update
+     */
+    where?: CustomerWhereInput
+    /**
+     * Limit how many Customers to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Customer upsert
+   */
+  export type CustomerUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Customer
+     */
+    select?: CustomerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Customer
+     */
+    omit?: CustomerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomerInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Customer to update in case it exists.
+     */
+    where: CustomerWhereUniqueInput
+    /**
+     * In case the Customer found by the `where` argument doesn't exist, create a new Customer with this data.
+     */
+    create: XOR<CustomerCreateInput, CustomerUncheckedCreateInput>
+    /**
+     * In case the Customer was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CustomerUpdateInput, CustomerUncheckedUpdateInput>
+  }
+
+  /**
+   * Customer delete
+   */
+  export type CustomerDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Customer
+     */
+    select?: CustomerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Customer
+     */
+    omit?: CustomerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomerInclude<ExtArgs> | null
+    /**
+     * Filter which Customer to delete.
+     */
+    where: CustomerWhereUniqueInput
+  }
+
+  /**
+   * Customer deleteMany
+   */
+  export type CustomerDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Customers to delete
+     */
+    where?: CustomerWhereInput
+    /**
+     * Limit how many Customers to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Customer.vehicles
+   */
+  export type Customer$vehiclesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vehicle
+     */
+    select?: VehicleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vehicle
+     */
+    omit?: VehicleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleInclude<ExtArgs> | null
+    where?: VehicleWhereInput
+    orderBy?: VehicleOrderByWithRelationInput | VehicleOrderByWithRelationInput[]
+    cursor?: VehicleWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: VehicleScalarFieldEnum | VehicleScalarFieldEnum[]
+  }
+
+  /**
+   * Customer.workOrders
+   */
+  export type Customer$workOrdersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrder
+     */
+    select?: WorkOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrder
+     */
+    omit?: WorkOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderInclude<ExtArgs> | null
+    where?: WorkOrderWhereInput
+    orderBy?: WorkOrderOrderByWithRelationInput | WorkOrderOrderByWithRelationInput[]
+    cursor?: WorkOrderWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WorkOrderScalarFieldEnum | WorkOrderScalarFieldEnum[]
+  }
+
+  /**
+   * Customer without action
+   */
+  export type CustomerDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Customer
+     */
+    select?: CustomerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Customer
+     */
+    omit?: CustomerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomerInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Vehicle
+   */
+
+  export type AggregateVehicle = {
+    _count: VehicleCountAggregateOutputType | null
+    _avg: VehicleAvgAggregateOutputType | null
+    _sum: VehicleSumAggregateOutputType | null
+    _min: VehicleMinAggregateOutputType | null
+    _max: VehicleMaxAggregateOutputType | null
+  }
+
+  export type VehicleAvgAggregateOutputType = {
+    year: number | null
+    currentOdometer: number | null
+  }
+
+  export type VehicleSumAggregateOutputType = {
+    year: number | null
+    currentOdometer: number | null
+  }
+
+  export type VehicleMinAggregateOutputType = {
+    id: string | null
+    customerId: string | null
+    plateNumber: string | null
+    brand: string | null
+    model: string | null
+    year: number | null
+    color: string | null
+    engineNumber: string | null
+    chassisNumber: string | null
+    currentOdometer: number | null
+    note: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type VehicleMaxAggregateOutputType = {
+    id: string | null
+    customerId: string | null
+    plateNumber: string | null
+    brand: string | null
+    model: string | null
+    year: number | null
+    color: string | null
+    engineNumber: string | null
+    chassisNumber: string | null
+    currentOdometer: number | null
+    note: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type VehicleCountAggregateOutputType = {
+    id: number
+    customerId: number
+    plateNumber: number
+    brand: number
+    model: number
+    year: number
+    color: number
+    engineNumber: number
+    chassisNumber: number
+    currentOdometer: number
+    note: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type VehicleAvgAggregateInputType = {
+    year?: true
+    currentOdometer?: true
+  }
+
+  export type VehicleSumAggregateInputType = {
+    year?: true
+    currentOdometer?: true
+  }
+
+  export type VehicleMinAggregateInputType = {
+    id?: true
+    customerId?: true
+    plateNumber?: true
+    brand?: true
+    model?: true
+    year?: true
+    color?: true
+    engineNumber?: true
+    chassisNumber?: true
+    currentOdometer?: true
+    note?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type VehicleMaxAggregateInputType = {
+    id?: true
+    customerId?: true
+    plateNumber?: true
+    brand?: true
+    model?: true
+    year?: true
+    color?: true
+    engineNumber?: true
+    chassisNumber?: true
+    currentOdometer?: true
+    note?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type VehicleCountAggregateInputType = {
+    id?: true
+    customerId?: true
+    plateNumber?: true
+    brand?: true
+    model?: true
+    year?: true
+    color?: true
+    engineNumber?: true
+    chassisNumber?: true
+    currentOdometer?: true
+    note?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type VehicleAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Vehicle to aggregate.
+     */
+    where?: VehicleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Vehicles to fetch.
+     */
+    orderBy?: VehicleOrderByWithRelationInput | VehicleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: VehicleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Vehicles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Vehicles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Vehicles
+    **/
+    _count?: true | VehicleCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: VehicleAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: VehicleSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: VehicleMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: VehicleMaxAggregateInputType
+  }
+
+  export type GetVehicleAggregateType<T extends VehicleAggregateArgs> = {
+        [P in keyof T & keyof AggregateVehicle]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateVehicle[P]>
+      : GetScalarType<T[P], AggregateVehicle[P]>
+  }
+
+
+
+
+  export type VehicleGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VehicleWhereInput
+    orderBy?: VehicleOrderByWithAggregationInput | VehicleOrderByWithAggregationInput[]
+    by: VehicleScalarFieldEnum[] | VehicleScalarFieldEnum
+    having?: VehicleScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: VehicleCountAggregateInputType | true
+    _avg?: VehicleAvgAggregateInputType
+    _sum?: VehicleSumAggregateInputType
+    _min?: VehicleMinAggregateInputType
+    _max?: VehicleMaxAggregateInputType
+  }
+
+  export type VehicleGroupByOutputType = {
+    id: string
+    customerId: string
+    plateNumber: string
+    brand: string
+    model: string
+    year: number | null
+    color: string | null
+    engineNumber: string | null
+    chassisNumber: string | null
+    currentOdometer: number | null
+    note: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: VehicleCountAggregateOutputType | null
+    _avg: VehicleAvgAggregateOutputType | null
+    _sum: VehicleSumAggregateOutputType | null
+    _min: VehicleMinAggregateOutputType | null
+    _max: VehicleMaxAggregateOutputType | null
+  }
+
+  type GetVehicleGroupByPayload<T extends VehicleGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<VehicleGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof VehicleGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], VehicleGroupByOutputType[P]>
+            : GetScalarType<T[P], VehicleGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type VehicleSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    customerId?: boolean
+    plateNumber?: boolean
+    brand?: boolean
+    model?: boolean
+    year?: boolean
+    color?: boolean
+    engineNumber?: boolean
+    chassisNumber?: boolean
+    currentOdometer?: boolean
+    note?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    customer?: boolean | CustomerDefaultArgs<ExtArgs>
+    workOrders?: boolean | Vehicle$workOrdersArgs<ExtArgs>
+    _count?: boolean | VehicleCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["vehicle"]>
+
+
+
+  export type VehicleSelectScalar = {
+    id?: boolean
+    customerId?: boolean
+    plateNumber?: boolean
+    brand?: boolean
+    model?: boolean
+    year?: boolean
+    color?: boolean
+    engineNumber?: boolean
+    chassisNumber?: boolean
+    currentOdometer?: boolean
+    note?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type VehicleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "customerId" | "plateNumber" | "brand" | "model" | "year" | "color" | "engineNumber" | "chassisNumber" | "currentOdometer" | "note" | "createdAt" | "updatedAt", ExtArgs["result"]["vehicle"]>
+  export type VehicleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    customer?: boolean | CustomerDefaultArgs<ExtArgs>
+    workOrders?: boolean | Vehicle$workOrdersArgs<ExtArgs>
+    _count?: boolean | VehicleCountOutputTypeDefaultArgs<ExtArgs>
+  }
+
+  export type $VehiclePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Vehicle"
+    objects: {
+      customer: Prisma.$CustomerPayload<ExtArgs>
+      workOrders: Prisma.$WorkOrderPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      customerId: string
+      plateNumber: string
+      brand: string
+      model: string
+      year: number | null
+      color: string | null
+      engineNumber: string | null
+      chassisNumber: string | null
+      currentOdometer: number | null
+      note: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["vehicle"]>
+    composites: {}
+  }
+
+  type VehicleGetPayload<S extends boolean | null | undefined | VehicleDefaultArgs> = $Result.GetResult<Prisma.$VehiclePayload, S>
+
+  type VehicleCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<VehicleFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: VehicleCountAggregateInputType | true
+    }
+
+  export interface VehicleDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Vehicle'], meta: { name: 'Vehicle' } }
+    /**
+     * Find zero or one Vehicle that matches the filter.
+     * @param {VehicleFindUniqueArgs} args - Arguments to find a Vehicle
+     * @example
+     * // Get one Vehicle
+     * const vehicle = await prisma.vehicle.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends VehicleFindUniqueArgs>(args: SelectSubset<T, VehicleFindUniqueArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Vehicle that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {VehicleFindUniqueOrThrowArgs} args - Arguments to find a Vehicle
+     * @example
+     * // Get one Vehicle
+     * const vehicle = await prisma.vehicle.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends VehicleFindUniqueOrThrowArgs>(args: SelectSubset<T, VehicleFindUniqueOrThrowArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Vehicle that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VehicleFindFirstArgs} args - Arguments to find a Vehicle
+     * @example
+     * // Get one Vehicle
+     * const vehicle = await prisma.vehicle.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends VehicleFindFirstArgs>(args?: SelectSubset<T, VehicleFindFirstArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Vehicle that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VehicleFindFirstOrThrowArgs} args - Arguments to find a Vehicle
+     * @example
+     * // Get one Vehicle
+     * const vehicle = await prisma.vehicle.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends VehicleFindFirstOrThrowArgs>(args?: SelectSubset<T, VehicleFindFirstOrThrowArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Vehicles that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VehicleFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Vehicles
+     * const vehicles = await prisma.vehicle.findMany()
+     * 
+     * // Get first 10 Vehicles
+     * const vehicles = await prisma.vehicle.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const vehicleWithIdOnly = await prisma.vehicle.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends VehicleFindManyArgs>(args?: SelectSubset<T, VehicleFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Vehicle.
+     * @param {VehicleCreateArgs} args - Arguments to create a Vehicle.
+     * @example
+     * // Create one Vehicle
+     * const Vehicle = await prisma.vehicle.create({
+     *   data: {
+     *     // ... data to create a Vehicle
+     *   }
+     * })
+     * 
+     */
+    create<T extends VehicleCreateArgs>(args: SelectSubset<T, VehicleCreateArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Vehicles.
+     * @param {VehicleCreateManyArgs} args - Arguments to create many Vehicles.
+     * @example
+     * // Create many Vehicles
+     * const vehicle = await prisma.vehicle.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends VehicleCreateManyArgs>(args?: SelectSubset<T, VehicleCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Vehicle.
+     * @param {VehicleDeleteArgs} args - Arguments to delete one Vehicle.
+     * @example
+     * // Delete one Vehicle
+     * const Vehicle = await prisma.vehicle.delete({
+     *   where: {
+     *     // ... filter to delete one Vehicle
+     *   }
+     * })
+     * 
+     */
+    delete<T extends VehicleDeleteArgs>(args: SelectSubset<T, VehicleDeleteArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Vehicle.
+     * @param {VehicleUpdateArgs} args - Arguments to update one Vehicle.
+     * @example
+     * // Update one Vehicle
+     * const vehicle = await prisma.vehicle.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends VehicleUpdateArgs>(args: SelectSubset<T, VehicleUpdateArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Vehicles.
+     * @param {VehicleDeleteManyArgs} args - Arguments to filter Vehicles to delete.
+     * @example
+     * // Delete a few Vehicles
+     * const { count } = await prisma.vehicle.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends VehicleDeleteManyArgs>(args?: SelectSubset<T, VehicleDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Vehicles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VehicleUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Vehicles
+     * const vehicle = await prisma.vehicle.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends VehicleUpdateManyArgs>(args: SelectSubset<T, VehicleUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Vehicle.
+     * @param {VehicleUpsertArgs} args - Arguments to update or create a Vehicle.
+     * @example
+     * // Update or create a Vehicle
+     * const vehicle = await prisma.vehicle.upsert({
+     *   create: {
+     *     // ... data to create a Vehicle
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Vehicle we want to update
+     *   }
+     * })
+     */
+    upsert<T extends VehicleUpsertArgs>(args: SelectSubset<T, VehicleUpsertArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Vehicles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VehicleCountArgs} args - Arguments to filter Vehicles to count.
+     * @example
+     * // Count the number of Vehicles
+     * const count = await prisma.vehicle.count({
+     *   where: {
+     *     // ... the filter for the Vehicles we want to count
+     *   }
+     * })
+    **/
+    count<T extends VehicleCountArgs>(
+      args?: Subset<T, VehicleCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], VehicleCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Vehicle.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VehicleAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends VehicleAggregateArgs>(args: Subset<T, VehicleAggregateArgs>): Prisma.PrismaPromise<GetVehicleAggregateType<T>>
+
+    /**
+     * Group by Vehicle.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VehicleGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends VehicleGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: VehicleGroupByArgs['orderBy'] }
+        : { orderBy?: VehicleGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, VehicleGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetVehicleGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Vehicle model
+   */
+  readonly fields: VehicleFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Vehicle.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__VehicleClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    customer<T extends CustomerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CustomerDefaultArgs<ExtArgs>>): Prisma__CustomerClient<$Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    workOrders<T extends Vehicle$workOrdersArgs<ExtArgs> = {}>(args?: Subset<T, Vehicle$workOrdersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkOrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Vehicle model
+   */
+  interface VehicleFieldRefs {
+    readonly id: FieldRef<"Vehicle", 'String'>
+    readonly customerId: FieldRef<"Vehicle", 'String'>
+    readonly plateNumber: FieldRef<"Vehicle", 'String'>
+    readonly brand: FieldRef<"Vehicle", 'String'>
+    readonly model: FieldRef<"Vehicle", 'String'>
+    readonly year: FieldRef<"Vehicle", 'Int'>
+    readonly color: FieldRef<"Vehicle", 'String'>
+    readonly engineNumber: FieldRef<"Vehicle", 'String'>
+    readonly chassisNumber: FieldRef<"Vehicle", 'String'>
+    readonly currentOdometer: FieldRef<"Vehicle", 'Int'>
+    readonly note: FieldRef<"Vehicle", 'String'>
+    readonly createdAt: FieldRef<"Vehicle", 'DateTime'>
+    readonly updatedAt: FieldRef<"Vehicle", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Vehicle findUnique
+   */
+  export type VehicleFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vehicle
+     */
+    select?: VehicleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vehicle
+     */
+    omit?: VehicleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleInclude<ExtArgs> | null
+    /**
+     * Filter, which Vehicle to fetch.
+     */
+    where: VehicleWhereUniqueInput
+  }
+
+  /**
+   * Vehicle findUniqueOrThrow
+   */
+  export type VehicleFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vehicle
+     */
+    select?: VehicleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vehicle
+     */
+    omit?: VehicleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleInclude<ExtArgs> | null
+    /**
+     * Filter, which Vehicle to fetch.
+     */
+    where: VehicleWhereUniqueInput
+  }
+
+  /**
+   * Vehicle findFirst
+   */
+  export type VehicleFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vehicle
+     */
+    select?: VehicleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vehicle
+     */
+    omit?: VehicleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleInclude<ExtArgs> | null
+    /**
+     * Filter, which Vehicle to fetch.
+     */
+    where?: VehicleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Vehicles to fetch.
+     */
+    orderBy?: VehicleOrderByWithRelationInput | VehicleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Vehicles.
+     */
+    cursor?: VehicleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Vehicles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Vehicles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Vehicles.
+     */
+    distinct?: VehicleScalarFieldEnum | VehicleScalarFieldEnum[]
+  }
+
+  /**
+   * Vehicle findFirstOrThrow
+   */
+  export type VehicleFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vehicle
+     */
+    select?: VehicleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vehicle
+     */
+    omit?: VehicleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleInclude<ExtArgs> | null
+    /**
+     * Filter, which Vehicle to fetch.
+     */
+    where?: VehicleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Vehicles to fetch.
+     */
+    orderBy?: VehicleOrderByWithRelationInput | VehicleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Vehicles.
+     */
+    cursor?: VehicleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Vehicles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Vehicles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Vehicles.
+     */
+    distinct?: VehicleScalarFieldEnum | VehicleScalarFieldEnum[]
+  }
+
+  /**
+   * Vehicle findMany
+   */
+  export type VehicleFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vehicle
+     */
+    select?: VehicleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vehicle
+     */
+    omit?: VehicleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleInclude<ExtArgs> | null
+    /**
+     * Filter, which Vehicles to fetch.
+     */
+    where?: VehicleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Vehicles to fetch.
+     */
+    orderBy?: VehicleOrderByWithRelationInput | VehicleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Vehicles.
+     */
+    cursor?: VehicleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Vehicles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Vehicles.
+     */
+    skip?: number
+    distinct?: VehicleScalarFieldEnum | VehicleScalarFieldEnum[]
+  }
+
+  /**
+   * Vehicle create
+   */
+  export type VehicleCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vehicle
+     */
+    select?: VehicleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vehicle
+     */
+    omit?: VehicleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Vehicle.
+     */
+    data: XOR<VehicleCreateInput, VehicleUncheckedCreateInput>
+  }
+
+  /**
+   * Vehicle createMany
+   */
+  export type VehicleCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Vehicles.
+     */
+    data: VehicleCreateManyInput | VehicleCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Vehicle update
+   */
+  export type VehicleUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vehicle
+     */
+    select?: VehicleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vehicle
+     */
+    omit?: VehicleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Vehicle.
+     */
+    data: XOR<VehicleUpdateInput, VehicleUncheckedUpdateInput>
+    /**
+     * Choose, which Vehicle to update.
+     */
+    where: VehicleWhereUniqueInput
+  }
+
+  /**
+   * Vehicle updateMany
+   */
+  export type VehicleUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Vehicles.
+     */
+    data: XOR<VehicleUpdateManyMutationInput, VehicleUncheckedUpdateManyInput>
+    /**
+     * Filter which Vehicles to update
+     */
+    where?: VehicleWhereInput
+    /**
+     * Limit how many Vehicles to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Vehicle upsert
+   */
+  export type VehicleUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vehicle
+     */
+    select?: VehicleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vehicle
+     */
+    omit?: VehicleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Vehicle to update in case it exists.
+     */
+    where: VehicleWhereUniqueInput
+    /**
+     * In case the Vehicle found by the `where` argument doesn't exist, create a new Vehicle with this data.
+     */
+    create: XOR<VehicleCreateInput, VehicleUncheckedCreateInput>
+    /**
+     * In case the Vehicle was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<VehicleUpdateInput, VehicleUncheckedUpdateInput>
+  }
+
+  /**
+   * Vehicle delete
+   */
+  export type VehicleDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vehicle
+     */
+    select?: VehicleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vehicle
+     */
+    omit?: VehicleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleInclude<ExtArgs> | null
+    /**
+     * Filter which Vehicle to delete.
+     */
+    where: VehicleWhereUniqueInput
+  }
+
+  /**
+   * Vehicle deleteMany
+   */
+  export type VehicleDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Vehicles to delete
+     */
+    where?: VehicleWhereInput
+    /**
+     * Limit how many Vehicles to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Vehicle.workOrders
+   */
+  export type Vehicle$workOrdersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrder
+     */
+    select?: WorkOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrder
+     */
+    omit?: WorkOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderInclude<ExtArgs> | null
+    where?: WorkOrderWhereInput
+    orderBy?: WorkOrderOrderByWithRelationInput | WorkOrderOrderByWithRelationInput[]
+    cursor?: WorkOrderWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WorkOrderScalarFieldEnum | WorkOrderScalarFieldEnum[]
+  }
+
+  /**
+   * Vehicle without action
+   */
+  export type VehicleDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vehicle
+     */
+    select?: VehicleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vehicle
+     */
+    omit?: VehicleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model WorkOrder
+   */
+
+  export type AggregateWorkOrder = {
+    _count: WorkOrderCountAggregateOutputType | null
+    _avg: WorkOrderAvgAggregateOutputType | null
+    _sum: WorkOrderSumAggregateOutputType | null
+    _min: WorkOrderMinAggregateOutputType | null
+    _max: WorkOrderMaxAggregateOutputType | null
+  }
+
+  export type WorkOrderAvgAggregateOutputType = {
+    odo: number | null
+    reminderNextOdo: number | null
+    dp: number | null
+    discountPercent: number | null
+    taxPercent: number | null
+    subtotal: number | null
+    grandTotal: number | null
+    paidAmount: number | null
+    changeAmount: number | null
+  }
+
+  export type WorkOrderSumAggregateOutputType = {
+    odo: number | null
+    reminderNextOdo: number | null
+    dp: number | null
+    discountPercent: number | null
+    taxPercent: number | null
+    subtotal: number | null
+    grandTotal: number | null
+    paidAmount: number | null
+    changeAmount: number | null
+  }
+
+  export type WorkOrderMinAggregateOutputType = {
+    id: string | null
+    woNumber: string | null
+    status: $Enums.WorkOrderStatus | null
+    customerId: string | null
+    vehicleId: string | null
+    advisorId: string | null
+    odo: number | null
+    complaint: string | null
+    preCheck: string | null
+    postCheck: string | null
+    estimatedDoneAt: Date | null
+    reminderNextOdo: number | null
+    reminderNextDate: Date | null
+    dp: number | null
+    discountPercent: number | null
+    taxPercent: number | null
+    subtotal: number | null
+    grandTotal: number | null
+    paidAmount: number | null
+    changeAmount: number | null
+    paymentMethod: $Enums.PaymentMethod | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type WorkOrderMaxAggregateOutputType = {
+    id: string | null
+    woNumber: string | null
+    status: $Enums.WorkOrderStatus | null
+    customerId: string | null
+    vehicleId: string | null
+    advisorId: string | null
+    odo: number | null
+    complaint: string | null
+    preCheck: string | null
+    postCheck: string | null
+    estimatedDoneAt: Date | null
+    reminderNextOdo: number | null
+    reminderNextDate: Date | null
+    dp: number | null
+    discountPercent: number | null
+    taxPercent: number | null
+    subtotal: number | null
+    grandTotal: number | null
+    paidAmount: number | null
+    changeAmount: number | null
+    paymentMethod: $Enums.PaymentMethod | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type WorkOrderCountAggregateOutputType = {
+    id: number
+    woNumber: number
+    status: number
+    customerId: number
+    vehicleId: number
+    advisorId: number
+    odo: number
+    complaint: number
+    preCheck: number
+    postCheck: number
+    estimatedDoneAt: number
+    reminderNextOdo: number
+    reminderNextDate: number
+    dp: number
+    discountPercent: number
+    taxPercent: number
+    subtotal: number
+    grandTotal: number
+    paidAmount: number
+    changeAmount: number
+    paymentMethod: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type WorkOrderAvgAggregateInputType = {
+    odo?: true
+    reminderNextOdo?: true
+    dp?: true
+    discountPercent?: true
+    taxPercent?: true
+    subtotal?: true
+    grandTotal?: true
+    paidAmount?: true
+    changeAmount?: true
+  }
+
+  export type WorkOrderSumAggregateInputType = {
+    odo?: true
+    reminderNextOdo?: true
+    dp?: true
+    discountPercent?: true
+    taxPercent?: true
+    subtotal?: true
+    grandTotal?: true
+    paidAmount?: true
+    changeAmount?: true
+  }
+
+  export type WorkOrderMinAggregateInputType = {
+    id?: true
+    woNumber?: true
+    status?: true
+    customerId?: true
+    vehicleId?: true
+    advisorId?: true
+    odo?: true
+    complaint?: true
+    preCheck?: true
+    postCheck?: true
+    estimatedDoneAt?: true
+    reminderNextOdo?: true
+    reminderNextDate?: true
+    dp?: true
+    discountPercent?: true
+    taxPercent?: true
+    subtotal?: true
+    grandTotal?: true
+    paidAmount?: true
+    changeAmount?: true
+    paymentMethod?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type WorkOrderMaxAggregateInputType = {
+    id?: true
+    woNumber?: true
+    status?: true
+    customerId?: true
+    vehicleId?: true
+    advisorId?: true
+    odo?: true
+    complaint?: true
+    preCheck?: true
+    postCheck?: true
+    estimatedDoneAt?: true
+    reminderNextOdo?: true
+    reminderNextDate?: true
+    dp?: true
+    discountPercent?: true
+    taxPercent?: true
+    subtotal?: true
+    grandTotal?: true
+    paidAmount?: true
+    changeAmount?: true
+    paymentMethod?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type WorkOrderCountAggregateInputType = {
+    id?: true
+    woNumber?: true
+    status?: true
+    customerId?: true
+    vehicleId?: true
+    advisorId?: true
+    odo?: true
+    complaint?: true
+    preCheck?: true
+    postCheck?: true
+    estimatedDoneAt?: true
+    reminderNextOdo?: true
+    reminderNextDate?: true
+    dp?: true
+    discountPercent?: true
+    taxPercent?: true
+    subtotal?: true
+    grandTotal?: true
+    paidAmount?: true
+    changeAmount?: true
+    paymentMethod?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type WorkOrderAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WorkOrder to aggregate.
+     */
+    where?: WorkOrderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WorkOrders to fetch.
+     */
+    orderBy?: WorkOrderOrderByWithRelationInput | WorkOrderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: WorkOrderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WorkOrders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WorkOrders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned WorkOrders
+    **/
+    _count?: true | WorkOrderCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: WorkOrderAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: WorkOrderSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: WorkOrderMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: WorkOrderMaxAggregateInputType
+  }
+
+  export type GetWorkOrderAggregateType<T extends WorkOrderAggregateArgs> = {
+        [P in keyof T & keyof AggregateWorkOrder]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWorkOrder[P]>
+      : GetScalarType<T[P], AggregateWorkOrder[P]>
+  }
+
+
+
+
+  export type WorkOrderGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WorkOrderWhereInput
+    orderBy?: WorkOrderOrderByWithAggregationInput | WorkOrderOrderByWithAggregationInput[]
+    by: WorkOrderScalarFieldEnum[] | WorkOrderScalarFieldEnum
+    having?: WorkOrderScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WorkOrderCountAggregateInputType | true
+    _avg?: WorkOrderAvgAggregateInputType
+    _sum?: WorkOrderSumAggregateInputType
+    _min?: WorkOrderMinAggregateInputType
+    _max?: WorkOrderMaxAggregateInputType
+  }
+
+  export type WorkOrderGroupByOutputType = {
+    id: string
+    woNumber: string
+    status: $Enums.WorkOrderStatus
+    customerId: string
+    vehicleId: string
+    advisorId: string | null
+    odo: number | null
+    complaint: string | null
+    preCheck: string | null
+    postCheck: string | null
+    estimatedDoneAt: Date | null
+    reminderNextOdo: number | null
+    reminderNextDate: Date | null
+    dp: number
+    discountPercent: number
+    taxPercent: number
+    subtotal: number
+    grandTotal: number
+    paidAmount: number
+    changeAmount: number
+    paymentMethod: $Enums.PaymentMethod
+    createdAt: Date
+    updatedAt: Date
+    _count: WorkOrderCountAggregateOutputType | null
+    _avg: WorkOrderAvgAggregateOutputType | null
+    _sum: WorkOrderSumAggregateOutputType | null
+    _min: WorkOrderMinAggregateOutputType | null
+    _max: WorkOrderMaxAggregateOutputType | null
+  }
+
+  type GetWorkOrderGroupByPayload<T extends WorkOrderGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<WorkOrderGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof WorkOrderGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WorkOrderGroupByOutputType[P]>
+            : GetScalarType<T[P], WorkOrderGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type WorkOrderSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    woNumber?: boolean
+    status?: boolean
+    customerId?: boolean
+    vehicleId?: boolean
+    advisorId?: boolean
+    odo?: boolean
+    complaint?: boolean
+    preCheck?: boolean
+    postCheck?: boolean
+    estimatedDoneAt?: boolean
+    reminderNextOdo?: boolean
+    reminderNextDate?: boolean
+    dp?: boolean
+    discountPercent?: boolean
+    taxPercent?: boolean
+    subtotal?: boolean
+    grandTotal?: boolean
+    paidAmount?: boolean
+    changeAmount?: boolean
+    paymentMethod?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    customer?: boolean | CustomerDefaultArgs<ExtArgs>
+    vehicle?: boolean | VehicleDefaultArgs<ExtArgs>
+    advisor?: boolean | WorkOrder$advisorArgs<ExtArgs>
+    items?: boolean | WorkOrder$itemsArgs<ExtArgs>
+    mechanics?: boolean | WorkOrder$mechanicsArgs<ExtArgs>
+    _count?: boolean | WorkOrderCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["workOrder"]>
+
+
+
+  export type WorkOrderSelectScalar = {
+    id?: boolean
+    woNumber?: boolean
+    status?: boolean
+    customerId?: boolean
+    vehicleId?: boolean
+    advisorId?: boolean
+    odo?: boolean
+    complaint?: boolean
+    preCheck?: boolean
+    postCheck?: boolean
+    estimatedDoneAt?: boolean
+    reminderNextOdo?: boolean
+    reminderNextDate?: boolean
+    dp?: boolean
+    discountPercent?: boolean
+    taxPercent?: boolean
+    subtotal?: boolean
+    grandTotal?: boolean
+    paidAmount?: boolean
+    changeAmount?: boolean
+    paymentMethod?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type WorkOrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "woNumber" | "status" | "customerId" | "vehicleId" | "advisorId" | "odo" | "complaint" | "preCheck" | "postCheck" | "estimatedDoneAt" | "reminderNextOdo" | "reminderNextDate" | "dp" | "discountPercent" | "taxPercent" | "subtotal" | "grandTotal" | "paidAmount" | "changeAmount" | "paymentMethod" | "createdAt" | "updatedAt", ExtArgs["result"]["workOrder"]>
+  export type WorkOrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    customer?: boolean | CustomerDefaultArgs<ExtArgs>
+    vehicle?: boolean | VehicleDefaultArgs<ExtArgs>
+    advisor?: boolean | WorkOrder$advisorArgs<ExtArgs>
+    items?: boolean | WorkOrder$itemsArgs<ExtArgs>
+    mechanics?: boolean | WorkOrder$mechanicsArgs<ExtArgs>
+    _count?: boolean | WorkOrderCountOutputTypeDefaultArgs<ExtArgs>
+  }
+
+  export type $WorkOrderPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "WorkOrder"
+    objects: {
+      customer: Prisma.$CustomerPayload<ExtArgs>
+      vehicle: Prisma.$VehiclePayload<ExtArgs>
+      advisor: Prisma.$UserPayload<ExtArgs> | null
+      items: Prisma.$WorkOrderItemPayload<ExtArgs>[]
+      mechanics: Prisma.$WorkOrderMechanicPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      woNumber: string
+      status: $Enums.WorkOrderStatus
+      customerId: string
+      vehicleId: string
+      advisorId: string | null
+      odo: number | null
+      complaint: string | null
+      preCheck: string | null
+      postCheck: string | null
+      estimatedDoneAt: Date | null
+      reminderNextOdo: number | null
+      reminderNextDate: Date | null
+      dp: number
+      discountPercent: number
+      taxPercent: number
+      subtotal: number
+      grandTotal: number
+      paidAmount: number
+      changeAmount: number
+      paymentMethod: $Enums.PaymentMethod
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["workOrder"]>
+    composites: {}
+  }
+
+  type WorkOrderGetPayload<S extends boolean | null | undefined | WorkOrderDefaultArgs> = $Result.GetResult<Prisma.$WorkOrderPayload, S>
+
+  type WorkOrderCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<WorkOrderFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: WorkOrderCountAggregateInputType | true
+    }
+
+  export interface WorkOrderDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['WorkOrder'], meta: { name: 'WorkOrder' } }
+    /**
+     * Find zero or one WorkOrder that matches the filter.
+     * @param {WorkOrderFindUniqueArgs} args - Arguments to find a WorkOrder
+     * @example
+     * // Get one WorkOrder
+     * const workOrder = await prisma.workOrder.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends WorkOrderFindUniqueArgs>(args: SelectSubset<T, WorkOrderFindUniqueArgs<ExtArgs>>): Prisma__WorkOrderClient<$Result.GetResult<Prisma.$WorkOrderPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one WorkOrder that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {WorkOrderFindUniqueOrThrowArgs} args - Arguments to find a WorkOrder
+     * @example
+     * // Get one WorkOrder
+     * const workOrder = await prisma.workOrder.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends WorkOrderFindUniqueOrThrowArgs>(args: SelectSubset<T, WorkOrderFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WorkOrderClient<$Result.GetResult<Prisma.$WorkOrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WorkOrder that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkOrderFindFirstArgs} args - Arguments to find a WorkOrder
+     * @example
+     * // Get one WorkOrder
+     * const workOrder = await prisma.workOrder.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends WorkOrderFindFirstArgs>(args?: SelectSubset<T, WorkOrderFindFirstArgs<ExtArgs>>): Prisma__WorkOrderClient<$Result.GetResult<Prisma.$WorkOrderPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WorkOrder that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkOrderFindFirstOrThrowArgs} args - Arguments to find a WorkOrder
+     * @example
+     * // Get one WorkOrder
+     * const workOrder = await prisma.workOrder.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends WorkOrderFindFirstOrThrowArgs>(args?: SelectSubset<T, WorkOrderFindFirstOrThrowArgs<ExtArgs>>): Prisma__WorkOrderClient<$Result.GetResult<Prisma.$WorkOrderPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more WorkOrders that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkOrderFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all WorkOrders
+     * const workOrders = await prisma.workOrder.findMany()
+     * 
+     * // Get first 10 WorkOrders
+     * const workOrders = await prisma.workOrder.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const workOrderWithIdOnly = await prisma.workOrder.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends WorkOrderFindManyArgs>(args?: SelectSubset<T, WorkOrderFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkOrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a WorkOrder.
+     * @param {WorkOrderCreateArgs} args - Arguments to create a WorkOrder.
+     * @example
+     * // Create one WorkOrder
+     * const WorkOrder = await prisma.workOrder.create({
+     *   data: {
+     *     // ... data to create a WorkOrder
+     *   }
+     * })
+     * 
+     */
+    create<T extends WorkOrderCreateArgs>(args: SelectSubset<T, WorkOrderCreateArgs<ExtArgs>>): Prisma__WorkOrderClient<$Result.GetResult<Prisma.$WorkOrderPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many WorkOrders.
+     * @param {WorkOrderCreateManyArgs} args - Arguments to create many WorkOrders.
+     * @example
+     * // Create many WorkOrders
+     * const workOrder = await prisma.workOrder.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends WorkOrderCreateManyArgs>(args?: SelectSubset<T, WorkOrderCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a WorkOrder.
+     * @param {WorkOrderDeleteArgs} args - Arguments to delete one WorkOrder.
+     * @example
+     * // Delete one WorkOrder
+     * const WorkOrder = await prisma.workOrder.delete({
+     *   where: {
+     *     // ... filter to delete one WorkOrder
+     *   }
+     * })
+     * 
+     */
+    delete<T extends WorkOrderDeleteArgs>(args: SelectSubset<T, WorkOrderDeleteArgs<ExtArgs>>): Prisma__WorkOrderClient<$Result.GetResult<Prisma.$WorkOrderPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one WorkOrder.
+     * @param {WorkOrderUpdateArgs} args - Arguments to update one WorkOrder.
+     * @example
+     * // Update one WorkOrder
+     * const workOrder = await prisma.workOrder.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends WorkOrderUpdateArgs>(args: SelectSubset<T, WorkOrderUpdateArgs<ExtArgs>>): Prisma__WorkOrderClient<$Result.GetResult<Prisma.$WorkOrderPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more WorkOrders.
+     * @param {WorkOrderDeleteManyArgs} args - Arguments to filter WorkOrders to delete.
+     * @example
+     * // Delete a few WorkOrders
+     * const { count } = await prisma.workOrder.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends WorkOrderDeleteManyArgs>(args?: SelectSubset<T, WorkOrderDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more WorkOrders.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkOrderUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many WorkOrders
+     * const workOrder = await prisma.workOrder.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends WorkOrderUpdateManyArgs>(args: SelectSubset<T, WorkOrderUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one WorkOrder.
+     * @param {WorkOrderUpsertArgs} args - Arguments to update or create a WorkOrder.
+     * @example
+     * // Update or create a WorkOrder
+     * const workOrder = await prisma.workOrder.upsert({
+     *   create: {
+     *     // ... data to create a WorkOrder
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the WorkOrder we want to update
+     *   }
+     * })
+     */
+    upsert<T extends WorkOrderUpsertArgs>(args: SelectSubset<T, WorkOrderUpsertArgs<ExtArgs>>): Prisma__WorkOrderClient<$Result.GetResult<Prisma.$WorkOrderPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of WorkOrders.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkOrderCountArgs} args - Arguments to filter WorkOrders to count.
+     * @example
+     * // Count the number of WorkOrders
+     * const count = await prisma.workOrder.count({
+     *   where: {
+     *     // ... the filter for the WorkOrders we want to count
+     *   }
+     * })
+    **/
+    count<T extends WorkOrderCountArgs>(
+      args?: Subset<T, WorkOrderCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WorkOrderCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a WorkOrder.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkOrderAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends WorkOrderAggregateArgs>(args: Subset<T, WorkOrderAggregateArgs>): Prisma.PrismaPromise<GetWorkOrderAggregateType<T>>
+
+    /**
+     * Group by WorkOrder.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkOrderGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends WorkOrderGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WorkOrderGroupByArgs['orderBy'] }
+        : { orderBy?: WorkOrderGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, WorkOrderGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWorkOrderGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the WorkOrder model
+   */
+  readonly fields: WorkOrderFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for WorkOrder.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__WorkOrderClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    customer<T extends CustomerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CustomerDefaultArgs<ExtArgs>>): Prisma__CustomerClient<$Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    vehicle<T extends VehicleDefaultArgs<ExtArgs> = {}>(args?: Subset<T, VehicleDefaultArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    advisor<T extends WorkOrder$advisorArgs<ExtArgs> = {}>(args?: Subset<T, WorkOrder$advisorArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    items<T extends WorkOrder$itemsArgs<ExtArgs> = {}>(args?: Subset<T, WorkOrder$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkOrderItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    mechanics<T extends WorkOrder$mechanicsArgs<ExtArgs> = {}>(args?: Subset<T, WorkOrder$mechanicsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkOrderMechanicPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the WorkOrder model
+   */
+  interface WorkOrderFieldRefs {
+    readonly id: FieldRef<"WorkOrder", 'String'>
+    readonly woNumber: FieldRef<"WorkOrder", 'String'>
+    readonly status: FieldRef<"WorkOrder", 'WorkOrderStatus'>
+    readonly customerId: FieldRef<"WorkOrder", 'String'>
+    readonly vehicleId: FieldRef<"WorkOrder", 'String'>
+    readonly advisorId: FieldRef<"WorkOrder", 'String'>
+    readonly odo: FieldRef<"WorkOrder", 'Int'>
+    readonly complaint: FieldRef<"WorkOrder", 'String'>
+    readonly preCheck: FieldRef<"WorkOrder", 'String'>
+    readonly postCheck: FieldRef<"WorkOrder", 'String'>
+    readonly estimatedDoneAt: FieldRef<"WorkOrder", 'DateTime'>
+    readonly reminderNextOdo: FieldRef<"WorkOrder", 'Int'>
+    readonly reminderNextDate: FieldRef<"WorkOrder", 'DateTime'>
+    readonly dp: FieldRef<"WorkOrder", 'Int'>
+    readonly discountPercent: FieldRef<"WorkOrder", 'Int'>
+    readonly taxPercent: FieldRef<"WorkOrder", 'Int'>
+    readonly subtotal: FieldRef<"WorkOrder", 'Int'>
+    readonly grandTotal: FieldRef<"WorkOrder", 'Int'>
+    readonly paidAmount: FieldRef<"WorkOrder", 'Int'>
+    readonly changeAmount: FieldRef<"WorkOrder", 'Int'>
+    readonly paymentMethod: FieldRef<"WorkOrder", 'PaymentMethod'>
+    readonly createdAt: FieldRef<"WorkOrder", 'DateTime'>
+    readonly updatedAt: FieldRef<"WorkOrder", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * WorkOrder findUnique
+   */
+  export type WorkOrderFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrder
+     */
+    select?: WorkOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrder
+     */
+    omit?: WorkOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderInclude<ExtArgs> | null
+    /**
+     * Filter, which WorkOrder to fetch.
+     */
+    where: WorkOrderWhereUniqueInput
+  }
+
+  /**
+   * WorkOrder findUniqueOrThrow
+   */
+  export type WorkOrderFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrder
+     */
+    select?: WorkOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrder
+     */
+    omit?: WorkOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderInclude<ExtArgs> | null
+    /**
+     * Filter, which WorkOrder to fetch.
+     */
+    where: WorkOrderWhereUniqueInput
+  }
+
+  /**
+   * WorkOrder findFirst
+   */
+  export type WorkOrderFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrder
+     */
+    select?: WorkOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrder
+     */
+    omit?: WorkOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderInclude<ExtArgs> | null
+    /**
+     * Filter, which WorkOrder to fetch.
+     */
+    where?: WorkOrderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WorkOrders to fetch.
+     */
+    orderBy?: WorkOrderOrderByWithRelationInput | WorkOrderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WorkOrders.
+     */
+    cursor?: WorkOrderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WorkOrders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WorkOrders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WorkOrders.
+     */
+    distinct?: WorkOrderScalarFieldEnum | WorkOrderScalarFieldEnum[]
+  }
+
+  /**
+   * WorkOrder findFirstOrThrow
+   */
+  export type WorkOrderFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrder
+     */
+    select?: WorkOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrder
+     */
+    omit?: WorkOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderInclude<ExtArgs> | null
+    /**
+     * Filter, which WorkOrder to fetch.
+     */
+    where?: WorkOrderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WorkOrders to fetch.
+     */
+    orderBy?: WorkOrderOrderByWithRelationInput | WorkOrderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WorkOrders.
+     */
+    cursor?: WorkOrderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WorkOrders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WorkOrders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WorkOrders.
+     */
+    distinct?: WorkOrderScalarFieldEnum | WorkOrderScalarFieldEnum[]
+  }
+
+  /**
+   * WorkOrder findMany
+   */
+  export type WorkOrderFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrder
+     */
+    select?: WorkOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrder
+     */
+    omit?: WorkOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderInclude<ExtArgs> | null
+    /**
+     * Filter, which WorkOrders to fetch.
+     */
+    where?: WorkOrderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WorkOrders to fetch.
+     */
+    orderBy?: WorkOrderOrderByWithRelationInput | WorkOrderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing WorkOrders.
+     */
+    cursor?: WorkOrderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WorkOrders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WorkOrders.
+     */
+    skip?: number
+    distinct?: WorkOrderScalarFieldEnum | WorkOrderScalarFieldEnum[]
+  }
+
+  /**
+   * WorkOrder create
+   */
+  export type WorkOrderCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrder
+     */
+    select?: WorkOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrder
+     */
+    omit?: WorkOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderInclude<ExtArgs> | null
+    /**
+     * The data needed to create a WorkOrder.
+     */
+    data: XOR<WorkOrderCreateInput, WorkOrderUncheckedCreateInput>
+  }
+
+  /**
+   * WorkOrder createMany
+   */
+  export type WorkOrderCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many WorkOrders.
+     */
+    data: WorkOrderCreateManyInput | WorkOrderCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * WorkOrder update
+   */
+  export type WorkOrderUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrder
+     */
+    select?: WorkOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrder
+     */
+    omit?: WorkOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderInclude<ExtArgs> | null
+    /**
+     * The data needed to update a WorkOrder.
+     */
+    data: XOR<WorkOrderUpdateInput, WorkOrderUncheckedUpdateInput>
+    /**
+     * Choose, which WorkOrder to update.
+     */
+    where: WorkOrderWhereUniqueInput
+  }
+
+  /**
+   * WorkOrder updateMany
+   */
+  export type WorkOrderUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update WorkOrders.
+     */
+    data: XOR<WorkOrderUpdateManyMutationInput, WorkOrderUncheckedUpdateManyInput>
+    /**
+     * Filter which WorkOrders to update
+     */
+    where?: WorkOrderWhereInput
+    /**
+     * Limit how many WorkOrders to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * WorkOrder upsert
+   */
+  export type WorkOrderUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrder
+     */
+    select?: WorkOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrder
+     */
+    omit?: WorkOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderInclude<ExtArgs> | null
+    /**
+     * The filter to search for the WorkOrder to update in case it exists.
+     */
+    where: WorkOrderWhereUniqueInput
+    /**
+     * In case the WorkOrder found by the `where` argument doesn't exist, create a new WorkOrder with this data.
+     */
+    create: XOR<WorkOrderCreateInput, WorkOrderUncheckedCreateInput>
+    /**
+     * In case the WorkOrder was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<WorkOrderUpdateInput, WorkOrderUncheckedUpdateInput>
+  }
+
+  /**
+   * WorkOrder delete
+   */
+  export type WorkOrderDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrder
+     */
+    select?: WorkOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrder
+     */
+    omit?: WorkOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderInclude<ExtArgs> | null
+    /**
+     * Filter which WorkOrder to delete.
+     */
+    where: WorkOrderWhereUniqueInput
+  }
+
+  /**
+   * WorkOrder deleteMany
+   */
+  export type WorkOrderDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WorkOrders to delete
+     */
+    where?: WorkOrderWhereInput
+    /**
+     * Limit how many WorkOrders to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * WorkOrder.advisor
+   */
+  export type WorkOrder$advisorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * WorkOrder.items
+   */
+  export type WorkOrder$itemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderItem
+     */
+    select?: WorkOrderItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrderItem
+     */
+    omit?: WorkOrderItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderItemInclude<ExtArgs> | null
+    where?: WorkOrderItemWhereInput
+    orderBy?: WorkOrderItemOrderByWithRelationInput | WorkOrderItemOrderByWithRelationInput[]
+    cursor?: WorkOrderItemWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WorkOrderItemScalarFieldEnum | WorkOrderItemScalarFieldEnum[]
+  }
+
+  /**
+   * WorkOrder.mechanics
+   */
+  export type WorkOrder$mechanicsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderMechanic
+     */
+    select?: WorkOrderMechanicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrderMechanic
+     */
+    omit?: WorkOrderMechanicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderMechanicInclude<ExtArgs> | null
+    where?: WorkOrderMechanicWhereInput
+    orderBy?: WorkOrderMechanicOrderByWithRelationInput | WorkOrderMechanicOrderByWithRelationInput[]
+    cursor?: WorkOrderMechanicWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WorkOrderMechanicScalarFieldEnum | WorkOrderMechanicScalarFieldEnum[]
+  }
+
+  /**
+   * WorkOrder without action
+   */
+  export type WorkOrderDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrder
+     */
+    select?: WorkOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrder
+     */
+    omit?: WorkOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model WorkOrderMechanic
+   */
+
+  export type AggregateWorkOrderMechanic = {
+    _count: WorkOrderMechanicCountAggregateOutputType | null
+    _min: WorkOrderMechanicMinAggregateOutputType | null
+    _max: WorkOrderMechanicMaxAggregateOutputType | null
+  }
+
+  export type WorkOrderMechanicMinAggregateOutputType = {
+    workOrderId: string | null
+    userId: string | null
+  }
+
+  export type WorkOrderMechanicMaxAggregateOutputType = {
+    workOrderId: string | null
+    userId: string | null
+  }
+
+  export type WorkOrderMechanicCountAggregateOutputType = {
+    workOrderId: number
+    userId: number
+    _all: number
+  }
+
+
+  export type WorkOrderMechanicMinAggregateInputType = {
+    workOrderId?: true
+    userId?: true
+  }
+
+  export type WorkOrderMechanicMaxAggregateInputType = {
+    workOrderId?: true
+    userId?: true
+  }
+
+  export type WorkOrderMechanicCountAggregateInputType = {
+    workOrderId?: true
+    userId?: true
+    _all?: true
+  }
+
+  export type WorkOrderMechanicAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WorkOrderMechanic to aggregate.
+     */
+    where?: WorkOrderMechanicWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WorkOrderMechanics to fetch.
+     */
+    orderBy?: WorkOrderMechanicOrderByWithRelationInput | WorkOrderMechanicOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: WorkOrderMechanicWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WorkOrderMechanics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WorkOrderMechanics.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned WorkOrderMechanics
+    **/
+    _count?: true | WorkOrderMechanicCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: WorkOrderMechanicMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: WorkOrderMechanicMaxAggregateInputType
+  }
+
+  export type GetWorkOrderMechanicAggregateType<T extends WorkOrderMechanicAggregateArgs> = {
+        [P in keyof T & keyof AggregateWorkOrderMechanic]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWorkOrderMechanic[P]>
+      : GetScalarType<T[P], AggregateWorkOrderMechanic[P]>
+  }
+
+
+
+
+  export type WorkOrderMechanicGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WorkOrderMechanicWhereInput
+    orderBy?: WorkOrderMechanicOrderByWithAggregationInput | WorkOrderMechanicOrderByWithAggregationInput[]
+    by: WorkOrderMechanicScalarFieldEnum[] | WorkOrderMechanicScalarFieldEnum
+    having?: WorkOrderMechanicScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WorkOrderMechanicCountAggregateInputType | true
+    _min?: WorkOrderMechanicMinAggregateInputType
+    _max?: WorkOrderMechanicMaxAggregateInputType
+  }
+
+  export type WorkOrderMechanicGroupByOutputType = {
+    workOrderId: string
+    userId: string
+    _count: WorkOrderMechanicCountAggregateOutputType | null
+    _min: WorkOrderMechanicMinAggregateOutputType | null
+    _max: WorkOrderMechanicMaxAggregateOutputType | null
+  }
+
+  type GetWorkOrderMechanicGroupByPayload<T extends WorkOrderMechanicGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<WorkOrderMechanicGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof WorkOrderMechanicGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WorkOrderMechanicGroupByOutputType[P]>
+            : GetScalarType<T[P], WorkOrderMechanicGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type WorkOrderMechanicSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    workOrderId?: boolean
+    userId?: boolean
+    workOrder?: boolean | WorkOrderDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["workOrderMechanic"]>
+
+
+
+  export type WorkOrderMechanicSelectScalar = {
+    workOrderId?: boolean
+    userId?: boolean
+  }
+
+  export type WorkOrderMechanicOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"workOrderId" | "userId", ExtArgs["result"]["workOrderMechanic"]>
+  export type WorkOrderMechanicInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    workOrder?: boolean | WorkOrderDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $WorkOrderMechanicPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "WorkOrderMechanic"
+    objects: {
+      workOrder: Prisma.$WorkOrderPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      workOrderId: string
+      userId: string
+    }, ExtArgs["result"]["workOrderMechanic"]>
+    composites: {}
+  }
+
+  type WorkOrderMechanicGetPayload<S extends boolean | null | undefined | WorkOrderMechanicDefaultArgs> = $Result.GetResult<Prisma.$WorkOrderMechanicPayload, S>
+
+  type WorkOrderMechanicCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<WorkOrderMechanicFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: WorkOrderMechanicCountAggregateInputType | true
+    }
+
+  export interface WorkOrderMechanicDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['WorkOrderMechanic'], meta: { name: 'WorkOrderMechanic' } }
+    /**
+     * Find zero or one WorkOrderMechanic that matches the filter.
+     * @param {WorkOrderMechanicFindUniqueArgs} args - Arguments to find a WorkOrderMechanic
+     * @example
+     * // Get one WorkOrderMechanic
+     * const workOrderMechanic = await prisma.workOrderMechanic.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends WorkOrderMechanicFindUniqueArgs>(args: SelectSubset<T, WorkOrderMechanicFindUniqueArgs<ExtArgs>>): Prisma__WorkOrderMechanicClient<$Result.GetResult<Prisma.$WorkOrderMechanicPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one WorkOrderMechanic that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {WorkOrderMechanicFindUniqueOrThrowArgs} args - Arguments to find a WorkOrderMechanic
+     * @example
+     * // Get one WorkOrderMechanic
+     * const workOrderMechanic = await prisma.workOrderMechanic.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends WorkOrderMechanicFindUniqueOrThrowArgs>(args: SelectSubset<T, WorkOrderMechanicFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WorkOrderMechanicClient<$Result.GetResult<Prisma.$WorkOrderMechanicPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WorkOrderMechanic that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkOrderMechanicFindFirstArgs} args - Arguments to find a WorkOrderMechanic
+     * @example
+     * // Get one WorkOrderMechanic
+     * const workOrderMechanic = await prisma.workOrderMechanic.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends WorkOrderMechanicFindFirstArgs>(args?: SelectSubset<T, WorkOrderMechanicFindFirstArgs<ExtArgs>>): Prisma__WorkOrderMechanicClient<$Result.GetResult<Prisma.$WorkOrderMechanicPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WorkOrderMechanic that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkOrderMechanicFindFirstOrThrowArgs} args - Arguments to find a WorkOrderMechanic
+     * @example
+     * // Get one WorkOrderMechanic
+     * const workOrderMechanic = await prisma.workOrderMechanic.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends WorkOrderMechanicFindFirstOrThrowArgs>(args?: SelectSubset<T, WorkOrderMechanicFindFirstOrThrowArgs<ExtArgs>>): Prisma__WorkOrderMechanicClient<$Result.GetResult<Prisma.$WorkOrderMechanicPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more WorkOrderMechanics that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkOrderMechanicFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all WorkOrderMechanics
+     * const workOrderMechanics = await prisma.workOrderMechanic.findMany()
+     * 
+     * // Get first 10 WorkOrderMechanics
+     * const workOrderMechanics = await prisma.workOrderMechanic.findMany({ take: 10 })
+     * 
+     * // Only select the `workOrderId`
+     * const workOrderMechanicWithWorkOrderIdOnly = await prisma.workOrderMechanic.findMany({ select: { workOrderId: true } })
+     * 
+     */
+    findMany<T extends WorkOrderMechanicFindManyArgs>(args?: SelectSubset<T, WorkOrderMechanicFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkOrderMechanicPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a WorkOrderMechanic.
+     * @param {WorkOrderMechanicCreateArgs} args - Arguments to create a WorkOrderMechanic.
+     * @example
+     * // Create one WorkOrderMechanic
+     * const WorkOrderMechanic = await prisma.workOrderMechanic.create({
+     *   data: {
+     *     // ... data to create a WorkOrderMechanic
+     *   }
+     * })
+     * 
+     */
+    create<T extends WorkOrderMechanicCreateArgs>(args: SelectSubset<T, WorkOrderMechanicCreateArgs<ExtArgs>>): Prisma__WorkOrderMechanicClient<$Result.GetResult<Prisma.$WorkOrderMechanicPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many WorkOrderMechanics.
+     * @param {WorkOrderMechanicCreateManyArgs} args - Arguments to create many WorkOrderMechanics.
+     * @example
+     * // Create many WorkOrderMechanics
+     * const workOrderMechanic = await prisma.workOrderMechanic.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends WorkOrderMechanicCreateManyArgs>(args?: SelectSubset<T, WorkOrderMechanicCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a WorkOrderMechanic.
+     * @param {WorkOrderMechanicDeleteArgs} args - Arguments to delete one WorkOrderMechanic.
+     * @example
+     * // Delete one WorkOrderMechanic
+     * const WorkOrderMechanic = await prisma.workOrderMechanic.delete({
+     *   where: {
+     *     // ... filter to delete one WorkOrderMechanic
+     *   }
+     * })
+     * 
+     */
+    delete<T extends WorkOrderMechanicDeleteArgs>(args: SelectSubset<T, WorkOrderMechanicDeleteArgs<ExtArgs>>): Prisma__WorkOrderMechanicClient<$Result.GetResult<Prisma.$WorkOrderMechanicPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one WorkOrderMechanic.
+     * @param {WorkOrderMechanicUpdateArgs} args - Arguments to update one WorkOrderMechanic.
+     * @example
+     * // Update one WorkOrderMechanic
+     * const workOrderMechanic = await prisma.workOrderMechanic.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends WorkOrderMechanicUpdateArgs>(args: SelectSubset<T, WorkOrderMechanicUpdateArgs<ExtArgs>>): Prisma__WorkOrderMechanicClient<$Result.GetResult<Prisma.$WorkOrderMechanicPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more WorkOrderMechanics.
+     * @param {WorkOrderMechanicDeleteManyArgs} args - Arguments to filter WorkOrderMechanics to delete.
+     * @example
+     * // Delete a few WorkOrderMechanics
+     * const { count } = await prisma.workOrderMechanic.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends WorkOrderMechanicDeleteManyArgs>(args?: SelectSubset<T, WorkOrderMechanicDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more WorkOrderMechanics.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkOrderMechanicUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many WorkOrderMechanics
+     * const workOrderMechanic = await prisma.workOrderMechanic.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends WorkOrderMechanicUpdateManyArgs>(args: SelectSubset<T, WorkOrderMechanicUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one WorkOrderMechanic.
+     * @param {WorkOrderMechanicUpsertArgs} args - Arguments to update or create a WorkOrderMechanic.
+     * @example
+     * // Update or create a WorkOrderMechanic
+     * const workOrderMechanic = await prisma.workOrderMechanic.upsert({
+     *   create: {
+     *     // ... data to create a WorkOrderMechanic
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the WorkOrderMechanic we want to update
+     *   }
+     * })
+     */
+    upsert<T extends WorkOrderMechanicUpsertArgs>(args: SelectSubset<T, WorkOrderMechanicUpsertArgs<ExtArgs>>): Prisma__WorkOrderMechanicClient<$Result.GetResult<Prisma.$WorkOrderMechanicPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of WorkOrderMechanics.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkOrderMechanicCountArgs} args - Arguments to filter WorkOrderMechanics to count.
+     * @example
+     * // Count the number of WorkOrderMechanics
+     * const count = await prisma.workOrderMechanic.count({
+     *   where: {
+     *     // ... the filter for the WorkOrderMechanics we want to count
+     *   }
+     * })
+    **/
+    count<T extends WorkOrderMechanicCountArgs>(
+      args?: Subset<T, WorkOrderMechanicCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WorkOrderMechanicCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a WorkOrderMechanic.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkOrderMechanicAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends WorkOrderMechanicAggregateArgs>(args: Subset<T, WorkOrderMechanicAggregateArgs>): Prisma.PrismaPromise<GetWorkOrderMechanicAggregateType<T>>
+
+    /**
+     * Group by WorkOrderMechanic.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkOrderMechanicGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends WorkOrderMechanicGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WorkOrderMechanicGroupByArgs['orderBy'] }
+        : { orderBy?: WorkOrderMechanicGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, WorkOrderMechanicGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWorkOrderMechanicGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the WorkOrderMechanic model
+   */
+  readonly fields: WorkOrderMechanicFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for WorkOrderMechanic.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__WorkOrderMechanicClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    workOrder<T extends WorkOrderDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WorkOrderDefaultArgs<ExtArgs>>): Prisma__WorkOrderClient<$Result.GetResult<Prisma.$WorkOrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the WorkOrderMechanic model
+   */
+  interface WorkOrderMechanicFieldRefs {
+    readonly workOrderId: FieldRef<"WorkOrderMechanic", 'String'>
+    readonly userId: FieldRef<"WorkOrderMechanic", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * WorkOrderMechanic findUnique
+   */
+  export type WorkOrderMechanicFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderMechanic
+     */
+    select?: WorkOrderMechanicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrderMechanic
+     */
+    omit?: WorkOrderMechanicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderMechanicInclude<ExtArgs> | null
+    /**
+     * Filter, which WorkOrderMechanic to fetch.
+     */
+    where: WorkOrderMechanicWhereUniqueInput
+  }
+
+  /**
+   * WorkOrderMechanic findUniqueOrThrow
+   */
+  export type WorkOrderMechanicFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderMechanic
+     */
+    select?: WorkOrderMechanicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrderMechanic
+     */
+    omit?: WorkOrderMechanicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderMechanicInclude<ExtArgs> | null
+    /**
+     * Filter, which WorkOrderMechanic to fetch.
+     */
+    where: WorkOrderMechanicWhereUniqueInput
+  }
+
+  /**
+   * WorkOrderMechanic findFirst
+   */
+  export type WorkOrderMechanicFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderMechanic
+     */
+    select?: WorkOrderMechanicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrderMechanic
+     */
+    omit?: WorkOrderMechanicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderMechanicInclude<ExtArgs> | null
+    /**
+     * Filter, which WorkOrderMechanic to fetch.
+     */
+    where?: WorkOrderMechanicWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WorkOrderMechanics to fetch.
+     */
+    orderBy?: WorkOrderMechanicOrderByWithRelationInput | WorkOrderMechanicOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WorkOrderMechanics.
+     */
+    cursor?: WorkOrderMechanicWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WorkOrderMechanics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WorkOrderMechanics.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WorkOrderMechanics.
+     */
+    distinct?: WorkOrderMechanicScalarFieldEnum | WorkOrderMechanicScalarFieldEnum[]
+  }
+
+  /**
+   * WorkOrderMechanic findFirstOrThrow
+   */
+  export type WorkOrderMechanicFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderMechanic
+     */
+    select?: WorkOrderMechanicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrderMechanic
+     */
+    omit?: WorkOrderMechanicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderMechanicInclude<ExtArgs> | null
+    /**
+     * Filter, which WorkOrderMechanic to fetch.
+     */
+    where?: WorkOrderMechanicWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WorkOrderMechanics to fetch.
+     */
+    orderBy?: WorkOrderMechanicOrderByWithRelationInput | WorkOrderMechanicOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WorkOrderMechanics.
+     */
+    cursor?: WorkOrderMechanicWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WorkOrderMechanics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WorkOrderMechanics.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WorkOrderMechanics.
+     */
+    distinct?: WorkOrderMechanicScalarFieldEnum | WorkOrderMechanicScalarFieldEnum[]
+  }
+
+  /**
+   * WorkOrderMechanic findMany
+   */
+  export type WorkOrderMechanicFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderMechanic
+     */
+    select?: WorkOrderMechanicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrderMechanic
+     */
+    omit?: WorkOrderMechanicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderMechanicInclude<ExtArgs> | null
+    /**
+     * Filter, which WorkOrderMechanics to fetch.
+     */
+    where?: WorkOrderMechanicWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WorkOrderMechanics to fetch.
+     */
+    orderBy?: WorkOrderMechanicOrderByWithRelationInput | WorkOrderMechanicOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing WorkOrderMechanics.
+     */
+    cursor?: WorkOrderMechanicWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WorkOrderMechanics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WorkOrderMechanics.
+     */
+    skip?: number
+    distinct?: WorkOrderMechanicScalarFieldEnum | WorkOrderMechanicScalarFieldEnum[]
+  }
+
+  /**
+   * WorkOrderMechanic create
+   */
+  export type WorkOrderMechanicCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderMechanic
+     */
+    select?: WorkOrderMechanicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrderMechanic
+     */
+    omit?: WorkOrderMechanicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderMechanicInclude<ExtArgs> | null
+    /**
+     * The data needed to create a WorkOrderMechanic.
+     */
+    data: XOR<WorkOrderMechanicCreateInput, WorkOrderMechanicUncheckedCreateInput>
+  }
+
+  /**
+   * WorkOrderMechanic createMany
+   */
+  export type WorkOrderMechanicCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many WorkOrderMechanics.
+     */
+    data: WorkOrderMechanicCreateManyInput | WorkOrderMechanicCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * WorkOrderMechanic update
+   */
+  export type WorkOrderMechanicUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderMechanic
+     */
+    select?: WorkOrderMechanicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrderMechanic
+     */
+    omit?: WorkOrderMechanicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderMechanicInclude<ExtArgs> | null
+    /**
+     * The data needed to update a WorkOrderMechanic.
+     */
+    data: XOR<WorkOrderMechanicUpdateInput, WorkOrderMechanicUncheckedUpdateInput>
+    /**
+     * Choose, which WorkOrderMechanic to update.
+     */
+    where: WorkOrderMechanicWhereUniqueInput
+  }
+
+  /**
+   * WorkOrderMechanic updateMany
+   */
+  export type WorkOrderMechanicUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update WorkOrderMechanics.
+     */
+    data: XOR<WorkOrderMechanicUpdateManyMutationInput, WorkOrderMechanicUncheckedUpdateManyInput>
+    /**
+     * Filter which WorkOrderMechanics to update
+     */
+    where?: WorkOrderMechanicWhereInput
+    /**
+     * Limit how many WorkOrderMechanics to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * WorkOrderMechanic upsert
+   */
+  export type WorkOrderMechanicUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderMechanic
+     */
+    select?: WorkOrderMechanicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrderMechanic
+     */
+    omit?: WorkOrderMechanicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderMechanicInclude<ExtArgs> | null
+    /**
+     * The filter to search for the WorkOrderMechanic to update in case it exists.
+     */
+    where: WorkOrderMechanicWhereUniqueInput
+    /**
+     * In case the WorkOrderMechanic found by the `where` argument doesn't exist, create a new WorkOrderMechanic with this data.
+     */
+    create: XOR<WorkOrderMechanicCreateInput, WorkOrderMechanicUncheckedCreateInput>
+    /**
+     * In case the WorkOrderMechanic was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<WorkOrderMechanicUpdateInput, WorkOrderMechanicUncheckedUpdateInput>
+  }
+
+  /**
+   * WorkOrderMechanic delete
+   */
+  export type WorkOrderMechanicDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderMechanic
+     */
+    select?: WorkOrderMechanicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrderMechanic
+     */
+    omit?: WorkOrderMechanicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderMechanicInclude<ExtArgs> | null
+    /**
+     * Filter which WorkOrderMechanic to delete.
+     */
+    where: WorkOrderMechanicWhereUniqueInput
+  }
+
+  /**
+   * WorkOrderMechanic deleteMany
+   */
+  export type WorkOrderMechanicDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WorkOrderMechanics to delete
+     */
+    where?: WorkOrderMechanicWhereInput
+    /**
+     * Limit how many WorkOrderMechanics to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * WorkOrderMechanic without action
+   */
+  export type WorkOrderMechanicDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderMechanic
+     */
+    select?: WorkOrderMechanicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrderMechanic
+     */
+    omit?: WorkOrderMechanicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderMechanicInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model WorkOrderItem
+   */
+
+  export type AggregateWorkOrderItem = {
+    _count: WorkOrderItemCountAggregateOutputType | null
+    _avg: WorkOrderItemAvgAggregateOutputType | null
+    _sum: WorkOrderItemSumAggregateOutputType | null
+    _min: WorkOrderItemMinAggregateOutputType | null
+    _max: WorkOrderItemMaxAggregateOutputType | null
+  }
+
+  export type WorkOrderItemAvgAggregateOutputType = {
+    qty: number | null
+    price: number | null
+  }
+
+  export type WorkOrderItemSumAggregateOutputType = {
+    qty: number | null
+    price: number | null
+  }
+
+  export type WorkOrderItemMinAggregateOutputType = {
+    id: string | null
+    workOrderId: string | null
+    type: $Enums.WorkOrderItemType | null
+    name: string | null
+    qty: number | null
+    price: number | null
+    sparepartId: string | null
+    oilId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type WorkOrderItemMaxAggregateOutputType = {
+    id: string | null
+    workOrderId: string | null
+    type: $Enums.WorkOrderItemType | null
+    name: string | null
+    qty: number | null
+    price: number | null
+    sparepartId: string | null
+    oilId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type WorkOrderItemCountAggregateOutputType = {
+    id: number
+    workOrderId: number
+    type: number
+    name: number
+    qty: number
+    price: number
+    sparepartId: number
+    oilId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type WorkOrderItemAvgAggregateInputType = {
+    qty?: true
+    price?: true
+  }
+
+  export type WorkOrderItemSumAggregateInputType = {
+    qty?: true
+    price?: true
+  }
+
+  export type WorkOrderItemMinAggregateInputType = {
+    id?: true
+    workOrderId?: true
+    type?: true
+    name?: true
+    qty?: true
+    price?: true
+    sparepartId?: true
+    oilId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type WorkOrderItemMaxAggregateInputType = {
+    id?: true
+    workOrderId?: true
+    type?: true
+    name?: true
+    qty?: true
+    price?: true
+    sparepartId?: true
+    oilId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type WorkOrderItemCountAggregateInputType = {
+    id?: true
+    workOrderId?: true
+    type?: true
+    name?: true
+    qty?: true
+    price?: true
+    sparepartId?: true
+    oilId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type WorkOrderItemAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WorkOrderItem to aggregate.
+     */
+    where?: WorkOrderItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WorkOrderItems to fetch.
+     */
+    orderBy?: WorkOrderItemOrderByWithRelationInput | WorkOrderItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: WorkOrderItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WorkOrderItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WorkOrderItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned WorkOrderItems
+    **/
+    _count?: true | WorkOrderItemCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: WorkOrderItemAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: WorkOrderItemSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: WorkOrderItemMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: WorkOrderItemMaxAggregateInputType
+  }
+
+  export type GetWorkOrderItemAggregateType<T extends WorkOrderItemAggregateArgs> = {
+        [P in keyof T & keyof AggregateWorkOrderItem]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWorkOrderItem[P]>
+      : GetScalarType<T[P], AggregateWorkOrderItem[P]>
+  }
+
+
+
+
+  export type WorkOrderItemGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WorkOrderItemWhereInput
+    orderBy?: WorkOrderItemOrderByWithAggregationInput | WorkOrderItemOrderByWithAggregationInput[]
+    by: WorkOrderItemScalarFieldEnum[] | WorkOrderItemScalarFieldEnum
+    having?: WorkOrderItemScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WorkOrderItemCountAggregateInputType | true
+    _avg?: WorkOrderItemAvgAggregateInputType
+    _sum?: WorkOrderItemSumAggregateInputType
+    _min?: WorkOrderItemMinAggregateInputType
+    _max?: WorkOrderItemMaxAggregateInputType
+  }
+
+  export type WorkOrderItemGroupByOutputType = {
+    id: string
+    workOrderId: string
+    type: $Enums.WorkOrderItemType
+    name: string
+    qty: number
+    price: number
+    sparepartId: string | null
+    oilId: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: WorkOrderItemCountAggregateOutputType | null
+    _avg: WorkOrderItemAvgAggregateOutputType | null
+    _sum: WorkOrderItemSumAggregateOutputType | null
+    _min: WorkOrderItemMinAggregateOutputType | null
+    _max: WorkOrderItemMaxAggregateOutputType | null
+  }
+
+  type GetWorkOrderItemGroupByPayload<T extends WorkOrderItemGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<WorkOrderItemGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof WorkOrderItemGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WorkOrderItemGroupByOutputType[P]>
+            : GetScalarType<T[P], WorkOrderItemGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type WorkOrderItemSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    workOrderId?: boolean
+    type?: boolean
+    name?: boolean
+    qty?: boolean
+    price?: boolean
+    sparepartId?: boolean
+    oilId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    workOrder?: boolean | WorkOrderDefaultArgs<ExtArgs>
+    sparepart?: boolean | WorkOrderItem$sparepartArgs<ExtArgs>
+    oil?: boolean | WorkOrderItem$oilArgs<ExtArgs>
+  }, ExtArgs["result"]["workOrderItem"]>
+
+
+
+  export type WorkOrderItemSelectScalar = {
+    id?: boolean
+    workOrderId?: boolean
+    type?: boolean
+    name?: boolean
+    qty?: boolean
+    price?: boolean
+    sparepartId?: boolean
+    oilId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type WorkOrderItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "workOrderId" | "type" | "name" | "qty" | "price" | "sparepartId" | "oilId" | "createdAt" | "updatedAt", ExtArgs["result"]["workOrderItem"]>
+  export type WorkOrderItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    workOrder?: boolean | WorkOrderDefaultArgs<ExtArgs>
+    sparepart?: boolean | WorkOrderItem$sparepartArgs<ExtArgs>
+    oil?: boolean | WorkOrderItem$oilArgs<ExtArgs>
+  }
+
+  export type $WorkOrderItemPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "WorkOrderItem"
+    objects: {
+      workOrder: Prisma.$WorkOrderPayload<ExtArgs>
+      sparepart: Prisma.$SparepartPayload<ExtArgs> | null
+      oil: Prisma.$OilPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      workOrderId: string
+      type: $Enums.WorkOrderItemType
+      name: string
+      qty: number
+      price: number
+      sparepartId: string | null
+      oilId: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["workOrderItem"]>
+    composites: {}
+  }
+
+  type WorkOrderItemGetPayload<S extends boolean | null | undefined | WorkOrderItemDefaultArgs> = $Result.GetResult<Prisma.$WorkOrderItemPayload, S>
+
+  type WorkOrderItemCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<WorkOrderItemFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: WorkOrderItemCountAggregateInputType | true
+    }
+
+  export interface WorkOrderItemDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['WorkOrderItem'], meta: { name: 'WorkOrderItem' } }
+    /**
+     * Find zero or one WorkOrderItem that matches the filter.
+     * @param {WorkOrderItemFindUniqueArgs} args - Arguments to find a WorkOrderItem
+     * @example
+     * // Get one WorkOrderItem
+     * const workOrderItem = await prisma.workOrderItem.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends WorkOrderItemFindUniqueArgs>(args: SelectSubset<T, WorkOrderItemFindUniqueArgs<ExtArgs>>): Prisma__WorkOrderItemClient<$Result.GetResult<Prisma.$WorkOrderItemPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one WorkOrderItem that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {WorkOrderItemFindUniqueOrThrowArgs} args - Arguments to find a WorkOrderItem
+     * @example
+     * // Get one WorkOrderItem
+     * const workOrderItem = await prisma.workOrderItem.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends WorkOrderItemFindUniqueOrThrowArgs>(args: SelectSubset<T, WorkOrderItemFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WorkOrderItemClient<$Result.GetResult<Prisma.$WorkOrderItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WorkOrderItem that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkOrderItemFindFirstArgs} args - Arguments to find a WorkOrderItem
+     * @example
+     * // Get one WorkOrderItem
+     * const workOrderItem = await prisma.workOrderItem.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends WorkOrderItemFindFirstArgs>(args?: SelectSubset<T, WorkOrderItemFindFirstArgs<ExtArgs>>): Prisma__WorkOrderItemClient<$Result.GetResult<Prisma.$WorkOrderItemPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WorkOrderItem that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkOrderItemFindFirstOrThrowArgs} args - Arguments to find a WorkOrderItem
+     * @example
+     * // Get one WorkOrderItem
+     * const workOrderItem = await prisma.workOrderItem.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends WorkOrderItemFindFirstOrThrowArgs>(args?: SelectSubset<T, WorkOrderItemFindFirstOrThrowArgs<ExtArgs>>): Prisma__WorkOrderItemClient<$Result.GetResult<Prisma.$WorkOrderItemPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more WorkOrderItems that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkOrderItemFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all WorkOrderItems
+     * const workOrderItems = await prisma.workOrderItem.findMany()
+     * 
+     * // Get first 10 WorkOrderItems
+     * const workOrderItems = await prisma.workOrderItem.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const workOrderItemWithIdOnly = await prisma.workOrderItem.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends WorkOrderItemFindManyArgs>(args?: SelectSubset<T, WorkOrderItemFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkOrderItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a WorkOrderItem.
+     * @param {WorkOrderItemCreateArgs} args - Arguments to create a WorkOrderItem.
+     * @example
+     * // Create one WorkOrderItem
+     * const WorkOrderItem = await prisma.workOrderItem.create({
+     *   data: {
+     *     // ... data to create a WorkOrderItem
+     *   }
+     * })
+     * 
+     */
+    create<T extends WorkOrderItemCreateArgs>(args: SelectSubset<T, WorkOrderItemCreateArgs<ExtArgs>>): Prisma__WorkOrderItemClient<$Result.GetResult<Prisma.$WorkOrderItemPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many WorkOrderItems.
+     * @param {WorkOrderItemCreateManyArgs} args - Arguments to create many WorkOrderItems.
+     * @example
+     * // Create many WorkOrderItems
+     * const workOrderItem = await prisma.workOrderItem.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends WorkOrderItemCreateManyArgs>(args?: SelectSubset<T, WorkOrderItemCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a WorkOrderItem.
+     * @param {WorkOrderItemDeleteArgs} args - Arguments to delete one WorkOrderItem.
+     * @example
+     * // Delete one WorkOrderItem
+     * const WorkOrderItem = await prisma.workOrderItem.delete({
+     *   where: {
+     *     // ... filter to delete one WorkOrderItem
+     *   }
+     * })
+     * 
+     */
+    delete<T extends WorkOrderItemDeleteArgs>(args: SelectSubset<T, WorkOrderItemDeleteArgs<ExtArgs>>): Prisma__WorkOrderItemClient<$Result.GetResult<Prisma.$WorkOrderItemPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one WorkOrderItem.
+     * @param {WorkOrderItemUpdateArgs} args - Arguments to update one WorkOrderItem.
+     * @example
+     * // Update one WorkOrderItem
+     * const workOrderItem = await prisma.workOrderItem.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends WorkOrderItemUpdateArgs>(args: SelectSubset<T, WorkOrderItemUpdateArgs<ExtArgs>>): Prisma__WorkOrderItemClient<$Result.GetResult<Prisma.$WorkOrderItemPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more WorkOrderItems.
+     * @param {WorkOrderItemDeleteManyArgs} args - Arguments to filter WorkOrderItems to delete.
+     * @example
+     * // Delete a few WorkOrderItems
+     * const { count } = await prisma.workOrderItem.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends WorkOrderItemDeleteManyArgs>(args?: SelectSubset<T, WorkOrderItemDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more WorkOrderItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkOrderItemUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many WorkOrderItems
+     * const workOrderItem = await prisma.workOrderItem.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends WorkOrderItemUpdateManyArgs>(args: SelectSubset<T, WorkOrderItemUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one WorkOrderItem.
+     * @param {WorkOrderItemUpsertArgs} args - Arguments to update or create a WorkOrderItem.
+     * @example
+     * // Update or create a WorkOrderItem
+     * const workOrderItem = await prisma.workOrderItem.upsert({
+     *   create: {
+     *     // ... data to create a WorkOrderItem
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the WorkOrderItem we want to update
+     *   }
+     * })
+     */
+    upsert<T extends WorkOrderItemUpsertArgs>(args: SelectSubset<T, WorkOrderItemUpsertArgs<ExtArgs>>): Prisma__WorkOrderItemClient<$Result.GetResult<Prisma.$WorkOrderItemPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of WorkOrderItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkOrderItemCountArgs} args - Arguments to filter WorkOrderItems to count.
+     * @example
+     * // Count the number of WorkOrderItems
+     * const count = await prisma.workOrderItem.count({
+     *   where: {
+     *     // ... the filter for the WorkOrderItems we want to count
+     *   }
+     * })
+    **/
+    count<T extends WorkOrderItemCountArgs>(
+      args?: Subset<T, WorkOrderItemCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WorkOrderItemCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a WorkOrderItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkOrderItemAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends WorkOrderItemAggregateArgs>(args: Subset<T, WorkOrderItemAggregateArgs>): Prisma.PrismaPromise<GetWorkOrderItemAggregateType<T>>
+
+    /**
+     * Group by WorkOrderItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkOrderItemGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends WorkOrderItemGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WorkOrderItemGroupByArgs['orderBy'] }
+        : { orderBy?: WorkOrderItemGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, WorkOrderItemGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWorkOrderItemGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the WorkOrderItem model
+   */
+  readonly fields: WorkOrderItemFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for WorkOrderItem.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__WorkOrderItemClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    workOrder<T extends WorkOrderDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WorkOrderDefaultArgs<ExtArgs>>): Prisma__WorkOrderClient<$Result.GetResult<Prisma.$WorkOrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    sparepart<T extends WorkOrderItem$sparepartArgs<ExtArgs> = {}>(args?: Subset<T, WorkOrderItem$sparepartArgs<ExtArgs>>): Prisma__SparepartClient<$Result.GetResult<Prisma.$SparepartPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    oil<T extends WorkOrderItem$oilArgs<ExtArgs> = {}>(args?: Subset<T, WorkOrderItem$oilArgs<ExtArgs>>): Prisma__OilClient<$Result.GetResult<Prisma.$OilPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the WorkOrderItem model
+   */
+  interface WorkOrderItemFieldRefs {
+    readonly id: FieldRef<"WorkOrderItem", 'String'>
+    readonly workOrderId: FieldRef<"WorkOrderItem", 'String'>
+    readonly type: FieldRef<"WorkOrderItem", 'WorkOrderItemType'>
+    readonly name: FieldRef<"WorkOrderItem", 'String'>
+    readonly qty: FieldRef<"WorkOrderItem", 'Int'>
+    readonly price: FieldRef<"WorkOrderItem", 'Int'>
+    readonly sparepartId: FieldRef<"WorkOrderItem", 'String'>
+    readonly oilId: FieldRef<"WorkOrderItem", 'String'>
+    readonly createdAt: FieldRef<"WorkOrderItem", 'DateTime'>
+    readonly updatedAt: FieldRef<"WorkOrderItem", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * WorkOrderItem findUnique
+   */
+  export type WorkOrderItemFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderItem
+     */
+    select?: WorkOrderItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrderItem
+     */
+    omit?: WorkOrderItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderItemInclude<ExtArgs> | null
+    /**
+     * Filter, which WorkOrderItem to fetch.
+     */
+    where: WorkOrderItemWhereUniqueInput
+  }
+
+  /**
+   * WorkOrderItem findUniqueOrThrow
+   */
+  export type WorkOrderItemFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderItem
+     */
+    select?: WorkOrderItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrderItem
+     */
+    omit?: WorkOrderItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderItemInclude<ExtArgs> | null
+    /**
+     * Filter, which WorkOrderItem to fetch.
+     */
+    where: WorkOrderItemWhereUniqueInput
+  }
+
+  /**
+   * WorkOrderItem findFirst
+   */
+  export type WorkOrderItemFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderItem
+     */
+    select?: WorkOrderItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrderItem
+     */
+    omit?: WorkOrderItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderItemInclude<ExtArgs> | null
+    /**
+     * Filter, which WorkOrderItem to fetch.
+     */
+    where?: WorkOrderItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WorkOrderItems to fetch.
+     */
+    orderBy?: WorkOrderItemOrderByWithRelationInput | WorkOrderItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WorkOrderItems.
+     */
+    cursor?: WorkOrderItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WorkOrderItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WorkOrderItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WorkOrderItems.
+     */
+    distinct?: WorkOrderItemScalarFieldEnum | WorkOrderItemScalarFieldEnum[]
+  }
+
+  /**
+   * WorkOrderItem findFirstOrThrow
+   */
+  export type WorkOrderItemFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderItem
+     */
+    select?: WorkOrderItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrderItem
+     */
+    omit?: WorkOrderItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderItemInclude<ExtArgs> | null
+    /**
+     * Filter, which WorkOrderItem to fetch.
+     */
+    where?: WorkOrderItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WorkOrderItems to fetch.
+     */
+    orderBy?: WorkOrderItemOrderByWithRelationInput | WorkOrderItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WorkOrderItems.
+     */
+    cursor?: WorkOrderItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WorkOrderItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WorkOrderItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WorkOrderItems.
+     */
+    distinct?: WorkOrderItemScalarFieldEnum | WorkOrderItemScalarFieldEnum[]
+  }
+
+  /**
+   * WorkOrderItem findMany
+   */
+  export type WorkOrderItemFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderItem
+     */
+    select?: WorkOrderItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrderItem
+     */
+    omit?: WorkOrderItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderItemInclude<ExtArgs> | null
+    /**
+     * Filter, which WorkOrderItems to fetch.
+     */
+    where?: WorkOrderItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WorkOrderItems to fetch.
+     */
+    orderBy?: WorkOrderItemOrderByWithRelationInput | WorkOrderItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing WorkOrderItems.
+     */
+    cursor?: WorkOrderItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WorkOrderItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WorkOrderItems.
+     */
+    skip?: number
+    distinct?: WorkOrderItemScalarFieldEnum | WorkOrderItemScalarFieldEnum[]
+  }
+
+  /**
+   * WorkOrderItem create
+   */
+  export type WorkOrderItemCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderItem
+     */
+    select?: WorkOrderItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrderItem
+     */
+    omit?: WorkOrderItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderItemInclude<ExtArgs> | null
+    /**
+     * The data needed to create a WorkOrderItem.
+     */
+    data: XOR<WorkOrderItemCreateInput, WorkOrderItemUncheckedCreateInput>
+  }
+
+  /**
+   * WorkOrderItem createMany
+   */
+  export type WorkOrderItemCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many WorkOrderItems.
+     */
+    data: WorkOrderItemCreateManyInput | WorkOrderItemCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * WorkOrderItem update
+   */
+  export type WorkOrderItemUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderItem
+     */
+    select?: WorkOrderItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrderItem
+     */
+    omit?: WorkOrderItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderItemInclude<ExtArgs> | null
+    /**
+     * The data needed to update a WorkOrderItem.
+     */
+    data: XOR<WorkOrderItemUpdateInput, WorkOrderItemUncheckedUpdateInput>
+    /**
+     * Choose, which WorkOrderItem to update.
+     */
+    where: WorkOrderItemWhereUniqueInput
+  }
+
+  /**
+   * WorkOrderItem updateMany
+   */
+  export type WorkOrderItemUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update WorkOrderItems.
+     */
+    data: XOR<WorkOrderItemUpdateManyMutationInput, WorkOrderItemUncheckedUpdateManyInput>
+    /**
+     * Filter which WorkOrderItems to update
+     */
+    where?: WorkOrderItemWhereInput
+    /**
+     * Limit how many WorkOrderItems to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * WorkOrderItem upsert
+   */
+  export type WorkOrderItemUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderItem
+     */
+    select?: WorkOrderItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrderItem
+     */
+    omit?: WorkOrderItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderItemInclude<ExtArgs> | null
+    /**
+     * The filter to search for the WorkOrderItem to update in case it exists.
+     */
+    where: WorkOrderItemWhereUniqueInput
+    /**
+     * In case the WorkOrderItem found by the `where` argument doesn't exist, create a new WorkOrderItem with this data.
+     */
+    create: XOR<WorkOrderItemCreateInput, WorkOrderItemUncheckedCreateInput>
+    /**
+     * In case the WorkOrderItem was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<WorkOrderItemUpdateInput, WorkOrderItemUncheckedUpdateInput>
+  }
+
+  /**
+   * WorkOrderItem delete
+   */
+  export type WorkOrderItemDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderItem
+     */
+    select?: WorkOrderItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrderItem
+     */
+    omit?: WorkOrderItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderItemInclude<ExtArgs> | null
+    /**
+     * Filter which WorkOrderItem to delete.
+     */
+    where: WorkOrderItemWhereUniqueInput
+  }
+
+  /**
+   * WorkOrderItem deleteMany
+   */
+  export type WorkOrderItemDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WorkOrderItems to delete
+     */
+    where?: WorkOrderItemWhereInput
+    /**
+     * Limit how many WorkOrderItems to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * WorkOrderItem.sparepart
+   */
+  export type WorkOrderItem$sparepartArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Sparepart
+     */
+    select?: SparepartSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Sparepart
+     */
+    omit?: SparepartOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SparepartInclude<ExtArgs> | null
+    where?: SparepartWhereInput
+  }
+
+  /**
+   * WorkOrderItem.oil
+   */
+  export type WorkOrderItem$oilArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Oil
+     */
+    select?: OilSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Oil
+     */
+    omit?: OilOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OilInclude<ExtArgs> | null
+    where?: OilWhereInput
+  }
+
+  /**
+   * WorkOrderItem without action
+   */
+  export type WorkOrderItemDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderItem
+     */
+    select?: WorkOrderItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrderItem
+     */
+    omit?: WorkOrderItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderItemInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Sparepart
+   */
+
+  export type AggregateSparepart = {
+    _count: SparepartCountAggregateOutputType | null
+    _avg: SparepartAvgAggregateOutputType | null
+    _sum: SparepartSumAggregateOutputType | null
+    _min: SparepartMinAggregateOutputType | null
+    _max: SparepartMaxAggregateOutputType | null
+  }
+
+  export type SparepartAvgAggregateOutputType = {
+    price: number | null
+  }
+
+  export type SparepartSumAggregateOutputType = {
+    price: number | null
+  }
+
+  export type SparepartMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    brand: string | null
+    price: number | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SparepartMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    brand: string | null
+    price: number | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SparepartCountAggregateOutputType = {
+    id: number
+    name: number
+    brand: number
+    price: number
+    isActive: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type SparepartAvgAggregateInputType = {
+    price?: true
+  }
+
+  export type SparepartSumAggregateInputType = {
+    price?: true
+  }
+
+  export type SparepartMinAggregateInputType = {
+    id?: true
+    name?: true
+    brand?: true
+    price?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SparepartMaxAggregateInputType = {
+    id?: true
+    name?: true
+    brand?: true
+    price?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SparepartCountAggregateInputType = {
+    id?: true
+    name?: true
+    brand?: true
+    price?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type SparepartAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Sparepart to aggregate.
+     */
+    where?: SparepartWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Spareparts to fetch.
+     */
+    orderBy?: SparepartOrderByWithRelationInput | SparepartOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SparepartWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Spareparts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Spareparts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Spareparts
+    **/
+    _count?: true | SparepartCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SparepartAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SparepartSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SparepartMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SparepartMaxAggregateInputType
+  }
+
+  export type GetSparepartAggregateType<T extends SparepartAggregateArgs> = {
+        [P in keyof T & keyof AggregateSparepart]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSparepart[P]>
+      : GetScalarType<T[P], AggregateSparepart[P]>
+  }
+
+
+
+
+  export type SparepartGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SparepartWhereInput
+    orderBy?: SparepartOrderByWithAggregationInput | SparepartOrderByWithAggregationInput[]
+    by: SparepartScalarFieldEnum[] | SparepartScalarFieldEnum
+    having?: SparepartScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SparepartCountAggregateInputType | true
+    _avg?: SparepartAvgAggregateInputType
+    _sum?: SparepartSumAggregateInputType
+    _min?: SparepartMinAggregateInputType
+    _max?: SparepartMaxAggregateInputType
+  }
+
+  export type SparepartGroupByOutputType = {
+    id: string
+    name: string
+    brand: string
+    price: number
+    isActive: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: SparepartCountAggregateOutputType | null
+    _avg: SparepartAvgAggregateOutputType | null
+    _sum: SparepartSumAggregateOutputType | null
+    _min: SparepartMinAggregateOutputType | null
+    _max: SparepartMaxAggregateOutputType | null
+  }
+
+  type GetSparepartGroupByPayload<T extends SparepartGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SparepartGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SparepartGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SparepartGroupByOutputType[P]>
+            : GetScalarType<T[P], SparepartGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SparepartSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    brand?: boolean
+    price?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    workOrderItems?: boolean | Sparepart$workOrderItemsArgs<ExtArgs>
+    _count?: boolean | SparepartCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["sparepart"]>
+
+
+
+  export type SparepartSelectScalar = {
+    id?: boolean
+    name?: boolean
+    brand?: boolean
+    price?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type SparepartOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "brand" | "price" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["sparepart"]>
+  export type SparepartInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    workOrderItems?: boolean | Sparepart$workOrderItemsArgs<ExtArgs>
+    _count?: boolean | SparepartCountOutputTypeDefaultArgs<ExtArgs>
+  }
+
+  export type $SparepartPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Sparepart"
+    objects: {
+      workOrderItems: Prisma.$WorkOrderItemPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      brand: string
+      price: number
+      isActive: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["sparepart"]>
+    composites: {}
+  }
+
+  type SparepartGetPayload<S extends boolean | null | undefined | SparepartDefaultArgs> = $Result.GetResult<Prisma.$SparepartPayload, S>
+
+  type SparepartCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SparepartFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SparepartCountAggregateInputType | true
+    }
+
+  export interface SparepartDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Sparepart'], meta: { name: 'Sparepart' } }
+    /**
+     * Find zero or one Sparepart that matches the filter.
+     * @param {SparepartFindUniqueArgs} args - Arguments to find a Sparepart
+     * @example
+     * // Get one Sparepart
+     * const sparepart = await prisma.sparepart.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SparepartFindUniqueArgs>(args: SelectSubset<T, SparepartFindUniqueArgs<ExtArgs>>): Prisma__SparepartClient<$Result.GetResult<Prisma.$SparepartPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Sparepart that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SparepartFindUniqueOrThrowArgs} args - Arguments to find a Sparepart
+     * @example
+     * // Get one Sparepart
+     * const sparepart = await prisma.sparepart.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SparepartFindUniqueOrThrowArgs>(args: SelectSubset<T, SparepartFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SparepartClient<$Result.GetResult<Prisma.$SparepartPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Sparepart that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SparepartFindFirstArgs} args - Arguments to find a Sparepart
+     * @example
+     * // Get one Sparepart
+     * const sparepart = await prisma.sparepart.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SparepartFindFirstArgs>(args?: SelectSubset<T, SparepartFindFirstArgs<ExtArgs>>): Prisma__SparepartClient<$Result.GetResult<Prisma.$SparepartPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Sparepart that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SparepartFindFirstOrThrowArgs} args - Arguments to find a Sparepart
+     * @example
+     * // Get one Sparepart
+     * const sparepart = await prisma.sparepart.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SparepartFindFirstOrThrowArgs>(args?: SelectSubset<T, SparepartFindFirstOrThrowArgs<ExtArgs>>): Prisma__SparepartClient<$Result.GetResult<Prisma.$SparepartPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Spareparts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SparepartFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Spareparts
+     * const spareparts = await prisma.sparepart.findMany()
+     * 
+     * // Get first 10 Spareparts
+     * const spareparts = await prisma.sparepart.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const sparepartWithIdOnly = await prisma.sparepart.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SparepartFindManyArgs>(args?: SelectSubset<T, SparepartFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SparepartPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Sparepart.
+     * @param {SparepartCreateArgs} args - Arguments to create a Sparepart.
+     * @example
+     * // Create one Sparepart
+     * const Sparepart = await prisma.sparepart.create({
+     *   data: {
+     *     // ... data to create a Sparepart
+     *   }
+     * })
+     * 
+     */
+    create<T extends SparepartCreateArgs>(args: SelectSubset<T, SparepartCreateArgs<ExtArgs>>): Prisma__SparepartClient<$Result.GetResult<Prisma.$SparepartPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Spareparts.
+     * @param {SparepartCreateManyArgs} args - Arguments to create many Spareparts.
+     * @example
+     * // Create many Spareparts
+     * const sparepart = await prisma.sparepart.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SparepartCreateManyArgs>(args?: SelectSubset<T, SparepartCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Sparepart.
+     * @param {SparepartDeleteArgs} args - Arguments to delete one Sparepart.
+     * @example
+     * // Delete one Sparepart
+     * const Sparepart = await prisma.sparepart.delete({
+     *   where: {
+     *     // ... filter to delete one Sparepart
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SparepartDeleteArgs>(args: SelectSubset<T, SparepartDeleteArgs<ExtArgs>>): Prisma__SparepartClient<$Result.GetResult<Prisma.$SparepartPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Sparepart.
+     * @param {SparepartUpdateArgs} args - Arguments to update one Sparepart.
+     * @example
+     * // Update one Sparepart
+     * const sparepart = await prisma.sparepart.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SparepartUpdateArgs>(args: SelectSubset<T, SparepartUpdateArgs<ExtArgs>>): Prisma__SparepartClient<$Result.GetResult<Prisma.$SparepartPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Spareparts.
+     * @param {SparepartDeleteManyArgs} args - Arguments to filter Spareparts to delete.
+     * @example
+     * // Delete a few Spareparts
+     * const { count } = await prisma.sparepart.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SparepartDeleteManyArgs>(args?: SelectSubset<T, SparepartDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Spareparts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SparepartUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Spareparts
+     * const sparepart = await prisma.sparepart.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SparepartUpdateManyArgs>(args: SelectSubset<T, SparepartUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Sparepart.
+     * @param {SparepartUpsertArgs} args - Arguments to update or create a Sparepart.
+     * @example
+     * // Update or create a Sparepart
+     * const sparepart = await prisma.sparepart.upsert({
+     *   create: {
+     *     // ... data to create a Sparepart
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Sparepart we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SparepartUpsertArgs>(args: SelectSubset<T, SparepartUpsertArgs<ExtArgs>>): Prisma__SparepartClient<$Result.GetResult<Prisma.$SparepartPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Spareparts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SparepartCountArgs} args - Arguments to filter Spareparts to count.
+     * @example
+     * // Count the number of Spareparts
+     * const count = await prisma.sparepart.count({
+     *   where: {
+     *     // ... the filter for the Spareparts we want to count
+     *   }
+     * })
+    **/
+    count<T extends SparepartCountArgs>(
+      args?: Subset<T, SparepartCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SparepartCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Sparepart.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SparepartAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SparepartAggregateArgs>(args: Subset<T, SparepartAggregateArgs>): Prisma.PrismaPromise<GetSparepartAggregateType<T>>
+
+    /**
+     * Group by Sparepart.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SparepartGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SparepartGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SparepartGroupByArgs['orderBy'] }
+        : { orderBy?: SparepartGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SparepartGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSparepartGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Sparepart model
+   */
+  readonly fields: SparepartFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Sparepart.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SparepartClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    workOrderItems<T extends Sparepart$workOrderItemsArgs<ExtArgs> = {}>(args?: Subset<T, Sparepart$workOrderItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkOrderItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Sparepart model
+   */
+  interface SparepartFieldRefs {
+    readonly id: FieldRef<"Sparepart", 'String'>
+    readonly name: FieldRef<"Sparepart", 'String'>
+    readonly brand: FieldRef<"Sparepart", 'String'>
+    readonly price: FieldRef<"Sparepart", 'Int'>
+    readonly isActive: FieldRef<"Sparepart", 'Boolean'>
+    readonly createdAt: FieldRef<"Sparepart", 'DateTime'>
+    readonly updatedAt: FieldRef<"Sparepart", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Sparepart findUnique
+   */
+  export type SparepartFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Sparepart
+     */
+    select?: SparepartSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Sparepart
+     */
+    omit?: SparepartOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SparepartInclude<ExtArgs> | null
+    /**
+     * Filter, which Sparepart to fetch.
+     */
+    where: SparepartWhereUniqueInput
+  }
+
+  /**
+   * Sparepart findUniqueOrThrow
+   */
+  export type SparepartFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Sparepart
+     */
+    select?: SparepartSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Sparepart
+     */
+    omit?: SparepartOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SparepartInclude<ExtArgs> | null
+    /**
+     * Filter, which Sparepart to fetch.
+     */
+    where: SparepartWhereUniqueInput
+  }
+
+  /**
+   * Sparepart findFirst
+   */
+  export type SparepartFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Sparepart
+     */
+    select?: SparepartSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Sparepart
+     */
+    omit?: SparepartOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SparepartInclude<ExtArgs> | null
+    /**
+     * Filter, which Sparepart to fetch.
+     */
+    where?: SparepartWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Spareparts to fetch.
+     */
+    orderBy?: SparepartOrderByWithRelationInput | SparepartOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Spareparts.
+     */
+    cursor?: SparepartWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Spareparts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Spareparts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Spareparts.
+     */
+    distinct?: SparepartScalarFieldEnum | SparepartScalarFieldEnum[]
+  }
+
+  /**
+   * Sparepart findFirstOrThrow
+   */
+  export type SparepartFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Sparepart
+     */
+    select?: SparepartSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Sparepart
+     */
+    omit?: SparepartOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SparepartInclude<ExtArgs> | null
+    /**
+     * Filter, which Sparepart to fetch.
+     */
+    where?: SparepartWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Spareparts to fetch.
+     */
+    orderBy?: SparepartOrderByWithRelationInput | SparepartOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Spareparts.
+     */
+    cursor?: SparepartWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Spareparts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Spareparts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Spareparts.
+     */
+    distinct?: SparepartScalarFieldEnum | SparepartScalarFieldEnum[]
+  }
+
+  /**
+   * Sparepart findMany
+   */
+  export type SparepartFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Sparepart
+     */
+    select?: SparepartSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Sparepart
+     */
+    omit?: SparepartOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SparepartInclude<ExtArgs> | null
+    /**
+     * Filter, which Spareparts to fetch.
+     */
+    where?: SparepartWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Spareparts to fetch.
+     */
+    orderBy?: SparepartOrderByWithRelationInput | SparepartOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Spareparts.
+     */
+    cursor?: SparepartWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Spareparts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Spareparts.
+     */
+    skip?: number
+    distinct?: SparepartScalarFieldEnum | SparepartScalarFieldEnum[]
+  }
+
+  /**
+   * Sparepart create
+   */
+  export type SparepartCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Sparepart
+     */
+    select?: SparepartSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Sparepart
+     */
+    omit?: SparepartOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SparepartInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Sparepart.
+     */
+    data: XOR<SparepartCreateInput, SparepartUncheckedCreateInput>
+  }
+
+  /**
+   * Sparepart createMany
+   */
+  export type SparepartCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Spareparts.
+     */
+    data: SparepartCreateManyInput | SparepartCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Sparepart update
+   */
+  export type SparepartUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Sparepart
+     */
+    select?: SparepartSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Sparepart
+     */
+    omit?: SparepartOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SparepartInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Sparepart.
+     */
+    data: XOR<SparepartUpdateInput, SparepartUncheckedUpdateInput>
+    /**
+     * Choose, which Sparepart to update.
+     */
+    where: SparepartWhereUniqueInput
+  }
+
+  /**
+   * Sparepart updateMany
+   */
+  export type SparepartUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Spareparts.
+     */
+    data: XOR<SparepartUpdateManyMutationInput, SparepartUncheckedUpdateManyInput>
+    /**
+     * Filter which Spareparts to update
+     */
+    where?: SparepartWhereInput
+    /**
+     * Limit how many Spareparts to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Sparepart upsert
+   */
+  export type SparepartUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Sparepart
+     */
+    select?: SparepartSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Sparepart
+     */
+    omit?: SparepartOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SparepartInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Sparepart to update in case it exists.
+     */
+    where: SparepartWhereUniqueInput
+    /**
+     * In case the Sparepart found by the `where` argument doesn't exist, create a new Sparepart with this data.
+     */
+    create: XOR<SparepartCreateInput, SparepartUncheckedCreateInput>
+    /**
+     * In case the Sparepart was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SparepartUpdateInput, SparepartUncheckedUpdateInput>
+  }
+
+  /**
+   * Sparepart delete
+   */
+  export type SparepartDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Sparepart
+     */
+    select?: SparepartSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Sparepart
+     */
+    omit?: SparepartOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SparepartInclude<ExtArgs> | null
+    /**
+     * Filter which Sparepart to delete.
+     */
+    where: SparepartWhereUniqueInput
+  }
+
+  /**
+   * Sparepart deleteMany
+   */
+  export type SparepartDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Spareparts to delete
+     */
+    where?: SparepartWhereInput
+    /**
+     * Limit how many Spareparts to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Sparepart.workOrderItems
+   */
+  export type Sparepart$workOrderItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderItem
+     */
+    select?: WorkOrderItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrderItem
+     */
+    omit?: WorkOrderItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderItemInclude<ExtArgs> | null
+    where?: WorkOrderItemWhereInput
+    orderBy?: WorkOrderItemOrderByWithRelationInput | WorkOrderItemOrderByWithRelationInput[]
+    cursor?: WorkOrderItemWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WorkOrderItemScalarFieldEnum | WorkOrderItemScalarFieldEnum[]
+  }
+
+  /**
+   * Sparepart without action
+   */
+  export type SparepartDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Sparepart
+     */
+    select?: SparepartSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Sparepart
+     */
+    omit?: SparepartOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SparepartInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Oil
+   */
+
+  export type AggregateOil = {
+    _count: OilCountAggregateOutputType | null
+    _avg: OilAvgAggregateOutputType | null
+    _sum: OilSumAggregateOutputType | null
+    _min: OilMinAggregateOutputType | null
+    _max: OilMaxAggregateOutputType | null
+  }
+
+  export type OilAvgAggregateOutputType = {
+    price: number | null
+  }
+
+  export type OilSumAggregateOutputType = {
+    price: number | null
+  }
+
+  export type OilMinAggregateOutputType = {
+    id: string | null
+    brand: string | null
+    name: string | null
+    price: number | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type OilMaxAggregateOutputType = {
+    id: string | null
+    brand: string | null
+    name: string | null
+    price: number | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type OilCountAggregateOutputType = {
+    id: number
+    brand: number
+    name: number
+    price: number
+    isActive: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type OilAvgAggregateInputType = {
+    price?: true
+  }
+
+  export type OilSumAggregateInputType = {
+    price?: true
+  }
+
+  export type OilMinAggregateInputType = {
+    id?: true
+    brand?: true
+    name?: true
+    price?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type OilMaxAggregateInputType = {
+    id?: true
+    brand?: true
+    name?: true
+    price?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type OilCountAggregateInputType = {
+    id?: true
+    brand?: true
+    name?: true
+    price?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type OilAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Oil to aggregate.
+     */
+    where?: OilWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Oils to fetch.
+     */
+    orderBy?: OilOrderByWithRelationInput | OilOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: OilWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Oils from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Oils.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Oils
+    **/
+    _count?: true | OilCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: OilAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: OilSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: OilMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: OilMaxAggregateInputType
+  }
+
+  export type GetOilAggregateType<T extends OilAggregateArgs> = {
+        [P in keyof T & keyof AggregateOil]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateOil[P]>
+      : GetScalarType<T[P], AggregateOil[P]>
+  }
+
+
+
+
+  export type OilGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OilWhereInput
+    orderBy?: OilOrderByWithAggregationInput | OilOrderByWithAggregationInput[]
+    by: OilScalarFieldEnum[] | OilScalarFieldEnum
+    having?: OilScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: OilCountAggregateInputType | true
+    _avg?: OilAvgAggregateInputType
+    _sum?: OilSumAggregateInputType
+    _min?: OilMinAggregateInputType
+    _max?: OilMaxAggregateInputType
+  }
+
+  export type OilGroupByOutputType = {
+    id: string
+    brand: string
+    name: string
+    price: number
+    isActive: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: OilCountAggregateOutputType | null
+    _avg: OilAvgAggregateOutputType | null
+    _sum: OilSumAggregateOutputType | null
+    _min: OilMinAggregateOutputType | null
+    _max: OilMaxAggregateOutputType | null
+  }
+
+  type GetOilGroupByPayload<T extends OilGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<OilGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof OilGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], OilGroupByOutputType[P]>
+            : GetScalarType<T[P], OilGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type OilSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    brand?: boolean
+    name?: boolean
+    price?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    workOrderItems?: boolean | Oil$workOrderItemsArgs<ExtArgs>
+    _count?: boolean | OilCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["oil"]>
+
+
+
+  export type OilSelectScalar = {
+    id?: boolean
+    brand?: boolean
+    name?: boolean
+    price?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type OilOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "brand" | "name" | "price" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["oil"]>
+  export type OilInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    workOrderItems?: boolean | Oil$workOrderItemsArgs<ExtArgs>
+    _count?: boolean | OilCountOutputTypeDefaultArgs<ExtArgs>
+  }
+
+  export type $OilPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Oil"
+    objects: {
+      workOrderItems: Prisma.$WorkOrderItemPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      brand: string
+      name: string
+      price: number
+      isActive: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["oil"]>
+    composites: {}
+  }
+
+  type OilGetPayload<S extends boolean | null | undefined | OilDefaultArgs> = $Result.GetResult<Prisma.$OilPayload, S>
+
+  type OilCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<OilFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: OilCountAggregateInputType | true
+    }
+
+  export interface OilDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Oil'], meta: { name: 'Oil' } }
+    /**
+     * Find zero or one Oil that matches the filter.
+     * @param {OilFindUniqueArgs} args - Arguments to find a Oil
+     * @example
+     * // Get one Oil
+     * const oil = await prisma.oil.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends OilFindUniqueArgs>(args: SelectSubset<T, OilFindUniqueArgs<ExtArgs>>): Prisma__OilClient<$Result.GetResult<Prisma.$OilPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Oil that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {OilFindUniqueOrThrowArgs} args - Arguments to find a Oil
+     * @example
+     * // Get one Oil
+     * const oil = await prisma.oil.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends OilFindUniqueOrThrowArgs>(args: SelectSubset<T, OilFindUniqueOrThrowArgs<ExtArgs>>): Prisma__OilClient<$Result.GetResult<Prisma.$OilPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Oil that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OilFindFirstArgs} args - Arguments to find a Oil
+     * @example
+     * // Get one Oil
+     * const oil = await prisma.oil.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends OilFindFirstArgs>(args?: SelectSubset<T, OilFindFirstArgs<ExtArgs>>): Prisma__OilClient<$Result.GetResult<Prisma.$OilPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Oil that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OilFindFirstOrThrowArgs} args - Arguments to find a Oil
+     * @example
+     * // Get one Oil
+     * const oil = await prisma.oil.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends OilFindFirstOrThrowArgs>(args?: SelectSubset<T, OilFindFirstOrThrowArgs<ExtArgs>>): Prisma__OilClient<$Result.GetResult<Prisma.$OilPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Oils that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OilFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Oils
+     * const oils = await prisma.oil.findMany()
+     * 
+     * // Get first 10 Oils
+     * const oils = await prisma.oil.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const oilWithIdOnly = await prisma.oil.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends OilFindManyArgs>(args?: SelectSubset<T, OilFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OilPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Oil.
+     * @param {OilCreateArgs} args - Arguments to create a Oil.
+     * @example
+     * // Create one Oil
+     * const Oil = await prisma.oil.create({
+     *   data: {
+     *     // ... data to create a Oil
+     *   }
+     * })
+     * 
+     */
+    create<T extends OilCreateArgs>(args: SelectSubset<T, OilCreateArgs<ExtArgs>>): Prisma__OilClient<$Result.GetResult<Prisma.$OilPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Oils.
+     * @param {OilCreateManyArgs} args - Arguments to create many Oils.
+     * @example
+     * // Create many Oils
+     * const oil = await prisma.oil.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends OilCreateManyArgs>(args?: SelectSubset<T, OilCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Oil.
+     * @param {OilDeleteArgs} args - Arguments to delete one Oil.
+     * @example
+     * // Delete one Oil
+     * const Oil = await prisma.oil.delete({
+     *   where: {
+     *     // ... filter to delete one Oil
+     *   }
+     * })
+     * 
+     */
+    delete<T extends OilDeleteArgs>(args: SelectSubset<T, OilDeleteArgs<ExtArgs>>): Prisma__OilClient<$Result.GetResult<Prisma.$OilPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Oil.
+     * @param {OilUpdateArgs} args - Arguments to update one Oil.
+     * @example
+     * // Update one Oil
+     * const oil = await prisma.oil.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends OilUpdateArgs>(args: SelectSubset<T, OilUpdateArgs<ExtArgs>>): Prisma__OilClient<$Result.GetResult<Prisma.$OilPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Oils.
+     * @param {OilDeleteManyArgs} args - Arguments to filter Oils to delete.
+     * @example
+     * // Delete a few Oils
+     * const { count } = await prisma.oil.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends OilDeleteManyArgs>(args?: SelectSubset<T, OilDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Oils.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OilUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Oils
+     * const oil = await prisma.oil.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends OilUpdateManyArgs>(args: SelectSubset<T, OilUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Oil.
+     * @param {OilUpsertArgs} args - Arguments to update or create a Oil.
+     * @example
+     * // Update or create a Oil
+     * const oil = await prisma.oil.upsert({
+     *   create: {
+     *     // ... data to create a Oil
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Oil we want to update
+     *   }
+     * })
+     */
+    upsert<T extends OilUpsertArgs>(args: SelectSubset<T, OilUpsertArgs<ExtArgs>>): Prisma__OilClient<$Result.GetResult<Prisma.$OilPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Oils.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OilCountArgs} args - Arguments to filter Oils to count.
+     * @example
+     * // Count the number of Oils
+     * const count = await prisma.oil.count({
+     *   where: {
+     *     // ... the filter for the Oils we want to count
+     *   }
+     * })
+    **/
+    count<T extends OilCountArgs>(
+      args?: Subset<T, OilCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], OilCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Oil.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OilAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends OilAggregateArgs>(args: Subset<T, OilAggregateArgs>): Prisma.PrismaPromise<GetOilAggregateType<T>>
+
+    /**
+     * Group by Oil.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OilGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends OilGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: OilGroupByArgs['orderBy'] }
+        : { orderBy?: OilGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, OilGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetOilGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Oil model
+   */
+  readonly fields: OilFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Oil.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__OilClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    workOrderItems<T extends Oil$workOrderItemsArgs<ExtArgs> = {}>(args?: Subset<T, Oil$workOrderItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkOrderItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Oil model
+   */
+  interface OilFieldRefs {
+    readonly id: FieldRef<"Oil", 'String'>
+    readonly brand: FieldRef<"Oil", 'String'>
+    readonly name: FieldRef<"Oil", 'String'>
+    readonly price: FieldRef<"Oil", 'Int'>
+    readonly isActive: FieldRef<"Oil", 'Boolean'>
+    readonly createdAt: FieldRef<"Oil", 'DateTime'>
+    readonly updatedAt: FieldRef<"Oil", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Oil findUnique
+   */
+  export type OilFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Oil
+     */
+    select?: OilSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Oil
+     */
+    omit?: OilOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OilInclude<ExtArgs> | null
+    /**
+     * Filter, which Oil to fetch.
+     */
+    where: OilWhereUniqueInput
+  }
+
+  /**
+   * Oil findUniqueOrThrow
+   */
+  export type OilFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Oil
+     */
+    select?: OilSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Oil
+     */
+    omit?: OilOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OilInclude<ExtArgs> | null
+    /**
+     * Filter, which Oil to fetch.
+     */
+    where: OilWhereUniqueInput
+  }
+
+  /**
+   * Oil findFirst
+   */
+  export type OilFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Oil
+     */
+    select?: OilSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Oil
+     */
+    omit?: OilOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OilInclude<ExtArgs> | null
+    /**
+     * Filter, which Oil to fetch.
+     */
+    where?: OilWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Oils to fetch.
+     */
+    orderBy?: OilOrderByWithRelationInput | OilOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Oils.
+     */
+    cursor?: OilWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Oils from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Oils.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Oils.
+     */
+    distinct?: OilScalarFieldEnum | OilScalarFieldEnum[]
+  }
+
+  /**
+   * Oil findFirstOrThrow
+   */
+  export type OilFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Oil
+     */
+    select?: OilSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Oil
+     */
+    omit?: OilOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OilInclude<ExtArgs> | null
+    /**
+     * Filter, which Oil to fetch.
+     */
+    where?: OilWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Oils to fetch.
+     */
+    orderBy?: OilOrderByWithRelationInput | OilOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Oils.
+     */
+    cursor?: OilWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Oils from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Oils.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Oils.
+     */
+    distinct?: OilScalarFieldEnum | OilScalarFieldEnum[]
+  }
+
+  /**
+   * Oil findMany
+   */
+  export type OilFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Oil
+     */
+    select?: OilSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Oil
+     */
+    omit?: OilOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OilInclude<ExtArgs> | null
+    /**
+     * Filter, which Oils to fetch.
+     */
+    where?: OilWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Oils to fetch.
+     */
+    orderBy?: OilOrderByWithRelationInput | OilOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Oils.
+     */
+    cursor?: OilWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Oils from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Oils.
+     */
+    skip?: number
+    distinct?: OilScalarFieldEnum | OilScalarFieldEnum[]
+  }
+
+  /**
+   * Oil create
+   */
+  export type OilCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Oil
+     */
+    select?: OilSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Oil
+     */
+    omit?: OilOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OilInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Oil.
+     */
+    data: XOR<OilCreateInput, OilUncheckedCreateInput>
+  }
+
+  /**
+   * Oil createMany
+   */
+  export type OilCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Oils.
+     */
+    data: OilCreateManyInput | OilCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Oil update
+   */
+  export type OilUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Oil
+     */
+    select?: OilSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Oil
+     */
+    omit?: OilOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OilInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Oil.
+     */
+    data: XOR<OilUpdateInput, OilUncheckedUpdateInput>
+    /**
+     * Choose, which Oil to update.
+     */
+    where: OilWhereUniqueInput
+  }
+
+  /**
+   * Oil updateMany
+   */
+  export type OilUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Oils.
+     */
+    data: XOR<OilUpdateManyMutationInput, OilUncheckedUpdateManyInput>
+    /**
+     * Filter which Oils to update
+     */
+    where?: OilWhereInput
+    /**
+     * Limit how many Oils to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Oil upsert
+   */
+  export type OilUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Oil
+     */
+    select?: OilSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Oil
+     */
+    omit?: OilOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OilInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Oil to update in case it exists.
+     */
+    where: OilWhereUniqueInput
+    /**
+     * In case the Oil found by the `where` argument doesn't exist, create a new Oil with this data.
+     */
+    create: XOR<OilCreateInput, OilUncheckedCreateInput>
+    /**
+     * In case the Oil was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<OilUpdateInput, OilUncheckedUpdateInput>
+  }
+
+  /**
+   * Oil delete
+   */
+  export type OilDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Oil
+     */
+    select?: OilSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Oil
+     */
+    omit?: OilOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OilInclude<ExtArgs> | null
+    /**
+     * Filter which Oil to delete.
+     */
+    where: OilWhereUniqueInput
+  }
+
+  /**
+   * Oil deleteMany
+   */
+  export type OilDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Oils to delete
+     */
+    where?: OilWhereInput
+    /**
+     * Limit how many Oils to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Oil.workOrderItems
+   */
+  export type Oil$workOrderItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkOrderItem
+     */
+    select?: WorkOrderItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkOrderItem
+     */
+    omit?: WorkOrderItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkOrderItemInclude<ExtArgs> | null
+    where?: WorkOrderItemWhereInput
+    orderBy?: WorkOrderItemOrderByWithRelationInput | WorkOrderItemOrderByWithRelationInput[]
+    cursor?: WorkOrderItemWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WorkOrderItemScalarFieldEnum | WorkOrderItemScalarFieldEnum[]
+  }
+
+  /**
+   * Oil without action
+   */
+  export type OilDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Oil
+     */
+    select?: OilSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Oil
+     */
+    omit?: OilOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OilInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -8167,6 +17487,21 @@ export namespace Prisma {
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+  export const EmployeeScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    position: 'position',
+    phone: 'phone',
+    address: 'address',
+    joinDate: 'joinDate',
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type EmployeeScalarFieldEnum = (typeof EmployeeScalarFieldEnum)[keyof typeof EmployeeScalarFieldEnum]
+
+
   export const VerificationTokenScalarFieldEnum: {
     identifier: 'identifier',
     token: 'token',
@@ -8174,6 +17509,118 @@ export namespace Prisma {
   };
 
   export type VerificationTokenScalarFieldEnum = (typeof VerificationTokenScalarFieldEnum)[keyof typeof VerificationTokenScalarFieldEnum]
+
+
+  export const CustomerScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    phone: 'phone',
+    address: 'address',
+    birthDate: 'birthDate',
+    note: 'note',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type CustomerScalarFieldEnum = (typeof CustomerScalarFieldEnum)[keyof typeof CustomerScalarFieldEnum]
+
+
+  export const VehicleScalarFieldEnum: {
+    id: 'id',
+    customerId: 'customerId',
+    plateNumber: 'plateNumber',
+    brand: 'brand',
+    model: 'model',
+    year: 'year',
+    color: 'color',
+    engineNumber: 'engineNumber',
+    chassisNumber: 'chassisNumber',
+    currentOdometer: 'currentOdometer',
+    note: 'note',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type VehicleScalarFieldEnum = (typeof VehicleScalarFieldEnum)[keyof typeof VehicleScalarFieldEnum]
+
+
+  export const WorkOrderScalarFieldEnum: {
+    id: 'id',
+    woNumber: 'woNumber',
+    status: 'status',
+    customerId: 'customerId',
+    vehicleId: 'vehicleId',
+    advisorId: 'advisorId',
+    odo: 'odo',
+    complaint: 'complaint',
+    preCheck: 'preCheck',
+    postCheck: 'postCheck',
+    estimatedDoneAt: 'estimatedDoneAt',
+    reminderNextOdo: 'reminderNextOdo',
+    reminderNextDate: 'reminderNextDate',
+    dp: 'dp',
+    discountPercent: 'discountPercent',
+    taxPercent: 'taxPercent',
+    subtotal: 'subtotal',
+    grandTotal: 'grandTotal',
+    paidAmount: 'paidAmount',
+    changeAmount: 'changeAmount',
+    paymentMethod: 'paymentMethod',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type WorkOrderScalarFieldEnum = (typeof WorkOrderScalarFieldEnum)[keyof typeof WorkOrderScalarFieldEnum]
+
+
+  export const WorkOrderMechanicScalarFieldEnum: {
+    workOrderId: 'workOrderId',
+    userId: 'userId'
+  };
+
+  export type WorkOrderMechanicScalarFieldEnum = (typeof WorkOrderMechanicScalarFieldEnum)[keyof typeof WorkOrderMechanicScalarFieldEnum]
+
+
+  export const WorkOrderItemScalarFieldEnum: {
+    id: 'id',
+    workOrderId: 'workOrderId',
+    type: 'type',
+    name: 'name',
+    qty: 'qty',
+    price: 'price',
+    sparepartId: 'sparepartId',
+    oilId: 'oilId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type WorkOrderItemScalarFieldEnum = (typeof WorkOrderItemScalarFieldEnum)[keyof typeof WorkOrderItemScalarFieldEnum]
+
+
+  export const SparepartScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    brand: 'brand',
+    price: 'price',
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type SparepartScalarFieldEnum = (typeof SparepartScalarFieldEnum)[keyof typeof SparepartScalarFieldEnum]
+
+
+  export const OilScalarFieldEnum: {
+    id: 'id',
+    brand: 'brand',
+    name: 'name',
+    price: 'price',
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type OilScalarFieldEnum = (typeof OilScalarFieldEnum)[keyof typeof OilScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -8255,12 +17702,100 @@ export namespace Prisma {
   export type UserOrderByRelevanceFieldEnum = (typeof UserOrderByRelevanceFieldEnum)[keyof typeof UserOrderByRelevanceFieldEnum]
 
 
+  export const EmployeeOrderByRelevanceFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    position: 'position',
+    phone: 'phone',
+    address: 'address'
+  };
+
+  export type EmployeeOrderByRelevanceFieldEnum = (typeof EmployeeOrderByRelevanceFieldEnum)[keyof typeof EmployeeOrderByRelevanceFieldEnum]
+
+
   export const VerificationTokenOrderByRelevanceFieldEnum: {
     identifier: 'identifier',
     token: 'token'
   };
 
   export type VerificationTokenOrderByRelevanceFieldEnum = (typeof VerificationTokenOrderByRelevanceFieldEnum)[keyof typeof VerificationTokenOrderByRelevanceFieldEnum]
+
+
+  export const CustomerOrderByRelevanceFieldEnum: {
+    id: 'id',
+    name: 'name',
+    phone: 'phone',
+    address: 'address',
+    note: 'note'
+  };
+
+  export type CustomerOrderByRelevanceFieldEnum = (typeof CustomerOrderByRelevanceFieldEnum)[keyof typeof CustomerOrderByRelevanceFieldEnum]
+
+
+  export const VehicleOrderByRelevanceFieldEnum: {
+    id: 'id',
+    customerId: 'customerId',
+    plateNumber: 'plateNumber',
+    brand: 'brand',
+    model: 'model',
+    color: 'color',
+    engineNumber: 'engineNumber',
+    chassisNumber: 'chassisNumber',
+    note: 'note'
+  };
+
+  export type VehicleOrderByRelevanceFieldEnum = (typeof VehicleOrderByRelevanceFieldEnum)[keyof typeof VehicleOrderByRelevanceFieldEnum]
+
+
+  export const WorkOrderOrderByRelevanceFieldEnum: {
+    id: 'id',
+    woNumber: 'woNumber',
+    customerId: 'customerId',
+    vehicleId: 'vehicleId',
+    advisorId: 'advisorId',
+    complaint: 'complaint',
+    preCheck: 'preCheck',
+    postCheck: 'postCheck'
+  };
+
+  export type WorkOrderOrderByRelevanceFieldEnum = (typeof WorkOrderOrderByRelevanceFieldEnum)[keyof typeof WorkOrderOrderByRelevanceFieldEnum]
+
+
+  export const WorkOrderMechanicOrderByRelevanceFieldEnum: {
+    workOrderId: 'workOrderId',
+    userId: 'userId'
+  };
+
+  export type WorkOrderMechanicOrderByRelevanceFieldEnum = (typeof WorkOrderMechanicOrderByRelevanceFieldEnum)[keyof typeof WorkOrderMechanicOrderByRelevanceFieldEnum]
+
+
+  export const WorkOrderItemOrderByRelevanceFieldEnum: {
+    id: 'id',
+    workOrderId: 'workOrderId',
+    name: 'name',
+    sparepartId: 'sparepartId',
+    oilId: 'oilId'
+  };
+
+  export type WorkOrderItemOrderByRelevanceFieldEnum = (typeof WorkOrderItemOrderByRelevanceFieldEnum)[keyof typeof WorkOrderItemOrderByRelevanceFieldEnum]
+
+
+  export const SparepartOrderByRelevanceFieldEnum: {
+    id: 'id',
+    name: 'name',
+    brand: 'brand'
+  };
+
+  export type SparepartOrderByRelevanceFieldEnum = (typeof SparepartOrderByRelevanceFieldEnum)[keyof typeof SparepartOrderByRelevanceFieldEnum]
+
+
+  export const OilOrderByRelevanceFieldEnum: {
+    id: 'id',
+    brand: 'brand',
+    name: 'name'
+  };
+
+  export type OilOrderByRelevanceFieldEnum = (typeof OilOrderByRelevanceFieldEnum)[keyof typeof OilOrderByRelevanceFieldEnum]
 
 
   /**
@@ -8286,6 +17821,34 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
+   * Reference to a field of type 'WorkOrderStatus'
+   */
+  export type EnumWorkOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WorkOrderStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'PaymentMethod'
+   */
+  export type EnumPaymentMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentMethod'>
+    
+
+
+  /**
+   * Reference to a field of type 'WorkOrderItemType'
+   */
+  export type EnumWorkOrderItemTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WorkOrderItemType'>
     
 
 
@@ -8598,6 +18161,9 @@ export namespace Prisma {
     role?: XOR<RoleScalarRelationFilter, RoleWhereInput>
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
+    employee?: XOR<EmployeeNullableScalarRelationFilter, EmployeeWhereInput> | null
+    advisorWorkOrders?: WorkOrderListRelationFilter
+    mechanicWorkOrders?: WorkOrderMechanicListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -8611,6 +18177,9 @@ export namespace Prisma {
     role?: RoleOrderByWithRelationInput
     accounts?: AccountOrderByRelationAggregateInput
     sessions?: SessionOrderByRelationAggregateInput
+    employee?: EmployeeOrderByWithRelationInput
+    advisorWorkOrders?: WorkOrderOrderByRelationAggregateInput
+    mechanicWorkOrders?: WorkOrderMechanicOrderByRelationAggregateInput
     _relevance?: UserOrderByRelevanceInput
   }
 
@@ -8628,6 +18197,9 @@ export namespace Prisma {
     role?: XOR<RoleScalarRelationFilter, RoleWhereInput>
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
+    employee?: XOR<EmployeeNullableScalarRelationFilter, EmployeeWhereInput> | null
+    advisorWorkOrders?: WorkOrderListRelationFilter
+    mechanicWorkOrders?: WorkOrderMechanicListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -8654,6 +18226,82 @@ export namespace Prisma {
     image?: StringNullableWithAggregatesFilter<"User"> | string | null
     password?: StringWithAggregatesFilter<"User"> | string
     roleId?: StringWithAggregatesFilter<"User"> | string
+  }
+
+  export type EmployeeWhereInput = {
+    AND?: EmployeeWhereInput | EmployeeWhereInput[]
+    OR?: EmployeeWhereInput[]
+    NOT?: EmployeeWhereInput | EmployeeWhereInput[]
+    id?: StringFilter<"Employee"> | string
+    userId?: StringFilter<"Employee"> | string
+    position?: StringFilter<"Employee"> | string
+    phone?: StringNullableFilter<"Employee"> | string | null
+    address?: StringNullableFilter<"Employee"> | string | null
+    joinDate?: DateTimeNullableFilter<"Employee"> | Date | string | null
+    isActive?: BoolFilter<"Employee"> | boolean
+    createdAt?: DateTimeFilter<"Employee"> | Date | string
+    updatedAt?: DateTimeFilter<"Employee"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type EmployeeOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    position?: SortOrder
+    phone?: SortOrderInput | SortOrder
+    address?: SortOrderInput | SortOrder
+    joinDate?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    _relevance?: EmployeeOrderByRelevanceInput
+  }
+
+  export type EmployeeWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId?: string
+    AND?: EmployeeWhereInput | EmployeeWhereInput[]
+    OR?: EmployeeWhereInput[]
+    NOT?: EmployeeWhereInput | EmployeeWhereInput[]
+    position?: StringFilter<"Employee"> | string
+    phone?: StringNullableFilter<"Employee"> | string | null
+    address?: StringNullableFilter<"Employee"> | string | null
+    joinDate?: DateTimeNullableFilter<"Employee"> | Date | string | null
+    isActive?: BoolFilter<"Employee"> | boolean
+    createdAt?: DateTimeFilter<"Employee"> | Date | string
+    updatedAt?: DateTimeFilter<"Employee"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "userId">
+
+  export type EmployeeOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    position?: SortOrder
+    phone?: SortOrderInput | SortOrder
+    address?: SortOrderInput | SortOrder
+    joinDate?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: EmployeeCountOrderByAggregateInput
+    _max?: EmployeeMaxOrderByAggregateInput
+    _min?: EmployeeMinOrderByAggregateInput
+  }
+
+  export type EmployeeScalarWhereWithAggregatesInput = {
+    AND?: EmployeeScalarWhereWithAggregatesInput | EmployeeScalarWhereWithAggregatesInput[]
+    OR?: EmployeeScalarWhereWithAggregatesInput[]
+    NOT?: EmployeeScalarWhereWithAggregatesInput | EmployeeScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Employee"> | string
+    userId?: StringWithAggregatesFilter<"Employee"> | string
+    position?: StringWithAggregatesFilter<"Employee"> | string
+    phone?: StringNullableWithAggregatesFilter<"Employee"> | string | null
+    address?: StringNullableWithAggregatesFilter<"Employee"> | string | null
+    joinDate?: DateTimeNullableWithAggregatesFilter<"Employee"> | Date | string | null
+    isActive?: BoolWithAggregatesFilter<"Employee"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Employee"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Employee"> | Date | string
   }
 
   export type VerificationTokenWhereInput = {
@@ -8698,6 +18346,611 @@ export namespace Prisma {
     identifier?: StringWithAggregatesFilter<"VerificationToken"> | string
     token?: StringWithAggregatesFilter<"VerificationToken"> | string
     expires?: DateTimeWithAggregatesFilter<"VerificationToken"> | Date | string
+  }
+
+  export type CustomerWhereInput = {
+    AND?: CustomerWhereInput | CustomerWhereInput[]
+    OR?: CustomerWhereInput[]
+    NOT?: CustomerWhereInput | CustomerWhereInput[]
+    id?: StringFilter<"Customer"> | string
+    name?: StringFilter<"Customer"> | string
+    phone?: StringFilter<"Customer"> | string
+    address?: StringNullableFilter<"Customer"> | string | null
+    birthDate?: DateTimeNullableFilter<"Customer"> | Date | string | null
+    note?: StringNullableFilter<"Customer"> | string | null
+    createdAt?: DateTimeFilter<"Customer"> | Date | string
+    updatedAt?: DateTimeFilter<"Customer"> | Date | string
+    vehicles?: VehicleListRelationFilter
+    workOrders?: WorkOrderListRelationFilter
+  }
+
+  export type CustomerOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    phone?: SortOrder
+    address?: SortOrderInput | SortOrder
+    birthDate?: SortOrderInput | SortOrder
+    note?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    vehicles?: VehicleOrderByRelationAggregateInput
+    workOrders?: WorkOrderOrderByRelationAggregateInput
+    _relevance?: CustomerOrderByRelevanceInput
+  }
+
+  export type CustomerWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: CustomerWhereInput | CustomerWhereInput[]
+    OR?: CustomerWhereInput[]
+    NOT?: CustomerWhereInput | CustomerWhereInput[]
+    name?: StringFilter<"Customer"> | string
+    phone?: StringFilter<"Customer"> | string
+    address?: StringNullableFilter<"Customer"> | string | null
+    birthDate?: DateTimeNullableFilter<"Customer"> | Date | string | null
+    note?: StringNullableFilter<"Customer"> | string | null
+    createdAt?: DateTimeFilter<"Customer"> | Date | string
+    updatedAt?: DateTimeFilter<"Customer"> | Date | string
+    vehicles?: VehicleListRelationFilter
+    workOrders?: WorkOrderListRelationFilter
+  }, "id">
+
+  export type CustomerOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    phone?: SortOrder
+    address?: SortOrderInput | SortOrder
+    birthDate?: SortOrderInput | SortOrder
+    note?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: CustomerCountOrderByAggregateInput
+    _max?: CustomerMaxOrderByAggregateInput
+    _min?: CustomerMinOrderByAggregateInput
+  }
+
+  export type CustomerScalarWhereWithAggregatesInput = {
+    AND?: CustomerScalarWhereWithAggregatesInput | CustomerScalarWhereWithAggregatesInput[]
+    OR?: CustomerScalarWhereWithAggregatesInput[]
+    NOT?: CustomerScalarWhereWithAggregatesInput | CustomerScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Customer"> | string
+    name?: StringWithAggregatesFilter<"Customer"> | string
+    phone?: StringWithAggregatesFilter<"Customer"> | string
+    address?: StringNullableWithAggregatesFilter<"Customer"> | string | null
+    birthDate?: DateTimeNullableWithAggregatesFilter<"Customer"> | Date | string | null
+    note?: StringNullableWithAggregatesFilter<"Customer"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Customer"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Customer"> | Date | string
+  }
+
+  export type VehicleWhereInput = {
+    AND?: VehicleWhereInput | VehicleWhereInput[]
+    OR?: VehicleWhereInput[]
+    NOT?: VehicleWhereInput | VehicleWhereInput[]
+    id?: StringFilter<"Vehicle"> | string
+    customerId?: StringFilter<"Vehicle"> | string
+    plateNumber?: StringFilter<"Vehicle"> | string
+    brand?: StringFilter<"Vehicle"> | string
+    model?: StringFilter<"Vehicle"> | string
+    year?: IntNullableFilter<"Vehicle"> | number | null
+    color?: StringNullableFilter<"Vehicle"> | string | null
+    engineNumber?: StringNullableFilter<"Vehicle"> | string | null
+    chassisNumber?: StringNullableFilter<"Vehicle"> | string | null
+    currentOdometer?: IntNullableFilter<"Vehicle"> | number | null
+    note?: StringNullableFilter<"Vehicle"> | string | null
+    createdAt?: DateTimeFilter<"Vehicle"> | Date | string
+    updatedAt?: DateTimeFilter<"Vehicle"> | Date | string
+    customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
+    workOrders?: WorkOrderListRelationFilter
+  }
+
+  export type VehicleOrderByWithRelationInput = {
+    id?: SortOrder
+    customerId?: SortOrder
+    plateNumber?: SortOrder
+    brand?: SortOrder
+    model?: SortOrder
+    year?: SortOrderInput | SortOrder
+    color?: SortOrderInput | SortOrder
+    engineNumber?: SortOrderInput | SortOrder
+    chassisNumber?: SortOrderInput | SortOrder
+    currentOdometer?: SortOrderInput | SortOrder
+    note?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    customer?: CustomerOrderByWithRelationInput
+    workOrders?: WorkOrderOrderByRelationAggregateInput
+    _relevance?: VehicleOrderByRelevanceInput
+  }
+
+  export type VehicleWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    plateNumber?: string
+    AND?: VehicleWhereInput | VehicleWhereInput[]
+    OR?: VehicleWhereInput[]
+    NOT?: VehicleWhereInput | VehicleWhereInput[]
+    customerId?: StringFilter<"Vehicle"> | string
+    brand?: StringFilter<"Vehicle"> | string
+    model?: StringFilter<"Vehicle"> | string
+    year?: IntNullableFilter<"Vehicle"> | number | null
+    color?: StringNullableFilter<"Vehicle"> | string | null
+    engineNumber?: StringNullableFilter<"Vehicle"> | string | null
+    chassisNumber?: StringNullableFilter<"Vehicle"> | string | null
+    currentOdometer?: IntNullableFilter<"Vehicle"> | number | null
+    note?: StringNullableFilter<"Vehicle"> | string | null
+    createdAt?: DateTimeFilter<"Vehicle"> | Date | string
+    updatedAt?: DateTimeFilter<"Vehicle"> | Date | string
+    customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
+    workOrders?: WorkOrderListRelationFilter
+  }, "id" | "plateNumber">
+
+  export type VehicleOrderByWithAggregationInput = {
+    id?: SortOrder
+    customerId?: SortOrder
+    plateNumber?: SortOrder
+    brand?: SortOrder
+    model?: SortOrder
+    year?: SortOrderInput | SortOrder
+    color?: SortOrderInput | SortOrder
+    engineNumber?: SortOrderInput | SortOrder
+    chassisNumber?: SortOrderInput | SortOrder
+    currentOdometer?: SortOrderInput | SortOrder
+    note?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: VehicleCountOrderByAggregateInput
+    _avg?: VehicleAvgOrderByAggregateInput
+    _max?: VehicleMaxOrderByAggregateInput
+    _min?: VehicleMinOrderByAggregateInput
+    _sum?: VehicleSumOrderByAggregateInput
+  }
+
+  export type VehicleScalarWhereWithAggregatesInput = {
+    AND?: VehicleScalarWhereWithAggregatesInput | VehicleScalarWhereWithAggregatesInput[]
+    OR?: VehicleScalarWhereWithAggregatesInput[]
+    NOT?: VehicleScalarWhereWithAggregatesInput | VehicleScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Vehicle"> | string
+    customerId?: StringWithAggregatesFilter<"Vehicle"> | string
+    plateNumber?: StringWithAggregatesFilter<"Vehicle"> | string
+    brand?: StringWithAggregatesFilter<"Vehicle"> | string
+    model?: StringWithAggregatesFilter<"Vehicle"> | string
+    year?: IntNullableWithAggregatesFilter<"Vehicle"> | number | null
+    color?: StringNullableWithAggregatesFilter<"Vehicle"> | string | null
+    engineNumber?: StringNullableWithAggregatesFilter<"Vehicle"> | string | null
+    chassisNumber?: StringNullableWithAggregatesFilter<"Vehicle"> | string | null
+    currentOdometer?: IntNullableWithAggregatesFilter<"Vehicle"> | number | null
+    note?: StringNullableWithAggregatesFilter<"Vehicle"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Vehicle"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Vehicle"> | Date | string
+  }
+
+  export type WorkOrderWhereInput = {
+    AND?: WorkOrderWhereInput | WorkOrderWhereInput[]
+    OR?: WorkOrderWhereInput[]
+    NOT?: WorkOrderWhereInput | WorkOrderWhereInput[]
+    id?: StringFilter<"WorkOrder"> | string
+    woNumber?: StringFilter<"WorkOrder"> | string
+    status?: EnumWorkOrderStatusFilter<"WorkOrder"> | $Enums.WorkOrderStatus
+    customerId?: StringFilter<"WorkOrder"> | string
+    vehicleId?: StringFilter<"WorkOrder"> | string
+    advisorId?: StringNullableFilter<"WorkOrder"> | string | null
+    odo?: IntNullableFilter<"WorkOrder"> | number | null
+    complaint?: StringNullableFilter<"WorkOrder"> | string | null
+    preCheck?: StringNullableFilter<"WorkOrder"> | string | null
+    postCheck?: StringNullableFilter<"WorkOrder"> | string | null
+    estimatedDoneAt?: DateTimeNullableFilter<"WorkOrder"> | Date | string | null
+    reminderNextOdo?: IntNullableFilter<"WorkOrder"> | number | null
+    reminderNextDate?: DateTimeNullableFilter<"WorkOrder"> | Date | string | null
+    dp?: IntFilter<"WorkOrder"> | number
+    discountPercent?: IntFilter<"WorkOrder"> | number
+    taxPercent?: IntFilter<"WorkOrder"> | number
+    subtotal?: IntFilter<"WorkOrder"> | number
+    grandTotal?: IntFilter<"WorkOrder"> | number
+    paidAmount?: IntFilter<"WorkOrder"> | number
+    changeAmount?: IntFilter<"WorkOrder"> | number
+    paymentMethod?: EnumPaymentMethodFilter<"WorkOrder"> | $Enums.PaymentMethod
+    createdAt?: DateTimeFilter<"WorkOrder"> | Date | string
+    updatedAt?: DateTimeFilter<"WorkOrder"> | Date | string
+    customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
+    vehicle?: XOR<VehicleScalarRelationFilter, VehicleWhereInput>
+    advisor?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    items?: WorkOrderItemListRelationFilter
+    mechanics?: WorkOrderMechanicListRelationFilter
+  }
+
+  export type WorkOrderOrderByWithRelationInput = {
+    id?: SortOrder
+    woNumber?: SortOrder
+    status?: SortOrder
+    customerId?: SortOrder
+    vehicleId?: SortOrder
+    advisorId?: SortOrderInput | SortOrder
+    odo?: SortOrderInput | SortOrder
+    complaint?: SortOrderInput | SortOrder
+    preCheck?: SortOrderInput | SortOrder
+    postCheck?: SortOrderInput | SortOrder
+    estimatedDoneAt?: SortOrderInput | SortOrder
+    reminderNextOdo?: SortOrderInput | SortOrder
+    reminderNextDate?: SortOrderInput | SortOrder
+    dp?: SortOrder
+    discountPercent?: SortOrder
+    taxPercent?: SortOrder
+    subtotal?: SortOrder
+    grandTotal?: SortOrder
+    paidAmount?: SortOrder
+    changeAmount?: SortOrder
+    paymentMethod?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    customer?: CustomerOrderByWithRelationInput
+    vehicle?: VehicleOrderByWithRelationInput
+    advisor?: UserOrderByWithRelationInput
+    items?: WorkOrderItemOrderByRelationAggregateInput
+    mechanics?: WorkOrderMechanicOrderByRelationAggregateInput
+    _relevance?: WorkOrderOrderByRelevanceInput
+  }
+
+  export type WorkOrderWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    woNumber?: string
+    AND?: WorkOrderWhereInput | WorkOrderWhereInput[]
+    OR?: WorkOrderWhereInput[]
+    NOT?: WorkOrderWhereInput | WorkOrderWhereInput[]
+    status?: EnumWorkOrderStatusFilter<"WorkOrder"> | $Enums.WorkOrderStatus
+    customerId?: StringFilter<"WorkOrder"> | string
+    vehicleId?: StringFilter<"WorkOrder"> | string
+    advisorId?: StringNullableFilter<"WorkOrder"> | string | null
+    odo?: IntNullableFilter<"WorkOrder"> | number | null
+    complaint?: StringNullableFilter<"WorkOrder"> | string | null
+    preCheck?: StringNullableFilter<"WorkOrder"> | string | null
+    postCheck?: StringNullableFilter<"WorkOrder"> | string | null
+    estimatedDoneAt?: DateTimeNullableFilter<"WorkOrder"> | Date | string | null
+    reminderNextOdo?: IntNullableFilter<"WorkOrder"> | number | null
+    reminderNextDate?: DateTimeNullableFilter<"WorkOrder"> | Date | string | null
+    dp?: IntFilter<"WorkOrder"> | number
+    discountPercent?: IntFilter<"WorkOrder"> | number
+    taxPercent?: IntFilter<"WorkOrder"> | number
+    subtotal?: IntFilter<"WorkOrder"> | number
+    grandTotal?: IntFilter<"WorkOrder"> | number
+    paidAmount?: IntFilter<"WorkOrder"> | number
+    changeAmount?: IntFilter<"WorkOrder"> | number
+    paymentMethod?: EnumPaymentMethodFilter<"WorkOrder"> | $Enums.PaymentMethod
+    createdAt?: DateTimeFilter<"WorkOrder"> | Date | string
+    updatedAt?: DateTimeFilter<"WorkOrder"> | Date | string
+    customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
+    vehicle?: XOR<VehicleScalarRelationFilter, VehicleWhereInput>
+    advisor?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    items?: WorkOrderItemListRelationFilter
+    mechanics?: WorkOrderMechanicListRelationFilter
+  }, "id" | "woNumber">
+
+  export type WorkOrderOrderByWithAggregationInput = {
+    id?: SortOrder
+    woNumber?: SortOrder
+    status?: SortOrder
+    customerId?: SortOrder
+    vehicleId?: SortOrder
+    advisorId?: SortOrderInput | SortOrder
+    odo?: SortOrderInput | SortOrder
+    complaint?: SortOrderInput | SortOrder
+    preCheck?: SortOrderInput | SortOrder
+    postCheck?: SortOrderInput | SortOrder
+    estimatedDoneAt?: SortOrderInput | SortOrder
+    reminderNextOdo?: SortOrderInput | SortOrder
+    reminderNextDate?: SortOrderInput | SortOrder
+    dp?: SortOrder
+    discountPercent?: SortOrder
+    taxPercent?: SortOrder
+    subtotal?: SortOrder
+    grandTotal?: SortOrder
+    paidAmount?: SortOrder
+    changeAmount?: SortOrder
+    paymentMethod?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: WorkOrderCountOrderByAggregateInput
+    _avg?: WorkOrderAvgOrderByAggregateInput
+    _max?: WorkOrderMaxOrderByAggregateInput
+    _min?: WorkOrderMinOrderByAggregateInput
+    _sum?: WorkOrderSumOrderByAggregateInput
+  }
+
+  export type WorkOrderScalarWhereWithAggregatesInput = {
+    AND?: WorkOrderScalarWhereWithAggregatesInput | WorkOrderScalarWhereWithAggregatesInput[]
+    OR?: WorkOrderScalarWhereWithAggregatesInput[]
+    NOT?: WorkOrderScalarWhereWithAggregatesInput | WorkOrderScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"WorkOrder"> | string
+    woNumber?: StringWithAggregatesFilter<"WorkOrder"> | string
+    status?: EnumWorkOrderStatusWithAggregatesFilter<"WorkOrder"> | $Enums.WorkOrderStatus
+    customerId?: StringWithAggregatesFilter<"WorkOrder"> | string
+    vehicleId?: StringWithAggregatesFilter<"WorkOrder"> | string
+    advisorId?: StringNullableWithAggregatesFilter<"WorkOrder"> | string | null
+    odo?: IntNullableWithAggregatesFilter<"WorkOrder"> | number | null
+    complaint?: StringNullableWithAggregatesFilter<"WorkOrder"> | string | null
+    preCheck?: StringNullableWithAggregatesFilter<"WorkOrder"> | string | null
+    postCheck?: StringNullableWithAggregatesFilter<"WorkOrder"> | string | null
+    estimatedDoneAt?: DateTimeNullableWithAggregatesFilter<"WorkOrder"> | Date | string | null
+    reminderNextOdo?: IntNullableWithAggregatesFilter<"WorkOrder"> | number | null
+    reminderNextDate?: DateTimeNullableWithAggregatesFilter<"WorkOrder"> | Date | string | null
+    dp?: IntWithAggregatesFilter<"WorkOrder"> | number
+    discountPercent?: IntWithAggregatesFilter<"WorkOrder"> | number
+    taxPercent?: IntWithAggregatesFilter<"WorkOrder"> | number
+    subtotal?: IntWithAggregatesFilter<"WorkOrder"> | number
+    grandTotal?: IntWithAggregatesFilter<"WorkOrder"> | number
+    paidAmount?: IntWithAggregatesFilter<"WorkOrder"> | number
+    changeAmount?: IntWithAggregatesFilter<"WorkOrder"> | number
+    paymentMethod?: EnumPaymentMethodWithAggregatesFilter<"WorkOrder"> | $Enums.PaymentMethod
+    createdAt?: DateTimeWithAggregatesFilter<"WorkOrder"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"WorkOrder"> | Date | string
+  }
+
+  export type WorkOrderMechanicWhereInput = {
+    AND?: WorkOrderMechanicWhereInput | WorkOrderMechanicWhereInput[]
+    OR?: WorkOrderMechanicWhereInput[]
+    NOT?: WorkOrderMechanicWhereInput | WorkOrderMechanicWhereInput[]
+    workOrderId?: StringFilter<"WorkOrderMechanic"> | string
+    userId?: StringFilter<"WorkOrderMechanic"> | string
+    workOrder?: XOR<WorkOrderScalarRelationFilter, WorkOrderWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type WorkOrderMechanicOrderByWithRelationInput = {
+    workOrderId?: SortOrder
+    userId?: SortOrder
+    workOrder?: WorkOrderOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+    _relevance?: WorkOrderMechanicOrderByRelevanceInput
+  }
+
+  export type WorkOrderMechanicWhereUniqueInput = Prisma.AtLeast<{
+    workOrderId_userId?: WorkOrderMechanicWorkOrderIdUserIdCompoundUniqueInput
+    AND?: WorkOrderMechanicWhereInput | WorkOrderMechanicWhereInput[]
+    OR?: WorkOrderMechanicWhereInput[]
+    NOT?: WorkOrderMechanicWhereInput | WorkOrderMechanicWhereInput[]
+    workOrderId?: StringFilter<"WorkOrderMechanic"> | string
+    userId?: StringFilter<"WorkOrderMechanic"> | string
+    workOrder?: XOR<WorkOrderScalarRelationFilter, WorkOrderWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "workOrderId_userId">
+
+  export type WorkOrderMechanicOrderByWithAggregationInput = {
+    workOrderId?: SortOrder
+    userId?: SortOrder
+    _count?: WorkOrderMechanicCountOrderByAggregateInput
+    _max?: WorkOrderMechanicMaxOrderByAggregateInput
+    _min?: WorkOrderMechanicMinOrderByAggregateInput
+  }
+
+  export type WorkOrderMechanicScalarWhereWithAggregatesInput = {
+    AND?: WorkOrderMechanicScalarWhereWithAggregatesInput | WorkOrderMechanicScalarWhereWithAggregatesInput[]
+    OR?: WorkOrderMechanicScalarWhereWithAggregatesInput[]
+    NOT?: WorkOrderMechanicScalarWhereWithAggregatesInput | WorkOrderMechanicScalarWhereWithAggregatesInput[]
+    workOrderId?: StringWithAggregatesFilter<"WorkOrderMechanic"> | string
+    userId?: StringWithAggregatesFilter<"WorkOrderMechanic"> | string
+  }
+
+  export type WorkOrderItemWhereInput = {
+    AND?: WorkOrderItemWhereInput | WorkOrderItemWhereInput[]
+    OR?: WorkOrderItemWhereInput[]
+    NOT?: WorkOrderItemWhereInput | WorkOrderItemWhereInput[]
+    id?: StringFilter<"WorkOrderItem"> | string
+    workOrderId?: StringFilter<"WorkOrderItem"> | string
+    type?: EnumWorkOrderItemTypeFilter<"WorkOrderItem"> | $Enums.WorkOrderItemType
+    name?: StringFilter<"WorkOrderItem"> | string
+    qty?: IntFilter<"WorkOrderItem"> | number
+    price?: IntFilter<"WorkOrderItem"> | number
+    sparepartId?: StringNullableFilter<"WorkOrderItem"> | string | null
+    oilId?: StringNullableFilter<"WorkOrderItem"> | string | null
+    createdAt?: DateTimeFilter<"WorkOrderItem"> | Date | string
+    updatedAt?: DateTimeFilter<"WorkOrderItem"> | Date | string
+    workOrder?: XOR<WorkOrderScalarRelationFilter, WorkOrderWhereInput>
+    sparepart?: XOR<SparepartNullableScalarRelationFilter, SparepartWhereInput> | null
+    oil?: XOR<OilNullableScalarRelationFilter, OilWhereInput> | null
+  }
+
+  export type WorkOrderItemOrderByWithRelationInput = {
+    id?: SortOrder
+    workOrderId?: SortOrder
+    type?: SortOrder
+    name?: SortOrder
+    qty?: SortOrder
+    price?: SortOrder
+    sparepartId?: SortOrderInput | SortOrder
+    oilId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    workOrder?: WorkOrderOrderByWithRelationInput
+    sparepart?: SparepartOrderByWithRelationInput
+    oil?: OilOrderByWithRelationInput
+    _relevance?: WorkOrderItemOrderByRelevanceInput
+  }
+
+  export type WorkOrderItemWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: WorkOrderItemWhereInput | WorkOrderItemWhereInput[]
+    OR?: WorkOrderItemWhereInput[]
+    NOT?: WorkOrderItemWhereInput | WorkOrderItemWhereInput[]
+    workOrderId?: StringFilter<"WorkOrderItem"> | string
+    type?: EnumWorkOrderItemTypeFilter<"WorkOrderItem"> | $Enums.WorkOrderItemType
+    name?: StringFilter<"WorkOrderItem"> | string
+    qty?: IntFilter<"WorkOrderItem"> | number
+    price?: IntFilter<"WorkOrderItem"> | number
+    sparepartId?: StringNullableFilter<"WorkOrderItem"> | string | null
+    oilId?: StringNullableFilter<"WorkOrderItem"> | string | null
+    createdAt?: DateTimeFilter<"WorkOrderItem"> | Date | string
+    updatedAt?: DateTimeFilter<"WorkOrderItem"> | Date | string
+    workOrder?: XOR<WorkOrderScalarRelationFilter, WorkOrderWhereInput>
+    sparepart?: XOR<SparepartNullableScalarRelationFilter, SparepartWhereInput> | null
+    oil?: XOR<OilNullableScalarRelationFilter, OilWhereInput> | null
+  }, "id">
+
+  export type WorkOrderItemOrderByWithAggregationInput = {
+    id?: SortOrder
+    workOrderId?: SortOrder
+    type?: SortOrder
+    name?: SortOrder
+    qty?: SortOrder
+    price?: SortOrder
+    sparepartId?: SortOrderInput | SortOrder
+    oilId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: WorkOrderItemCountOrderByAggregateInput
+    _avg?: WorkOrderItemAvgOrderByAggregateInput
+    _max?: WorkOrderItemMaxOrderByAggregateInput
+    _min?: WorkOrderItemMinOrderByAggregateInput
+    _sum?: WorkOrderItemSumOrderByAggregateInput
+  }
+
+  export type WorkOrderItemScalarWhereWithAggregatesInput = {
+    AND?: WorkOrderItemScalarWhereWithAggregatesInput | WorkOrderItemScalarWhereWithAggregatesInput[]
+    OR?: WorkOrderItemScalarWhereWithAggregatesInput[]
+    NOT?: WorkOrderItemScalarWhereWithAggregatesInput | WorkOrderItemScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"WorkOrderItem"> | string
+    workOrderId?: StringWithAggregatesFilter<"WorkOrderItem"> | string
+    type?: EnumWorkOrderItemTypeWithAggregatesFilter<"WorkOrderItem"> | $Enums.WorkOrderItemType
+    name?: StringWithAggregatesFilter<"WorkOrderItem"> | string
+    qty?: IntWithAggregatesFilter<"WorkOrderItem"> | number
+    price?: IntWithAggregatesFilter<"WorkOrderItem"> | number
+    sparepartId?: StringNullableWithAggregatesFilter<"WorkOrderItem"> | string | null
+    oilId?: StringNullableWithAggregatesFilter<"WorkOrderItem"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"WorkOrderItem"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"WorkOrderItem"> | Date | string
+  }
+
+  export type SparepartWhereInput = {
+    AND?: SparepartWhereInput | SparepartWhereInput[]
+    OR?: SparepartWhereInput[]
+    NOT?: SparepartWhereInput | SparepartWhereInput[]
+    id?: StringFilter<"Sparepart"> | string
+    name?: StringFilter<"Sparepart"> | string
+    brand?: StringFilter<"Sparepart"> | string
+    price?: IntFilter<"Sparepart"> | number
+    isActive?: BoolFilter<"Sparepart"> | boolean
+    createdAt?: DateTimeFilter<"Sparepart"> | Date | string
+    updatedAt?: DateTimeFilter<"Sparepart"> | Date | string
+    workOrderItems?: WorkOrderItemListRelationFilter
+  }
+
+  export type SparepartOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    brand?: SortOrder
+    price?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    workOrderItems?: WorkOrderItemOrderByRelationAggregateInput
+    _relevance?: SparepartOrderByRelevanceInput
+  }
+
+  export type SparepartWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: SparepartWhereInput | SparepartWhereInput[]
+    OR?: SparepartWhereInput[]
+    NOT?: SparepartWhereInput | SparepartWhereInput[]
+    name?: StringFilter<"Sparepart"> | string
+    brand?: StringFilter<"Sparepart"> | string
+    price?: IntFilter<"Sparepart"> | number
+    isActive?: BoolFilter<"Sparepart"> | boolean
+    createdAt?: DateTimeFilter<"Sparepart"> | Date | string
+    updatedAt?: DateTimeFilter<"Sparepart"> | Date | string
+    workOrderItems?: WorkOrderItemListRelationFilter
+  }, "id">
+
+  export type SparepartOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    brand?: SortOrder
+    price?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: SparepartCountOrderByAggregateInput
+    _avg?: SparepartAvgOrderByAggregateInput
+    _max?: SparepartMaxOrderByAggregateInput
+    _min?: SparepartMinOrderByAggregateInput
+    _sum?: SparepartSumOrderByAggregateInput
+  }
+
+  export type SparepartScalarWhereWithAggregatesInput = {
+    AND?: SparepartScalarWhereWithAggregatesInput | SparepartScalarWhereWithAggregatesInput[]
+    OR?: SparepartScalarWhereWithAggregatesInput[]
+    NOT?: SparepartScalarWhereWithAggregatesInput | SparepartScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Sparepart"> | string
+    name?: StringWithAggregatesFilter<"Sparepart"> | string
+    brand?: StringWithAggregatesFilter<"Sparepart"> | string
+    price?: IntWithAggregatesFilter<"Sparepart"> | number
+    isActive?: BoolWithAggregatesFilter<"Sparepart"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Sparepart"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Sparepart"> | Date | string
+  }
+
+  export type OilWhereInput = {
+    AND?: OilWhereInput | OilWhereInput[]
+    OR?: OilWhereInput[]
+    NOT?: OilWhereInput | OilWhereInput[]
+    id?: StringFilter<"Oil"> | string
+    brand?: StringFilter<"Oil"> | string
+    name?: StringFilter<"Oil"> | string
+    price?: IntFilter<"Oil"> | number
+    isActive?: BoolFilter<"Oil"> | boolean
+    createdAt?: DateTimeFilter<"Oil"> | Date | string
+    updatedAt?: DateTimeFilter<"Oil"> | Date | string
+    workOrderItems?: WorkOrderItemListRelationFilter
+  }
+
+  export type OilOrderByWithRelationInput = {
+    id?: SortOrder
+    brand?: SortOrder
+    name?: SortOrder
+    price?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    workOrderItems?: WorkOrderItemOrderByRelationAggregateInput
+    _relevance?: OilOrderByRelevanceInput
+  }
+
+  export type OilWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: OilWhereInput | OilWhereInput[]
+    OR?: OilWhereInput[]
+    NOT?: OilWhereInput | OilWhereInput[]
+    brand?: StringFilter<"Oil"> | string
+    name?: StringFilter<"Oil"> | string
+    price?: IntFilter<"Oil"> | number
+    isActive?: BoolFilter<"Oil"> | boolean
+    createdAt?: DateTimeFilter<"Oil"> | Date | string
+    updatedAt?: DateTimeFilter<"Oil"> | Date | string
+    workOrderItems?: WorkOrderItemListRelationFilter
+  }, "id">
+
+  export type OilOrderByWithAggregationInput = {
+    id?: SortOrder
+    brand?: SortOrder
+    name?: SortOrder
+    price?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: OilCountOrderByAggregateInput
+    _avg?: OilAvgOrderByAggregateInput
+    _max?: OilMaxOrderByAggregateInput
+    _min?: OilMinOrderByAggregateInput
+    _sum?: OilSumOrderByAggregateInput
+  }
+
+  export type OilScalarWhereWithAggregatesInput = {
+    AND?: OilScalarWhereWithAggregatesInput | OilScalarWhereWithAggregatesInput[]
+    OR?: OilScalarWhereWithAggregatesInput[]
+    NOT?: OilScalarWhereWithAggregatesInput | OilScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Oil"> | string
+    brand?: StringWithAggregatesFilter<"Oil"> | string
+    name?: StringWithAggregatesFilter<"Oil"> | string
+    price?: IntWithAggregatesFilter<"Oil"> | number
+    isActive?: BoolWithAggregatesFilter<"Oil"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Oil"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Oil"> | Date | string
   }
 
   export type RoleCreateInput = {
@@ -8992,6 +19245,9 @@ export namespace Prisma {
     role: RoleCreateNestedOneWithoutUsersInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
+    employee?: EmployeeCreateNestedOneWithoutUserInput
+    advisorWorkOrders?: WorkOrderCreateNestedManyWithoutAdvisorInput
+    mechanicWorkOrders?: WorkOrderMechanicCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -9004,6 +19260,9 @@ export namespace Prisma {
     roleId: string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    employee?: EmployeeUncheckedCreateNestedOneWithoutUserInput
+    advisorWorkOrders?: WorkOrderUncheckedCreateNestedManyWithoutAdvisorInput
+    mechanicWorkOrders?: WorkOrderMechanicUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -9016,6 +19275,9 @@ export namespace Prisma {
     role?: RoleUpdateOneRequiredWithoutUsersNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
+    employee?: EmployeeUpdateOneWithoutUserNestedInput
+    advisorWorkOrders?: WorkOrderUpdateManyWithoutAdvisorNestedInput
+    mechanicWorkOrders?: WorkOrderMechanicUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -9028,6 +19290,9 @@ export namespace Prisma {
     roleId?: StringFieldUpdateOperationsInput | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    employee?: EmployeeUncheckedUpdateOneWithoutUserNestedInput
+    advisorWorkOrders?: WorkOrderUncheckedUpdateManyWithoutAdvisorNestedInput
+    mechanicWorkOrders?: WorkOrderMechanicUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -9057,6 +19322,89 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: StringFieldUpdateOperationsInput | string
     roleId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type EmployeeCreateInput = {
+    id?: string
+    position: string
+    phone?: string | null
+    address?: string | null
+    joinDate?: Date | string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutEmployeeInput
+  }
+
+  export type EmployeeUncheckedCreateInput = {
+    id?: string
+    userId: string
+    position: string
+    phone?: string | null
+    address?: string | null
+    joinDate?: Date | string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EmployeeUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    position?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    joinDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
+  }
+
+  export type EmployeeUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    position?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    joinDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EmployeeCreateManyInput = {
+    id?: string
+    userId: string
+    position: string
+    phone?: string | null
+    address?: string | null
+    joinDate?: Date | string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EmployeeUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    position?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    joinDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EmployeeUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    position?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    joinDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type VerificationTokenCreateInput = {
@@ -9099,6 +19447,663 @@ export namespace Prisma {
     identifier?: StringFieldUpdateOperationsInput | string
     token?: StringFieldUpdateOperationsInput | string
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CustomerCreateInput = {
+    id?: string
+    name: string
+    phone: string
+    address?: string | null
+    birthDate?: Date | string | null
+    note?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    vehicles?: VehicleCreateNestedManyWithoutCustomerInput
+    workOrders?: WorkOrderCreateNestedManyWithoutCustomerInput
+  }
+
+  export type CustomerUncheckedCreateInput = {
+    id?: string
+    name: string
+    phone: string
+    address?: string | null
+    birthDate?: Date | string | null
+    note?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutCustomerInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutCustomerInput
+  }
+
+  export type CustomerUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    vehicles?: VehicleUpdateManyWithoutCustomerNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutCustomerNestedInput
+  }
+
+  export type CustomerUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    vehicles?: VehicleUncheckedUpdateManyWithoutCustomerNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutCustomerNestedInput
+  }
+
+  export type CustomerCreateManyInput = {
+    id?: string
+    name: string
+    phone: string
+    address?: string | null
+    birthDate?: Date | string | null
+    note?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CustomerUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CustomerUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VehicleCreateInput = {
+    id?: string
+    plateNumber: string
+    brand: string
+    model: string
+    year?: number | null
+    color?: string | null
+    engineNumber?: string | null
+    chassisNumber?: string | null
+    currentOdometer?: number | null
+    note?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    customer: CustomerCreateNestedOneWithoutVehiclesInput
+    workOrders?: WorkOrderCreateNestedManyWithoutVehicleInput
+  }
+
+  export type VehicleUncheckedCreateInput = {
+    id?: string
+    customerId: string
+    plateNumber: string
+    brand: string
+    model: string
+    year?: number | null
+    color?: string | null
+    engineNumber?: string | null
+    chassisNumber?: string | null
+    currentOdometer?: number | null
+    note?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutVehicleInput
+  }
+
+  export type VehicleUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    plateNumber?: StringFieldUpdateOperationsInput | string
+    brand?: StringFieldUpdateOperationsInput | string
+    model?: StringFieldUpdateOperationsInput | string
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    engineNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    chassisNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    currentOdometer?: NullableIntFieldUpdateOperationsInput | number | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customer?: CustomerUpdateOneRequiredWithoutVehiclesNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutVehicleNestedInput
+  }
+
+  export type VehicleUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    plateNumber?: StringFieldUpdateOperationsInput | string
+    brand?: StringFieldUpdateOperationsInput | string
+    model?: StringFieldUpdateOperationsInput | string
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    engineNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    chassisNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    currentOdometer?: NullableIntFieldUpdateOperationsInput | number | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutVehicleNestedInput
+  }
+
+  export type VehicleCreateManyInput = {
+    id?: string
+    customerId: string
+    plateNumber: string
+    brand: string
+    model: string
+    year?: number | null
+    color?: string | null
+    engineNumber?: string | null
+    chassisNumber?: string | null
+    currentOdometer?: number | null
+    note?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VehicleUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    plateNumber?: StringFieldUpdateOperationsInput | string
+    brand?: StringFieldUpdateOperationsInput | string
+    model?: StringFieldUpdateOperationsInput | string
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    engineNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    chassisNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    currentOdometer?: NullableIntFieldUpdateOperationsInput | number | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VehicleUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    plateNumber?: StringFieldUpdateOperationsInput | string
+    brand?: StringFieldUpdateOperationsInput | string
+    model?: StringFieldUpdateOperationsInput | string
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    engineNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    chassisNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    currentOdometer?: NullableIntFieldUpdateOperationsInput | number | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WorkOrderCreateInput = {
+    id?: string
+    woNumber: string
+    status?: $Enums.WorkOrderStatus
+    odo?: number | null
+    complaint?: string | null
+    preCheck?: string | null
+    postCheck?: string | null
+    estimatedDoneAt?: Date | string | null
+    reminderNextOdo?: number | null
+    reminderNextDate?: Date | string | null
+    dp?: number
+    discountPercent?: number
+    taxPercent?: number
+    subtotal?: number
+    grandTotal?: number
+    paidAmount?: number
+    changeAmount?: number
+    paymentMethod?: $Enums.PaymentMethod
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    customer: CustomerCreateNestedOneWithoutWorkOrdersInput
+    vehicle: VehicleCreateNestedOneWithoutWorkOrdersInput
+    advisor?: UserCreateNestedOneWithoutAdvisorWorkOrdersInput
+    items?: WorkOrderItemCreateNestedManyWithoutWorkOrderInput
+    mechanics?: WorkOrderMechanicCreateNestedManyWithoutWorkOrderInput
+  }
+
+  export type WorkOrderUncheckedCreateInput = {
+    id?: string
+    woNumber: string
+    status?: $Enums.WorkOrderStatus
+    customerId: string
+    vehicleId: string
+    advisorId?: string | null
+    odo?: number | null
+    complaint?: string | null
+    preCheck?: string | null
+    postCheck?: string | null
+    estimatedDoneAt?: Date | string | null
+    reminderNextOdo?: number | null
+    reminderNextDate?: Date | string | null
+    dp?: number
+    discountPercent?: number
+    taxPercent?: number
+    subtotal?: number
+    grandTotal?: number
+    paidAmount?: number
+    changeAmount?: number
+    paymentMethod?: $Enums.PaymentMethod
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    items?: WorkOrderItemUncheckedCreateNestedManyWithoutWorkOrderInput
+    mechanics?: WorkOrderMechanicUncheckedCreateNestedManyWithoutWorkOrderInput
+  }
+
+  export type WorkOrderUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    woNumber?: StringFieldUpdateOperationsInput | string
+    status?: EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
+    odo?: NullableIntFieldUpdateOperationsInput | number | null
+    complaint?: NullableStringFieldUpdateOperationsInput | string | null
+    preCheck?: NullableStringFieldUpdateOperationsInput | string | null
+    postCheck?: NullableStringFieldUpdateOperationsInput | string | null
+    estimatedDoneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reminderNextOdo?: NullableIntFieldUpdateOperationsInput | number | null
+    reminderNextDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dp?: IntFieldUpdateOperationsInput | number
+    discountPercent?: IntFieldUpdateOperationsInput | number
+    taxPercent?: IntFieldUpdateOperationsInput | number
+    subtotal?: IntFieldUpdateOperationsInput | number
+    grandTotal?: IntFieldUpdateOperationsInput | number
+    paidAmount?: IntFieldUpdateOperationsInput | number
+    changeAmount?: IntFieldUpdateOperationsInput | number
+    paymentMethod?: EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customer?: CustomerUpdateOneRequiredWithoutWorkOrdersNestedInput
+    vehicle?: VehicleUpdateOneRequiredWithoutWorkOrdersNestedInput
+    advisor?: UserUpdateOneWithoutAdvisorWorkOrdersNestedInput
+    items?: WorkOrderItemUpdateManyWithoutWorkOrderNestedInput
+    mechanics?: WorkOrderMechanicUpdateManyWithoutWorkOrderNestedInput
+  }
+
+  export type WorkOrderUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    woNumber?: StringFieldUpdateOperationsInput | string
+    status?: EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
+    customerId?: StringFieldUpdateOperationsInput | string
+    vehicleId?: StringFieldUpdateOperationsInput | string
+    advisorId?: NullableStringFieldUpdateOperationsInput | string | null
+    odo?: NullableIntFieldUpdateOperationsInput | number | null
+    complaint?: NullableStringFieldUpdateOperationsInput | string | null
+    preCheck?: NullableStringFieldUpdateOperationsInput | string | null
+    postCheck?: NullableStringFieldUpdateOperationsInput | string | null
+    estimatedDoneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reminderNextOdo?: NullableIntFieldUpdateOperationsInput | number | null
+    reminderNextDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dp?: IntFieldUpdateOperationsInput | number
+    discountPercent?: IntFieldUpdateOperationsInput | number
+    taxPercent?: IntFieldUpdateOperationsInput | number
+    subtotal?: IntFieldUpdateOperationsInput | number
+    grandTotal?: IntFieldUpdateOperationsInput | number
+    paidAmount?: IntFieldUpdateOperationsInput | number
+    changeAmount?: IntFieldUpdateOperationsInput | number
+    paymentMethod?: EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: WorkOrderItemUncheckedUpdateManyWithoutWorkOrderNestedInput
+    mechanics?: WorkOrderMechanicUncheckedUpdateManyWithoutWorkOrderNestedInput
+  }
+
+  export type WorkOrderCreateManyInput = {
+    id?: string
+    woNumber: string
+    status?: $Enums.WorkOrderStatus
+    customerId: string
+    vehicleId: string
+    advisorId?: string | null
+    odo?: number | null
+    complaint?: string | null
+    preCheck?: string | null
+    postCheck?: string | null
+    estimatedDoneAt?: Date | string | null
+    reminderNextOdo?: number | null
+    reminderNextDate?: Date | string | null
+    dp?: number
+    discountPercent?: number
+    taxPercent?: number
+    subtotal?: number
+    grandTotal?: number
+    paidAmount?: number
+    changeAmount?: number
+    paymentMethod?: $Enums.PaymentMethod
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WorkOrderUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    woNumber?: StringFieldUpdateOperationsInput | string
+    status?: EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
+    odo?: NullableIntFieldUpdateOperationsInput | number | null
+    complaint?: NullableStringFieldUpdateOperationsInput | string | null
+    preCheck?: NullableStringFieldUpdateOperationsInput | string | null
+    postCheck?: NullableStringFieldUpdateOperationsInput | string | null
+    estimatedDoneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reminderNextOdo?: NullableIntFieldUpdateOperationsInput | number | null
+    reminderNextDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dp?: IntFieldUpdateOperationsInput | number
+    discountPercent?: IntFieldUpdateOperationsInput | number
+    taxPercent?: IntFieldUpdateOperationsInput | number
+    subtotal?: IntFieldUpdateOperationsInput | number
+    grandTotal?: IntFieldUpdateOperationsInput | number
+    paidAmount?: IntFieldUpdateOperationsInput | number
+    changeAmount?: IntFieldUpdateOperationsInput | number
+    paymentMethod?: EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WorkOrderUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    woNumber?: StringFieldUpdateOperationsInput | string
+    status?: EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
+    customerId?: StringFieldUpdateOperationsInput | string
+    vehicleId?: StringFieldUpdateOperationsInput | string
+    advisorId?: NullableStringFieldUpdateOperationsInput | string | null
+    odo?: NullableIntFieldUpdateOperationsInput | number | null
+    complaint?: NullableStringFieldUpdateOperationsInput | string | null
+    preCheck?: NullableStringFieldUpdateOperationsInput | string | null
+    postCheck?: NullableStringFieldUpdateOperationsInput | string | null
+    estimatedDoneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reminderNextOdo?: NullableIntFieldUpdateOperationsInput | number | null
+    reminderNextDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dp?: IntFieldUpdateOperationsInput | number
+    discountPercent?: IntFieldUpdateOperationsInput | number
+    taxPercent?: IntFieldUpdateOperationsInput | number
+    subtotal?: IntFieldUpdateOperationsInput | number
+    grandTotal?: IntFieldUpdateOperationsInput | number
+    paidAmount?: IntFieldUpdateOperationsInput | number
+    changeAmount?: IntFieldUpdateOperationsInput | number
+    paymentMethod?: EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WorkOrderMechanicCreateInput = {
+    workOrder: WorkOrderCreateNestedOneWithoutMechanicsInput
+    user: UserCreateNestedOneWithoutMechanicWorkOrdersInput
+  }
+
+  export type WorkOrderMechanicUncheckedCreateInput = {
+    workOrderId: string
+    userId: string
+  }
+
+  export type WorkOrderMechanicUpdateInput = {
+    workOrder?: WorkOrderUpdateOneRequiredWithoutMechanicsNestedInput
+    user?: UserUpdateOneRequiredWithoutMechanicWorkOrdersNestedInput
+  }
+
+  export type WorkOrderMechanicUncheckedUpdateInput = {
+    workOrderId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type WorkOrderMechanicCreateManyInput = {
+    workOrderId: string
+    userId: string
+  }
+
+  export type WorkOrderMechanicUpdateManyMutationInput = {
+
+  }
+
+  export type WorkOrderMechanicUncheckedUpdateManyInput = {
+    workOrderId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type WorkOrderItemCreateInput = {
+    id?: string
+    type: $Enums.WorkOrderItemType
+    name: string
+    qty: number
+    price: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workOrder: WorkOrderCreateNestedOneWithoutItemsInput
+    sparepart?: SparepartCreateNestedOneWithoutWorkOrderItemsInput
+    oil?: OilCreateNestedOneWithoutWorkOrderItemsInput
+  }
+
+  export type WorkOrderItemUncheckedCreateInput = {
+    id?: string
+    workOrderId: string
+    type: $Enums.WorkOrderItemType
+    name: string
+    qty: number
+    price: number
+    sparepartId?: string | null
+    oilId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WorkOrderItemUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumWorkOrderItemTypeFieldUpdateOperationsInput | $Enums.WorkOrderItemType
+    name?: StringFieldUpdateOperationsInput | string
+    qty?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workOrder?: WorkOrderUpdateOneRequiredWithoutItemsNestedInput
+    sparepart?: SparepartUpdateOneWithoutWorkOrderItemsNestedInput
+    oil?: OilUpdateOneWithoutWorkOrderItemsNestedInput
+  }
+
+  export type WorkOrderItemUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    workOrderId?: StringFieldUpdateOperationsInput | string
+    type?: EnumWorkOrderItemTypeFieldUpdateOperationsInput | $Enums.WorkOrderItemType
+    name?: StringFieldUpdateOperationsInput | string
+    qty?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
+    sparepartId?: NullableStringFieldUpdateOperationsInput | string | null
+    oilId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WorkOrderItemCreateManyInput = {
+    id?: string
+    workOrderId: string
+    type: $Enums.WorkOrderItemType
+    name: string
+    qty: number
+    price: number
+    sparepartId?: string | null
+    oilId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WorkOrderItemUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumWorkOrderItemTypeFieldUpdateOperationsInput | $Enums.WorkOrderItemType
+    name?: StringFieldUpdateOperationsInput | string
+    qty?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WorkOrderItemUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    workOrderId?: StringFieldUpdateOperationsInput | string
+    type?: EnumWorkOrderItemTypeFieldUpdateOperationsInput | $Enums.WorkOrderItemType
+    name?: StringFieldUpdateOperationsInput | string
+    qty?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
+    sparepartId?: NullableStringFieldUpdateOperationsInput | string | null
+    oilId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SparepartCreateInput = {
+    id?: string
+    name: string
+    brand: string
+    price: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workOrderItems?: WorkOrderItemCreateNestedManyWithoutSparepartInput
+  }
+
+  export type SparepartUncheckedCreateInput = {
+    id?: string
+    name: string
+    brand: string
+    price: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workOrderItems?: WorkOrderItemUncheckedCreateNestedManyWithoutSparepartInput
+  }
+
+  export type SparepartUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    brand?: StringFieldUpdateOperationsInput | string
+    price?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workOrderItems?: WorkOrderItemUpdateManyWithoutSparepartNestedInput
+  }
+
+  export type SparepartUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    brand?: StringFieldUpdateOperationsInput | string
+    price?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workOrderItems?: WorkOrderItemUncheckedUpdateManyWithoutSparepartNestedInput
+  }
+
+  export type SparepartCreateManyInput = {
+    id?: string
+    name: string
+    brand: string
+    price: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SparepartUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    brand?: StringFieldUpdateOperationsInput | string
+    price?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SparepartUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    brand?: StringFieldUpdateOperationsInput | string
+    price?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OilCreateInput = {
+    id?: string
+    brand: string
+    name: string
+    price: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workOrderItems?: WorkOrderItemCreateNestedManyWithoutOilInput
+  }
+
+  export type OilUncheckedCreateInput = {
+    id?: string
+    brand: string
+    name: string
+    price: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workOrderItems?: WorkOrderItemUncheckedCreateNestedManyWithoutOilInput
+  }
+
+  export type OilUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    brand?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    price?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workOrderItems?: WorkOrderItemUpdateManyWithoutOilNestedInput
+  }
+
+  export type OilUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    brand?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    price?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workOrderItems?: WorkOrderItemUncheckedUpdateManyWithoutOilNestedInput
+  }
+
+  export type OilCreateManyInput = {
+    id?: string
+    brand: string
+    name: string
+    price: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OilUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    brand?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    price?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OilUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    brand?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    price?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -9449,11 +20454,36 @@ export namespace Prisma {
     none?: SessionWhereInput
   }
 
+  export type EmployeeNullableScalarRelationFilter = {
+    is?: EmployeeWhereInput | null
+    isNot?: EmployeeWhereInput | null
+  }
+
+  export type WorkOrderListRelationFilter = {
+    every?: WorkOrderWhereInput
+    some?: WorkOrderWhereInput
+    none?: WorkOrderWhereInput
+  }
+
+  export type WorkOrderMechanicListRelationFilter = {
+    every?: WorkOrderMechanicWhereInput
+    some?: WorkOrderMechanicWhereInput
+    none?: WorkOrderMechanicWhereInput
+  }
+
   export type AccountOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type SessionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type WorkOrderOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type WorkOrderMechanicOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -9507,6 +20537,61 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type EmployeeOrderByRelevanceInput = {
+    fields: EmployeeOrderByRelevanceFieldEnum | EmployeeOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type EmployeeCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    position?: SortOrder
+    phone?: SortOrder
+    address?: SortOrder
+    joinDate?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EmployeeMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    position?: SortOrder
+    phone?: SortOrder
+    address?: SortOrder
+    joinDate?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EmployeeMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    position?: SortOrder
+    phone?: SortOrder
+    address?: SortOrder
+    joinDate?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type VerificationTokenOrderByRelevanceInput = {
     fields: VerificationTokenOrderByRelevanceFieldEnum | VerificationTokenOrderByRelevanceFieldEnum[]
     sort: SortOrder
@@ -9534,6 +20619,514 @@ export namespace Prisma {
     identifier?: SortOrder
     token?: SortOrder
     expires?: SortOrder
+  }
+
+  export type VehicleListRelationFilter = {
+    every?: VehicleWhereInput
+    some?: VehicleWhereInput
+    none?: VehicleWhereInput
+  }
+
+  export type VehicleOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CustomerOrderByRelevanceInput = {
+    fields: CustomerOrderByRelevanceFieldEnum | CustomerOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type CustomerCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    phone?: SortOrder
+    address?: SortOrder
+    birthDate?: SortOrder
+    note?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CustomerMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    phone?: SortOrder
+    address?: SortOrder
+    birthDate?: SortOrder
+    note?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CustomerMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    phone?: SortOrder
+    address?: SortOrder
+    birthDate?: SortOrder
+    note?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CustomerScalarRelationFilter = {
+    is?: CustomerWhereInput
+    isNot?: CustomerWhereInput
+  }
+
+  export type VehicleOrderByRelevanceInput = {
+    fields: VehicleOrderByRelevanceFieldEnum | VehicleOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type VehicleCountOrderByAggregateInput = {
+    id?: SortOrder
+    customerId?: SortOrder
+    plateNumber?: SortOrder
+    brand?: SortOrder
+    model?: SortOrder
+    year?: SortOrder
+    color?: SortOrder
+    engineNumber?: SortOrder
+    chassisNumber?: SortOrder
+    currentOdometer?: SortOrder
+    note?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type VehicleAvgOrderByAggregateInput = {
+    year?: SortOrder
+    currentOdometer?: SortOrder
+  }
+
+  export type VehicleMaxOrderByAggregateInput = {
+    id?: SortOrder
+    customerId?: SortOrder
+    plateNumber?: SortOrder
+    brand?: SortOrder
+    model?: SortOrder
+    year?: SortOrder
+    color?: SortOrder
+    engineNumber?: SortOrder
+    chassisNumber?: SortOrder
+    currentOdometer?: SortOrder
+    note?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type VehicleMinOrderByAggregateInput = {
+    id?: SortOrder
+    customerId?: SortOrder
+    plateNumber?: SortOrder
+    brand?: SortOrder
+    model?: SortOrder
+    year?: SortOrder
+    color?: SortOrder
+    engineNumber?: SortOrder
+    chassisNumber?: SortOrder
+    currentOdometer?: SortOrder
+    note?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type VehicleSumOrderByAggregateInput = {
+    year?: SortOrder
+    currentOdometer?: SortOrder
+  }
+
+  export type EnumWorkOrderStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.WorkOrderStatus | EnumWorkOrderStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.WorkOrderStatus[]
+    notIn?: $Enums.WorkOrderStatus[]
+    not?: NestedEnumWorkOrderStatusFilter<$PrismaModel> | $Enums.WorkOrderStatus
+  }
+
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type EnumPaymentMethodFilter<$PrismaModel = never> = {
+    equals?: $Enums.PaymentMethod | EnumPaymentMethodFieldRefInput<$PrismaModel>
+    in?: $Enums.PaymentMethod[]
+    notIn?: $Enums.PaymentMethod[]
+    not?: NestedEnumPaymentMethodFilter<$PrismaModel> | $Enums.PaymentMethod
+  }
+
+  export type VehicleScalarRelationFilter = {
+    is?: VehicleWhereInput
+    isNot?: VehicleWhereInput
+  }
+
+  export type UserNullableScalarRelationFilter = {
+    is?: UserWhereInput | null
+    isNot?: UserWhereInput | null
+  }
+
+  export type WorkOrderItemListRelationFilter = {
+    every?: WorkOrderItemWhereInput
+    some?: WorkOrderItemWhereInput
+    none?: WorkOrderItemWhereInput
+  }
+
+  export type WorkOrderItemOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type WorkOrderOrderByRelevanceInput = {
+    fields: WorkOrderOrderByRelevanceFieldEnum | WorkOrderOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type WorkOrderCountOrderByAggregateInput = {
+    id?: SortOrder
+    woNumber?: SortOrder
+    status?: SortOrder
+    customerId?: SortOrder
+    vehicleId?: SortOrder
+    advisorId?: SortOrder
+    odo?: SortOrder
+    complaint?: SortOrder
+    preCheck?: SortOrder
+    postCheck?: SortOrder
+    estimatedDoneAt?: SortOrder
+    reminderNextOdo?: SortOrder
+    reminderNextDate?: SortOrder
+    dp?: SortOrder
+    discountPercent?: SortOrder
+    taxPercent?: SortOrder
+    subtotal?: SortOrder
+    grandTotal?: SortOrder
+    paidAmount?: SortOrder
+    changeAmount?: SortOrder
+    paymentMethod?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type WorkOrderAvgOrderByAggregateInput = {
+    odo?: SortOrder
+    reminderNextOdo?: SortOrder
+    dp?: SortOrder
+    discountPercent?: SortOrder
+    taxPercent?: SortOrder
+    subtotal?: SortOrder
+    grandTotal?: SortOrder
+    paidAmount?: SortOrder
+    changeAmount?: SortOrder
+  }
+
+  export type WorkOrderMaxOrderByAggregateInput = {
+    id?: SortOrder
+    woNumber?: SortOrder
+    status?: SortOrder
+    customerId?: SortOrder
+    vehicleId?: SortOrder
+    advisorId?: SortOrder
+    odo?: SortOrder
+    complaint?: SortOrder
+    preCheck?: SortOrder
+    postCheck?: SortOrder
+    estimatedDoneAt?: SortOrder
+    reminderNextOdo?: SortOrder
+    reminderNextDate?: SortOrder
+    dp?: SortOrder
+    discountPercent?: SortOrder
+    taxPercent?: SortOrder
+    subtotal?: SortOrder
+    grandTotal?: SortOrder
+    paidAmount?: SortOrder
+    changeAmount?: SortOrder
+    paymentMethod?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type WorkOrderMinOrderByAggregateInput = {
+    id?: SortOrder
+    woNumber?: SortOrder
+    status?: SortOrder
+    customerId?: SortOrder
+    vehicleId?: SortOrder
+    advisorId?: SortOrder
+    odo?: SortOrder
+    complaint?: SortOrder
+    preCheck?: SortOrder
+    postCheck?: SortOrder
+    estimatedDoneAt?: SortOrder
+    reminderNextOdo?: SortOrder
+    reminderNextDate?: SortOrder
+    dp?: SortOrder
+    discountPercent?: SortOrder
+    taxPercent?: SortOrder
+    subtotal?: SortOrder
+    grandTotal?: SortOrder
+    paidAmount?: SortOrder
+    changeAmount?: SortOrder
+    paymentMethod?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type WorkOrderSumOrderByAggregateInput = {
+    odo?: SortOrder
+    reminderNextOdo?: SortOrder
+    dp?: SortOrder
+    discountPercent?: SortOrder
+    taxPercent?: SortOrder
+    subtotal?: SortOrder
+    grandTotal?: SortOrder
+    paidAmount?: SortOrder
+    changeAmount?: SortOrder
+  }
+
+  export type EnumWorkOrderStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.WorkOrderStatus | EnumWorkOrderStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.WorkOrderStatus[]
+    notIn?: $Enums.WorkOrderStatus[]
+    not?: NestedEnumWorkOrderStatusWithAggregatesFilter<$PrismaModel> | $Enums.WorkOrderStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumWorkOrderStatusFilter<$PrismaModel>
+    _max?: NestedEnumWorkOrderStatusFilter<$PrismaModel>
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type EnumPaymentMethodWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PaymentMethod | EnumPaymentMethodFieldRefInput<$PrismaModel>
+    in?: $Enums.PaymentMethod[]
+    notIn?: $Enums.PaymentMethod[]
+    not?: NestedEnumPaymentMethodWithAggregatesFilter<$PrismaModel> | $Enums.PaymentMethod
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPaymentMethodFilter<$PrismaModel>
+    _max?: NestedEnumPaymentMethodFilter<$PrismaModel>
+  }
+
+  export type WorkOrderScalarRelationFilter = {
+    is?: WorkOrderWhereInput
+    isNot?: WorkOrderWhereInput
+  }
+
+  export type WorkOrderMechanicOrderByRelevanceInput = {
+    fields: WorkOrderMechanicOrderByRelevanceFieldEnum | WorkOrderMechanicOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type WorkOrderMechanicWorkOrderIdUserIdCompoundUniqueInput = {
+    workOrderId: string
+    userId: string
+  }
+
+  export type WorkOrderMechanicCountOrderByAggregateInput = {
+    workOrderId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type WorkOrderMechanicMaxOrderByAggregateInput = {
+    workOrderId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type WorkOrderMechanicMinOrderByAggregateInput = {
+    workOrderId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type EnumWorkOrderItemTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.WorkOrderItemType | EnumWorkOrderItemTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.WorkOrderItemType[]
+    notIn?: $Enums.WorkOrderItemType[]
+    not?: NestedEnumWorkOrderItemTypeFilter<$PrismaModel> | $Enums.WorkOrderItemType
+  }
+
+  export type SparepartNullableScalarRelationFilter = {
+    is?: SparepartWhereInput | null
+    isNot?: SparepartWhereInput | null
+  }
+
+  export type OilNullableScalarRelationFilter = {
+    is?: OilWhereInput | null
+    isNot?: OilWhereInput | null
+  }
+
+  export type WorkOrderItemOrderByRelevanceInput = {
+    fields: WorkOrderItemOrderByRelevanceFieldEnum | WorkOrderItemOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type WorkOrderItemCountOrderByAggregateInput = {
+    id?: SortOrder
+    workOrderId?: SortOrder
+    type?: SortOrder
+    name?: SortOrder
+    qty?: SortOrder
+    price?: SortOrder
+    sparepartId?: SortOrder
+    oilId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type WorkOrderItemAvgOrderByAggregateInput = {
+    qty?: SortOrder
+    price?: SortOrder
+  }
+
+  export type WorkOrderItemMaxOrderByAggregateInput = {
+    id?: SortOrder
+    workOrderId?: SortOrder
+    type?: SortOrder
+    name?: SortOrder
+    qty?: SortOrder
+    price?: SortOrder
+    sparepartId?: SortOrder
+    oilId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type WorkOrderItemMinOrderByAggregateInput = {
+    id?: SortOrder
+    workOrderId?: SortOrder
+    type?: SortOrder
+    name?: SortOrder
+    qty?: SortOrder
+    price?: SortOrder
+    sparepartId?: SortOrder
+    oilId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type WorkOrderItemSumOrderByAggregateInput = {
+    qty?: SortOrder
+    price?: SortOrder
+  }
+
+  export type EnumWorkOrderItemTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.WorkOrderItemType | EnumWorkOrderItemTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.WorkOrderItemType[]
+    notIn?: $Enums.WorkOrderItemType[]
+    not?: NestedEnumWorkOrderItemTypeWithAggregatesFilter<$PrismaModel> | $Enums.WorkOrderItemType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumWorkOrderItemTypeFilter<$PrismaModel>
+    _max?: NestedEnumWorkOrderItemTypeFilter<$PrismaModel>
+  }
+
+  export type SparepartOrderByRelevanceInput = {
+    fields: SparepartOrderByRelevanceFieldEnum | SparepartOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type SparepartCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    brand?: SortOrder
+    price?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SparepartAvgOrderByAggregateInput = {
+    price?: SortOrder
+  }
+
+  export type SparepartMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    brand?: SortOrder
+    price?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SparepartMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    brand?: SortOrder
+    price?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SparepartSumOrderByAggregateInput = {
+    price?: SortOrder
+  }
+
+  export type OilOrderByRelevanceInput = {
+    fields: OilOrderByRelevanceFieldEnum | OilOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type OilCountOrderByAggregateInput = {
+    id?: SortOrder
+    brand?: SortOrder
+    name?: SortOrder
+    price?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type OilAvgOrderByAggregateInput = {
+    price?: SortOrder
+  }
+
+  export type OilMaxOrderByAggregateInput = {
+    id?: SortOrder
+    brand?: SortOrder
+    name?: SortOrder
+    price?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type OilMinOrderByAggregateInput = {
+    id?: SortOrder
+    brand?: SortOrder
+    name?: SortOrder
+    price?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type OilSumOrderByAggregateInput = {
+    price?: SortOrder
   }
 
   export type UserCreateNestedManyWithoutRoleInput = {
@@ -9758,6 +21351,26 @@ export namespace Prisma {
     connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
   }
 
+  export type EmployeeCreateNestedOneWithoutUserInput = {
+    create?: XOR<EmployeeCreateWithoutUserInput, EmployeeUncheckedCreateWithoutUserInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutUserInput
+    connect?: EmployeeWhereUniqueInput
+  }
+
+  export type WorkOrderCreateNestedManyWithoutAdvisorInput = {
+    create?: XOR<WorkOrderCreateWithoutAdvisorInput, WorkOrderUncheckedCreateWithoutAdvisorInput> | WorkOrderCreateWithoutAdvisorInput[] | WorkOrderUncheckedCreateWithoutAdvisorInput[]
+    connectOrCreate?: WorkOrderCreateOrConnectWithoutAdvisorInput | WorkOrderCreateOrConnectWithoutAdvisorInput[]
+    createMany?: WorkOrderCreateManyAdvisorInputEnvelope
+    connect?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+  }
+
+  export type WorkOrderMechanicCreateNestedManyWithoutUserInput = {
+    create?: XOR<WorkOrderMechanicCreateWithoutUserInput, WorkOrderMechanicUncheckedCreateWithoutUserInput> | WorkOrderMechanicCreateWithoutUserInput[] | WorkOrderMechanicUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: WorkOrderMechanicCreateOrConnectWithoutUserInput | WorkOrderMechanicCreateOrConnectWithoutUserInput[]
+    createMany?: WorkOrderMechanicCreateManyUserInputEnvelope
+    connect?: WorkOrderMechanicWhereUniqueInput | WorkOrderMechanicWhereUniqueInput[]
+  }
+
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -9770,6 +21383,26 @@ export namespace Prisma {
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
     createMany?: SessionCreateManyUserInputEnvelope
     connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+  }
+
+  export type EmployeeUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<EmployeeCreateWithoutUserInput, EmployeeUncheckedCreateWithoutUserInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutUserInput
+    connect?: EmployeeWhereUniqueInput
+  }
+
+  export type WorkOrderUncheckedCreateNestedManyWithoutAdvisorInput = {
+    create?: XOR<WorkOrderCreateWithoutAdvisorInput, WorkOrderUncheckedCreateWithoutAdvisorInput> | WorkOrderCreateWithoutAdvisorInput[] | WorkOrderUncheckedCreateWithoutAdvisorInput[]
+    connectOrCreate?: WorkOrderCreateOrConnectWithoutAdvisorInput | WorkOrderCreateOrConnectWithoutAdvisorInput[]
+    createMany?: WorkOrderCreateManyAdvisorInputEnvelope
+    connect?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+  }
+
+  export type WorkOrderMechanicUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<WorkOrderMechanicCreateWithoutUserInput, WorkOrderMechanicUncheckedCreateWithoutUserInput> | WorkOrderMechanicCreateWithoutUserInput[] | WorkOrderMechanicUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: WorkOrderMechanicCreateOrConnectWithoutUserInput | WorkOrderMechanicCreateOrConnectWithoutUserInput[]
+    createMany?: WorkOrderMechanicCreateManyUserInputEnvelope
+    connect?: WorkOrderMechanicWhereUniqueInput | WorkOrderMechanicWhereUniqueInput[]
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -9812,6 +21445,44 @@ export namespace Prisma {
     deleteMany?: SessionScalarWhereInput | SessionScalarWhereInput[]
   }
 
+  export type EmployeeUpdateOneWithoutUserNestedInput = {
+    create?: XOR<EmployeeCreateWithoutUserInput, EmployeeUncheckedCreateWithoutUserInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutUserInput
+    upsert?: EmployeeUpsertWithoutUserInput
+    disconnect?: EmployeeWhereInput | boolean
+    delete?: EmployeeWhereInput | boolean
+    connect?: EmployeeWhereUniqueInput
+    update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutUserInput, EmployeeUpdateWithoutUserInput>, EmployeeUncheckedUpdateWithoutUserInput>
+  }
+
+  export type WorkOrderUpdateManyWithoutAdvisorNestedInput = {
+    create?: XOR<WorkOrderCreateWithoutAdvisorInput, WorkOrderUncheckedCreateWithoutAdvisorInput> | WorkOrderCreateWithoutAdvisorInput[] | WorkOrderUncheckedCreateWithoutAdvisorInput[]
+    connectOrCreate?: WorkOrderCreateOrConnectWithoutAdvisorInput | WorkOrderCreateOrConnectWithoutAdvisorInput[]
+    upsert?: WorkOrderUpsertWithWhereUniqueWithoutAdvisorInput | WorkOrderUpsertWithWhereUniqueWithoutAdvisorInput[]
+    createMany?: WorkOrderCreateManyAdvisorInputEnvelope
+    set?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+    disconnect?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+    delete?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+    connect?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+    update?: WorkOrderUpdateWithWhereUniqueWithoutAdvisorInput | WorkOrderUpdateWithWhereUniqueWithoutAdvisorInput[]
+    updateMany?: WorkOrderUpdateManyWithWhereWithoutAdvisorInput | WorkOrderUpdateManyWithWhereWithoutAdvisorInput[]
+    deleteMany?: WorkOrderScalarWhereInput | WorkOrderScalarWhereInput[]
+  }
+
+  export type WorkOrderMechanicUpdateManyWithoutUserNestedInput = {
+    create?: XOR<WorkOrderMechanicCreateWithoutUserInput, WorkOrderMechanicUncheckedCreateWithoutUserInput> | WorkOrderMechanicCreateWithoutUserInput[] | WorkOrderMechanicUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: WorkOrderMechanicCreateOrConnectWithoutUserInput | WorkOrderMechanicCreateOrConnectWithoutUserInput[]
+    upsert?: WorkOrderMechanicUpsertWithWhereUniqueWithoutUserInput | WorkOrderMechanicUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: WorkOrderMechanicCreateManyUserInputEnvelope
+    set?: WorkOrderMechanicWhereUniqueInput | WorkOrderMechanicWhereUniqueInput[]
+    disconnect?: WorkOrderMechanicWhereUniqueInput | WorkOrderMechanicWhereUniqueInput[]
+    delete?: WorkOrderMechanicWhereUniqueInput | WorkOrderMechanicWhereUniqueInput[]
+    connect?: WorkOrderMechanicWhereUniqueInput | WorkOrderMechanicWhereUniqueInput[]
+    update?: WorkOrderMechanicUpdateWithWhereUniqueWithoutUserInput | WorkOrderMechanicUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: WorkOrderMechanicUpdateManyWithWhereWithoutUserInput | WorkOrderMechanicUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: WorkOrderMechanicScalarWhereInput | WorkOrderMechanicScalarWhereInput[]
+  }
+
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -9838,6 +21509,508 @@ export namespace Prisma {
     update?: SessionUpdateWithWhereUniqueWithoutUserInput | SessionUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: SessionUpdateManyWithWhereWithoutUserInput | SessionUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: SessionScalarWhereInput | SessionScalarWhereInput[]
+  }
+
+  export type EmployeeUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<EmployeeCreateWithoutUserInput, EmployeeUncheckedCreateWithoutUserInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutUserInput
+    upsert?: EmployeeUpsertWithoutUserInput
+    disconnect?: EmployeeWhereInput | boolean
+    delete?: EmployeeWhereInput | boolean
+    connect?: EmployeeWhereUniqueInput
+    update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutUserInput, EmployeeUpdateWithoutUserInput>, EmployeeUncheckedUpdateWithoutUserInput>
+  }
+
+  export type WorkOrderUncheckedUpdateManyWithoutAdvisorNestedInput = {
+    create?: XOR<WorkOrderCreateWithoutAdvisorInput, WorkOrderUncheckedCreateWithoutAdvisorInput> | WorkOrderCreateWithoutAdvisorInput[] | WorkOrderUncheckedCreateWithoutAdvisorInput[]
+    connectOrCreate?: WorkOrderCreateOrConnectWithoutAdvisorInput | WorkOrderCreateOrConnectWithoutAdvisorInput[]
+    upsert?: WorkOrderUpsertWithWhereUniqueWithoutAdvisorInput | WorkOrderUpsertWithWhereUniqueWithoutAdvisorInput[]
+    createMany?: WorkOrderCreateManyAdvisorInputEnvelope
+    set?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+    disconnect?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+    delete?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+    connect?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+    update?: WorkOrderUpdateWithWhereUniqueWithoutAdvisorInput | WorkOrderUpdateWithWhereUniqueWithoutAdvisorInput[]
+    updateMany?: WorkOrderUpdateManyWithWhereWithoutAdvisorInput | WorkOrderUpdateManyWithWhereWithoutAdvisorInput[]
+    deleteMany?: WorkOrderScalarWhereInput | WorkOrderScalarWhereInput[]
+  }
+
+  export type WorkOrderMechanicUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<WorkOrderMechanicCreateWithoutUserInput, WorkOrderMechanicUncheckedCreateWithoutUserInput> | WorkOrderMechanicCreateWithoutUserInput[] | WorkOrderMechanicUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: WorkOrderMechanicCreateOrConnectWithoutUserInput | WorkOrderMechanicCreateOrConnectWithoutUserInput[]
+    upsert?: WorkOrderMechanicUpsertWithWhereUniqueWithoutUserInput | WorkOrderMechanicUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: WorkOrderMechanicCreateManyUserInputEnvelope
+    set?: WorkOrderMechanicWhereUniqueInput | WorkOrderMechanicWhereUniqueInput[]
+    disconnect?: WorkOrderMechanicWhereUniqueInput | WorkOrderMechanicWhereUniqueInput[]
+    delete?: WorkOrderMechanicWhereUniqueInput | WorkOrderMechanicWhereUniqueInput[]
+    connect?: WorkOrderMechanicWhereUniqueInput | WorkOrderMechanicWhereUniqueInput[]
+    update?: WorkOrderMechanicUpdateWithWhereUniqueWithoutUserInput | WorkOrderMechanicUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: WorkOrderMechanicUpdateManyWithWhereWithoutUserInput | WorkOrderMechanicUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: WorkOrderMechanicScalarWhereInput | WorkOrderMechanicScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutEmployeeInput = {
+    create?: XOR<UserCreateWithoutEmployeeInput, UserUncheckedCreateWithoutEmployeeInput>
+    connectOrCreate?: UserCreateOrConnectWithoutEmployeeInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
+  export type UserUpdateOneRequiredWithoutEmployeeNestedInput = {
+    create?: XOR<UserCreateWithoutEmployeeInput, UserUncheckedCreateWithoutEmployeeInput>
+    connectOrCreate?: UserCreateOrConnectWithoutEmployeeInput
+    upsert?: UserUpsertWithoutEmployeeInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutEmployeeInput, UserUpdateWithoutEmployeeInput>, UserUncheckedUpdateWithoutEmployeeInput>
+  }
+
+  export type VehicleCreateNestedManyWithoutCustomerInput = {
+    create?: XOR<VehicleCreateWithoutCustomerInput, VehicleUncheckedCreateWithoutCustomerInput> | VehicleCreateWithoutCustomerInput[] | VehicleUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: VehicleCreateOrConnectWithoutCustomerInput | VehicleCreateOrConnectWithoutCustomerInput[]
+    createMany?: VehicleCreateManyCustomerInputEnvelope
+    connect?: VehicleWhereUniqueInput | VehicleWhereUniqueInput[]
+  }
+
+  export type WorkOrderCreateNestedManyWithoutCustomerInput = {
+    create?: XOR<WorkOrderCreateWithoutCustomerInput, WorkOrderUncheckedCreateWithoutCustomerInput> | WorkOrderCreateWithoutCustomerInput[] | WorkOrderUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: WorkOrderCreateOrConnectWithoutCustomerInput | WorkOrderCreateOrConnectWithoutCustomerInput[]
+    createMany?: WorkOrderCreateManyCustomerInputEnvelope
+    connect?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+  }
+
+  export type VehicleUncheckedCreateNestedManyWithoutCustomerInput = {
+    create?: XOR<VehicleCreateWithoutCustomerInput, VehicleUncheckedCreateWithoutCustomerInput> | VehicleCreateWithoutCustomerInput[] | VehicleUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: VehicleCreateOrConnectWithoutCustomerInput | VehicleCreateOrConnectWithoutCustomerInput[]
+    createMany?: VehicleCreateManyCustomerInputEnvelope
+    connect?: VehicleWhereUniqueInput | VehicleWhereUniqueInput[]
+  }
+
+  export type WorkOrderUncheckedCreateNestedManyWithoutCustomerInput = {
+    create?: XOR<WorkOrderCreateWithoutCustomerInput, WorkOrderUncheckedCreateWithoutCustomerInput> | WorkOrderCreateWithoutCustomerInput[] | WorkOrderUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: WorkOrderCreateOrConnectWithoutCustomerInput | WorkOrderCreateOrConnectWithoutCustomerInput[]
+    createMany?: WorkOrderCreateManyCustomerInputEnvelope
+    connect?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+  }
+
+  export type VehicleUpdateManyWithoutCustomerNestedInput = {
+    create?: XOR<VehicleCreateWithoutCustomerInput, VehicleUncheckedCreateWithoutCustomerInput> | VehicleCreateWithoutCustomerInput[] | VehicleUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: VehicleCreateOrConnectWithoutCustomerInput | VehicleCreateOrConnectWithoutCustomerInput[]
+    upsert?: VehicleUpsertWithWhereUniqueWithoutCustomerInput | VehicleUpsertWithWhereUniqueWithoutCustomerInput[]
+    createMany?: VehicleCreateManyCustomerInputEnvelope
+    set?: VehicleWhereUniqueInput | VehicleWhereUniqueInput[]
+    disconnect?: VehicleWhereUniqueInput | VehicleWhereUniqueInput[]
+    delete?: VehicleWhereUniqueInput | VehicleWhereUniqueInput[]
+    connect?: VehicleWhereUniqueInput | VehicleWhereUniqueInput[]
+    update?: VehicleUpdateWithWhereUniqueWithoutCustomerInput | VehicleUpdateWithWhereUniqueWithoutCustomerInput[]
+    updateMany?: VehicleUpdateManyWithWhereWithoutCustomerInput | VehicleUpdateManyWithWhereWithoutCustomerInput[]
+    deleteMany?: VehicleScalarWhereInput | VehicleScalarWhereInput[]
+  }
+
+  export type WorkOrderUpdateManyWithoutCustomerNestedInput = {
+    create?: XOR<WorkOrderCreateWithoutCustomerInput, WorkOrderUncheckedCreateWithoutCustomerInput> | WorkOrderCreateWithoutCustomerInput[] | WorkOrderUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: WorkOrderCreateOrConnectWithoutCustomerInput | WorkOrderCreateOrConnectWithoutCustomerInput[]
+    upsert?: WorkOrderUpsertWithWhereUniqueWithoutCustomerInput | WorkOrderUpsertWithWhereUniqueWithoutCustomerInput[]
+    createMany?: WorkOrderCreateManyCustomerInputEnvelope
+    set?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+    disconnect?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+    delete?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+    connect?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+    update?: WorkOrderUpdateWithWhereUniqueWithoutCustomerInput | WorkOrderUpdateWithWhereUniqueWithoutCustomerInput[]
+    updateMany?: WorkOrderUpdateManyWithWhereWithoutCustomerInput | WorkOrderUpdateManyWithWhereWithoutCustomerInput[]
+    deleteMany?: WorkOrderScalarWhereInput | WorkOrderScalarWhereInput[]
+  }
+
+  export type VehicleUncheckedUpdateManyWithoutCustomerNestedInput = {
+    create?: XOR<VehicleCreateWithoutCustomerInput, VehicleUncheckedCreateWithoutCustomerInput> | VehicleCreateWithoutCustomerInput[] | VehicleUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: VehicleCreateOrConnectWithoutCustomerInput | VehicleCreateOrConnectWithoutCustomerInput[]
+    upsert?: VehicleUpsertWithWhereUniqueWithoutCustomerInput | VehicleUpsertWithWhereUniqueWithoutCustomerInput[]
+    createMany?: VehicleCreateManyCustomerInputEnvelope
+    set?: VehicleWhereUniqueInput | VehicleWhereUniqueInput[]
+    disconnect?: VehicleWhereUniqueInput | VehicleWhereUniqueInput[]
+    delete?: VehicleWhereUniqueInput | VehicleWhereUniqueInput[]
+    connect?: VehicleWhereUniqueInput | VehicleWhereUniqueInput[]
+    update?: VehicleUpdateWithWhereUniqueWithoutCustomerInput | VehicleUpdateWithWhereUniqueWithoutCustomerInput[]
+    updateMany?: VehicleUpdateManyWithWhereWithoutCustomerInput | VehicleUpdateManyWithWhereWithoutCustomerInput[]
+    deleteMany?: VehicleScalarWhereInput | VehicleScalarWhereInput[]
+  }
+
+  export type WorkOrderUncheckedUpdateManyWithoutCustomerNestedInput = {
+    create?: XOR<WorkOrderCreateWithoutCustomerInput, WorkOrderUncheckedCreateWithoutCustomerInput> | WorkOrderCreateWithoutCustomerInput[] | WorkOrderUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: WorkOrderCreateOrConnectWithoutCustomerInput | WorkOrderCreateOrConnectWithoutCustomerInput[]
+    upsert?: WorkOrderUpsertWithWhereUniqueWithoutCustomerInput | WorkOrderUpsertWithWhereUniqueWithoutCustomerInput[]
+    createMany?: WorkOrderCreateManyCustomerInputEnvelope
+    set?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+    disconnect?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+    delete?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+    connect?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+    update?: WorkOrderUpdateWithWhereUniqueWithoutCustomerInput | WorkOrderUpdateWithWhereUniqueWithoutCustomerInput[]
+    updateMany?: WorkOrderUpdateManyWithWhereWithoutCustomerInput | WorkOrderUpdateManyWithWhereWithoutCustomerInput[]
+    deleteMany?: WorkOrderScalarWhereInput | WorkOrderScalarWhereInput[]
+  }
+
+  export type CustomerCreateNestedOneWithoutVehiclesInput = {
+    create?: XOR<CustomerCreateWithoutVehiclesInput, CustomerUncheckedCreateWithoutVehiclesInput>
+    connectOrCreate?: CustomerCreateOrConnectWithoutVehiclesInput
+    connect?: CustomerWhereUniqueInput
+  }
+
+  export type WorkOrderCreateNestedManyWithoutVehicleInput = {
+    create?: XOR<WorkOrderCreateWithoutVehicleInput, WorkOrderUncheckedCreateWithoutVehicleInput> | WorkOrderCreateWithoutVehicleInput[] | WorkOrderUncheckedCreateWithoutVehicleInput[]
+    connectOrCreate?: WorkOrderCreateOrConnectWithoutVehicleInput | WorkOrderCreateOrConnectWithoutVehicleInput[]
+    createMany?: WorkOrderCreateManyVehicleInputEnvelope
+    connect?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+  }
+
+  export type WorkOrderUncheckedCreateNestedManyWithoutVehicleInput = {
+    create?: XOR<WorkOrderCreateWithoutVehicleInput, WorkOrderUncheckedCreateWithoutVehicleInput> | WorkOrderCreateWithoutVehicleInput[] | WorkOrderUncheckedCreateWithoutVehicleInput[]
+    connectOrCreate?: WorkOrderCreateOrConnectWithoutVehicleInput | WorkOrderCreateOrConnectWithoutVehicleInput[]
+    createMany?: WorkOrderCreateManyVehicleInputEnvelope
+    connect?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+  }
+
+  export type CustomerUpdateOneRequiredWithoutVehiclesNestedInput = {
+    create?: XOR<CustomerCreateWithoutVehiclesInput, CustomerUncheckedCreateWithoutVehiclesInput>
+    connectOrCreate?: CustomerCreateOrConnectWithoutVehiclesInput
+    upsert?: CustomerUpsertWithoutVehiclesInput
+    connect?: CustomerWhereUniqueInput
+    update?: XOR<XOR<CustomerUpdateToOneWithWhereWithoutVehiclesInput, CustomerUpdateWithoutVehiclesInput>, CustomerUncheckedUpdateWithoutVehiclesInput>
+  }
+
+  export type WorkOrderUpdateManyWithoutVehicleNestedInput = {
+    create?: XOR<WorkOrderCreateWithoutVehicleInput, WorkOrderUncheckedCreateWithoutVehicleInput> | WorkOrderCreateWithoutVehicleInput[] | WorkOrderUncheckedCreateWithoutVehicleInput[]
+    connectOrCreate?: WorkOrderCreateOrConnectWithoutVehicleInput | WorkOrderCreateOrConnectWithoutVehicleInput[]
+    upsert?: WorkOrderUpsertWithWhereUniqueWithoutVehicleInput | WorkOrderUpsertWithWhereUniqueWithoutVehicleInput[]
+    createMany?: WorkOrderCreateManyVehicleInputEnvelope
+    set?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+    disconnect?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+    delete?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+    connect?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+    update?: WorkOrderUpdateWithWhereUniqueWithoutVehicleInput | WorkOrderUpdateWithWhereUniqueWithoutVehicleInput[]
+    updateMany?: WorkOrderUpdateManyWithWhereWithoutVehicleInput | WorkOrderUpdateManyWithWhereWithoutVehicleInput[]
+    deleteMany?: WorkOrderScalarWhereInput | WorkOrderScalarWhereInput[]
+  }
+
+  export type WorkOrderUncheckedUpdateManyWithoutVehicleNestedInput = {
+    create?: XOR<WorkOrderCreateWithoutVehicleInput, WorkOrderUncheckedCreateWithoutVehicleInput> | WorkOrderCreateWithoutVehicleInput[] | WorkOrderUncheckedCreateWithoutVehicleInput[]
+    connectOrCreate?: WorkOrderCreateOrConnectWithoutVehicleInput | WorkOrderCreateOrConnectWithoutVehicleInput[]
+    upsert?: WorkOrderUpsertWithWhereUniqueWithoutVehicleInput | WorkOrderUpsertWithWhereUniqueWithoutVehicleInput[]
+    createMany?: WorkOrderCreateManyVehicleInputEnvelope
+    set?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+    disconnect?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+    delete?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+    connect?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+    update?: WorkOrderUpdateWithWhereUniqueWithoutVehicleInput | WorkOrderUpdateWithWhereUniqueWithoutVehicleInput[]
+    updateMany?: WorkOrderUpdateManyWithWhereWithoutVehicleInput | WorkOrderUpdateManyWithWhereWithoutVehicleInput[]
+    deleteMany?: WorkOrderScalarWhereInput | WorkOrderScalarWhereInput[]
+  }
+
+  export type CustomerCreateNestedOneWithoutWorkOrdersInput = {
+    create?: XOR<CustomerCreateWithoutWorkOrdersInput, CustomerUncheckedCreateWithoutWorkOrdersInput>
+    connectOrCreate?: CustomerCreateOrConnectWithoutWorkOrdersInput
+    connect?: CustomerWhereUniqueInput
+  }
+
+  export type VehicleCreateNestedOneWithoutWorkOrdersInput = {
+    create?: XOR<VehicleCreateWithoutWorkOrdersInput, VehicleUncheckedCreateWithoutWorkOrdersInput>
+    connectOrCreate?: VehicleCreateOrConnectWithoutWorkOrdersInput
+    connect?: VehicleWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutAdvisorWorkOrdersInput = {
+    create?: XOR<UserCreateWithoutAdvisorWorkOrdersInput, UserUncheckedCreateWithoutAdvisorWorkOrdersInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAdvisorWorkOrdersInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type WorkOrderItemCreateNestedManyWithoutWorkOrderInput = {
+    create?: XOR<WorkOrderItemCreateWithoutWorkOrderInput, WorkOrderItemUncheckedCreateWithoutWorkOrderInput> | WorkOrderItemCreateWithoutWorkOrderInput[] | WorkOrderItemUncheckedCreateWithoutWorkOrderInput[]
+    connectOrCreate?: WorkOrderItemCreateOrConnectWithoutWorkOrderInput | WorkOrderItemCreateOrConnectWithoutWorkOrderInput[]
+    createMany?: WorkOrderItemCreateManyWorkOrderInputEnvelope
+    connect?: WorkOrderItemWhereUniqueInput | WorkOrderItemWhereUniqueInput[]
+  }
+
+  export type WorkOrderMechanicCreateNestedManyWithoutWorkOrderInput = {
+    create?: XOR<WorkOrderMechanicCreateWithoutWorkOrderInput, WorkOrderMechanicUncheckedCreateWithoutWorkOrderInput> | WorkOrderMechanicCreateWithoutWorkOrderInput[] | WorkOrderMechanicUncheckedCreateWithoutWorkOrderInput[]
+    connectOrCreate?: WorkOrderMechanicCreateOrConnectWithoutWorkOrderInput | WorkOrderMechanicCreateOrConnectWithoutWorkOrderInput[]
+    createMany?: WorkOrderMechanicCreateManyWorkOrderInputEnvelope
+    connect?: WorkOrderMechanicWhereUniqueInput | WorkOrderMechanicWhereUniqueInput[]
+  }
+
+  export type WorkOrderItemUncheckedCreateNestedManyWithoutWorkOrderInput = {
+    create?: XOR<WorkOrderItemCreateWithoutWorkOrderInput, WorkOrderItemUncheckedCreateWithoutWorkOrderInput> | WorkOrderItemCreateWithoutWorkOrderInput[] | WorkOrderItemUncheckedCreateWithoutWorkOrderInput[]
+    connectOrCreate?: WorkOrderItemCreateOrConnectWithoutWorkOrderInput | WorkOrderItemCreateOrConnectWithoutWorkOrderInput[]
+    createMany?: WorkOrderItemCreateManyWorkOrderInputEnvelope
+    connect?: WorkOrderItemWhereUniqueInput | WorkOrderItemWhereUniqueInput[]
+  }
+
+  export type WorkOrderMechanicUncheckedCreateNestedManyWithoutWorkOrderInput = {
+    create?: XOR<WorkOrderMechanicCreateWithoutWorkOrderInput, WorkOrderMechanicUncheckedCreateWithoutWorkOrderInput> | WorkOrderMechanicCreateWithoutWorkOrderInput[] | WorkOrderMechanicUncheckedCreateWithoutWorkOrderInput[]
+    connectOrCreate?: WorkOrderMechanicCreateOrConnectWithoutWorkOrderInput | WorkOrderMechanicCreateOrConnectWithoutWorkOrderInput[]
+    createMany?: WorkOrderMechanicCreateManyWorkOrderInputEnvelope
+    connect?: WorkOrderMechanicWhereUniqueInput | WorkOrderMechanicWhereUniqueInput[]
+  }
+
+  export type EnumWorkOrderStatusFieldUpdateOperationsInput = {
+    set?: $Enums.WorkOrderStatus
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type EnumPaymentMethodFieldUpdateOperationsInput = {
+    set?: $Enums.PaymentMethod
+  }
+
+  export type CustomerUpdateOneRequiredWithoutWorkOrdersNestedInput = {
+    create?: XOR<CustomerCreateWithoutWorkOrdersInput, CustomerUncheckedCreateWithoutWorkOrdersInput>
+    connectOrCreate?: CustomerCreateOrConnectWithoutWorkOrdersInput
+    upsert?: CustomerUpsertWithoutWorkOrdersInput
+    connect?: CustomerWhereUniqueInput
+    update?: XOR<XOR<CustomerUpdateToOneWithWhereWithoutWorkOrdersInput, CustomerUpdateWithoutWorkOrdersInput>, CustomerUncheckedUpdateWithoutWorkOrdersInput>
+  }
+
+  export type VehicleUpdateOneRequiredWithoutWorkOrdersNestedInput = {
+    create?: XOR<VehicleCreateWithoutWorkOrdersInput, VehicleUncheckedCreateWithoutWorkOrdersInput>
+    connectOrCreate?: VehicleCreateOrConnectWithoutWorkOrdersInput
+    upsert?: VehicleUpsertWithoutWorkOrdersInput
+    connect?: VehicleWhereUniqueInput
+    update?: XOR<XOR<VehicleUpdateToOneWithWhereWithoutWorkOrdersInput, VehicleUpdateWithoutWorkOrdersInput>, VehicleUncheckedUpdateWithoutWorkOrdersInput>
+  }
+
+  export type UserUpdateOneWithoutAdvisorWorkOrdersNestedInput = {
+    create?: XOR<UserCreateWithoutAdvisorWorkOrdersInput, UserUncheckedCreateWithoutAdvisorWorkOrdersInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAdvisorWorkOrdersInput
+    upsert?: UserUpsertWithoutAdvisorWorkOrdersInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAdvisorWorkOrdersInput, UserUpdateWithoutAdvisorWorkOrdersInput>, UserUncheckedUpdateWithoutAdvisorWorkOrdersInput>
+  }
+
+  export type WorkOrderItemUpdateManyWithoutWorkOrderNestedInput = {
+    create?: XOR<WorkOrderItemCreateWithoutWorkOrderInput, WorkOrderItemUncheckedCreateWithoutWorkOrderInput> | WorkOrderItemCreateWithoutWorkOrderInput[] | WorkOrderItemUncheckedCreateWithoutWorkOrderInput[]
+    connectOrCreate?: WorkOrderItemCreateOrConnectWithoutWorkOrderInput | WorkOrderItemCreateOrConnectWithoutWorkOrderInput[]
+    upsert?: WorkOrderItemUpsertWithWhereUniqueWithoutWorkOrderInput | WorkOrderItemUpsertWithWhereUniqueWithoutWorkOrderInput[]
+    createMany?: WorkOrderItemCreateManyWorkOrderInputEnvelope
+    set?: WorkOrderItemWhereUniqueInput | WorkOrderItemWhereUniqueInput[]
+    disconnect?: WorkOrderItemWhereUniqueInput | WorkOrderItemWhereUniqueInput[]
+    delete?: WorkOrderItemWhereUniqueInput | WorkOrderItemWhereUniqueInput[]
+    connect?: WorkOrderItemWhereUniqueInput | WorkOrderItemWhereUniqueInput[]
+    update?: WorkOrderItemUpdateWithWhereUniqueWithoutWorkOrderInput | WorkOrderItemUpdateWithWhereUniqueWithoutWorkOrderInput[]
+    updateMany?: WorkOrderItemUpdateManyWithWhereWithoutWorkOrderInput | WorkOrderItemUpdateManyWithWhereWithoutWorkOrderInput[]
+    deleteMany?: WorkOrderItemScalarWhereInput | WorkOrderItemScalarWhereInput[]
+  }
+
+  export type WorkOrderMechanicUpdateManyWithoutWorkOrderNestedInput = {
+    create?: XOR<WorkOrderMechanicCreateWithoutWorkOrderInput, WorkOrderMechanicUncheckedCreateWithoutWorkOrderInput> | WorkOrderMechanicCreateWithoutWorkOrderInput[] | WorkOrderMechanicUncheckedCreateWithoutWorkOrderInput[]
+    connectOrCreate?: WorkOrderMechanicCreateOrConnectWithoutWorkOrderInput | WorkOrderMechanicCreateOrConnectWithoutWorkOrderInput[]
+    upsert?: WorkOrderMechanicUpsertWithWhereUniqueWithoutWorkOrderInput | WorkOrderMechanicUpsertWithWhereUniqueWithoutWorkOrderInput[]
+    createMany?: WorkOrderMechanicCreateManyWorkOrderInputEnvelope
+    set?: WorkOrderMechanicWhereUniqueInput | WorkOrderMechanicWhereUniqueInput[]
+    disconnect?: WorkOrderMechanicWhereUniqueInput | WorkOrderMechanicWhereUniqueInput[]
+    delete?: WorkOrderMechanicWhereUniqueInput | WorkOrderMechanicWhereUniqueInput[]
+    connect?: WorkOrderMechanicWhereUniqueInput | WorkOrderMechanicWhereUniqueInput[]
+    update?: WorkOrderMechanicUpdateWithWhereUniqueWithoutWorkOrderInput | WorkOrderMechanicUpdateWithWhereUniqueWithoutWorkOrderInput[]
+    updateMany?: WorkOrderMechanicUpdateManyWithWhereWithoutWorkOrderInput | WorkOrderMechanicUpdateManyWithWhereWithoutWorkOrderInput[]
+    deleteMany?: WorkOrderMechanicScalarWhereInput | WorkOrderMechanicScalarWhereInput[]
+  }
+
+  export type WorkOrderItemUncheckedUpdateManyWithoutWorkOrderNestedInput = {
+    create?: XOR<WorkOrderItemCreateWithoutWorkOrderInput, WorkOrderItemUncheckedCreateWithoutWorkOrderInput> | WorkOrderItemCreateWithoutWorkOrderInput[] | WorkOrderItemUncheckedCreateWithoutWorkOrderInput[]
+    connectOrCreate?: WorkOrderItemCreateOrConnectWithoutWorkOrderInput | WorkOrderItemCreateOrConnectWithoutWorkOrderInput[]
+    upsert?: WorkOrderItemUpsertWithWhereUniqueWithoutWorkOrderInput | WorkOrderItemUpsertWithWhereUniqueWithoutWorkOrderInput[]
+    createMany?: WorkOrderItemCreateManyWorkOrderInputEnvelope
+    set?: WorkOrderItemWhereUniqueInput | WorkOrderItemWhereUniqueInput[]
+    disconnect?: WorkOrderItemWhereUniqueInput | WorkOrderItemWhereUniqueInput[]
+    delete?: WorkOrderItemWhereUniqueInput | WorkOrderItemWhereUniqueInput[]
+    connect?: WorkOrderItemWhereUniqueInput | WorkOrderItemWhereUniqueInput[]
+    update?: WorkOrderItemUpdateWithWhereUniqueWithoutWorkOrderInput | WorkOrderItemUpdateWithWhereUniqueWithoutWorkOrderInput[]
+    updateMany?: WorkOrderItemUpdateManyWithWhereWithoutWorkOrderInput | WorkOrderItemUpdateManyWithWhereWithoutWorkOrderInput[]
+    deleteMany?: WorkOrderItemScalarWhereInput | WorkOrderItemScalarWhereInput[]
+  }
+
+  export type WorkOrderMechanicUncheckedUpdateManyWithoutWorkOrderNestedInput = {
+    create?: XOR<WorkOrderMechanicCreateWithoutWorkOrderInput, WorkOrderMechanicUncheckedCreateWithoutWorkOrderInput> | WorkOrderMechanicCreateWithoutWorkOrderInput[] | WorkOrderMechanicUncheckedCreateWithoutWorkOrderInput[]
+    connectOrCreate?: WorkOrderMechanicCreateOrConnectWithoutWorkOrderInput | WorkOrderMechanicCreateOrConnectWithoutWorkOrderInput[]
+    upsert?: WorkOrderMechanicUpsertWithWhereUniqueWithoutWorkOrderInput | WorkOrderMechanicUpsertWithWhereUniqueWithoutWorkOrderInput[]
+    createMany?: WorkOrderMechanicCreateManyWorkOrderInputEnvelope
+    set?: WorkOrderMechanicWhereUniqueInput | WorkOrderMechanicWhereUniqueInput[]
+    disconnect?: WorkOrderMechanicWhereUniqueInput | WorkOrderMechanicWhereUniqueInput[]
+    delete?: WorkOrderMechanicWhereUniqueInput | WorkOrderMechanicWhereUniqueInput[]
+    connect?: WorkOrderMechanicWhereUniqueInput | WorkOrderMechanicWhereUniqueInput[]
+    update?: WorkOrderMechanicUpdateWithWhereUniqueWithoutWorkOrderInput | WorkOrderMechanicUpdateWithWhereUniqueWithoutWorkOrderInput[]
+    updateMany?: WorkOrderMechanicUpdateManyWithWhereWithoutWorkOrderInput | WorkOrderMechanicUpdateManyWithWhereWithoutWorkOrderInput[]
+    deleteMany?: WorkOrderMechanicScalarWhereInput | WorkOrderMechanicScalarWhereInput[]
+  }
+
+  export type WorkOrderCreateNestedOneWithoutMechanicsInput = {
+    create?: XOR<WorkOrderCreateWithoutMechanicsInput, WorkOrderUncheckedCreateWithoutMechanicsInput>
+    connectOrCreate?: WorkOrderCreateOrConnectWithoutMechanicsInput
+    connect?: WorkOrderWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutMechanicWorkOrdersInput = {
+    create?: XOR<UserCreateWithoutMechanicWorkOrdersInput, UserUncheckedCreateWithoutMechanicWorkOrdersInput>
+    connectOrCreate?: UserCreateOrConnectWithoutMechanicWorkOrdersInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type WorkOrderUpdateOneRequiredWithoutMechanicsNestedInput = {
+    create?: XOR<WorkOrderCreateWithoutMechanicsInput, WorkOrderUncheckedCreateWithoutMechanicsInput>
+    connectOrCreate?: WorkOrderCreateOrConnectWithoutMechanicsInput
+    upsert?: WorkOrderUpsertWithoutMechanicsInput
+    connect?: WorkOrderWhereUniqueInput
+    update?: XOR<XOR<WorkOrderUpdateToOneWithWhereWithoutMechanicsInput, WorkOrderUpdateWithoutMechanicsInput>, WorkOrderUncheckedUpdateWithoutMechanicsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutMechanicWorkOrdersNestedInput = {
+    create?: XOR<UserCreateWithoutMechanicWorkOrdersInput, UserUncheckedCreateWithoutMechanicWorkOrdersInput>
+    connectOrCreate?: UserCreateOrConnectWithoutMechanicWorkOrdersInput
+    upsert?: UserUpsertWithoutMechanicWorkOrdersInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutMechanicWorkOrdersInput, UserUpdateWithoutMechanicWorkOrdersInput>, UserUncheckedUpdateWithoutMechanicWorkOrdersInput>
+  }
+
+  export type WorkOrderCreateNestedOneWithoutItemsInput = {
+    create?: XOR<WorkOrderCreateWithoutItemsInput, WorkOrderUncheckedCreateWithoutItemsInput>
+    connectOrCreate?: WorkOrderCreateOrConnectWithoutItemsInput
+    connect?: WorkOrderWhereUniqueInput
+  }
+
+  export type SparepartCreateNestedOneWithoutWorkOrderItemsInput = {
+    create?: XOR<SparepartCreateWithoutWorkOrderItemsInput, SparepartUncheckedCreateWithoutWorkOrderItemsInput>
+    connectOrCreate?: SparepartCreateOrConnectWithoutWorkOrderItemsInput
+    connect?: SparepartWhereUniqueInput
+  }
+
+  export type OilCreateNestedOneWithoutWorkOrderItemsInput = {
+    create?: XOR<OilCreateWithoutWorkOrderItemsInput, OilUncheckedCreateWithoutWorkOrderItemsInput>
+    connectOrCreate?: OilCreateOrConnectWithoutWorkOrderItemsInput
+    connect?: OilWhereUniqueInput
+  }
+
+  export type EnumWorkOrderItemTypeFieldUpdateOperationsInput = {
+    set?: $Enums.WorkOrderItemType
+  }
+
+  export type WorkOrderUpdateOneRequiredWithoutItemsNestedInput = {
+    create?: XOR<WorkOrderCreateWithoutItemsInput, WorkOrderUncheckedCreateWithoutItemsInput>
+    connectOrCreate?: WorkOrderCreateOrConnectWithoutItemsInput
+    upsert?: WorkOrderUpsertWithoutItemsInput
+    connect?: WorkOrderWhereUniqueInput
+    update?: XOR<XOR<WorkOrderUpdateToOneWithWhereWithoutItemsInput, WorkOrderUpdateWithoutItemsInput>, WorkOrderUncheckedUpdateWithoutItemsInput>
+  }
+
+  export type SparepartUpdateOneWithoutWorkOrderItemsNestedInput = {
+    create?: XOR<SparepartCreateWithoutWorkOrderItemsInput, SparepartUncheckedCreateWithoutWorkOrderItemsInput>
+    connectOrCreate?: SparepartCreateOrConnectWithoutWorkOrderItemsInput
+    upsert?: SparepartUpsertWithoutWorkOrderItemsInput
+    disconnect?: SparepartWhereInput | boolean
+    delete?: SparepartWhereInput | boolean
+    connect?: SparepartWhereUniqueInput
+    update?: XOR<XOR<SparepartUpdateToOneWithWhereWithoutWorkOrderItemsInput, SparepartUpdateWithoutWorkOrderItemsInput>, SparepartUncheckedUpdateWithoutWorkOrderItemsInput>
+  }
+
+  export type OilUpdateOneWithoutWorkOrderItemsNestedInput = {
+    create?: XOR<OilCreateWithoutWorkOrderItemsInput, OilUncheckedCreateWithoutWorkOrderItemsInput>
+    connectOrCreate?: OilCreateOrConnectWithoutWorkOrderItemsInput
+    upsert?: OilUpsertWithoutWorkOrderItemsInput
+    disconnect?: OilWhereInput | boolean
+    delete?: OilWhereInput | boolean
+    connect?: OilWhereUniqueInput
+    update?: XOR<XOR<OilUpdateToOneWithWhereWithoutWorkOrderItemsInput, OilUpdateWithoutWorkOrderItemsInput>, OilUncheckedUpdateWithoutWorkOrderItemsInput>
+  }
+
+  export type WorkOrderItemCreateNestedManyWithoutSparepartInput = {
+    create?: XOR<WorkOrderItemCreateWithoutSparepartInput, WorkOrderItemUncheckedCreateWithoutSparepartInput> | WorkOrderItemCreateWithoutSparepartInput[] | WorkOrderItemUncheckedCreateWithoutSparepartInput[]
+    connectOrCreate?: WorkOrderItemCreateOrConnectWithoutSparepartInput | WorkOrderItemCreateOrConnectWithoutSparepartInput[]
+    createMany?: WorkOrderItemCreateManySparepartInputEnvelope
+    connect?: WorkOrderItemWhereUniqueInput | WorkOrderItemWhereUniqueInput[]
+  }
+
+  export type WorkOrderItemUncheckedCreateNestedManyWithoutSparepartInput = {
+    create?: XOR<WorkOrderItemCreateWithoutSparepartInput, WorkOrderItemUncheckedCreateWithoutSparepartInput> | WorkOrderItemCreateWithoutSparepartInput[] | WorkOrderItemUncheckedCreateWithoutSparepartInput[]
+    connectOrCreate?: WorkOrderItemCreateOrConnectWithoutSparepartInput | WorkOrderItemCreateOrConnectWithoutSparepartInput[]
+    createMany?: WorkOrderItemCreateManySparepartInputEnvelope
+    connect?: WorkOrderItemWhereUniqueInput | WorkOrderItemWhereUniqueInput[]
+  }
+
+  export type WorkOrderItemUpdateManyWithoutSparepartNestedInput = {
+    create?: XOR<WorkOrderItemCreateWithoutSparepartInput, WorkOrderItemUncheckedCreateWithoutSparepartInput> | WorkOrderItemCreateWithoutSparepartInput[] | WorkOrderItemUncheckedCreateWithoutSparepartInput[]
+    connectOrCreate?: WorkOrderItemCreateOrConnectWithoutSparepartInput | WorkOrderItemCreateOrConnectWithoutSparepartInput[]
+    upsert?: WorkOrderItemUpsertWithWhereUniqueWithoutSparepartInput | WorkOrderItemUpsertWithWhereUniqueWithoutSparepartInput[]
+    createMany?: WorkOrderItemCreateManySparepartInputEnvelope
+    set?: WorkOrderItemWhereUniqueInput | WorkOrderItemWhereUniqueInput[]
+    disconnect?: WorkOrderItemWhereUniqueInput | WorkOrderItemWhereUniqueInput[]
+    delete?: WorkOrderItemWhereUniqueInput | WorkOrderItemWhereUniqueInput[]
+    connect?: WorkOrderItemWhereUniqueInput | WorkOrderItemWhereUniqueInput[]
+    update?: WorkOrderItemUpdateWithWhereUniqueWithoutSparepartInput | WorkOrderItemUpdateWithWhereUniqueWithoutSparepartInput[]
+    updateMany?: WorkOrderItemUpdateManyWithWhereWithoutSparepartInput | WorkOrderItemUpdateManyWithWhereWithoutSparepartInput[]
+    deleteMany?: WorkOrderItemScalarWhereInput | WorkOrderItemScalarWhereInput[]
+  }
+
+  export type WorkOrderItemUncheckedUpdateManyWithoutSparepartNestedInput = {
+    create?: XOR<WorkOrderItemCreateWithoutSparepartInput, WorkOrderItemUncheckedCreateWithoutSparepartInput> | WorkOrderItemCreateWithoutSparepartInput[] | WorkOrderItemUncheckedCreateWithoutSparepartInput[]
+    connectOrCreate?: WorkOrderItemCreateOrConnectWithoutSparepartInput | WorkOrderItemCreateOrConnectWithoutSparepartInput[]
+    upsert?: WorkOrderItemUpsertWithWhereUniqueWithoutSparepartInput | WorkOrderItemUpsertWithWhereUniqueWithoutSparepartInput[]
+    createMany?: WorkOrderItemCreateManySparepartInputEnvelope
+    set?: WorkOrderItemWhereUniqueInput | WorkOrderItemWhereUniqueInput[]
+    disconnect?: WorkOrderItemWhereUniqueInput | WorkOrderItemWhereUniqueInput[]
+    delete?: WorkOrderItemWhereUniqueInput | WorkOrderItemWhereUniqueInput[]
+    connect?: WorkOrderItemWhereUniqueInput | WorkOrderItemWhereUniqueInput[]
+    update?: WorkOrderItemUpdateWithWhereUniqueWithoutSparepartInput | WorkOrderItemUpdateWithWhereUniqueWithoutSparepartInput[]
+    updateMany?: WorkOrderItemUpdateManyWithWhereWithoutSparepartInput | WorkOrderItemUpdateManyWithWhereWithoutSparepartInput[]
+    deleteMany?: WorkOrderItemScalarWhereInput | WorkOrderItemScalarWhereInput[]
+  }
+
+  export type WorkOrderItemCreateNestedManyWithoutOilInput = {
+    create?: XOR<WorkOrderItemCreateWithoutOilInput, WorkOrderItemUncheckedCreateWithoutOilInput> | WorkOrderItemCreateWithoutOilInput[] | WorkOrderItemUncheckedCreateWithoutOilInput[]
+    connectOrCreate?: WorkOrderItemCreateOrConnectWithoutOilInput | WorkOrderItemCreateOrConnectWithoutOilInput[]
+    createMany?: WorkOrderItemCreateManyOilInputEnvelope
+    connect?: WorkOrderItemWhereUniqueInput | WorkOrderItemWhereUniqueInput[]
+  }
+
+  export type WorkOrderItemUncheckedCreateNestedManyWithoutOilInput = {
+    create?: XOR<WorkOrderItemCreateWithoutOilInput, WorkOrderItemUncheckedCreateWithoutOilInput> | WorkOrderItemCreateWithoutOilInput[] | WorkOrderItemUncheckedCreateWithoutOilInput[]
+    connectOrCreate?: WorkOrderItemCreateOrConnectWithoutOilInput | WorkOrderItemCreateOrConnectWithoutOilInput[]
+    createMany?: WorkOrderItemCreateManyOilInputEnvelope
+    connect?: WorkOrderItemWhereUniqueInput | WorkOrderItemWhereUniqueInput[]
+  }
+
+  export type WorkOrderItemUpdateManyWithoutOilNestedInput = {
+    create?: XOR<WorkOrderItemCreateWithoutOilInput, WorkOrderItemUncheckedCreateWithoutOilInput> | WorkOrderItemCreateWithoutOilInput[] | WorkOrderItemUncheckedCreateWithoutOilInput[]
+    connectOrCreate?: WorkOrderItemCreateOrConnectWithoutOilInput | WorkOrderItemCreateOrConnectWithoutOilInput[]
+    upsert?: WorkOrderItemUpsertWithWhereUniqueWithoutOilInput | WorkOrderItemUpsertWithWhereUniqueWithoutOilInput[]
+    createMany?: WorkOrderItemCreateManyOilInputEnvelope
+    set?: WorkOrderItemWhereUniqueInput | WorkOrderItemWhereUniqueInput[]
+    disconnect?: WorkOrderItemWhereUniqueInput | WorkOrderItemWhereUniqueInput[]
+    delete?: WorkOrderItemWhereUniqueInput | WorkOrderItemWhereUniqueInput[]
+    connect?: WorkOrderItemWhereUniqueInput | WorkOrderItemWhereUniqueInput[]
+    update?: WorkOrderItemUpdateWithWhereUniqueWithoutOilInput | WorkOrderItemUpdateWithWhereUniqueWithoutOilInput[]
+    updateMany?: WorkOrderItemUpdateManyWithWhereWithoutOilInput | WorkOrderItemUpdateManyWithWhereWithoutOilInput[]
+    deleteMany?: WorkOrderItemScalarWhereInput | WorkOrderItemScalarWhereInput[]
+  }
+
+  export type WorkOrderItemUncheckedUpdateManyWithoutOilNestedInput = {
+    create?: XOR<WorkOrderItemCreateWithoutOilInput, WorkOrderItemUncheckedCreateWithoutOilInput> | WorkOrderItemCreateWithoutOilInput[] | WorkOrderItemUncheckedCreateWithoutOilInput[]
+    connectOrCreate?: WorkOrderItemCreateOrConnectWithoutOilInput | WorkOrderItemCreateOrConnectWithoutOilInput[]
+    upsert?: WorkOrderItemUpsertWithWhereUniqueWithoutOilInput | WorkOrderItemUpsertWithWhereUniqueWithoutOilInput[]
+    createMany?: WorkOrderItemCreateManyOilInputEnvelope
+    set?: WorkOrderItemWhereUniqueInput | WorkOrderItemWhereUniqueInput[]
+    disconnect?: WorkOrderItemWhereUniqueInput | WorkOrderItemWhereUniqueInput[]
+    delete?: WorkOrderItemWhereUniqueInput | WorkOrderItemWhereUniqueInput[]
+    connect?: WorkOrderItemWhereUniqueInput | WorkOrderItemWhereUniqueInput[]
+    update?: WorkOrderItemUpdateWithWhereUniqueWithoutOilInput | WorkOrderItemUpdateWithWhereUniqueWithoutOilInput[]
+    updateMany?: WorkOrderItemUpdateManyWithWhereWithoutOilInput | WorkOrderItemUpdateManyWithWhereWithoutOilInput[]
+    deleteMany?: WorkOrderItemScalarWhereInput | WorkOrderItemScalarWhereInput[]
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -10005,6 +22178,97 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedEnumWorkOrderStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.WorkOrderStatus | EnumWorkOrderStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.WorkOrderStatus[]
+    notIn?: $Enums.WorkOrderStatus[]
+    not?: NestedEnumWorkOrderStatusFilter<$PrismaModel> | $Enums.WorkOrderStatus
+  }
+
+  export type NestedEnumPaymentMethodFilter<$PrismaModel = never> = {
+    equals?: $Enums.PaymentMethod | EnumPaymentMethodFieldRefInput<$PrismaModel>
+    in?: $Enums.PaymentMethod[]
+    notIn?: $Enums.PaymentMethod[]
+    not?: NestedEnumPaymentMethodFilter<$PrismaModel> | $Enums.PaymentMethod
+  }
+
+  export type NestedEnumWorkOrderStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.WorkOrderStatus | EnumWorkOrderStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.WorkOrderStatus[]
+    notIn?: $Enums.WorkOrderStatus[]
+    not?: NestedEnumWorkOrderStatusWithAggregatesFilter<$PrismaModel> | $Enums.WorkOrderStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumWorkOrderStatusFilter<$PrismaModel>
+    _max?: NestedEnumWorkOrderStatusFilter<$PrismaModel>
+  }
+
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type NestedEnumPaymentMethodWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PaymentMethod | EnumPaymentMethodFieldRefInput<$PrismaModel>
+    in?: $Enums.PaymentMethod[]
+    notIn?: $Enums.PaymentMethod[]
+    not?: NestedEnumPaymentMethodWithAggregatesFilter<$PrismaModel> | $Enums.PaymentMethod
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPaymentMethodFilter<$PrismaModel>
+    _max?: NestedEnumPaymentMethodFilter<$PrismaModel>
+  }
+
+  export type NestedEnumWorkOrderItemTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.WorkOrderItemType | EnumWorkOrderItemTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.WorkOrderItemType[]
+    notIn?: $Enums.WorkOrderItemType[]
+    not?: NestedEnumWorkOrderItemTypeFilter<$PrismaModel> | $Enums.WorkOrderItemType
+  }
+
+  export type NestedEnumWorkOrderItemTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.WorkOrderItemType | EnumWorkOrderItemTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.WorkOrderItemType[]
+    notIn?: $Enums.WorkOrderItemType[]
+    not?: NestedEnumWorkOrderItemTypeWithAggregatesFilter<$PrismaModel> | $Enums.WorkOrderItemType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumWorkOrderItemTypeFilter<$PrismaModel>
+    _max?: NestedEnumWorkOrderItemTypeFilter<$PrismaModel>
+  }
+
   export type UserCreateWithoutRoleInput = {
     id?: string
     name?: string | null
@@ -10014,6 +22278,9 @@ export namespace Prisma {
     password: string
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
+    employee?: EmployeeCreateNestedOneWithoutUserInput
+    advisorWorkOrders?: WorkOrderCreateNestedManyWithoutAdvisorInput
+    mechanicWorkOrders?: WorkOrderMechanicCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRoleInput = {
@@ -10025,6 +22292,9 @@ export namespace Prisma {
     password: string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    employee?: EmployeeUncheckedCreateNestedOneWithoutUserInput
+    advisorWorkOrders?: WorkOrderUncheckedCreateNestedManyWithoutAdvisorInput
+    mechanicWorkOrders?: WorkOrderMechanicUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRoleInput = {
@@ -10231,6 +22501,9 @@ export namespace Prisma {
     password: string
     role: RoleCreateNestedOneWithoutUsersInput
     sessions?: SessionCreateNestedManyWithoutUserInput
+    employee?: EmployeeCreateNestedOneWithoutUserInput
+    advisorWorkOrders?: WorkOrderCreateNestedManyWithoutAdvisorInput
+    mechanicWorkOrders?: WorkOrderMechanicCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -10242,6 +22515,9 @@ export namespace Prisma {
     password: string
     roleId: string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    employee?: EmployeeUncheckedCreateNestedOneWithoutUserInput
+    advisorWorkOrders?: WorkOrderUncheckedCreateNestedManyWithoutAdvisorInput
+    mechanicWorkOrders?: WorkOrderMechanicUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -10269,6 +22545,9 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: RoleUpdateOneRequiredWithoutUsersNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
+    employee?: EmployeeUpdateOneWithoutUserNestedInput
+    advisorWorkOrders?: WorkOrderUpdateManyWithoutAdvisorNestedInput
+    mechanicWorkOrders?: WorkOrderMechanicUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -10280,6 +22559,9 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     roleId?: StringFieldUpdateOperationsInput | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    employee?: EmployeeUncheckedUpdateOneWithoutUserNestedInput
+    advisorWorkOrders?: WorkOrderUncheckedUpdateManyWithoutAdvisorNestedInput
+    mechanicWorkOrders?: WorkOrderMechanicUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -10291,6 +22573,9 @@ export namespace Prisma {
     password: string
     role: RoleCreateNestedOneWithoutUsersInput
     accounts?: AccountCreateNestedManyWithoutUserInput
+    employee?: EmployeeCreateNestedOneWithoutUserInput
+    advisorWorkOrders?: WorkOrderCreateNestedManyWithoutAdvisorInput
+    mechanicWorkOrders?: WorkOrderMechanicCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -10302,6 +22587,9 @@ export namespace Prisma {
     password: string
     roleId: string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    employee?: EmployeeUncheckedCreateNestedOneWithoutUserInput
+    advisorWorkOrders?: WorkOrderUncheckedCreateNestedManyWithoutAdvisorInput
+    mechanicWorkOrders?: WorkOrderMechanicUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -10329,6 +22617,9 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: RoleUpdateOneRequiredWithoutUsersNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
+    employee?: EmployeeUpdateOneWithoutUserNestedInput
+    advisorWorkOrders?: WorkOrderUpdateManyWithoutAdvisorNestedInput
+    mechanicWorkOrders?: WorkOrderMechanicUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -10340,6 +22631,9 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     roleId?: StringFieldUpdateOperationsInput | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    employee?: EmployeeUncheckedUpdateOneWithoutUserNestedInput
+    advisorWorkOrders?: WorkOrderUncheckedUpdateManyWithoutAdvisorNestedInput
+    mechanicWorkOrders?: WorkOrderMechanicUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RoleCreateWithoutUsersInput = {
@@ -10420,6 +22714,115 @@ export namespace Prisma {
 
   export type SessionCreateManyUserInputEnvelope = {
     data: SessionCreateManyUserInput | SessionCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type EmployeeCreateWithoutUserInput = {
+    id?: string
+    position: string
+    phone?: string | null
+    address?: string | null
+    joinDate?: Date | string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EmployeeUncheckedCreateWithoutUserInput = {
+    id?: string
+    position: string
+    phone?: string | null
+    address?: string | null
+    joinDate?: Date | string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EmployeeCreateOrConnectWithoutUserInput = {
+    where: EmployeeWhereUniqueInput
+    create: XOR<EmployeeCreateWithoutUserInput, EmployeeUncheckedCreateWithoutUserInput>
+  }
+
+  export type WorkOrderCreateWithoutAdvisorInput = {
+    id?: string
+    woNumber: string
+    status?: $Enums.WorkOrderStatus
+    odo?: number | null
+    complaint?: string | null
+    preCheck?: string | null
+    postCheck?: string | null
+    estimatedDoneAt?: Date | string | null
+    reminderNextOdo?: number | null
+    reminderNextDate?: Date | string | null
+    dp?: number
+    discountPercent?: number
+    taxPercent?: number
+    subtotal?: number
+    grandTotal?: number
+    paidAmount?: number
+    changeAmount?: number
+    paymentMethod?: $Enums.PaymentMethod
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    customer: CustomerCreateNestedOneWithoutWorkOrdersInput
+    vehicle: VehicleCreateNestedOneWithoutWorkOrdersInput
+    items?: WorkOrderItemCreateNestedManyWithoutWorkOrderInput
+    mechanics?: WorkOrderMechanicCreateNestedManyWithoutWorkOrderInput
+  }
+
+  export type WorkOrderUncheckedCreateWithoutAdvisorInput = {
+    id?: string
+    woNumber: string
+    status?: $Enums.WorkOrderStatus
+    customerId: string
+    vehicleId: string
+    odo?: number | null
+    complaint?: string | null
+    preCheck?: string | null
+    postCheck?: string | null
+    estimatedDoneAt?: Date | string | null
+    reminderNextOdo?: number | null
+    reminderNextDate?: Date | string | null
+    dp?: number
+    discountPercent?: number
+    taxPercent?: number
+    subtotal?: number
+    grandTotal?: number
+    paidAmount?: number
+    changeAmount?: number
+    paymentMethod?: $Enums.PaymentMethod
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    items?: WorkOrderItemUncheckedCreateNestedManyWithoutWorkOrderInput
+    mechanics?: WorkOrderMechanicUncheckedCreateNestedManyWithoutWorkOrderInput
+  }
+
+  export type WorkOrderCreateOrConnectWithoutAdvisorInput = {
+    where: WorkOrderWhereUniqueInput
+    create: XOR<WorkOrderCreateWithoutAdvisorInput, WorkOrderUncheckedCreateWithoutAdvisorInput>
+  }
+
+  export type WorkOrderCreateManyAdvisorInputEnvelope = {
+    data: WorkOrderCreateManyAdvisorInput | WorkOrderCreateManyAdvisorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type WorkOrderMechanicCreateWithoutUserInput = {
+    workOrder: WorkOrderCreateNestedOneWithoutMechanicsInput
+  }
+
+  export type WorkOrderMechanicUncheckedCreateWithoutUserInput = {
+    workOrderId: string
+  }
+
+  export type WorkOrderMechanicCreateOrConnectWithoutUserInput = {
+    where: WorkOrderMechanicWhereUniqueInput
+    create: XOR<WorkOrderMechanicCreateWithoutUserInput, WorkOrderMechanicUncheckedCreateWithoutUserInput>
+  }
+
+  export type WorkOrderMechanicCreateManyUserInputEnvelope = {
+    data: WorkOrderMechanicCreateManyUserInput | WorkOrderMechanicCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -10509,6 +22912,1329 @@ export namespace Prisma {
     expires?: DateTimeFilter<"Session"> | Date | string
   }
 
+  export type EmployeeUpsertWithoutUserInput = {
+    update: XOR<EmployeeUpdateWithoutUserInput, EmployeeUncheckedUpdateWithoutUserInput>
+    create: XOR<EmployeeCreateWithoutUserInput, EmployeeUncheckedCreateWithoutUserInput>
+    where?: EmployeeWhereInput
+  }
+
+  export type EmployeeUpdateToOneWithWhereWithoutUserInput = {
+    where?: EmployeeWhereInput
+    data: XOR<EmployeeUpdateWithoutUserInput, EmployeeUncheckedUpdateWithoutUserInput>
+  }
+
+  export type EmployeeUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    position?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    joinDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EmployeeUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    position?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    joinDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WorkOrderUpsertWithWhereUniqueWithoutAdvisorInput = {
+    where: WorkOrderWhereUniqueInput
+    update: XOR<WorkOrderUpdateWithoutAdvisorInput, WorkOrderUncheckedUpdateWithoutAdvisorInput>
+    create: XOR<WorkOrderCreateWithoutAdvisorInput, WorkOrderUncheckedCreateWithoutAdvisorInput>
+  }
+
+  export type WorkOrderUpdateWithWhereUniqueWithoutAdvisorInput = {
+    where: WorkOrderWhereUniqueInput
+    data: XOR<WorkOrderUpdateWithoutAdvisorInput, WorkOrderUncheckedUpdateWithoutAdvisorInput>
+  }
+
+  export type WorkOrderUpdateManyWithWhereWithoutAdvisorInput = {
+    where: WorkOrderScalarWhereInput
+    data: XOR<WorkOrderUpdateManyMutationInput, WorkOrderUncheckedUpdateManyWithoutAdvisorInput>
+  }
+
+  export type WorkOrderScalarWhereInput = {
+    AND?: WorkOrderScalarWhereInput | WorkOrderScalarWhereInput[]
+    OR?: WorkOrderScalarWhereInput[]
+    NOT?: WorkOrderScalarWhereInput | WorkOrderScalarWhereInput[]
+    id?: StringFilter<"WorkOrder"> | string
+    woNumber?: StringFilter<"WorkOrder"> | string
+    status?: EnumWorkOrderStatusFilter<"WorkOrder"> | $Enums.WorkOrderStatus
+    customerId?: StringFilter<"WorkOrder"> | string
+    vehicleId?: StringFilter<"WorkOrder"> | string
+    advisorId?: StringNullableFilter<"WorkOrder"> | string | null
+    odo?: IntNullableFilter<"WorkOrder"> | number | null
+    complaint?: StringNullableFilter<"WorkOrder"> | string | null
+    preCheck?: StringNullableFilter<"WorkOrder"> | string | null
+    postCheck?: StringNullableFilter<"WorkOrder"> | string | null
+    estimatedDoneAt?: DateTimeNullableFilter<"WorkOrder"> | Date | string | null
+    reminderNextOdo?: IntNullableFilter<"WorkOrder"> | number | null
+    reminderNextDate?: DateTimeNullableFilter<"WorkOrder"> | Date | string | null
+    dp?: IntFilter<"WorkOrder"> | number
+    discountPercent?: IntFilter<"WorkOrder"> | number
+    taxPercent?: IntFilter<"WorkOrder"> | number
+    subtotal?: IntFilter<"WorkOrder"> | number
+    grandTotal?: IntFilter<"WorkOrder"> | number
+    paidAmount?: IntFilter<"WorkOrder"> | number
+    changeAmount?: IntFilter<"WorkOrder"> | number
+    paymentMethod?: EnumPaymentMethodFilter<"WorkOrder"> | $Enums.PaymentMethod
+    createdAt?: DateTimeFilter<"WorkOrder"> | Date | string
+    updatedAt?: DateTimeFilter<"WorkOrder"> | Date | string
+  }
+
+  export type WorkOrderMechanicUpsertWithWhereUniqueWithoutUserInput = {
+    where: WorkOrderMechanicWhereUniqueInput
+    update: XOR<WorkOrderMechanicUpdateWithoutUserInput, WorkOrderMechanicUncheckedUpdateWithoutUserInput>
+    create: XOR<WorkOrderMechanicCreateWithoutUserInput, WorkOrderMechanicUncheckedCreateWithoutUserInput>
+  }
+
+  export type WorkOrderMechanicUpdateWithWhereUniqueWithoutUserInput = {
+    where: WorkOrderMechanicWhereUniqueInput
+    data: XOR<WorkOrderMechanicUpdateWithoutUserInput, WorkOrderMechanicUncheckedUpdateWithoutUserInput>
+  }
+
+  export type WorkOrderMechanicUpdateManyWithWhereWithoutUserInput = {
+    where: WorkOrderMechanicScalarWhereInput
+    data: XOR<WorkOrderMechanicUpdateManyMutationInput, WorkOrderMechanicUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type WorkOrderMechanicScalarWhereInput = {
+    AND?: WorkOrderMechanicScalarWhereInput | WorkOrderMechanicScalarWhereInput[]
+    OR?: WorkOrderMechanicScalarWhereInput[]
+    NOT?: WorkOrderMechanicScalarWhereInput | WorkOrderMechanicScalarWhereInput[]
+    workOrderId?: StringFilter<"WorkOrderMechanic"> | string
+    userId?: StringFilter<"WorkOrderMechanic"> | string
+  }
+
+  export type UserCreateWithoutEmployeeInput = {
+    id?: string
+    name?: string | null
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    password: string
+    role: RoleCreateNestedOneWithoutUsersInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    advisorWorkOrders?: WorkOrderCreateNestedManyWithoutAdvisorInput
+    mechanicWorkOrders?: WorkOrderMechanicCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutEmployeeInput = {
+    id?: string
+    name?: string | null
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    password: string
+    roleId: string
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    advisorWorkOrders?: WorkOrderUncheckedCreateNestedManyWithoutAdvisorInput
+    mechanicWorkOrders?: WorkOrderMechanicUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutEmployeeInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutEmployeeInput, UserUncheckedCreateWithoutEmployeeInput>
+  }
+
+  export type UserUpsertWithoutEmployeeInput = {
+    update: XOR<UserUpdateWithoutEmployeeInput, UserUncheckedUpdateWithoutEmployeeInput>
+    create: XOR<UserCreateWithoutEmployeeInput, UserUncheckedCreateWithoutEmployeeInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutEmployeeInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutEmployeeInput, UserUncheckedUpdateWithoutEmployeeInput>
+  }
+
+  export type UserUpdateWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: StringFieldUpdateOperationsInput | string
+    role?: RoleUpdateOneRequiredWithoutUsersNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    advisorWorkOrders?: WorkOrderUpdateManyWithoutAdvisorNestedInput
+    mechanicWorkOrders?: WorkOrderMechanicUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: StringFieldUpdateOperationsInput | string
+    roleId?: StringFieldUpdateOperationsInput | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    advisorWorkOrders?: WorkOrderUncheckedUpdateManyWithoutAdvisorNestedInput
+    mechanicWorkOrders?: WorkOrderMechanicUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type VehicleCreateWithoutCustomerInput = {
+    id?: string
+    plateNumber: string
+    brand: string
+    model: string
+    year?: number | null
+    color?: string | null
+    engineNumber?: string | null
+    chassisNumber?: string | null
+    currentOdometer?: number | null
+    note?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workOrders?: WorkOrderCreateNestedManyWithoutVehicleInput
+  }
+
+  export type VehicleUncheckedCreateWithoutCustomerInput = {
+    id?: string
+    plateNumber: string
+    brand: string
+    model: string
+    year?: number | null
+    color?: string | null
+    engineNumber?: string | null
+    chassisNumber?: string | null
+    currentOdometer?: number | null
+    note?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutVehicleInput
+  }
+
+  export type VehicleCreateOrConnectWithoutCustomerInput = {
+    where: VehicleWhereUniqueInput
+    create: XOR<VehicleCreateWithoutCustomerInput, VehicleUncheckedCreateWithoutCustomerInput>
+  }
+
+  export type VehicleCreateManyCustomerInputEnvelope = {
+    data: VehicleCreateManyCustomerInput | VehicleCreateManyCustomerInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type WorkOrderCreateWithoutCustomerInput = {
+    id?: string
+    woNumber: string
+    status?: $Enums.WorkOrderStatus
+    odo?: number | null
+    complaint?: string | null
+    preCheck?: string | null
+    postCheck?: string | null
+    estimatedDoneAt?: Date | string | null
+    reminderNextOdo?: number | null
+    reminderNextDate?: Date | string | null
+    dp?: number
+    discountPercent?: number
+    taxPercent?: number
+    subtotal?: number
+    grandTotal?: number
+    paidAmount?: number
+    changeAmount?: number
+    paymentMethod?: $Enums.PaymentMethod
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    vehicle: VehicleCreateNestedOneWithoutWorkOrdersInput
+    advisor?: UserCreateNestedOneWithoutAdvisorWorkOrdersInput
+    items?: WorkOrderItemCreateNestedManyWithoutWorkOrderInput
+    mechanics?: WorkOrderMechanicCreateNestedManyWithoutWorkOrderInput
+  }
+
+  export type WorkOrderUncheckedCreateWithoutCustomerInput = {
+    id?: string
+    woNumber: string
+    status?: $Enums.WorkOrderStatus
+    vehicleId: string
+    advisorId?: string | null
+    odo?: number | null
+    complaint?: string | null
+    preCheck?: string | null
+    postCheck?: string | null
+    estimatedDoneAt?: Date | string | null
+    reminderNextOdo?: number | null
+    reminderNextDate?: Date | string | null
+    dp?: number
+    discountPercent?: number
+    taxPercent?: number
+    subtotal?: number
+    grandTotal?: number
+    paidAmount?: number
+    changeAmount?: number
+    paymentMethod?: $Enums.PaymentMethod
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    items?: WorkOrderItemUncheckedCreateNestedManyWithoutWorkOrderInput
+    mechanics?: WorkOrderMechanicUncheckedCreateNestedManyWithoutWorkOrderInput
+  }
+
+  export type WorkOrderCreateOrConnectWithoutCustomerInput = {
+    where: WorkOrderWhereUniqueInput
+    create: XOR<WorkOrderCreateWithoutCustomerInput, WorkOrderUncheckedCreateWithoutCustomerInput>
+  }
+
+  export type WorkOrderCreateManyCustomerInputEnvelope = {
+    data: WorkOrderCreateManyCustomerInput | WorkOrderCreateManyCustomerInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type VehicleUpsertWithWhereUniqueWithoutCustomerInput = {
+    where: VehicleWhereUniqueInput
+    update: XOR<VehicleUpdateWithoutCustomerInput, VehicleUncheckedUpdateWithoutCustomerInput>
+    create: XOR<VehicleCreateWithoutCustomerInput, VehicleUncheckedCreateWithoutCustomerInput>
+  }
+
+  export type VehicleUpdateWithWhereUniqueWithoutCustomerInput = {
+    where: VehicleWhereUniqueInput
+    data: XOR<VehicleUpdateWithoutCustomerInput, VehicleUncheckedUpdateWithoutCustomerInput>
+  }
+
+  export type VehicleUpdateManyWithWhereWithoutCustomerInput = {
+    where: VehicleScalarWhereInput
+    data: XOR<VehicleUpdateManyMutationInput, VehicleUncheckedUpdateManyWithoutCustomerInput>
+  }
+
+  export type VehicleScalarWhereInput = {
+    AND?: VehicleScalarWhereInput | VehicleScalarWhereInput[]
+    OR?: VehicleScalarWhereInput[]
+    NOT?: VehicleScalarWhereInput | VehicleScalarWhereInput[]
+    id?: StringFilter<"Vehicle"> | string
+    customerId?: StringFilter<"Vehicle"> | string
+    plateNumber?: StringFilter<"Vehicle"> | string
+    brand?: StringFilter<"Vehicle"> | string
+    model?: StringFilter<"Vehicle"> | string
+    year?: IntNullableFilter<"Vehicle"> | number | null
+    color?: StringNullableFilter<"Vehicle"> | string | null
+    engineNumber?: StringNullableFilter<"Vehicle"> | string | null
+    chassisNumber?: StringNullableFilter<"Vehicle"> | string | null
+    currentOdometer?: IntNullableFilter<"Vehicle"> | number | null
+    note?: StringNullableFilter<"Vehicle"> | string | null
+    createdAt?: DateTimeFilter<"Vehicle"> | Date | string
+    updatedAt?: DateTimeFilter<"Vehicle"> | Date | string
+  }
+
+  export type WorkOrderUpsertWithWhereUniqueWithoutCustomerInput = {
+    where: WorkOrderWhereUniqueInput
+    update: XOR<WorkOrderUpdateWithoutCustomerInput, WorkOrderUncheckedUpdateWithoutCustomerInput>
+    create: XOR<WorkOrderCreateWithoutCustomerInput, WorkOrderUncheckedCreateWithoutCustomerInput>
+  }
+
+  export type WorkOrderUpdateWithWhereUniqueWithoutCustomerInput = {
+    where: WorkOrderWhereUniqueInput
+    data: XOR<WorkOrderUpdateWithoutCustomerInput, WorkOrderUncheckedUpdateWithoutCustomerInput>
+  }
+
+  export type WorkOrderUpdateManyWithWhereWithoutCustomerInput = {
+    where: WorkOrderScalarWhereInput
+    data: XOR<WorkOrderUpdateManyMutationInput, WorkOrderUncheckedUpdateManyWithoutCustomerInput>
+  }
+
+  export type CustomerCreateWithoutVehiclesInput = {
+    id?: string
+    name: string
+    phone: string
+    address?: string | null
+    birthDate?: Date | string | null
+    note?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workOrders?: WorkOrderCreateNestedManyWithoutCustomerInput
+  }
+
+  export type CustomerUncheckedCreateWithoutVehiclesInput = {
+    id?: string
+    name: string
+    phone: string
+    address?: string | null
+    birthDate?: Date | string | null
+    note?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutCustomerInput
+  }
+
+  export type CustomerCreateOrConnectWithoutVehiclesInput = {
+    where: CustomerWhereUniqueInput
+    create: XOR<CustomerCreateWithoutVehiclesInput, CustomerUncheckedCreateWithoutVehiclesInput>
+  }
+
+  export type WorkOrderCreateWithoutVehicleInput = {
+    id?: string
+    woNumber: string
+    status?: $Enums.WorkOrderStatus
+    odo?: number | null
+    complaint?: string | null
+    preCheck?: string | null
+    postCheck?: string | null
+    estimatedDoneAt?: Date | string | null
+    reminderNextOdo?: number | null
+    reminderNextDate?: Date | string | null
+    dp?: number
+    discountPercent?: number
+    taxPercent?: number
+    subtotal?: number
+    grandTotal?: number
+    paidAmount?: number
+    changeAmount?: number
+    paymentMethod?: $Enums.PaymentMethod
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    customer: CustomerCreateNestedOneWithoutWorkOrdersInput
+    advisor?: UserCreateNestedOneWithoutAdvisorWorkOrdersInput
+    items?: WorkOrderItemCreateNestedManyWithoutWorkOrderInput
+    mechanics?: WorkOrderMechanicCreateNestedManyWithoutWorkOrderInput
+  }
+
+  export type WorkOrderUncheckedCreateWithoutVehicleInput = {
+    id?: string
+    woNumber: string
+    status?: $Enums.WorkOrderStatus
+    customerId: string
+    advisorId?: string | null
+    odo?: number | null
+    complaint?: string | null
+    preCheck?: string | null
+    postCheck?: string | null
+    estimatedDoneAt?: Date | string | null
+    reminderNextOdo?: number | null
+    reminderNextDate?: Date | string | null
+    dp?: number
+    discountPercent?: number
+    taxPercent?: number
+    subtotal?: number
+    grandTotal?: number
+    paidAmount?: number
+    changeAmount?: number
+    paymentMethod?: $Enums.PaymentMethod
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    items?: WorkOrderItemUncheckedCreateNestedManyWithoutWorkOrderInput
+    mechanics?: WorkOrderMechanicUncheckedCreateNestedManyWithoutWorkOrderInput
+  }
+
+  export type WorkOrderCreateOrConnectWithoutVehicleInput = {
+    where: WorkOrderWhereUniqueInput
+    create: XOR<WorkOrderCreateWithoutVehicleInput, WorkOrderUncheckedCreateWithoutVehicleInput>
+  }
+
+  export type WorkOrderCreateManyVehicleInputEnvelope = {
+    data: WorkOrderCreateManyVehicleInput | WorkOrderCreateManyVehicleInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CustomerUpsertWithoutVehiclesInput = {
+    update: XOR<CustomerUpdateWithoutVehiclesInput, CustomerUncheckedUpdateWithoutVehiclesInput>
+    create: XOR<CustomerCreateWithoutVehiclesInput, CustomerUncheckedCreateWithoutVehiclesInput>
+    where?: CustomerWhereInput
+  }
+
+  export type CustomerUpdateToOneWithWhereWithoutVehiclesInput = {
+    where?: CustomerWhereInput
+    data: XOR<CustomerUpdateWithoutVehiclesInput, CustomerUncheckedUpdateWithoutVehiclesInput>
+  }
+
+  export type CustomerUpdateWithoutVehiclesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workOrders?: WorkOrderUpdateManyWithoutCustomerNestedInput
+  }
+
+  export type CustomerUncheckedUpdateWithoutVehiclesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutCustomerNestedInput
+  }
+
+  export type WorkOrderUpsertWithWhereUniqueWithoutVehicleInput = {
+    where: WorkOrderWhereUniqueInput
+    update: XOR<WorkOrderUpdateWithoutVehicleInput, WorkOrderUncheckedUpdateWithoutVehicleInput>
+    create: XOR<WorkOrderCreateWithoutVehicleInput, WorkOrderUncheckedCreateWithoutVehicleInput>
+  }
+
+  export type WorkOrderUpdateWithWhereUniqueWithoutVehicleInput = {
+    where: WorkOrderWhereUniqueInput
+    data: XOR<WorkOrderUpdateWithoutVehicleInput, WorkOrderUncheckedUpdateWithoutVehicleInput>
+  }
+
+  export type WorkOrderUpdateManyWithWhereWithoutVehicleInput = {
+    where: WorkOrderScalarWhereInput
+    data: XOR<WorkOrderUpdateManyMutationInput, WorkOrderUncheckedUpdateManyWithoutVehicleInput>
+  }
+
+  export type CustomerCreateWithoutWorkOrdersInput = {
+    id?: string
+    name: string
+    phone: string
+    address?: string | null
+    birthDate?: Date | string | null
+    note?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    vehicles?: VehicleCreateNestedManyWithoutCustomerInput
+  }
+
+  export type CustomerUncheckedCreateWithoutWorkOrdersInput = {
+    id?: string
+    name: string
+    phone: string
+    address?: string | null
+    birthDate?: Date | string | null
+    note?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutCustomerInput
+  }
+
+  export type CustomerCreateOrConnectWithoutWorkOrdersInput = {
+    where: CustomerWhereUniqueInput
+    create: XOR<CustomerCreateWithoutWorkOrdersInput, CustomerUncheckedCreateWithoutWorkOrdersInput>
+  }
+
+  export type VehicleCreateWithoutWorkOrdersInput = {
+    id?: string
+    plateNumber: string
+    brand: string
+    model: string
+    year?: number | null
+    color?: string | null
+    engineNumber?: string | null
+    chassisNumber?: string | null
+    currentOdometer?: number | null
+    note?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    customer: CustomerCreateNestedOneWithoutVehiclesInput
+  }
+
+  export type VehicleUncheckedCreateWithoutWorkOrdersInput = {
+    id?: string
+    customerId: string
+    plateNumber: string
+    brand: string
+    model: string
+    year?: number | null
+    color?: string | null
+    engineNumber?: string | null
+    chassisNumber?: string | null
+    currentOdometer?: number | null
+    note?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VehicleCreateOrConnectWithoutWorkOrdersInput = {
+    where: VehicleWhereUniqueInput
+    create: XOR<VehicleCreateWithoutWorkOrdersInput, VehicleUncheckedCreateWithoutWorkOrdersInput>
+  }
+
+  export type UserCreateWithoutAdvisorWorkOrdersInput = {
+    id?: string
+    name?: string | null
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    password: string
+    role: RoleCreateNestedOneWithoutUsersInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    employee?: EmployeeCreateNestedOneWithoutUserInput
+    mechanicWorkOrders?: WorkOrderMechanicCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutAdvisorWorkOrdersInput = {
+    id?: string
+    name?: string | null
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    password: string
+    roleId: string
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    employee?: EmployeeUncheckedCreateNestedOneWithoutUserInput
+    mechanicWorkOrders?: WorkOrderMechanicUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutAdvisorWorkOrdersInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutAdvisorWorkOrdersInput, UserUncheckedCreateWithoutAdvisorWorkOrdersInput>
+  }
+
+  export type WorkOrderItemCreateWithoutWorkOrderInput = {
+    id?: string
+    type: $Enums.WorkOrderItemType
+    name: string
+    qty: number
+    price: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sparepart?: SparepartCreateNestedOneWithoutWorkOrderItemsInput
+    oil?: OilCreateNestedOneWithoutWorkOrderItemsInput
+  }
+
+  export type WorkOrderItemUncheckedCreateWithoutWorkOrderInput = {
+    id?: string
+    type: $Enums.WorkOrderItemType
+    name: string
+    qty: number
+    price: number
+    sparepartId?: string | null
+    oilId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WorkOrderItemCreateOrConnectWithoutWorkOrderInput = {
+    where: WorkOrderItemWhereUniqueInput
+    create: XOR<WorkOrderItemCreateWithoutWorkOrderInput, WorkOrderItemUncheckedCreateWithoutWorkOrderInput>
+  }
+
+  export type WorkOrderItemCreateManyWorkOrderInputEnvelope = {
+    data: WorkOrderItemCreateManyWorkOrderInput | WorkOrderItemCreateManyWorkOrderInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type WorkOrderMechanicCreateWithoutWorkOrderInput = {
+    user: UserCreateNestedOneWithoutMechanicWorkOrdersInput
+  }
+
+  export type WorkOrderMechanicUncheckedCreateWithoutWorkOrderInput = {
+    userId: string
+  }
+
+  export type WorkOrderMechanicCreateOrConnectWithoutWorkOrderInput = {
+    where: WorkOrderMechanicWhereUniqueInput
+    create: XOR<WorkOrderMechanicCreateWithoutWorkOrderInput, WorkOrderMechanicUncheckedCreateWithoutWorkOrderInput>
+  }
+
+  export type WorkOrderMechanicCreateManyWorkOrderInputEnvelope = {
+    data: WorkOrderMechanicCreateManyWorkOrderInput | WorkOrderMechanicCreateManyWorkOrderInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CustomerUpsertWithoutWorkOrdersInput = {
+    update: XOR<CustomerUpdateWithoutWorkOrdersInput, CustomerUncheckedUpdateWithoutWorkOrdersInput>
+    create: XOR<CustomerCreateWithoutWorkOrdersInput, CustomerUncheckedCreateWithoutWorkOrdersInput>
+    where?: CustomerWhereInput
+  }
+
+  export type CustomerUpdateToOneWithWhereWithoutWorkOrdersInput = {
+    where?: CustomerWhereInput
+    data: XOR<CustomerUpdateWithoutWorkOrdersInput, CustomerUncheckedUpdateWithoutWorkOrdersInput>
+  }
+
+  export type CustomerUpdateWithoutWorkOrdersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    vehicles?: VehicleUpdateManyWithoutCustomerNestedInput
+  }
+
+  export type CustomerUncheckedUpdateWithoutWorkOrdersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    vehicles?: VehicleUncheckedUpdateManyWithoutCustomerNestedInput
+  }
+
+  export type VehicleUpsertWithoutWorkOrdersInput = {
+    update: XOR<VehicleUpdateWithoutWorkOrdersInput, VehicleUncheckedUpdateWithoutWorkOrdersInput>
+    create: XOR<VehicleCreateWithoutWorkOrdersInput, VehicleUncheckedCreateWithoutWorkOrdersInput>
+    where?: VehicleWhereInput
+  }
+
+  export type VehicleUpdateToOneWithWhereWithoutWorkOrdersInput = {
+    where?: VehicleWhereInput
+    data: XOR<VehicleUpdateWithoutWorkOrdersInput, VehicleUncheckedUpdateWithoutWorkOrdersInput>
+  }
+
+  export type VehicleUpdateWithoutWorkOrdersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    plateNumber?: StringFieldUpdateOperationsInput | string
+    brand?: StringFieldUpdateOperationsInput | string
+    model?: StringFieldUpdateOperationsInput | string
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    engineNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    chassisNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    currentOdometer?: NullableIntFieldUpdateOperationsInput | number | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customer?: CustomerUpdateOneRequiredWithoutVehiclesNestedInput
+  }
+
+  export type VehicleUncheckedUpdateWithoutWorkOrdersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    plateNumber?: StringFieldUpdateOperationsInput | string
+    brand?: StringFieldUpdateOperationsInput | string
+    model?: StringFieldUpdateOperationsInput | string
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    engineNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    chassisNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    currentOdometer?: NullableIntFieldUpdateOperationsInput | number | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserUpsertWithoutAdvisorWorkOrdersInput = {
+    update: XOR<UserUpdateWithoutAdvisorWorkOrdersInput, UserUncheckedUpdateWithoutAdvisorWorkOrdersInput>
+    create: XOR<UserCreateWithoutAdvisorWorkOrdersInput, UserUncheckedCreateWithoutAdvisorWorkOrdersInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutAdvisorWorkOrdersInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutAdvisorWorkOrdersInput, UserUncheckedUpdateWithoutAdvisorWorkOrdersInput>
+  }
+
+  export type UserUpdateWithoutAdvisorWorkOrdersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: StringFieldUpdateOperationsInput | string
+    role?: RoleUpdateOneRequiredWithoutUsersNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    employee?: EmployeeUpdateOneWithoutUserNestedInput
+    mechanicWorkOrders?: WorkOrderMechanicUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutAdvisorWorkOrdersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: StringFieldUpdateOperationsInput | string
+    roleId?: StringFieldUpdateOperationsInput | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    employee?: EmployeeUncheckedUpdateOneWithoutUserNestedInput
+    mechanicWorkOrders?: WorkOrderMechanicUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type WorkOrderItemUpsertWithWhereUniqueWithoutWorkOrderInput = {
+    where: WorkOrderItemWhereUniqueInput
+    update: XOR<WorkOrderItemUpdateWithoutWorkOrderInput, WorkOrderItemUncheckedUpdateWithoutWorkOrderInput>
+    create: XOR<WorkOrderItemCreateWithoutWorkOrderInput, WorkOrderItemUncheckedCreateWithoutWorkOrderInput>
+  }
+
+  export type WorkOrderItemUpdateWithWhereUniqueWithoutWorkOrderInput = {
+    where: WorkOrderItemWhereUniqueInput
+    data: XOR<WorkOrderItemUpdateWithoutWorkOrderInput, WorkOrderItemUncheckedUpdateWithoutWorkOrderInput>
+  }
+
+  export type WorkOrderItemUpdateManyWithWhereWithoutWorkOrderInput = {
+    where: WorkOrderItemScalarWhereInput
+    data: XOR<WorkOrderItemUpdateManyMutationInput, WorkOrderItemUncheckedUpdateManyWithoutWorkOrderInput>
+  }
+
+  export type WorkOrderItemScalarWhereInput = {
+    AND?: WorkOrderItemScalarWhereInput | WorkOrderItemScalarWhereInput[]
+    OR?: WorkOrderItemScalarWhereInput[]
+    NOT?: WorkOrderItemScalarWhereInput | WorkOrderItemScalarWhereInput[]
+    id?: StringFilter<"WorkOrderItem"> | string
+    workOrderId?: StringFilter<"WorkOrderItem"> | string
+    type?: EnumWorkOrderItemTypeFilter<"WorkOrderItem"> | $Enums.WorkOrderItemType
+    name?: StringFilter<"WorkOrderItem"> | string
+    qty?: IntFilter<"WorkOrderItem"> | number
+    price?: IntFilter<"WorkOrderItem"> | number
+    sparepartId?: StringNullableFilter<"WorkOrderItem"> | string | null
+    oilId?: StringNullableFilter<"WorkOrderItem"> | string | null
+    createdAt?: DateTimeFilter<"WorkOrderItem"> | Date | string
+    updatedAt?: DateTimeFilter<"WorkOrderItem"> | Date | string
+  }
+
+  export type WorkOrderMechanicUpsertWithWhereUniqueWithoutWorkOrderInput = {
+    where: WorkOrderMechanicWhereUniqueInput
+    update: XOR<WorkOrderMechanicUpdateWithoutWorkOrderInput, WorkOrderMechanicUncheckedUpdateWithoutWorkOrderInput>
+    create: XOR<WorkOrderMechanicCreateWithoutWorkOrderInput, WorkOrderMechanicUncheckedCreateWithoutWorkOrderInput>
+  }
+
+  export type WorkOrderMechanicUpdateWithWhereUniqueWithoutWorkOrderInput = {
+    where: WorkOrderMechanicWhereUniqueInput
+    data: XOR<WorkOrderMechanicUpdateWithoutWorkOrderInput, WorkOrderMechanicUncheckedUpdateWithoutWorkOrderInput>
+  }
+
+  export type WorkOrderMechanicUpdateManyWithWhereWithoutWorkOrderInput = {
+    where: WorkOrderMechanicScalarWhereInput
+    data: XOR<WorkOrderMechanicUpdateManyMutationInput, WorkOrderMechanicUncheckedUpdateManyWithoutWorkOrderInput>
+  }
+
+  export type WorkOrderCreateWithoutMechanicsInput = {
+    id?: string
+    woNumber: string
+    status?: $Enums.WorkOrderStatus
+    odo?: number | null
+    complaint?: string | null
+    preCheck?: string | null
+    postCheck?: string | null
+    estimatedDoneAt?: Date | string | null
+    reminderNextOdo?: number | null
+    reminderNextDate?: Date | string | null
+    dp?: number
+    discountPercent?: number
+    taxPercent?: number
+    subtotal?: number
+    grandTotal?: number
+    paidAmount?: number
+    changeAmount?: number
+    paymentMethod?: $Enums.PaymentMethod
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    customer: CustomerCreateNestedOneWithoutWorkOrdersInput
+    vehicle: VehicleCreateNestedOneWithoutWorkOrdersInput
+    advisor?: UserCreateNestedOneWithoutAdvisorWorkOrdersInput
+    items?: WorkOrderItemCreateNestedManyWithoutWorkOrderInput
+  }
+
+  export type WorkOrderUncheckedCreateWithoutMechanicsInput = {
+    id?: string
+    woNumber: string
+    status?: $Enums.WorkOrderStatus
+    customerId: string
+    vehicleId: string
+    advisorId?: string | null
+    odo?: number | null
+    complaint?: string | null
+    preCheck?: string | null
+    postCheck?: string | null
+    estimatedDoneAt?: Date | string | null
+    reminderNextOdo?: number | null
+    reminderNextDate?: Date | string | null
+    dp?: number
+    discountPercent?: number
+    taxPercent?: number
+    subtotal?: number
+    grandTotal?: number
+    paidAmount?: number
+    changeAmount?: number
+    paymentMethod?: $Enums.PaymentMethod
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    items?: WorkOrderItemUncheckedCreateNestedManyWithoutWorkOrderInput
+  }
+
+  export type WorkOrderCreateOrConnectWithoutMechanicsInput = {
+    where: WorkOrderWhereUniqueInput
+    create: XOR<WorkOrderCreateWithoutMechanicsInput, WorkOrderUncheckedCreateWithoutMechanicsInput>
+  }
+
+  export type UserCreateWithoutMechanicWorkOrdersInput = {
+    id?: string
+    name?: string | null
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    password: string
+    role: RoleCreateNestedOneWithoutUsersInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    employee?: EmployeeCreateNestedOneWithoutUserInput
+    advisorWorkOrders?: WorkOrderCreateNestedManyWithoutAdvisorInput
+  }
+
+  export type UserUncheckedCreateWithoutMechanicWorkOrdersInput = {
+    id?: string
+    name?: string | null
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    password: string
+    roleId: string
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    employee?: EmployeeUncheckedCreateNestedOneWithoutUserInput
+    advisorWorkOrders?: WorkOrderUncheckedCreateNestedManyWithoutAdvisorInput
+  }
+
+  export type UserCreateOrConnectWithoutMechanicWorkOrdersInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutMechanicWorkOrdersInput, UserUncheckedCreateWithoutMechanicWorkOrdersInput>
+  }
+
+  export type WorkOrderUpsertWithoutMechanicsInput = {
+    update: XOR<WorkOrderUpdateWithoutMechanicsInput, WorkOrderUncheckedUpdateWithoutMechanicsInput>
+    create: XOR<WorkOrderCreateWithoutMechanicsInput, WorkOrderUncheckedCreateWithoutMechanicsInput>
+    where?: WorkOrderWhereInput
+  }
+
+  export type WorkOrderUpdateToOneWithWhereWithoutMechanicsInput = {
+    where?: WorkOrderWhereInput
+    data: XOR<WorkOrderUpdateWithoutMechanicsInput, WorkOrderUncheckedUpdateWithoutMechanicsInput>
+  }
+
+  export type WorkOrderUpdateWithoutMechanicsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    woNumber?: StringFieldUpdateOperationsInput | string
+    status?: EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
+    odo?: NullableIntFieldUpdateOperationsInput | number | null
+    complaint?: NullableStringFieldUpdateOperationsInput | string | null
+    preCheck?: NullableStringFieldUpdateOperationsInput | string | null
+    postCheck?: NullableStringFieldUpdateOperationsInput | string | null
+    estimatedDoneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reminderNextOdo?: NullableIntFieldUpdateOperationsInput | number | null
+    reminderNextDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dp?: IntFieldUpdateOperationsInput | number
+    discountPercent?: IntFieldUpdateOperationsInput | number
+    taxPercent?: IntFieldUpdateOperationsInput | number
+    subtotal?: IntFieldUpdateOperationsInput | number
+    grandTotal?: IntFieldUpdateOperationsInput | number
+    paidAmount?: IntFieldUpdateOperationsInput | number
+    changeAmount?: IntFieldUpdateOperationsInput | number
+    paymentMethod?: EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customer?: CustomerUpdateOneRequiredWithoutWorkOrdersNestedInput
+    vehicle?: VehicleUpdateOneRequiredWithoutWorkOrdersNestedInput
+    advisor?: UserUpdateOneWithoutAdvisorWorkOrdersNestedInput
+    items?: WorkOrderItemUpdateManyWithoutWorkOrderNestedInput
+  }
+
+  export type WorkOrderUncheckedUpdateWithoutMechanicsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    woNumber?: StringFieldUpdateOperationsInput | string
+    status?: EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
+    customerId?: StringFieldUpdateOperationsInput | string
+    vehicleId?: StringFieldUpdateOperationsInput | string
+    advisorId?: NullableStringFieldUpdateOperationsInput | string | null
+    odo?: NullableIntFieldUpdateOperationsInput | number | null
+    complaint?: NullableStringFieldUpdateOperationsInput | string | null
+    preCheck?: NullableStringFieldUpdateOperationsInput | string | null
+    postCheck?: NullableStringFieldUpdateOperationsInput | string | null
+    estimatedDoneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reminderNextOdo?: NullableIntFieldUpdateOperationsInput | number | null
+    reminderNextDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dp?: IntFieldUpdateOperationsInput | number
+    discountPercent?: IntFieldUpdateOperationsInput | number
+    taxPercent?: IntFieldUpdateOperationsInput | number
+    subtotal?: IntFieldUpdateOperationsInput | number
+    grandTotal?: IntFieldUpdateOperationsInput | number
+    paidAmount?: IntFieldUpdateOperationsInput | number
+    changeAmount?: IntFieldUpdateOperationsInput | number
+    paymentMethod?: EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: WorkOrderItemUncheckedUpdateManyWithoutWorkOrderNestedInput
+  }
+
+  export type UserUpsertWithoutMechanicWorkOrdersInput = {
+    update: XOR<UserUpdateWithoutMechanicWorkOrdersInput, UserUncheckedUpdateWithoutMechanicWorkOrdersInput>
+    create: XOR<UserCreateWithoutMechanicWorkOrdersInput, UserUncheckedCreateWithoutMechanicWorkOrdersInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutMechanicWorkOrdersInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutMechanicWorkOrdersInput, UserUncheckedUpdateWithoutMechanicWorkOrdersInput>
+  }
+
+  export type UserUpdateWithoutMechanicWorkOrdersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: StringFieldUpdateOperationsInput | string
+    role?: RoleUpdateOneRequiredWithoutUsersNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    employee?: EmployeeUpdateOneWithoutUserNestedInput
+    advisorWorkOrders?: WorkOrderUpdateManyWithoutAdvisorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutMechanicWorkOrdersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: StringFieldUpdateOperationsInput | string
+    roleId?: StringFieldUpdateOperationsInput | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    employee?: EmployeeUncheckedUpdateOneWithoutUserNestedInput
+    advisorWorkOrders?: WorkOrderUncheckedUpdateManyWithoutAdvisorNestedInput
+  }
+
+  export type WorkOrderCreateWithoutItemsInput = {
+    id?: string
+    woNumber: string
+    status?: $Enums.WorkOrderStatus
+    odo?: number | null
+    complaint?: string | null
+    preCheck?: string | null
+    postCheck?: string | null
+    estimatedDoneAt?: Date | string | null
+    reminderNextOdo?: number | null
+    reminderNextDate?: Date | string | null
+    dp?: number
+    discountPercent?: number
+    taxPercent?: number
+    subtotal?: number
+    grandTotal?: number
+    paidAmount?: number
+    changeAmount?: number
+    paymentMethod?: $Enums.PaymentMethod
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    customer: CustomerCreateNestedOneWithoutWorkOrdersInput
+    vehicle: VehicleCreateNestedOneWithoutWorkOrdersInput
+    advisor?: UserCreateNestedOneWithoutAdvisorWorkOrdersInput
+    mechanics?: WorkOrderMechanicCreateNestedManyWithoutWorkOrderInput
+  }
+
+  export type WorkOrderUncheckedCreateWithoutItemsInput = {
+    id?: string
+    woNumber: string
+    status?: $Enums.WorkOrderStatus
+    customerId: string
+    vehicleId: string
+    advisorId?: string | null
+    odo?: number | null
+    complaint?: string | null
+    preCheck?: string | null
+    postCheck?: string | null
+    estimatedDoneAt?: Date | string | null
+    reminderNextOdo?: number | null
+    reminderNextDate?: Date | string | null
+    dp?: number
+    discountPercent?: number
+    taxPercent?: number
+    subtotal?: number
+    grandTotal?: number
+    paidAmount?: number
+    changeAmount?: number
+    paymentMethod?: $Enums.PaymentMethod
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    mechanics?: WorkOrderMechanicUncheckedCreateNestedManyWithoutWorkOrderInput
+  }
+
+  export type WorkOrderCreateOrConnectWithoutItemsInput = {
+    where: WorkOrderWhereUniqueInput
+    create: XOR<WorkOrderCreateWithoutItemsInput, WorkOrderUncheckedCreateWithoutItemsInput>
+  }
+
+  export type SparepartCreateWithoutWorkOrderItemsInput = {
+    id?: string
+    name: string
+    brand: string
+    price: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SparepartUncheckedCreateWithoutWorkOrderItemsInput = {
+    id?: string
+    name: string
+    brand: string
+    price: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SparepartCreateOrConnectWithoutWorkOrderItemsInput = {
+    where: SparepartWhereUniqueInput
+    create: XOR<SparepartCreateWithoutWorkOrderItemsInput, SparepartUncheckedCreateWithoutWorkOrderItemsInput>
+  }
+
+  export type OilCreateWithoutWorkOrderItemsInput = {
+    id?: string
+    brand: string
+    name: string
+    price: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OilUncheckedCreateWithoutWorkOrderItemsInput = {
+    id?: string
+    brand: string
+    name: string
+    price: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OilCreateOrConnectWithoutWorkOrderItemsInput = {
+    where: OilWhereUniqueInput
+    create: XOR<OilCreateWithoutWorkOrderItemsInput, OilUncheckedCreateWithoutWorkOrderItemsInput>
+  }
+
+  export type WorkOrderUpsertWithoutItemsInput = {
+    update: XOR<WorkOrderUpdateWithoutItemsInput, WorkOrderUncheckedUpdateWithoutItemsInput>
+    create: XOR<WorkOrderCreateWithoutItemsInput, WorkOrderUncheckedCreateWithoutItemsInput>
+    where?: WorkOrderWhereInput
+  }
+
+  export type WorkOrderUpdateToOneWithWhereWithoutItemsInput = {
+    where?: WorkOrderWhereInput
+    data: XOR<WorkOrderUpdateWithoutItemsInput, WorkOrderUncheckedUpdateWithoutItemsInput>
+  }
+
+  export type WorkOrderUpdateWithoutItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    woNumber?: StringFieldUpdateOperationsInput | string
+    status?: EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
+    odo?: NullableIntFieldUpdateOperationsInput | number | null
+    complaint?: NullableStringFieldUpdateOperationsInput | string | null
+    preCheck?: NullableStringFieldUpdateOperationsInput | string | null
+    postCheck?: NullableStringFieldUpdateOperationsInput | string | null
+    estimatedDoneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reminderNextOdo?: NullableIntFieldUpdateOperationsInput | number | null
+    reminderNextDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dp?: IntFieldUpdateOperationsInput | number
+    discountPercent?: IntFieldUpdateOperationsInput | number
+    taxPercent?: IntFieldUpdateOperationsInput | number
+    subtotal?: IntFieldUpdateOperationsInput | number
+    grandTotal?: IntFieldUpdateOperationsInput | number
+    paidAmount?: IntFieldUpdateOperationsInput | number
+    changeAmount?: IntFieldUpdateOperationsInput | number
+    paymentMethod?: EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customer?: CustomerUpdateOneRequiredWithoutWorkOrdersNestedInput
+    vehicle?: VehicleUpdateOneRequiredWithoutWorkOrdersNestedInput
+    advisor?: UserUpdateOneWithoutAdvisorWorkOrdersNestedInput
+    mechanics?: WorkOrderMechanicUpdateManyWithoutWorkOrderNestedInput
+  }
+
+  export type WorkOrderUncheckedUpdateWithoutItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    woNumber?: StringFieldUpdateOperationsInput | string
+    status?: EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
+    customerId?: StringFieldUpdateOperationsInput | string
+    vehicleId?: StringFieldUpdateOperationsInput | string
+    advisorId?: NullableStringFieldUpdateOperationsInput | string | null
+    odo?: NullableIntFieldUpdateOperationsInput | number | null
+    complaint?: NullableStringFieldUpdateOperationsInput | string | null
+    preCheck?: NullableStringFieldUpdateOperationsInput | string | null
+    postCheck?: NullableStringFieldUpdateOperationsInput | string | null
+    estimatedDoneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reminderNextOdo?: NullableIntFieldUpdateOperationsInput | number | null
+    reminderNextDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dp?: IntFieldUpdateOperationsInput | number
+    discountPercent?: IntFieldUpdateOperationsInput | number
+    taxPercent?: IntFieldUpdateOperationsInput | number
+    subtotal?: IntFieldUpdateOperationsInput | number
+    grandTotal?: IntFieldUpdateOperationsInput | number
+    paidAmount?: IntFieldUpdateOperationsInput | number
+    changeAmount?: IntFieldUpdateOperationsInput | number
+    paymentMethod?: EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    mechanics?: WorkOrderMechanicUncheckedUpdateManyWithoutWorkOrderNestedInput
+  }
+
+  export type SparepartUpsertWithoutWorkOrderItemsInput = {
+    update: XOR<SparepartUpdateWithoutWorkOrderItemsInput, SparepartUncheckedUpdateWithoutWorkOrderItemsInput>
+    create: XOR<SparepartCreateWithoutWorkOrderItemsInput, SparepartUncheckedCreateWithoutWorkOrderItemsInput>
+    where?: SparepartWhereInput
+  }
+
+  export type SparepartUpdateToOneWithWhereWithoutWorkOrderItemsInput = {
+    where?: SparepartWhereInput
+    data: XOR<SparepartUpdateWithoutWorkOrderItemsInput, SparepartUncheckedUpdateWithoutWorkOrderItemsInput>
+  }
+
+  export type SparepartUpdateWithoutWorkOrderItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    brand?: StringFieldUpdateOperationsInput | string
+    price?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SparepartUncheckedUpdateWithoutWorkOrderItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    brand?: StringFieldUpdateOperationsInput | string
+    price?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OilUpsertWithoutWorkOrderItemsInput = {
+    update: XOR<OilUpdateWithoutWorkOrderItemsInput, OilUncheckedUpdateWithoutWorkOrderItemsInput>
+    create: XOR<OilCreateWithoutWorkOrderItemsInput, OilUncheckedCreateWithoutWorkOrderItemsInput>
+    where?: OilWhereInput
+  }
+
+  export type OilUpdateToOneWithWhereWithoutWorkOrderItemsInput = {
+    where?: OilWhereInput
+    data: XOR<OilUpdateWithoutWorkOrderItemsInput, OilUncheckedUpdateWithoutWorkOrderItemsInput>
+  }
+
+  export type OilUpdateWithoutWorkOrderItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    brand?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    price?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OilUncheckedUpdateWithoutWorkOrderItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    brand?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    price?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WorkOrderItemCreateWithoutSparepartInput = {
+    id?: string
+    type: $Enums.WorkOrderItemType
+    name: string
+    qty: number
+    price: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workOrder: WorkOrderCreateNestedOneWithoutItemsInput
+    oil?: OilCreateNestedOneWithoutWorkOrderItemsInput
+  }
+
+  export type WorkOrderItemUncheckedCreateWithoutSparepartInput = {
+    id?: string
+    workOrderId: string
+    type: $Enums.WorkOrderItemType
+    name: string
+    qty: number
+    price: number
+    oilId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WorkOrderItemCreateOrConnectWithoutSparepartInput = {
+    where: WorkOrderItemWhereUniqueInput
+    create: XOR<WorkOrderItemCreateWithoutSparepartInput, WorkOrderItemUncheckedCreateWithoutSparepartInput>
+  }
+
+  export type WorkOrderItemCreateManySparepartInputEnvelope = {
+    data: WorkOrderItemCreateManySparepartInput | WorkOrderItemCreateManySparepartInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type WorkOrderItemUpsertWithWhereUniqueWithoutSparepartInput = {
+    where: WorkOrderItemWhereUniqueInput
+    update: XOR<WorkOrderItemUpdateWithoutSparepartInput, WorkOrderItemUncheckedUpdateWithoutSparepartInput>
+    create: XOR<WorkOrderItemCreateWithoutSparepartInput, WorkOrderItemUncheckedCreateWithoutSparepartInput>
+  }
+
+  export type WorkOrderItemUpdateWithWhereUniqueWithoutSparepartInput = {
+    where: WorkOrderItemWhereUniqueInput
+    data: XOR<WorkOrderItemUpdateWithoutSparepartInput, WorkOrderItemUncheckedUpdateWithoutSparepartInput>
+  }
+
+  export type WorkOrderItemUpdateManyWithWhereWithoutSparepartInput = {
+    where: WorkOrderItemScalarWhereInput
+    data: XOR<WorkOrderItemUpdateManyMutationInput, WorkOrderItemUncheckedUpdateManyWithoutSparepartInput>
+  }
+
+  export type WorkOrderItemCreateWithoutOilInput = {
+    id?: string
+    type: $Enums.WorkOrderItemType
+    name: string
+    qty: number
+    price: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workOrder: WorkOrderCreateNestedOneWithoutItemsInput
+    sparepart?: SparepartCreateNestedOneWithoutWorkOrderItemsInput
+  }
+
+  export type WorkOrderItemUncheckedCreateWithoutOilInput = {
+    id?: string
+    workOrderId: string
+    type: $Enums.WorkOrderItemType
+    name: string
+    qty: number
+    price: number
+    sparepartId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WorkOrderItemCreateOrConnectWithoutOilInput = {
+    where: WorkOrderItemWhereUniqueInput
+    create: XOR<WorkOrderItemCreateWithoutOilInput, WorkOrderItemUncheckedCreateWithoutOilInput>
+  }
+
+  export type WorkOrderItemCreateManyOilInputEnvelope = {
+    data: WorkOrderItemCreateManyOilInput | WorkOrderItemCreateManyOilInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type WorkOrderItemUpsertWithWhereUniqueWithoutOilInput = {
+    where: WorkOrderItemWhereUniqueInput
+    update: XOR<WorkOrderItemUpdateWithoutOilInput, WorkOrderItemUncheckedUpdateWithoutOilInput>
+    create: XOR<WorkOrderItemCreateWithoutOilInput, WorkOrderItemUncheckedCreateWithoutOilInput>
+  }
+
+  export type WorkOrderItemUpdateWithWhereUniqueWithoutOilInput = {
+    where: WorkOrderItemWhereUniqueInput
+    data: XOR<WorkOrderItemUpdateWithoutOilInput, WorkOrderItemUncheckedUpdateWithoutOilInput>
+  }
+
+  export type WorkOrderItemUpdateManyWithWhereWithoutOilInput = {
+    where: WorkOrderItemScalarWhereInput
+    data: XOR<WorkOrderItemUpdateManyMutationInput, WorkOrderItemUncheckedUpdateManyWithoutOilInput>
+  }
+
   export type UserCreateManyRoleInput = {
     id?: string
     name?: string | null
@@ -10531,6 +24257,9 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
+    employee?: EmployeeUpdateOneWithoutUserNestedInput
+    advisorWorkOrders?: WorkOrderUpdateManyWithoutAdvisorNestedInput
+    mechanicWorkOrders?: WorkOrderMechanicUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRoleInput = {
@@ -10542,6 +24271,9 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    employee?: EmployeeUncheckedUpdateOneWithoutUserNestedInput
+    advisorWorkOrders?: WorkOrderUncheckedUpdateManyWithoutAdvisorNestedInput
+    mechanicWorkOrders?: WorkOrderMechanicUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutRoleInput = {
@@ -10600,6 +24332,35 @@ export namespace Prisma {
     id?: string
     sessionToken: string
     expires: Date | string
+  }
+
+  export type WorkOrderCreateManyAdvisorInput = {
+    id?: string
+    woNumber: string
+    status?: $Enums.WorkOrderStatus
+    customerId: string
+    vehicleId: string
+    odo?: number | null
+    complaint?: string | null
+    preCheck?: string | null
+    postCheck?: string | null
+    estimatedDoneAt?: Date | string | null
+    reminderNextOdo?: number | null
+    reminderNextDate?: Date | string | null
+    dp?: number
+    discountPercent?: number
+    taxPercent?: number
+    subtotal?: number
+    grandTotal?: number
+    paidAmount?: number
+    changeAmount?: number
+    paymentMethod?: $Enums.PaymentMethod
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WorkOrderMechanicCreateManyUserInput = {
+    workOrderId: string
   }
 
   export type AccountUpdateWithoutUserInput = {
@@ -10663,6 +24424,527 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     sessionToken?: StringFieldUpdateOperationsInput | string
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WorkOrderUpdateWithoutAdvisorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    woNumber?: StringFieldUpdateOperationsInput | string
+    status?: EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
+    odo?: NullableIntFieldUpdateOperationsInput | number | null
+    complaint?: NullableStringFieldUpdateOperationsInput | string | null
+    preCheck?: NullableStringFieldUpdateOperationsInput | string | null
+    postCheck?: NullableStringFieldUpdateOperationsInput | string | null
+    estimatedDoneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reminderNextOdo?: NullableIntFieldUpdateOperationsInput | number | null
+    reminderNextDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dp?: IntFieldUpdateOperationsInput | number
+    discountPercent?: IntFieldUpdateOperationsInput | number
+    taxPercent?: IntFieldUpdateOperationsInput | number
+    subtotal?: IntFieldUpdateOperationsInput | number
+    grandTotal?: IntFieldUpdateOperationsInput | number
+    paidAmount?: IntFieldUpdateOperationsInput | number
+    changeAmount?: IntFieldUpdateOperationsInput | number
+    paymentMethod?: EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customer?: CustomerUpdateOneRequiredWithoutWorkOrdersNestedInput
+    vehicle?: VehicleUpdateOneRequiredWithoutWorkOrdersNestedInput
+    items?: WorkOrderItemUpdateManyWithoutWorkOrderNestedInput
+    mechanics?: WorkOrderMechanicUpdateManyWithoutWorkOrderNestedInput
+  }
+
+  export type WorkOrderUncheckedUpdateWithoutAdvisorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    woNumber?: StringFieldUpdateOperationsInput | string
+    status?: EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
+    customerId?: StringFieldUpdateOperationsInput | string
+    vehicleId?: StringFieldUpdateOperationsInput | string
+    odo?: NullableIntFieldUpdateOperationsInput | number | null
+    complaint?: NullableStringFieldUpdateOperationsInput | string | null
+    preCheck?: NullableStringFieldUpdateOperationsInput | string | null
+    postCheck?: NullableStringFieldUpdateOperationsInput | string | null
+    estimatedDoneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reminderNextOdo?: NullableIntFieldUpdateOperationsInput | number | null
+    reminderNextDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dp?: IntFieldUpdateOperationsInput | number
+    discountPercent?: IntFieldUpdateOperationsInput | number
+    taxPercent?: IntFieldUpdateOperationsInput | number
+    subtotal?: IntFieldUpdateOperationsInput | number
+    grandTotal?: IntFieldUpdateOperationsInput | number
+    paidAmount?: IntFieldUpdateOperationsInput | number
+    changeAmount?: IntFieldUpdateOperationsInput | number
+    paymentMethod?: EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: WorkOrderItemUncheckedUpdateManyWithoutWorkOrderNestedInput
+    mechanics?: WorkOrderMechanicUncheckedUpdateManyWithoutWorkOrderNestedInput
+  }
+
+  export type WorkOrderUncheckedUpdateManyWithoutAdvisorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    woNumber?: StringFieldUpdateOperationsInput | string
+    status?: EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
+    customerId?: StringFieldUpdateOperationsInput | string
+    vehicleId?: StringFieldUpdateOperationsInput | string
+    odo?: NullableIntFieldUpdateOperationsInput | number | null
+    complaint?: NullableStringFieldUpdateOperationsInput | string | null
+    preCheck?: NullableStringFieldUpdateOperationsInput | string | null
+    postCheck?: NullableStringFieldUpdateOperationsInput | string | null
+    estimatedDoneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reminderNextOdo?: NullableIntFieldUpdateOperationsInput | number | null
+    reminderNextDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dp?: IntFieldUpdateOperationsInput | number
+    discountPercent?: IntFieldUpdateOperationsInput | number
+    taxPercent?: IntFieldUpdateOperationsInput | number
+    subtotal?: IntFieldUpdateOperationsInput | number
+    grandTotal?: IntFieldUpdateOperationsInput | number
+    paidAmount?: IntFieldUpdateOperationsInput | number
+    changeAmount?: IntFieldUpdateOperationsInput | number
+    paymentMethod?: EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WorkOrderMechanicUpdateWithoutUserInput = {
+    workOrder?: WorkOrderUpdateOneRequiredWithoutMechanicsNestedInput
+  }
+
+  export type WorkOrderMechanicUncheckedUpdateWithoutUserInput = {
+    workOrderId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type WorkOrderMechanicUncheckedUpdateManyWithoutUserInput = {
+    workOrderId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type VehicleCreateManyCustomerInput = {
+    id?: string
+    plateNumber: string
+    brand: string
+    model: string
+    year?: number | null
+    color?: string | null
+    engineNumber?: string | null
+    chassisNumber?: string | null
+    currentOdometer?: number | null
+    note?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WorkOrderCreateManyCustomerInput = {
+    id?: string
+    woNumber: string
+    status?: $Enums.WorkOrderStatus
+    vehicleId: string
+    advisorId?: string | null
+    odo?: number | null
+    complaint?: string | null
+    preCheck?: string | null
+    postCheck?: string | null
+    estimatedDoneAt?: Date | string | null
+    reminderNextOdo?: number | null
+    reminderNextDate?: Date | string | null
+    dp?: number
+    discountPercent?: number
+    taxPercent?: number
+    subtotal?: number
+    grandTotal?: number
+    paidAmount?: number
+    changeAmount?: number
+    paymentMethod?: $Enums.PaymentMethod
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VehicleUpdateWithoutCustomerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    plateNumber?: StringFieldUpdateOperationsInput | string
+    brand?: StringFieldUpdateOperationsInput | string
+    model?: StringFieldUpdateOperationsInput | string
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    engineNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    chassisNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    currentOdometer?: NullableIntFieldUpdateOperationsInput | number | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workOrders?: WorkOrderUpdateManyWithoutVehicleNestedInput
+  }
+
+  export type VehicleUncheckedUpdateWithoutCustomerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    plateNumber?: StringFieldUpdateOperationsInput | string
+    brand?: StringFieldUpdateOperationsInput | string
+    model?: StringFieldUpdateOperationsInput | string
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    engineNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    chassisNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    currentOdometer?: NullableIntFieldUpdateOperationsInput | number | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutVehicleNestedInput
+  }
+
+  export type VehicleUncheckedUpdateManyWithoutCustomerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    plateNumber?: StringFieldUpdateOperationsInput | string
+    brand?: StringFieldUpdateOperationsInput | string
+    model?: StringFieldUpdateOperationsInput | string
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    engineNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    chassisNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    currentOdometer?: NullableIntFieldUpdateOperationsInput | number | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WorkOrderUpdateWithoutCustomerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    woNumber?: StringFieldUpdateOperationsInput | string
+    status?: EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
+    odo?: NullableIntFieldUpdateOperationsInput | number | null
+    complaint?: NullableStringFieldUpdateOperationsInput | string | null
+    preCheck?: NullableStringFieldUpdateOperationsInput | string | null
+    postCheck?: NullableStringFieldUpdateOperationsInput | string | null
+    estimatedDoneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reminderNextOdo?: NullableIntFieldUpdateOperationsInput | number | null
+    reminderNextDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dp?: IntFieldUpdateOperationsInput | number
+    discountPercent?: IntFieldUpdateOperationsInput | number
+    taxPercent?: IntFieldUpdateOperationsInput | number
+    subtotal?: IntFieldUpdateOperationsInput | number
+    grandTotal?: IntFieldUpdateOperationsInput | number
+    paidAmount?: IntFieldUpdateOperationsInput | number
+    changeAmount?: IntFieldUpdateOperationsInput | number
+    paymentMethod?: EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    vehicle?: VehicleUpdateOneRequiredWithoutWorkOrdersNestedInput
+    advisor?: UserUpdateOneWithoutAdvisorWorkOrdersNestedInput
+    items?: WorkOrderItemUpdateManyWithoutWorkOrderNestedInput
+    mechanics?: WorkOrderMechanicUpdateManyWithoutWorkOrderNestedInput
+  }
+
+  export type WorkOrderUncheckedUpdateWithoutCustomerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    woNumber?: StringFieldUpdateOperationsInput | string
+    status?: EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
+    vehicleId?: StringFieldUpdateOperationsInput | string
+    advisorId?: NullableStringFieldUpdateOperationsInput | string | null
+    odo?: NullableIntFieldUpdateOperationsInput | number | null
+    complaint?: NullableStringFieldUpdateOperationsInput | string | null
+    preCheck?: NullableStringFieldUpdateOperationsInput | string | null
+    postCheck?: NullableStringFieldUpdateOperationsInput | string | null
+    estimatedDoneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reminderNextOdo?: NullableIntFieldUpdateOperationsInput | number | null
+    reminderNextDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dp?: IntFieldUpdateOperationsInput | number
+    discountPercent?: IntFieldUpdateOperationsInput | number
+    taxPercent?: IntFieldUpdateOperationsInput | number
+    subtotal?: IntFieldUpdateOperationsInput | number
+    grandTotal?: IntFieldUpdateOperationsInput | number
+    paidAmount?: IntFieldUpdateOperationsInput | number
+    changeAmount?: IntFieldUpdateOperationsInput | number
+    paymentMethod?: EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: WorkOrderItemUncheckedUpdateManyWithoutWorkOrderNestedInput
+    mechanics?: WorkOrderMechanicUncheckedUpdateManyWithoutWorkOrderNestedInput
+  }
+
+  export type WorkOrderUncheckedUpdateManyWithoutCustomerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    woNumber?: StringFieldUpdateOperationsInput | string
+    status?: EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
+    vehicleId?: StringFieldUpdateOperationsInput | string
+    advisorId?: NullableStringFieldUpdateOperationsInput | string | null
+    odo?: NullableIntFieldUpdateOperationsInput | number | null
+    complaint?: NullableStringFieldUpdateOperationsInput | string | null
+    preCheck?: NullableStringFieldUpdateOperationsInput | string | null
+    postCheck?: NullableStringFieldUpdateOperationsInput | string | null
+    estimatedDoneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reminderNextOdo?: NullableIntFieldUpdateOperationsInput | number | null
+    reminderNextDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dp?: IntFieldUpdateOperationsInput | number
+    discountPercent?: IntFieldUpdateOperationsInput | number
+    taxPercent?: IntFieldUpdateOperationsInput | number
+    subtotal?: IntFieldUpdateOperationsInput | number
+    grandTotal?: IntFieldUpdateOperationsInput | number
+    paidAmount?: IntFieldUpdateOperationsInput | number
+    changeAmount?: IntFieldUpdateOperationsInput | number
+    paymentMethod?: EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WorkOrderCreateManyVehicleInput = {
+    id?: string
+    woNumber: string
+    status?: $Enums.WorkOrderStatus
+    customerId: string
+    advisorId?: string | null
+    odo?: number | null
+    complaint?: string | null
+    preCheck?: string | null
+    postCheck?: string | null
+    estimatedDoneAt?: Date | string | null
+    reminderNextOdo?: number | null
+    reminderNextDate?: Date | string | null
+    dp?: number
+    discountPercent?: number
+    taxPercent?: number
+    subtotal?: number
+    grandTotal?: number
+    paidAmount?: number
+    changeAmount?: number
+    paymentMethod?: $Enums.PaymentMethod
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WorkOrderUpdateWithoutVehicleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    woNumber?: StringFieldUpdateOperationsInput | string
+    status?: EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
+    odo?: NullableIntFieldUpdateOperationsInput | number | null
+    complaint?: NullableStringFieldUpdateOperationsInput | string | null
+    preCheck?: NullableStringFieldUpdateOperationsInput | string | null
+    postCheck?: NullableStringFieldUpdateOperationsInput | string | null
+    estimatedDoneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reminderNextOdo?: NullableIntFieldUpdateOperationsInput | number | null
+    reminderNextDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dp?: IntFieldUpdateOperationsInput | number
+    discountPercent?: IntFieldUpdateOperationsInput | number
+    taxPercent?: IntFieldUpdateOperationsInput | number
+    subtotal?: IntFieldUpdateOperationsInput | number
+    grandTotal?: IntFieldUpdateOperationsInput | number
+    paidAmount?: IntFieldUpdateOperationsInput | number
+    changeAmount?: IntFieldUpdateOperationsInput | number
+    paymentMethod?: EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customer?: CustomerUpdateOneRequiredWithoutWorkOrdersNestedInput
+    advisor?: UserUpdateOneWithoutAdvisorWorkOrdersNestedInput
+    items?: WorkOrderItemUpdateManyWithoutWorkOrderNestedInput
+    mechanics?: WorkOrderMechanicUpdateManyWithoutWorkOrderNestedInput
+  }
+
+  export type WorkOrderUncheckedUpdateWithoutVehicleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    woNumber?: StringFieldUpdateOperationsInput | string
+    status?: EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
+    customerId?: StringFieldUpdateOperationsInput | string
+    advisorId?: NullableStringFieldUpdateOperationsInput | string | null
+    odo?: NullableIntFieldUpdateOperationsInput | number | null
+    complaint?: NullableStringFieldUpdateOperationsInput | string | null
+    preCheck?: NullableStringFieldUpdateOperationsInput | string | null
+    postCheck?: NullableStringFieldUpdateOperationsInput | string | null
+    estimatedDoneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reminderNextOdo?: NullableIntFieldUpdateOperationsInput | number | null
+    reminderNextDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dp?: IntFieldUpdateOperationsInput | number
+    discountPercent?: IntFieldUpdateOperationsInput | number
+    taxPercent?: IntFieldUpdateOperationsInput | number
+    subtotal?: IntFieldUpdateOperationsInput | number
+    grandTotal?: IntFieldUpdateOperationsInput | number
+    paidAmount?: IntFieldUpdateOperationsInput | number
+    changeAmount?: IntFieldUpdateOperationsInput | number
+    paymentMethod?: EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: WorkOrderItemUncheckedUpdateManyWithoutWorkOrderNestedInput
+    mechanics?: WorkOrderMechanicUncheckedUpdateManyWithoutWorkOrderNestedInput
+  }
+
+  export type WorkOrderUncheckedUpdateManyWithoutVehicleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    woNumber?: StringFieldUpdateOperationsInput | string
+    status?: EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
+    customerId?: StringFieldUpdateOperationsInput | string
+    advisorId?: NullableStringFieldUpdateOperationsInput | string | null
+    odo?: NullableIntFieldUpdateOperationsInput | number | null
+    complaint?: NullableStringFieldUpdateOperationsInput | string | null
+    preCheck?: NullableStringFieldUpdateOperationsInput | string | null
+    postCheck?: NullableStringFieldUpdateOperationsInput | string | null
+    estimatedDoneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reminderNextOdo?: NullableIntFieldUpdateOperationsInput | number | null
+    reminderNextDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dp?: IntFieldUpdateOperationsInput | number
+    discountPercent?: IntFieldUpdateOperationsInput | number
+    taxPercent?: IntFieldUpdateOperationsInput | number
+    subtotal?: IntFieldUpdateOperationsInput | number
+    grandTotal?: IntFieldUpdateOperationsInput | number
+    paidAmount?: IntFieldUpdateOperationsInput | number
+    changeAmount?: IntFieldUpdateOperationsInput | number
+    paymentMethod?: EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WorkOrderItemCreateManyWorkOrderInput = {
+    id?: string
+    type: $Enums.WorkOrderItemType
+    name: string
+    qty: number
+    price: number
+    sparepartId?: string | null
+    oilId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WorkOrderMechanicCreateManyWorkOrderInput = {
+    userId: string
+  }
+
+  export type WorkOrderItemUpdateWithoutWorkOrderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumWorkOrderItemTypeFieldUpdateOperationsInput | $Enums.WorkOrderItemType
+    name?: StringFieldUpdateOperationsInput | string
+    qty?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sparepart?: SparepartUpdateOneWithoutWorkOrderItemsNestedInput
+    oil?: OilUpdateOneWithoutWorkOrderItemsNestedInput
+  }
+
+  export type WorkOrderItemUncheckedUpdateWithoutWorkOrderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumWorkOrderItemTypeFieldUpdateOperationsInput | $Enums.WorkOrderItemType
+    name?: StringFieldUpdateOperationsInput | string
+    qty?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
+    sparepartId?: NullableStringFieldUpdateOperationsInput | string | null
+    oilId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WorkOrderItemUncheckedUpdateManyWithoutWorkOrderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumWorkOrderItemTypeFieldUpdateOperationsInput | $Enums.WorkOrderItemType
+    name?: StringFieldUpdateOperationsInput | string
+    qty?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
+    sparepartId?: NullableStringFieldUpdateOperationsInput | string | null
+    oilId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WorkOrderMechanicUpdateWithoutWorkOrderInput = {
+    user?: UserUpdateOneRequiredWithoutMechanicWorkOrdersNestedInput
+  }
+
+  export type WorkOrderMechanicUncheckedUpdateWithoutWorkOrderInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type WorkOrderMechanicUncheckedUpdateManyWithoutWorkOrderInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type WorkOrderItemCreateManySparepartInput = {
+    id?: string
+    workOrderId: string
+    type: $Enums.WorkOrderItemType
+    name: string
+    qty: number
+    price: number
+    oilId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WorkOrderItemUpdateWithoutSparepartInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumWorkOrderItemTypeFieldUpdateOperationsInput | $Enums.WorkOrderItemType
+    name?: StringFieldUpdateOperationsInput | string
+    qty?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workOrder?: WorkOrderUpdateOneRequiredWithoutItemsNestedInput
+    oil?: OilUpdateOneWithoutWorkOrderItemsNestedInput
+  }
+
+  export type WorkOrderItemUncheckedUpdateWithoutSparepartInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    workOrderId?: StringFieldUpdateOperationsInput | string
+    type?: EnumWorkOrderItemTypeFieldUpdateOperationsInput | $Enums.WorkOrderItemType
+    name?: StringFieldUpdateOperationsInput | string
+    qty?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
+    oilId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WorkOrderItemUncheckedUpdateManyWithoutSparepartInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    workOrderId?: StringFieldUpdateOperationsInput | string
+    type?: EnumWorkOrderItemTypeFieldUpdateOperationsInput | $Enums.WorkOrderItemType
+    name?: StringFieldUpdateOperationsInput | string
+    qty?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
+    oilId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WorkOrderItemCreateManyOilInput = {
+    id?: string
+    workOrderId: string
+    type: $Enums.WorkOrderItemType
+    name: string
+    qty: number
+    price: number
+    sparepartId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WorkOrderItemUpdateWithoutOilInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumWorkOrderItemTypeFieldUpdateOperationsInput | $Enums.WorkOrderItemType
+    name?: StringFieldUpdateOperationsInput | string
+    qty?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workOrder?: WorkOrderUpdateOneRequiredWithoutItemsNestedInput
+    sparepart?: SparepartUpdateOneWithoutWorkOrderItemsNestedInput
+  }
+
+  export type WorkOrderItemUncheckedUpdateWithoutOilInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    workOrderId?: StringFieldUpdateOperationsInput | string
+    type?: EnumWorkOrderItemTypeFieldUpdateOperationsInput | $Enums.WorkOrderItemType
+    name?: StringFieldUpdateOperationsInput | string
+    qty?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
+    sparepartId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WorkOrderItemUncheckedUpdateManyWithoutOilInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    workOrderId?: StringFieldUpdateOperationsInput | string
+    type?: EnumWorkOrderItemTypeFieldUpdateOperationsInput | $Enums.WorkOrderItemType
+    name?: StringFieldUpdateOperationsInput | string
+    qty?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
+    sparepartId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

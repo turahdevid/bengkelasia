@@ -87,7 +87,30 @@ model User {
     accounts      Account[]
     sessions      Session[]
 
+    employee Employee?
+
+    advisorWorkOrders  WorkOrder[]         @relation("WorkOrderAdvisor")
+    mechanicWorkOrders WorkOrderMechanic[]
+
     @@index([roleId])
+}
+
+model Employee {
+    id String @id @default(cuid())
+
+    userId String @unique
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    position String
+    phone    String?
+    address  String?
+    joinDate DateTime?
+    isActive Boolean  @default(true)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([position])
+    @@index([isActive])
 }
 
 model VerificationToken {
@@ -96,4 +119,183 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model Customer {
+    id        String    @id @default(cuid())
+    name      String
+    phone     String
+    address   String?
+    birthDate DateTime?
+    note      String?
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+
+    vehicles Vehicle[]
+    workOrders WorkOrder[]
+
+    @@index([phone])
+    @@index([birthDate])
+}
+
+model Vehicle {
+    id             String   @id @default(cuid())
+    customerId     String
+    plateNumber    String   @unique
+    brand          String
+    model          String
+    year           Int?
+    color          String?
+    engineNumber   String?
+    chassisNumber  String?
+    currentOdometer Int?
+    note           String?
+    createdAt      DateTime @default(now())
+    updatedAt      DateTime @updatedAt
+
+    customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+    workOrders WorkOrder[]
+
+    @@index([customerId])
+    @@index([plateNumber])
+}
+
+enum WorkOrderStatus {
+    DRAFT
+    OPEN
+    DONE
+    CANCELLED
+}
+
+enum WorkOrderItemType {
+    JASA
+    SPAREPART
+    OLI
+}
+
+enum PaymentMethod {
+    CASH
+    TRANSFER
+}
+
+model WorkOrder {
+    id       String @id @default(cuid())
+    woNumber String @unique
+    status   WorkOrderStatus @default(OPEN)
+
+    customerId String
+    customer   Customer @relation(fields: [customerId], references: [id], onDelete: Restrict)
+
+    vehicleId String
+    vehicle   Vehicle @relation(fields: [vehicleId], references: [id], onDelete: Restrict)
+
+    advisorId String?
+    advisor   User? @relation("WorkOrderAdvisor", fields: [advisorId], references: [id], onDelete: SetNull)
+
+    odo       Int?
+    complaint String?
+
+    preCheck  String?
+    postCheck String?
+    estimatedDoneAt DateTime?
+    reminderNextOdo Int?
+    reminderNextDate DateTime?
+
+    dp             Int @default(0)
+    discountPercent Int @default(0)
+    taxPercent      Int @default(0)
+
+    subtotal   Int @default(0)
+    grandTotal Int @default(0)
+
+    paidAmount   Int @default(0)
+    changeAmount Int @default(0)
+    paymentMethod PaymentMethod @default(CASH)
+
+    items     WorkOrderItem[]
+    mechanics WorkOrderMechanic[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([createdAt])
+    @@index([woNumber])
+    @@index([customerId])
+    @@index([vehicleId])
+    @@index([status])
+}
+
+model WorkOrderMechanic {
+    workOrderId String
+    userId      String
+
+    workOrder WorkOrder @relation(fields: [workOrderId], references: [id], onDelete: Cascade)
+    user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@id([workOrderId, userId])
+    @@index([userId])
+}
+
+model WorkOrderItem {
+    id String @id @default(cuid())
+
+    workOrderId String
+    workOrder   WorkOrder @relation(fields: [workOrderId], references: [id], onDelete: Cascade)
+
+    type WorkOrderItemType
+
+    name  String
+    qty   Int
+    price Int
+
+    sparepartId String?
+    sparepart   Sparepart? @relation(fields: [sparepartId], references: [id], onDelete: SetNull)
+
+    oilId String?
+    oil   Oil? @relation(fields: [oilId], references: [id], onDelete: SetNull)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([workOrderId])
+    @@index([type])
+    @@index([sparepartId])
+    @@index([oilId])
+}
+
+model Sparepart {
+    id String @id @default(cuid())
+
+    name  String
+    brand String
+    price Int
+    isActive Boolean @default(true)
+
+    workOrderItems WorkOrderItem[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([name])
+    @@index([brand])
+    @@index([isActive])
+}
+
+model Oil {
+    id String @id @default(cuid())
+
+    brand String
+    name  String
+    price Int
+    isActive Boolean @default(true)
+
+    workOrderItems WorkOrderItem[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([brand])
+    @@index([name])
+    @@index([isActive])
 }

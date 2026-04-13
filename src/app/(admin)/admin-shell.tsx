@@ -11,10 +11,12 @@ import {
   Bell,
   Car,
   ChevronDown,
+  Contact,
   LayoutDashboard,
   Settings,
   Users,
   Tags,
+  Wrench,
 } from "lucide-react";
 
 import { Button } from "~/components/ui/button";
@@ -28,9 +30,24 @@ const MANAGEMENT_ITEMS = [
   { href: "/admin/kategori", label: "Kategori", icon: Tags },
 ] as const;
 
+const CUSTOMER_ITEMS = [
+  { href: "/admin/customer", label: "List Customers", icon: Contact },
+  {
+    href: "/admin/customer/birthday-reminder",
+    label: "Birthday Reminder",
+    icon: Bell,
+  },
+  {
+    href: "/admin/customer/service-reminder",
+    label: "Service Reminder",
+    icon: Bell,
+  },
+] as const;
+
 const NAV_ITEMS = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/reports", label: "Reports", icon: BarChart3 },
+  { href: "/admin/service", label: "Transaksi", icon: Wrench },
 ] as const;
 
 function getTitleFromPath(pathname: string) {
@@ -41,7 +58,13 @@ function getTitleFromPath(pathname: string) {
   if (pathname.startsWith("/admin/users")) return "User";
   if (pathname.startsWith("/admin/employees")) return "Pegawai";
   if (pathname.startsWith("/admin/kategori")) return "Kategori";
+  if (pathname.startsWith("/admin/customer/birthday-reminder"))
+    return "Birthday Reminder";
+  if (pathname.startsWith("/admin/customer/service-reminder"))
+    return "Service Reminder";
+  if (pathname.startsWith("/admin/customer")) return "Customers";
   if (pathname.startsWith("/admin/reports")) return "Reports";
+  if (pathname.startsWith("/admin/service")) return "Transaksi";
   return "Dashboard";
 }
 
@@ -60,10 +83,21 @@ export default function AdminShell({
     width: number;
   } | null>(null);
 
+  const [customersOpen, setCustomersOpen] = React.useState(false);
+  const customersButtonRef = React.useRef<HTMLButtonElement>(null);
+  const customersMenuRef = React.useRef<HTMLDivElement>(null);
+  const customersCloseTimeoutRef = React.useRef<number | null>(null);
+  const [customersPos, setCustomersPos] = React.useState<{
+    left: number;
+    top: number;
+    width: number;
+  } | null>(null);
+
   const title = getTitleFromPath(pathname);
 
   React.useEffect(() => {
     setManagementOpen(false);
+    setCustomersOpen(false);
   }, [pathname]);
 
   const cancelManagementClose = React.useCallback(() => {
@@ -80,6 +114,20 @@ export default function AdminShell({
     }, 150);
   }, [cancelManagementClose]);
 
+  const cancelCustomersClose = React.useCallback(() => {
+    if (customersCloseTimeoutRef.current) {
+      window.clearTimeout(customersCloseTimeoutRef.current);
+      customersCloseTimeoutRef.current = null;
+    }
+  }, []);
+
+  const scheduleCustomersClose = React.useCallback(() => {
+    cancelCustomersClose();
+    customersCloseTimeoutRef.current = window.setTimeout(() => {
+      setCustomersOpen(false);
+    }, 150);
+  }, [cancelCustomersClose]);
+
   React.useEffect(() => {
     if (!managementOpen) return;
 
@@ -95,6 +143,46 @@ export default function AdminShell({
     document.addEventListener("pointerdown", onPointerDown);
     return () => document.removeEventListener("pointerdown", onPointerDown);
   }, [managementOpen]);
+
+  React.useLayoutEffect(() => {
+    if (!customersOpen) return;
+
+    const el = customersButtonRef.current;
+    if (!el) return;
+
+    const update = () => {
+      const rect = el.getBoundingClientRect();
+      setCustomersPos({
+        left: rect.left,
+        top: rect.bottom,
+        width: rect.width,
+      });
+    };
+
+    update();
+    window.addEventListener("scroll", update, true);
+    window.addEventListener("resize", update);
+    return () => {
+      window.removeEventListener("scroll", update, true);
+      window.removeEventListener("resize", update);
+    };
+  }, [customersOpen]);
+
+  React.useEffect(() => {
+    if (!customersOpen) return;
+
+    const onPointerDown = (e: PointerEvent) => {
+      const target = e.target as Node | null;
+
+      if (customersButtonRef.current?.contains(target)) return;
+      if (customersMenuRef.current?.contains(target)) return;
+
+      setCustomersOpen(false);
+    };
+
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => document.removeEventListener("pointerdown", onPointerDown);
+  }, [customersOpen]);
 
   React.useLayoutEffect(() => {
     if (!managementOpen) return;
@@ -163,9 +251,14 @@ export default function AdminShell({
                     const managementActive = MANAGEMENT_ITEMS.some(
                       (i) => pathname === i.href || pathname.startsWith(`${i.href}/`),
                     );
+                    const customersActive = CUSTOMER_ITEMS.some(
+                      (i) => pathname === i.href || pathname.startsWith(`${i.href}/`),
+                    );
                     const reportsActive =
                       pathname === "/admin/reports" ||
                       pathname.startsWith("/admin/reports/");
+                    const transaksiActive =
+                      pathname === "/admin/service" || pathname.startsWith("/admin/service/");
 
                     return (
                       <>
@@ -225,6 +318,42 @@ export default function AdminShell({
                           </button>
                         </div>
 
+                        <div
+                          className="relative"
+                          onMouseEnter={() => {
+                            cancelCustomersClose();
+                            setCustomersOpen(true);
+                          }}
+                          onMouseLeave={() => {
+                            scheduleCustomersClose();
+                          }}
+                        >
+                          <button
+                            ref={customersButtonRef}
+                            type="button"
+                            className={cn(
+                              "inline-flex items-center gap-2 rounded-full px-3 py-2 text-xs font-semibold transition-all duration-200",
+                              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400",
+                              customersActive
+                                ? "bg-slate-900 text-white"
+                                : "text-slate-700 hover:bg-slate-100",
+                            )}
+                            aria-haspopup="menu"
+                            aria-expanded={customersOpen}
+                            onClick={() => setCustomersOpen((v) => !v)}
+                          >
+                            Customers
+                            <ChevronDown
+                              className={cn(
+                                "h-4 w-4 transition-transform duration-200",
+                                customersActive ? "text-white/80" : "text-slate-500",
+                                customersOpen ? "rotate-180" : "rotate-0",
+                              )}
+                              aria-hidden="true"
+                            />
+                          </button>
+                        </div>
+
                         <Link
                           href="/admin/reports"
                           aria-current={reportsActive ? "page" : undefined}
@@ -241,8 +370,30 @@ export default function AdminShell({
                               "hidden h-3.5 w-3.5 sm:block",
                               reportsActive ? "text-white" : "text-slate-500",
                             )}
+                            aria-hidden="true"
                           />
                           Reports
+                        </Link>
+
+                        <Link
+                          href="/admin/service"
+                          aria-current={transaksiActive ? "page" : undefined}
+                          className={cn(
+                            "inline-flex items-center gap-2 rounded-full px-3 py-2 text-xs font-semibold transition-all duration-200",
+                            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400",
+                            transaksiActive
+                              ? "bg-slate-900 text-white"
+                              : "text-slate-700 hover:bg-slate-100",
+                          )}
+                        >
+                          <Wrench
+                            className={cn(
+                              "hidden h-3.5 w-3.5 sm:block",
+                              transaksiActive ? "text-white" : "text-slate-500",
+                            )}
+                            aria-hidden="true"
+                          />
+                          Transaksi
                         </Link>
                       </>
                     );
@@ -329,11 +480,28 @@ export default function AdminShell({
           scheduleManagementClose();
         }}
       />
+
+      <MenuOverlay
+        items={CUSTOMER_ITEMS}
+        open={customersOpen}
+        pos={customersPos}
+        menuRef={customersMenuRef}
+        pathname={pathname}
+        onClose={() => setCustomersOpen(false)}
+        onMouseEnter={() => {
+          cancelCustomersClose();
+          setCustomersOpen(true);
+        }}
+        onMouseLeave={() => {
+          scheduleCustomersClose();
+        }}
+      />
     </div>
   );
 }
 
-function ManagementMenuOverlay({
+function MenuOverlay<TItems extends ReadonlyArray<{ href: string; label: string; icon: React.ComponentType<{ className?: string }> }>>({
+  items,
   open,
   pos,
   menuRef,
@@ -342,6 +510,7 @@ function ManagementMenuOverlay({
   onMouseEnter,
   onMouseLeave,
 }: {
+  items: TItems;
   open: boolean;
   pos: { left: number; top: number; width: number } | null;
   menuRef: React.RefObject<HTMLDivElement | null>;
@@ -362,7 +531,7 @@ function ManagementMenuOverlay({
       onMouseLeave={onMouseLeave}
     >
       <div className="p-2">
-        {MANAGEMENT_ITEMS.map((i) => {
+        {items.map((i) => {
           const active = pathname === i.href || pathname.startsWith(`${i.href}/`);
           const Icon = i.icon;
           return (
@@ -390,4 +559,16 @@ function ManagementMenuOverlay({
     </div>,
     document.body,
   );
+}
+
+function ManagementMenuOverlay(props: {
+  open: boolean;
+  pos: { left: number; top: number; width: number } | null;
+  menuRef: React.RefObject<HTMLDivElement | null>;
+  pathname: string;
+  onClose: () => void;
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
+}) {
+  return <MenuOverlay items={MANAGEMENT_ITEMS} {...props} />;
 }

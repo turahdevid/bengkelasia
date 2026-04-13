@@ -30,7 +30,7 @@ export const authConfig = {
 
         const { email, password } = parsed.data;
 
-        const user = (await (db as unknown as { user: any }).user.findUnique({
+        const user = await db.user.findUnique({
           where: { email },
           select: {
             id: true,
@@ -49,19 +49,7 @@ export const authConfig = {
               },
             },
           },
-        })) as
-          | {
-              id: string;
-              name: string | null;
-              email: string;
-              password: string;
-              role: {
-                id: string;
-                name: string;
-                rolePermissions: Array<{ permission: { name: string } }>;
-              };
-            }
-          | null;
+        });
 
         if (!user) return null;
 
@@ -91,13 +79,29 @@ export const authConfig = {
   callbacks: {
     jwt: async ({ token, user }) => {
       if (user) {
-        const u = user as unknown as {
-          role?: { id: string; name: string };
-          permissions?: string[];
-        };
+        const hasRole =
+          typeof user === "object" &&
+          user !== null &&
+          "role" in user &&
+          typeof (user as { role?: unknown }).role === "object" &&
+          (user as { role?: unknown }).role !== null;
 
-        token.role = u.role;
-        token.permissions = u.permissions ?? [];
+        const role = hasRole
+          ? (user as { role: { id: string; name: string } }).role
+          : undefined;
+
+        const permissions =
+          typeof user === "object" &&
+          user !== null &&
+          "permissions" in user &&
+          Array.isArray((user as { permissions?: unknown }).permissions)
+            ? (user as { permissions: unknown[] }).permissions.filter(
+                (p): p is string => typeof p === "string",
+              )
+            : [];
+
+        token.role = role;
+        token.permissions = permissions;
       }
       return token;
     },

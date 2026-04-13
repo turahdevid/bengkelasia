@@ -170,10 +170,113 @@ exports.Prisma.UserScalarFieldEnum = {
   roleId: 'roleId'
 };
 
+exports.Prisma.EmployeeScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  position: 'position',
+  phone: 'phone',
+  address: 'address',
+  joinDate: 'joinDate',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.VerificationTokenScalarFieldEnum = {
   identifier: 'identifier',
   token: 'token',
   expires: 'expires'
+};
+
+exports.Prisma.CustomerScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  phone: 'phone',
+  address: 'address',
+  birthDate: 'birthDate',
+  note: 'note',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.VehicleScalarFieldEnum = {
+  id: 'id',
+  customerId: 'customerId',
+  plateNumber: 'plateNumber',
+  brand: 'brand',
+  model: 'model',
+  year: 'year',
+  color: 'color',
+  engineNumber: 'engineNumber',
+  chassisNumber: 'chassisNumber',
+  currentOdometer: 'currentOdometer',
+  note: 'note',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.WorkOrderScalarFieldEnum = {
+  id: 'id',
+  woNumber: 'woNumber',
+  status: 'status',
+  customerId: 'customerId',
+  vehicleId: 'vehicleId',
+  advisorId: 'advisorId',
+  odo: 'odo',
+  complaint: 'complaint',
+  preCheck: 'preCheck',
+  postCheck: 'postCheck',
+  estimatedDoneAt: 'estimatedDoneAt',
+  reminderNextOdo: 'reminderNextOdo',
+  reminderNextDate: 'reminderNextDate',
+  dp: 'dp',
+  discountPercent: 'discountPercent',
+  taxPercent: 'taxPercent',
+  subtotal: 'subtotal',
+  grandTotal: 'grandTotal',
+  paidAmount: 'paidAmount',
+  changeAmount: 'changeAmount',
+  paymentMethod: 'paymentMethod',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.WorkOrderMechanicScalarFieldEnum = {
+  workOrderId: 'workOrderId',
+  userId: 'userId'
+};
+
+exports.Prisma.WorkOrderItemScalarFieldEnum = {
+  id: 'id',
+  workOrderId: 'workOrderId',
+  type: 'type',
+  name: 'name',
+  qty: 'qty',
+  price: 'price',
+  sparepartId: 'sparepartId',
+  oilId: 'oilId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SparepartScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  brand: 'brand',
+  price: 'price',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.OilScalarFieldEnum = {
+  id: 'id',
+  brand: 'brand',
+  name: 'name',
+  price: 'price',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -231,11 +334,91 @@ exports.Prisma.UserOrderByRelevanceFieldEnum = {
   roleId: 'roleId'
 };
 
+exports.Prisma.EmployeeOrderByRelevanceFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  position: 'position',
+  phone: 'phone',
+  address: 'address'
+};
+
 exports.Prisma.VerificationTokenOrderByRelevanceFieldEnum = {
   identifier: 'identifier',
   token: 'token'
 };
 
+exports.Prisma.CustomerOrderByRelevanceFieldEnum = {
+  id: 'id',
+  name: 'name',
+  phone: 'phone',
+  address: 'address',
+  note: 'note'
+};
+
+exports.Prisma.VehicleOrderByRelevanceFieldEnum = {
+  id: 'id',
+  customerId: 'customerId',
+  plateNumber: 'plateNumber',
+  brand: 'brand',
+  model: 'model',
+  color: 'color',
+  engineNumber: 'engineNumber',
+  chassisNumber: 'chassisNumber',
+  note: 'note'
+};
+
+exports.Prisma.WorkOrderOrderByRelevanceFieldEnum = {
+  id: 'id',
+  woNumber: 'woNumber',
+  customerId: 'customerId',
+  vehicleId: 'vehicleId',
+  advisorId: 'advisorId',
+  complaint: 'complaint',
+  preCheck: 'preCheck',
+  postCheck: 'postCheck'
+};
+
+exports.Prisma.WorkOrderMechanicOrderByRelevanceFieldEnum = {
+  workOrderId: 'workOrderId',
+  userId: 'userId'
+};
+
+exports.Prisma.WorkOrderItemOrderByRelevanceFieldEnum = {
+  id: 'id',
+  workOrderId: 'workOrderId',
+  name: 'name',
+  sparepartId: 'sparepartId',
+  oilId: 'oilId'
+};
+
+exports.Prisma.SparepartOrderByRelevanceFieldEnum = {
+  id: 'id',
+  name: 'name',
+  brand: 'brand'
+};
+
+exports.Prisma.OilOrderByRelevanceFieldEnum = {
+  id: 'id',
+  brand: 'brand',
+  name: 'name'
+};
+exports.WorkOrderStatus = exports.$Enums.WorkOrderStatus = {
+  DRAFT: 'DRAFT',
+  OPEN: 'OPEN',
+  DONE: 'DONE',
+  CANCELLED: 'CANCELLED'
+};
+
+exports.PaymentMethod = exports.$Enums.PaymentMethod = {
+  CASH: 'CASH',
+  TRANSFER: 'TRANSFER'
+};
+
+exports.WorkOrderItemType = exports.$Enums.WorkOrderItemType = {
+  JASA: 'JASA',
+  SPAREPART: 'SPAREPART',
+  OLI: 'OLI'
+};
 
 exports.Prisma.ModelName = {
   Role: 'Role',
@@ -244,7 +427,15 @@ exports.Prisma.ModelName = {
   Account: 'Account',
   Session: 'Session',
   User: 'User',
-  VerificationToken: 'VerificationToken'
+  Employee: 'Employee',
+  VerificationToken: 'VerificationToken',
+  Customer: 'Customer',
+  Vehicle: 'Vehicle',
+  WorkOrder: 'WorkOrder',
+  WorkOrderMechanic: 'WorkOrderMechanic',
+  WorkOrderItem: 'WorkOrderItem',
+  Sparepart: 'Sparepart',
+  Oil: 'Oil'
 };
 
 /**
