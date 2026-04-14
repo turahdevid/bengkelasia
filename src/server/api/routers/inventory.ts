@@ -34,6 +34,46 @@ const brandNameSchema = z
   .min(2, "Nama brand minimal 2 karakter")
   .max(60, "Nama brand terlalu panjang");
 
+const productListSelect = Prisma.validator<Prisma.ProductSelect>()({
+  id: true,
+  name: true,
+  type: true,
+  brand: { select: { id: true, name: true } },
+  buyPriceDefault: true,
+  sellPrice: true,
+  unit: { select: { id: true, name: true } },
+  createdAt: true,
+});
+
+type ProductListRow = Prisma.ProductGetPayload<{ select: typeof productListSelect }>;
+
+type ProductListItem = {
+  id: string;
+  name: string;
+  type: "SPAREPART" | "OIL";
+  brand: string | null;
+  brandId: string | null;
+  buyPriceDefault: number;
+  lastBuyPrice: number | null;
+  sellPrice: number;
+  unit: { id: string; name: string };
+  stockAvailable: number;
+  createdAt: Date;
+};
+
+type ListProductsOutput = {
+  total: number;
+  page: number;
+  limit: 10 | 20 | 50;
+  items: ProductListItem[];
+};
+
+type StockBatchLatest = {
+  productId: string;
+  buyPrice: number;
+  createdAt: Date;
+};
+
 function mapOutdatedPrismaClientError(err: unknown) {
   const msg = err instanceof Error ? err.message : "";
   if (msg.includes("Unknown field `buyPriceDefault`") || msg.includes("Unknown field buyPriceDefault")) {
@@ -48,31 +88,21 @@ function mapOutdatedPrismaClientError(err: unknown) {
 export const inventoryRouter = createTRPCRouter({
   // Brands
   listBrands: adminProcedure.query(async ({ ctx }) => {
-    const db = ctx.db as any;
-    if (!db.brand) {
-      throw new TRPCError({
-        code: "INTERNAL_SERVER_ERROR",
-        message:
-          "Model brand belum tersedia. Jalankan prisma db push/migrate + prisma generate, lalu restart dev server.",
-      });
-    }
-
-    return (await db.brand.findMany({
+    return await ctx.db.brand.findMany({
       orderBy: { name: "asc" },
       select: { id: true, name: true },
-    })) as Array<{ id: string; name: string }>;
+    });
   }),
 
   createBrand: adminProcedure
     .input(z.object({ name: brandNameSchema }))
     .mutation(async ({ ctx, input }) => {
-      const db = ctx.db as any;
       try {
-        const brand = await db.brand.create({
+        const brand = await ctx.db.brand.create({
           data: { name: input.name },
           select: { id: true, name: true },
         });
-        return brand as { id: string; name: string };
+        return brand;
       } catch (err: unknown) {
         if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === "P2002") {
           throw new TRPCError({ code: "CONFLICT", message: "Nama brand sudah digunakan" });
@@ -84,17 +114,15 @@ export const inventoryRouter = createTRPCRouter({
   updateBrand: adminProcedure
     .input(z.object({ id: z.string().min(1), name: brandNameSchema }))
     .mutation(async ({ ctx, input }) => {
-      const db = ctx.db as any;
-
-      const current = (await db.brand.findUnique({
+      const current = await ctx.db.brand.findUnique({
         where: { id: input.id },
         select: { id: true },
-      })) as { id: string } | null;
+      });
 
       if (!current) throw new TRPCError({ code: "NOT_FOUND", message: "Brand tidak ditemukan" });
 
       try {
-        await db.brand.update({
+        await ctx.db.brand.update({
           where: { id: input.id },
           data: { name: input.name },
           select: { id: true },
@@ -111,17 +139,15 @@ export const inventoryRouter = createTRPCRouter({
   deleteBrand: adminProcedure
     .input(z.object({ id: z.string().min(1) }))
     .mutation(async ({ ctx, input }) => {
-      const db = ctx.db as any;
-
-      const current = (await db.brand.findUnique({
+      const current = await ctx.db.brand.findUnique({
         where: { id: input.id },
         select: { id: true },
-      })) as { id: string } | null;
+      });
 
       if (!current) throw new TRPCError({ code: "NOT_FOUND", message: "Brand tidak ditemukan" });
 
       try {
-        await db.brand.delete({ where: { id: input.id } });
+        await ctx.db.brand.delete({ where: { id: input.id } });
         return { ok: true };
       } catch (err: unknown) {
         if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === "P2003") {
@@ -136,30 +162,21 @@ export const inventoryRouter = createTRPCRouter({
 
   // Units
   listUnits: adminProcedure.query(async ({ ctx }) => {
-    const db = ctx.db as any;
-    if (!db.unit) {
-      throw new TRPCError({
-        code: "INTERNAL_SERVER_ERROR",
-        message:
-          "Model inventory belum tersedia. Jalankan prisma db push/migrate + prisma generate, lalu restart dev server.",
-      });
-    }
-    return (await db.unit.findMany({
+    return await ctx.db.unit.findMany({
       orderBy: { name: "asc" },
       select: { id: true, name: true },
-    })) as Array<{ id: string; name: string }>;
+    });
   }),
 
   createUnit: adminProcedure
     .input(z.object({ name: unitNameSchema }))
     .mutation(async ({ ctx, input }) => {
-      const db = ctx.db as any;
       try {
-        const unit = await db.unit.create({
+        const unit = await ctx.db.unit.create({
           data: { name: input.name },
           select: { id: true, name: true },
         });
-        return unit as { id: string; name: string };
+        return unit;
       } catch (err: unknown) {
         if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === "P2002") {
           throw new TRPCError({ code: "CONFLICT", message: "Nama unit sudah digunakan" });
@@ -171,16 +188,15 @@ export const inventoryRouter = createTRPCRouter({
   updateUnit: adminProcedure
     .input(z.object({ id: z.string().min(1), name: unitNameSchema }))
     .mutation(async ({ ctx, input }) => {
-      const db = ctx.db as any;
-      const current = (await db.unit.findUnique({
+      const current = await ctx.db.unit.findUnique({
         where: { id: input.id },
         select: { id: true },
-      })) as { id: string } | null;
+      });
 
       if (!current) throw new TRPCError({ code: "NOT_FOUND", message: "Unit tidak ditemukan" });
 
       try {
-        await db.unit.update({
+        await ctx.db.unit.update({
           where: { id: input.id },
           data: { name: input.name },
           select: { id: true },
@@ -197,16 +213,15 @@ export const inventoryRouter = createTRPCRouter({
   deleteUnit: adminProcedure
     .input(z.object({ id: z.string().min(1) }))
     .mutation(async ({ ctx, input }) => {
-      const db = ctx.db as any;
-      const unit = (await db.unit.findUnique({
+      const unit = await ctx.db.unit.findUnique({
         where: { id: input.id },
         select: { id: true },
-      })) as { id: string } | null;
+      });
 
       if (!unit) throw new TRPCError({ code: "NOT_FOUND", message: "Unit tidak ditemukan" });
 
       try {
-        await db.unit.delete({ where: { id: input.id } });
+        await ctx.db.unit.delete({ where: { id: input.id } });
         return { ok: true };
       } catch (err: unknown) {
         if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === "P2003") {
@@ -221,14 +236,6 @@ export const inventoryRouter = createTRPCRouter({
 
   // Products
   listProducts: adminProcedure.input(paginationSchemaOptional).query(async ({ ctx, input }) => {
-    const db = ctx.db as any;
-    if (!db.product || !db.stockBatch) {
-      throw new TRPCError({
-        code: "INTERNAL_SERVER_ERROR",
-        message:
-          "Model inventory belum tersedia. Jalankan prisma db push/migrate + prisma generate, lalu restart dev server.",
-      });
-    }
     const q = input.query?.trim();
 
     const where = q
@@ -243,48 +250,46 @@ export const inventoryRouter = createTRPCRouter({
 
     const skip = (input.page - 1) * input.limit;
 
-    let total: number;
-    let items: Array<any>;
+    let total = 0;
+    let items: ProductListRow[] = [];
     try {
-      [total, items] = (await db.$transaction([
-        db.product.count({ where }),
-        db.product.findMany({
-          where,
-          orderBy: [{ type: "asc" }, { brand: { name: "asc" } }, { name: "asc" }],
-          skip,
-          take: input.limit,
-          select: {
-            id: true,
-            name: true,
-            type: true,
-            brand: { select: { id: true, name: true } },
-            buyPriceDefault: true,
-            sellPrice: true,
-            unit: { select: { id: true, name: true } },
-            createdAt: true,
-          },
-        }),
-      ])) as [number, Array<any>];
+      const [count, rows] = await ctx.db.$transaction(
+        [
+          ctx.db.product.count({ where }),
+          ctx.db.product.findMany({
+            where,
+            orderBy: [{ type: "asc" }, { brand: { name: "asc" } }, { name: "asc" }],
+            skip,
+            take: input.limit,
+            select: productListSelect,
+          }),
+        ] as const,
+      );
+
+      total = count;
+      items = rows;
     } catch (err: unknown) {
       mapOutdatedPrismaClientError(err);
       throw err;
     }
 
-    const ids = items.map((p) => p.id) as string[];
+    const ids: string[] = items.map((p) => p.id);
 
-    const grouped = (await db.stockBatch.groupBy({
-      by: ["productId"],
+    const remainingBatches = await ctx.db.stockBatch.findMany({
       where: { productId: { in: ids }, remaining: { gt: 0 } },
-      _sum: { remaining: true },
-    })) as Array<{ productId: string; _sum: { remaining: number | null } }>;
+      select: { productId: true, remaining: true },
+    });
 
-    const stockByProductId = new Map(grouped.map((g) => [g.productId, g._sum.remaining ?? 0] as const));
+    const stockByProductId = new Map<string, number>();
+    for (const b of remainingBatches) {
+      stockByProductId.set(b.productId, (stockByProductId.get(b.productId) ?? 0) + b.remaining);
+    }
 
-    const latestBatches = (await db.stockBatch.findMany({
+    const latestBatches: StockBatchLatest[] = await ctx.db.stockBatch.findMany({
       where: { productId: { in: ids } },
       orderBy: { createdAt: "desc" },
       select: { productId: true, buyPrice: true, createdAt: true },
-    })) as Array<{ productId: string; buyPrice: number; createdAt: Date }>;
+    });
 
     const lastBuyPriceByProductId = new Map<string, number>();
     for (const b of latestBatches) {
@@ -293,43 +298,42 @@ export const inventoryRouter = createTRPCRouter({
       }
     }
 
-    return {
+    const output: ListProductsOutput = {
       total,
       page: input.page,
       limit: input.limit,
-      items: items.map((p) => ({
-        id: p.id as string,
-        name: p.name as string,
-        type: p.type as "SPAREPART" | "OIL",
-        brand: (p.brand?.name as string | undefined) ?? null,
-        brandId: (p.brand?.id as string | undefined) ?? null,
-        buyPriceDefault: (p.buyPriceDefault as number | undefined) ?? 0,
-        lastBuyPrice: lastBuyPriceByProductId.get(p.id as string) ?? null,
-        sellPrice: p.sellPrice as number,
-        unit: p.unit as { id: string; name: string },
-        stockAvailable: stockByProductId.get(p.id as string) ?? 0,
-        createdAt: p.createdAt as Date,
+      items: items.map((p: ProductListRow) => ({
+        id: p.id,
+        name: p.name,
+        type: p.type,
+        brand: p.brand?.name ?? null,
+        brandId: p.brand?.id ?? null,
+        buyPriceDefault: p.buyPriceDefault,
+        lastBuyPrice: lastBuyPriceByProductId.get(p.id) ?? null,
+        sellPrice: p.sellPrice,
+        unit: p.unit,
+        stockAvailable: stockByProductId.get(p.id) ?? 0,
+        createdAt: p.createdAt,
       })),
     };
+
+    return output;
   }),
 
   getProductById: adminProcedure
     .input(z.object({ id: z.string().min(1) }))
     .query(async ({ ctx, input }) => {
-      const db = ctx.db as any;
-      let p:
-        | {
-            id: string;
-            name: string;
-            type: "SPAREPART" | "OIL";
-            brandId: string | null;
-            unitId: string;
-            buyPriceDefault: number;
-            sellPrice: number;
-          }
-        | null;
+      let p: {
+        id: string;
+        name: string;
+        type: "SPAREPART" | "OIL";
+        brandId: string | null;
+        unitId: string;
+        buyPriceDefault: number;
+        sellPrice: number;
+      } | null;
       try {
-        p = (await db.product.findUnique({
+        p = await ctx.db.product.findUnique({
           where: { id: input.id },
           select: {
             id: true,
@@ -340,7 +344,7 @@ export const inventoryRouter = createTRPCRouter({
             buyPriceDefault: true,
             sellPrice: true,
           },
-        })) as any;
+        });
       } catch (err: unknown) {
         mapOutdatedPrismaClientError(err);
         throw err;
@@ -362,31 +366,29 @@ export const inventoryRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const db = ctx.db as any;
-
       const brandId = input.type === "OIL" ? input.brandId?.trim() : undefined;
       if (input.type === "OIL" && !brandId) {
         throw new TRPCError({ code: "BAD_REQUEST", message: "Brand wajib dipilih untuk oli" });
       }
 
-      const unit = (await db.unit.findUnique({
+      const unit = await ctx.db.unit.findUnique({
         where: { id: input.unitId },
         select: { id: true },
-      })) as { id: string } | null;
+      });
 
       if (!unit) throw new TRPCError({ code: "NOT_FOUND", message: "Unit tidak ditemukan" });
 
       if (brandId) {
-        const brand = (await db.brand.findUnique({
+        const brand = await ctx.db.brand.findUnique({
           where: { id: brandId },
           select: { id: true },
-        })) as { id: string } | null;
+        });
         if (!brand) throw new TRPCError({ code: "NOT_FOUND", message: "Brand tidak ditemukan" });
       }
 
       let created: { id: string };
       try {
-        created = (await db.product.create({
+        created = await ctx.db.product.create({
           data: {
             name: input.name,
             type: input.type,
@@ -396,13 +398,13 @@ export const inventoryRouter = createTRPCRouter({
             sellPrice: input.sellPrice,
           },
           select: { id: true },
-        })) as { id: string };
+        });
       } catch (err: unknown) {
         mapOutdatedPrismaClientError(err);
         throw err;
       }
 
-      return created as { id: string };
+      return created;
     }),
 
   updateProduct: adminProcedure
@@ -418,12 +420,10 @@ export const inventoryRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const db = ctx.db as any;
-
-      const current = (await db.product.findUnique({
+      const current = await ctx.db.product.findUnique({
         where: { id: input.id },
         select: { id: true },
-      })) as { id: string } | null;
+      });
 
       if (!current) throw new TRPCError({ code: "NOT_FOUND", message: "Product tidak ditemukan" });
 
@@ -432,23 +432,23 @@ export const inventoryRouter = createTRPCRouter({
         throw new TRPCError({ code: "BAD_REQUEST", message: "Brand wajib dipilih untuk oli" });
       }
 
-      const unit = (await db.unit.findUnique({
+      const unit = await ctx.db.unit.findUnique({
         where: { id: input.unitId },
         select: { id: true },
-      })) as { id: string } | null;
+      });
 
       if (!unit) throw new TRPCError({ code: "NOT_FOUND", message: "Unit tidak ditemukan" });
 
       if (brandId) {
-        const brand = (await db.brand.findUnique({
+        const brand = await ctx.db.brand.findUnique({
           where: { id: brandId },
           select: { id: true },
-        })) as { id: string } | null;
+        });
         if (!brand) throw new TRPCError({ code: "NOT_FOUND", message: "Brand tidak ditemukan" });
       }
 
       try {
-        await db.product.update({
+        await ctx.db.product.update({
           where: { id: input.id },
           data: {
             name: input.name,
@@ -471,16 +471,15 @@ export const inventoryRouter = createTRPCRouter({
   deleteProduct: adminProcedure
     .input(z.object({ id: z.string().min(1) }))
     .mutation(async ({ ctx, input }) => {
-      const db = ctx.db as any;
-      const current = (await db.product.findUnique({
+      const current = await ctx.db.product.findUnique({
         where: { id: input.id },
         select: { id: true },
-      })) as { id: string } | null;
+      });
 
       if (!current) throw new TRPCError({ code: "NOT_FOUND", message: "Product tidak ditemukan" });
 
       try {
-        await db.product.delete({ where: { id: input.id } });
+        await ctx.db.product.delete({ where: { id: input.id } });
         return { ok: true };
       } catch (err: unknown) {
         if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === "P2003") {
@@ -503,18 +502,16 @@ export const inventoryRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const db = ctx.db as any;
-
-      const product = (await db.product.findUnique({
+      const product = await ctx.db.product.findUnique({
         where: { id: input.productId },
         select: { id: true },
-      })) as { id: string } | null;
+      });
 
       if (!product) throw new TRPCError({ code: "NOT_FOUND", message: "Product tidak ditemukan" });
 
       let res: { id: string };
       try {
-        res = (await db.$transaction(async (tx: any) => {
+        res = await ctx.db.$transaction(async (tx) => {
           const batch = await tx.stockBatch.create({
             data: {
               productId: input.productId,
@@ -543,12 +540,12 @@ export const inventoryRouter = createTRPCRouter({
           });
 
           return batch;
-        })) as { id: string };
+        });
       } catch (err: unknown) {
         mapOutdatedPrismaClientError(err);
         throw err;
       }
 
-      return { id: res.id } as { id: string };
+      return { id: res.id };
     }),
 });

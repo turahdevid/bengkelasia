@@ -191,7 +191,7 @@ export default function ServiceListPage() {
                   <TableCell colSpan={6}>
                     <div className="py-12 text-center">
                       <p className="text-sm font-semibold text-slate-900">Belum ada WO</p>
-                      <p className="mt-1 text-sm text-slate-600">Klik "+ Tambah WO" untuk mulai.</p>
+                      <p className="mt-1 text-sm text-slate-600">Klik &quot;+ Tambah WO&quot; untuk mulai.</p>
                     </div>
                   </TableCell>
                 </TableRow>

@@ -16,6 +16,12 @@ import { useDebouncedValue } from "~/hooks/use-debounced-value";
 import { useToast } from "~/hooks/use-toast";
 import { cn, formatRupiah, parseRupiah } from "~/lib/utils";
 import { api } from "~/trpc/react";
+import { type RouterInputs, type RouterOutputs } from "~/trpc/react";
+
+type WorkOrderGetById = RouterOutputs["service"]["getById"];
+type WorkOrderItem = WorkOrderGetById["items"][number];
+type WorkOrderMechanic = WorkOrderGetById["mechanics"][number];
+type UpdatePartialInput = RouterInputs["service"]["updatePartial"];
 
 type TabKey = "customer" | "order" | "items" | "payment";
 
@@ -36,7 +42,14 @@ type Draft = {
   vehicleId: string;
 
   newCustomer: { name: string; phone: string; address: string };
-  newVehicle: { plateNumber: string; brand: string; model: string; km: string };
+  newVehicle: {
+    plateNumber: string;
+    brand: string;
+    model: string;
+    engineNumber: string;
+    chassisNumber: string;
+    km: string;
+  };
 
   jobType: string;
 
@@ -155,7 +168,14 @@ export default function WorkOrderFormPage() {
     vehicleId: "",
 
     newCustomer: { name: "", phone: "", address: "" },
-    newVehicle: { plateNumber: "", brand: "", model: "", km: "" },
+    newVehicle: {
+      plateNumber: "",
+      brand: "",
+      model: "",
+      engineNumber: "",
+      chassisNumber: "",
+      km: "",
+    },
 
     jobType: "",
 
@@ -190,16 +210,16 @@ export default function WorkOrderFormPage() {
     const wo = woQuery.data;
     if (!wo) return;
 
-    const jasa = (wo.items ?? []).filter((it: any) => it.type === "JASA");
+    const jasa = (wo.items ?? []).filter((it) => it.type === "JASA");
     setJasaLines(
-      jasa.map((it: any) => ({
+      jasa.map((it) => ({
         clientId: makeClientId(),
         name: it.name ?? "",
         qty: String(it.qty ?? 1),
         price: formatRupiah(it.price ?? 0, { prefix: false }),
       })),
     );
-  }, [woQuery.data?.updatedAt]);
+  }, [woQuery.data, woQuery.data?.updatedAt]);
 
   React.useEffect(() => {
     const wo = woQuery.data;
@@ -216,7 +236,7 @@ export default function WorkOrderFormPage() {
       odo: wo.odo != null ? String(wo.odo) : "",
       dateTime: wo.createdAt ? new Date(wo.createdAt).toISOString().slice(0, 16) : d.dateTime,
       advisorId: wo.advisorId ?? "",
-      mechanicIds: (wo.mechanics ?? []).map((m: any) => m.userId),
+      mechanicIds: (wo.mechanics ?? []).map((m: WorkOrderMechanic) => m.userId),
       preCheck: wo.preCheck ?? "",
       postCheck: wo.postCheck ?? "",
       dp: formatRupiah(wo.dp ?? 0, { prefix: false }),
@@ -326,7 +346,7 @@ export default function WorkOrderFormPage() {
   });
 
   const onSave = React.useCallback(async () => {
-    const payload: any = {
+    const basePayload: UpdatePartialInput = {
       id: woId,
       woNumber: draft.woNumber?.trim() ? draft.woNumber.trim() : undefined,
       dateTime: draft.dateTime?.trim() ? new Date(draft.dateTime).toISOString() : undefined,
@@ -346,22 +366,37 @@ export default function WorkOrderFormPage() {
       paymentMethod: draft.paymentMethod,
     };
 
-    if (draft.customerMode === "existing") {
-      payload.customerId = draft.customerId.trim() ? draft.customerId : null;
-      payload.vehicleId = draft.vehicleId.trim() ? draft.vehicleId : null;
-    } else {
-      payload.newCustomer = {
-        name: draft.newCustomer.name,
-        phone: draft.newCustomer.phone,
-        address: draft.newCustomer.address || undefined,
-      };
-      payload.newVehicle = {
-        plateNumber: draft.newVehicle.plateNumber,
-        brand: draft.newVehicle.brand,
-        model: draft.newVehicle.model,
-        currentOdometer: draft.newVehicle.km.trim() ? safeInt(draft.newVehicle.km) : undefined,
-      };
-    }
+    const payload: UpdatePartialInput =
+      draft.customerMode === "existing"
+        ? {
+            ...basePayload,
+            customerId: draft.customerId.trim() ? draft.customerId : null,
+            vehicleId: draft.vehicleId.trim() ? draft.vehicleId : null,
+          }
+        : {
+            ...basePayload,
+            customerId: null,
+            vehicleId: null,
+            newCustomer: {
+              name: draft.newCustomer.name,
+              phone: draft.newCustomer.phone,
+              address: draft.newCustomer.address || undefined,
+            },
+            newVehicle: {
+              plateNumber: draft.newVehicle.plateNumber,
+              brand: draft.newVehicle.brand,
+              model: draft.newVehicle.model,
+              engineNumber: draft.newVehicle.engineNumber.trim()
+                ? draft.newVehicle.engineNumber
+                : undefined,
+              chassisNumber: draft.newVehicle.chassisNumber.trim()
+                ? draft.newVehicle.chassisNumber
+                : undefined,
+              currentOdometer: draft.newVehicle.km.trim()
+                ? safeInt(draft.newVehicle.km)
+                : undefined,
+            },
+          };
 
     await saveMutation.mutateAsync(payload);
   }, [draft, saveMutation, woId]);
@@ -490,7 +525,14 @@ export default function WorkOrderFormPage() {
                       ...d,
                       customerMode: "existing",
                       newCustomer: { name: "", phone: "", address: "" },
-                      newVehicle: { plateNumber: "", brand: "", model: "", km: "" },
+                      newVehicle: {
+                        plateNumber: "",
+                        brand: "",
+                        model: "",
+                        engineNumber: "",
+                        chassisNumber: "",
+                        km: "",
+                      },
                     }))
                   }
                 >
@@ -626,6 +668,28 @@ export default function WorkOrderFormPage() {
                         setDraft((d) => ({
                           ...d,
                           newVehicle: { ...d.newVehicle, model: e.target.value },
+                        }))
+                      }
+                    />
+                  </Field>
+                  <Field label="No Mesin">
+                    <Input
+                      value={draft.newVehicle.engineNumber}
+                      onChange={(e) =>
+                        setDraft((d) => ({
+                          ...d,
+                          newVehicle: { ...d.newVehicle, engineNumber: e.target.value },
+                        }))
+                      }
+                    />
+                  </Field>
+                  <Field label="No Rangka">
+                    <Input
+                      value={draft.newVehicle.chassisNumber}
+                      onChange={(e) =>
+                        setDraft((d) => ({
+                          ...d,
+                          newVehicle: { ...d.newVehicle, chassisNumber: e.target.value },
                         }))
                       }
                     />
@@ -947,7 +1011,7 @@ export default function WorkOrderFormPage() {
                   {(woQuery.data?.items ?? []).length === 0 ? (
                     <p className="text-sm text-slate-600">Belum ada items.</p>
                   ) : (
-                    (woQuery.data?.items ?? []).map((it: any) => (
+                    (woQuery.data?.items ?? []).map((it: WorkOrderItem) => (
                       <div
                         key={it.id}
                         className="flex flex-col gap-1 rounded-xl border border-slate-200 bg-slate-50 p-3 sm:flex-row sm:items-center sm:justify-between"

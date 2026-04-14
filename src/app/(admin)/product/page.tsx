@@ -34,6 +34,7 @@ import { useDebouncedValue } from "~/hooks/use-debounced-value";
 import { useToast } from "~/hooks/use-toast";
 import { cn, formatRupiah, parseRupiah } from "~/lib/utils";
 import { api } from "~/trpc/react";
+import { type RouterInputs, type RouterOutputs } from "~/trpc/react";
 
 const rupiahInputSchema = z
   .string()
@@ -48,8 +49,8 @@ const productFormSchema = z
     brandId: z.string().optional(),
     unitId: z.string().min(1, "Unit wajib dipilih"),
     buyPriceDefault: rupiahInputSchema,
-    marginMode: z.enum(["PERCENT", "NOMINAL"]).default("PERCENT"),
-    marginValue: z.string().trim().default("0"),
+    marginMode: z.enum(["PERCENT", "NOMINAL"]),
+    marginValue: z.string().trim(),
     sellPrice: rupiahInputSchema,
   })
   .superRefine((val, ctx) => {
@@ -75,6 +76,10 @@ const brandFormSchema = z.object({
 });
 
 type BrandFormValues = z.infer<typeof brandFormSchema>;
+
+type ProductListItem = RouterOutputs["inventory"]["listProducts"]["items"][number];
+type CreateProductInput = RouterInputs["inventory"]["createProduct"];
+type UpdateProductInput = RouterInputs["inventory"]["updateProduct"];
 
 function formatRupiahInput(value: string) {
   return formatRupiah(parseRupiah(value), { prefix: false });
@@ -180,7 +185,6 @@ export default function ProductPage() {
   });
 
   const productForm = useForm<ProductFormValues>({
-    resolver: zodResolver(productFormSchema),
     defaultValues: {
       name: "",
       type: "SPAREPART",
@@ -232,7 +236,7 @@ export default function ProductPage() {
       type: p.type,
       brandId: p.brandId ?? "",
       unitId: p.unitId,
-      buyPriceDefault: String((p as any).buyPriceDefault ?? 0),
+      buyPriceDefault: String(p.buyPriceDefault),
       marginMode: "PERCENT",
       marginValue: "0",
       sellPrice: String(p.sellPrice),
@@ -272,13 +276,40 @@ export default function ProductPage() {
   ]);
 
   const onSubmitProduct = productForm.handleSubmit(async (values) => {
-    const payload = {
-      name: values.name,
-      type: values.type,
-      brandId: values.brandId?.trim() ? values.brandId.trim() : undefined,
-      unitId: values.unitId,
-      buyPriceDefault: parseRupiah(values.buyPriceDefault),
-      sellPrice: parseRupiah(values.sellPrice),
+    const parsed = productFormSchema.safeParse(values);
+    if (!parsed.success) {
+      const keys: ReadonlyArray<keyof ProductFormValues> = [
+        "name",
+        "type",
+        "brandId",
+        "unitId",
+        "buyPriceDefault",
+        "marginMode",
+        "marginValue",
+        "sellPrice",
+      ];
+
+      for (const issue of parsed.error.issues) {
+        const field = issue.path[0];
+        if (typeof field !== "string") continue;
+        if (!keys.includes(field as keyof ProductFormValues)) continue;
+
+        productForm.setError(field as keyof ProductFormValues, {
+          type: "manual",
+          message: issue.message,
+        });
+      }
+      return;
+    }
+
+    const data = parsed.data;
+    const payload: CreateProductInput = {
+      name: data.name,
+      type: data.type,
+      brandId: data.brandId?.trim() ? data.brandId.trim() : undefined,
+      unitId: data.unitId,
+      buyPriceDefault: parseRupiah(data.buyPriceDefault),
+      sellPrice: parseRupiah(data.sellPrice),
     };
 
     if (mode === "create") {
@@ -288,7 +319,8 @@ export default function ProductPage() {
 
     if (!editProductId) return;
 
-    await updateProduct.mutateAsync({ id: editProductId, ...payload });
+    const updatePayload: UpdateProductInput = { id: editProductId, ...payload };
+    await updateProduct.mutateAsync(updatePayload);
   });
 
   const onSubmitUnit = unitForm.handleSubmit(async (values) => {
@@ -299,7 +331,7 @@ export default function ProductPage() {
     await createBrand.mutateAsync({ name: values.name });
   });
 
-  const items = listQuery.data?.items ?? [];
+  const items: ProductListItem[] = listQuery.data?.items ?? [];
   const total = listQuery.data?.total ?? 0;
   const totalPages = Math.max(1, Math.ceil(total / limit));
 
@@ -402,10 +434,10 @@ export default function ProductPage() {
                     <TableCell>{p.type === "SPAREPART" ? "Sparepart" : "Oli"}</TableCell>
                     <TableCell>{p.brand ?? "-"}</TableCell>
                     <TableCell>{p.unit.name}</TableCell>
-                    <TableCell className="text-right">{formatRupiah((p as any).buyPriceDefault ?? 0)}</TableCell>
+                    <TableCell className="text-right">{formatRupiah(p.buyPriceDefault)}</TableCell>
                     <TableCell className="text-right">
-                      {(p as any).lastBuyPrice != null
-                        ? formatRupiah((p as any).lastBuyPrice as number)
+                      {p.lastBuyPrice != null
+                        ? formatRupiah(p.lastBuyPrice)
                         : "-"}
                     </TableCell>
                     <TableCell className="text-right">{formatRupiah(p.sellPrice)}</TableCell>

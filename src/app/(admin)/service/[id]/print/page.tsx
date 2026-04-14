@@ -6,6 +6,18 @@ import { useParams } from "next/navigation";
 import { Button } from "~/components/ui/button";
 import { cn, formatRupiah } from "~/lib/utils";
 import { api } from "~/trpc/react";
+import { type RouterOutputs } from "~/trpc/react";
+
+type WorkOrderGetById = RouterOutputs["service"]["getById"];
+type WorkOrderMechanic = WorkOrderGetById["mechanics"][number];
+type WorkOrderItem = WorkOrderGetById["items"][number];
+
+type PrintItem = {
+  code: WorkOrderItem["type"];
+  name: string;
+  qty: number;
+  price: number;
+};
 
 function fmtDate(d: Date | string | null | undefined) {
   if (!d) return "-";
@@ -51,16 +63,16 @@ export default function WorkOrderPrintPage() {
     return <div className="p-6 text-sm text-slate-700">WO tidak ditemukan</div>;
   }
 
-  const wo: any = woQuery.data;
+  const wo: WorkOrderGetById = woQuery.data;
 
   const mechanicNames = (wo.mechanics ?? [])
-    .map((m: any) => m?.user?.name ?? "")
-    .filter((v: string) => Boolean(v))
+    .map((m: WorkOrderMechanic) => m.user.name)
+    .filter((v) => Boolean(v))
     .join(", ");
 
   const advisorName = wo.advisor?.name ?? wo.advisor?.email ?? "-";
 
-  const items = (wo.items ?? []).map((it: any) => ({
+  const items: PrintItem[] = (wo.items ?? []).map((it: WorkOrderItem) => ({
     code: it.type,
     name: it.name,
     qty: it.qty,
@@ -163,19 +175,19 @@ export default function WorkOrderPrintPage() {
                 {items.length === 0 ? (
                   <div className="px-1 py-2 text-black/70">Tidak ada item</div>
                 ) : (
-                  items.map((it: any, idx: number) => (
+                  items.map((item: PrintItem, idx: number) => (
                     <div
-                      key={`${it.code}-${idx}`}
+                      key={`${item.code}-${idx}`}
                       className={cn(
                         "grid grid-cols-[50px_110px_1fr_70px_110px] px-1 py-1",
                         idx === items.length - 1 ? "" : "border-b border-black/30",
                       )}
                     >
                       <div>{idx + 1}</div>
-                      <div>{it.code}</div>
-                      <div>{it.name}</div>
-                      <div className="text-right">{it.qty}</div>
-                      <div className="text-right">{formatRupiah(Number(it.qty ?? 0) * Number(it.price ?? 0))}</div>
+                      <div>{item.code}</div>
+                      <div>{item.name}</div>
+                      <div className="text-right">{item.qty}</div>
+                      <div className="text-right">{formatRupiah(Number(item.qty) * Number(item.price))}</div>
                     </div>
                   ))
                 )}

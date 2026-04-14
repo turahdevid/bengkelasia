@@ -34,6 +34,7 @@ import { useDebouncedValue } from "~/hooks/use-debounced-value";
 import { useToast } from "~/hooks/use-toast";
 import { cn, formatRupiah, parseRupiah } from "~/lib/utils";
 import { api } from "~/trpc/react";
+import { type RouterOutputs } from "~/trpc/react";
 
 const stockInSchema = z.object({
   productId: z.string().min(1, "Product wajib dipilih"),
@@ -53,6 +54,8 @@ const stockInSchema = z.object({
 });
 
 type StockInValues = z.infer<typeof stockInSchema>;
+
+type ProductListItem = RouterOutputs["inventory"]["listProducts"]["items"][number];
 
 function safeInt(v: string) {
   const trimmed = v.trim();
@@ -119,7 +122,9 @@ export default function StockInPage() {
     const currentBuyPrice = form.getValues("buyPrice");
     if (currentBuyPrice?.trim()) return;
 
-    const selected = (productsQuery.data?.items ?? []).find((p) => p.id === selectedProductId) as any;
+    const selected: ProductListItem | undefined = (productsQuery.data?.items ?? []).find(
+      (p) => p.id === selectedProductId,
+    );
     const next = selected?.buyPriceDefault;
     if (typeof next === "number") {
       form.setValue("buyPrice", formatRupiah(next, { prefix: false }), { shouldDirty: true });
@@ -134,7 +139,7 @@ export default function StockInPage() {
     });
   });
 
-  const items = productsQuery.data?.items ?? [];
+  const items: ProductListItem[] = productsQuery.data?.items ?? [];
   const total = productsQuery.data?.total ?? 0;
   const totalPages = Math.max(1, Math.ceil(total / limit));
 
@@ -221,10 +226,10 @@ export default function StockInPage() {
                     <TableCell>{p.type === "SPAREPART" ? "Sparepart" : "Oli"}</TableCell>
                     <TableCell>{p.brand ?? "-"}</TableCell>
                     <TableCell>{p.unit.name}</TableCell>
-                    <TableCell className="text-right">{formatRupiah((p as any).buyPriceDefault ?? 0)}</TableCell>
+                    <TableCell className="text-right">{formatRupiah(p.buyPriceDefault)}</TableCell>
                     <TableCell className="text-right">
-                      {(p as any).lastBuyPrice != null
-                        ? formatRupiah((p as any).lastBuyPrice as number)
+                      {p.lastBuyPrice != null
+                        ? formatRupiah(p.lastBuyPrice)
                         : "-"}
                     </TableCell>
                     <TableCell className="text-right">{formatRupiah(p.sellPrice)}</TableCell>

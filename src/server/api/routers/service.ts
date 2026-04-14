@@ -135,24 +135,23 @@ function calcSubtotal(items: WorkOrderItemInput[]) {
   return items.reduce((acc, it) => acc + it.qty * it.price, 0);
 }
 
-async function getStockAvailableByProductId(tx: {
-  stockBatch: {
-    groupBy: Function;
-  };
-}, productIds: string[]) {
+async function getStockAvailableByProductId(
+  tx: Prisma.TransactionClient,
+  productIds: string[],
+) {
   if (productIds.length === 0) return new Map<string, number>();
 
-  const grouped = (await (tx.stockBatch.groupBy as any)({
+  const grouped = await tx.stockBatch.groupBy({
     by: ["productId"],
     where: { productId: { in: productIds }, remaining: { gt: 0 } },
     _sum: { remaining: true },
-  })) as Array<{ productId: string; _sum: { remaining: number | null } }>;
+  });
 
   return new Map(grouped.map((g) => [g.productId, g._sum.remaining ?? 0] as const));
 }
 
 async function fifoDeductAndComputeHpp(params: {
-  tx: any;
+  tx: Prisma.TransactionClient;
   workOrderId: string;
   productId: string;
   qty: number;
@@ -285,6 +284,8 @@ const upsertWorkOrderSchema = z
           .transform((v) => v.toUpperCase().replace(/\s+/g, " ")),
         brand: z.string().trim().min(1).max(60),
         model: z.string().trim().min(1).max(60),
+        engineNumber: z.string().trim().min(1).max(120).optional(),
+        chassisNumber: z.string().trim().min(1).max(120).optional(),
         currentOdometer: z.number().int().min(0).max(2_000_000).optional(),
       })
       .optional(),
@@ -402,10 +403,9 @@ export const serviceRouter = createTRPCRouter({
         .optional(),
     )
     .mutation(async ({ ctx, input }) => {
-      const db = ctx.db as any;
       const prefix = woNumberPrefixForDate(new Date());
 
-      const latest = await db.workOrder.findFirst({
+      const latest = await ctx.db.workOrder.findFirst({
         where: { woNumber: { startsWith: `${prefix}-` } },
         orderBy: { createdAt: "desc" },
         select: { woNumber: true },
@@ -416,7 +416,7 @@ export const serviceRouter = createTRPCRouter({
       const woNumber = formatWoNumber(prefix, seq);
 
       try {
-        const wo = await db.workOrder.create({
+        const wo = await ctx.db.workOrder.create({
           data: {
             woNumber,
             status: "DRAFT",
@@ -474,9 +474,8 @@ export const serviceRouter = createTRPCRouter({
     .input(productSearchSchema)
     .query(async ({ ctx, input }) => {
       const q = input.query?.trim();
-      const db = ctx.db as any;
 
-      const items = await db.product.findMany({
+      const items = await ctx.db.product.findMany({
         where: {
           type: "SPAREPART",
           ...(q
@@ -498,14 +497,17 @@ export const serviceRouter = createTRPCRouter({
         },
       });
 
-      const stockByProductId = await getStockAvailableByProductId(db, items.map((p: { id: string }) => p.id));
+      const stockByProductId = await getStockAvailableByProductId(
+        ctx.db,
+        items.map((p) => p.id),
+      );
 
-      return items.map((p: any) => ({
-        id: p.id as string,
-        name: p.name as string,
-        brand: (p.brand?.name as string | undefined) ?? null,
-        sellPrice: p.sellPrice as number,
-        stockAvailable: stockByProductId.get(p.id as string) ?? 0,
+      return items.map((p) => ({
+        id: p.id,
+        name: p.name,
+        brand: p.brand?.name ?? null,
+        sellPrice: p.sellPrice,
+        stockAvailable: stockByProductId.get(p.id) ?? 0,
       }));
     }),
 
@@ -528,13 +530,16 @@ export const serviceRouter = createTRPCRouter({
     }),
 
   listMechanics: protectedProcedure.query(async ({ ctx }) => {
-    const items = await ctx.db.user.findMany({
-      where: { role: { name: "mekanik" } },
-      orderBy: { name: "asc" },
-      select: { id: true, name: true, email: true },
+    const employees = await ctx.db.employee.findMany({
+      where: {
+        isActive: true,
+        position: { contains: "mekanik" },
+      },
+      orderBy: { user: { name: "asc" } },
+      select: { user: { select: { id: true, name: true, email: true } } },
     });
 
-    return items;
+    return employees.map((e) => e.user);
   }),
 
   listAdvisors: protectedProcedure.query(async ({ ctx }) => {
@@ -606,9 +611,8 @@ export const serviceRouter = createTRPCRouter({
     .input(productSearchSchema)
     .query(async ({ ctx, input }) => {
       const q = input.query?.trim();
-      const db = ctx.db as any;
 
-      const items = await db.product.findMany({
+      const items = await ctx.db.product.findMany({
         where: {
           type: "OIL",
           ...(q
@@ -630,7 +634,10 @@ export const serviceRouter = createTRPCRouter({
         },
       });
 
-      const stockByProductId = await getStockAvailableByProductId(db, items.map((p: { id: string }) => p.id));
+      const stockByProductId = await getStockAvailableByProductId(
+        ctx.db,
+        items.map((p) => p.id),
+      );
 
       const byBrand = new Map<
         string,
@@ -638,14 +645,14 @@ export const serviceRouter = createTRPCRouter({
       >();
 
       for (const p of items) {
-        const brand = ((p.brand?.name as string | undefined) ?? "-").trim() || "-";
+        const brand = (p.brand?.name ?? "-").trim() || "-";
         const arr = byBrand.get(brand) ?? [];
         arr.push({
-          id: p.id as string,
-          name: p.name as string,
+          id: p.id,
+          name: p.name,
           brand,
-          sellPrice: p.sellPrice as number,
-          stockAvailable: stockByProductId.get(p.id as string) ?? 0,
+          sellPrice: p.sellPrice,
+          stockAvailable: stockByProductId.get(p.id) ?? 0,
         });
         byBrand.set(brand, arr);
       }
@@ -730,9 +737,7 @@ export const serviceRouter = createTRPCRouter({
   getById: protectedProcedure
     .input(z.object({ id: woIdSchema }))
     .query(async ({ ctx, input }) => {
-      const db = ctx.db as any;
-
-      const wo = await db.workOrder.findUnique({
+      const wo = await ctx.db.workOrder.findUnique({
         where: { id: input.id },
         select: {
           id: true,
@@ -817,6 +822,8 @@ export const serviceRouter = createTRPCRouter({
               .transform((v) => v.toUpperCase().replace(/\s+/g, " ")),
             brand: z.string().trim().min(1).max(60),
             model: z.string().trim().min(1).max(60),
+            engineNumber: z.string().trim().min(1).max(120).optional(),
+            chassisNumber: z.string().trim().min(1).max(120).optional(),
             currentOdometer: z.number().int().min(0).max(2_000_000).optional(),
           })
           .optional(),
@@ -847,14 +854,13 @@ export const serviceRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const db = ctx.db as any;
       const current = await ctx.db.workOrder.findUnique({
         where: { id: input.id },
         select: { id: true, status: true },
       });
       if (!current) throw new TRPCError({ code: "NOT_FOUND", message: "WO tidak ditemukan" });
 
-      const res = await db.$transaction(async (tx: any) => {
+      const res = await ctx.db.$transaction(async (tx) => {
         let customerId: string | null | undefined = input.customerId;
         let vehicleId: string | null | undefined = input.vehicleId;
 
@@ -881,6 +887,8 @@ export const serviceRouter = createTRPCRouter({
               plateNumber: input.newVehicle.plateNumber,
               brand: input.newVehicle.brand,
               model: input.newVehicle.model,
+              engineNumber: input.newVehicle.engineNumber,
+              chassisNumber: input.newVehicle.chassisNumber,
               currentOdometer: input.newVehicle.currentOdometer,
             },
             select: { id: true },
@@ -895,7 +903,7 @@ export const serviceRouter = createTRPCRouter({
             where: { id: vehicleId },
             select: { id: true, customerId: true },
           });
-          if (!v || v.customerId !== customerId) {
+          if (v?.customerId !== customerId) {
             throw new TRPCError({
               code: "BAD_REQUEST",
               message: "Kendaraan tidak sesuai customer",
@@ -954,7 +962,7 @@ export const serviceRouter = createTRPCRouter({
           select: { qty: true, price: true },
         });
 
-        const subtotal = items.reduce((acc: number, it: { qty: number; price: number }) => acc + it.qty * it.price, 0);
+        const subtotal = items.reduce((acc, it) => acc + it.qty * it.price, 0);
         const woNow = await tx.workOrder.findUnique({
           where: { id: updated.id },
           select: {
@@ -991,7 +999,6 @@ export const serviceRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const db = ctx.db as any;
       const wo = await ctx.db.workOrder.findUnique({
         where: { id: input.id },
         select: { id: true, status: true },
@@ -1002,7 +1009,7 @@ export const serviceRouter = createTRPCRouter({
         assertStatusTransition({ current: wo.status, next: input.status });
       }
 
-      await db.workOrder.update({
+      await ctx.db.workOrder.update({
         where: { id: input.id },
         data: { status: input.status },
         select: { id: true },
