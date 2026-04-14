@@ -521,7 +521,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\DELL\\Documents\\project\\bengkel\\bengkelasia\\generated\\prisma",
+      "value": "C:\\Users\\win10\\Downloads\\bengkel\\bengkelasia\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -535,7 +535,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\DELL\\Documents\\project\\bengkel\\bengkelasia\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\win10\\Downloads\\bengkel\\bengkelasia\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {

@@ -10,6 +10,14 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "~/components/ui/dialog";
 import { Input } from "~/components/ui/input";
 import {
   Table,
@@ -85,10 +93,44 @@ function formatDateTime(d: Date) {
   return date;
 }
 
+function normalizePhoneForWa(phone: string) {
+  const trimmed = phone.trim();
+  if (!trimmed) return "";
+  const digits = trimmed.replace(/[^0-9+]/g, "");
+  if (digits.startsWith("+")) return digits.slice(1);
+  if (digits.startsWith("0")) return `62${digits.slice(1)}`;
+  if (digits.startsWith("62")) return digits;
+  return digits;
+}
+
+function makeWaInvoiceText(params: {
+  woNumber: string;
+  customerName?: string | null;
+  plateNumber?: string | null;
+  grandTotal: number;
+}) {
+  const name = params.customerName?.trim() ? params.customerName.trim() : "Customer";
+  const plate = params.plateNumber?.trim() ? params.plateNumber.trim() : "-";
+  return [
+    `Halo ${name},`,
+    "",
+    `Invoice WO: ${params.woNumber}`,
+    `Kendaraan: ${plate}`,
+    `Total: ${formatRupiah(params.grandTotal)}`,
+    "",
+    "Terima kasih.",
+  ].join("\n");
+}
+
 export default function ServiceListPage() {
   const router = useRouter();
   const { toast } = useToast();
   const utils = api.useUtils();
+
+  const [deleteConfirm, setDeleteConfirm] = React.useState<
+    | { open: true; id: string; woNumber: string }
+    | { open: false }
+  >({ open: false });
 
   const [search, setSearch] = React.useState("");
   const debouncedSearch = useDebouncedValue(search, 350);
@@ -120,12 +162,55 @@ export default function ServiceListPage() {
     onError: (e) => toast({ variant: "destructive", title: "Gagal", description: e.message }),
   });
 
+  const deleteMutation = api.service.deleteWorkOrder.useMutation({
+    onSuccess: async () => {
+      toast({ variant: "success", title: "WO dihapus" });
+      setDeleteConfirm({ open: false });
+      await Promise.all([
+        utils.service.searchWorkOrders.invalidate(),
+        utils.service.recent.invalidate(),
+      ]);
+    },
+    onError: (e) => toast({ variant: "destructive", title: "Gagal", description: e.message }),
+  });
+
   const items = listQuery.data?.items ?? [];
   const total = listQuery.data?.total ?? 0;
   const totalPages = Math.max(1, Math.ceil(total / limit));
 
   return (
     <Card className="border border-slate-200/70 bg-white/60 shadow-sm backdrop-blur-lg">
+      <Dialog
+        open={deleteConfirm.open}
+        onOpenChange={(open) => {
+          if (!open) setDeleteConfirm({ open: false });
+        }}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Hapus WO</DialogTitle>
+            <DialogDescription>
+              {deleteConfirm.open ? `Hapus WO ${deleteConfirm.woNumber}?` : ""}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="secondary" type="button" onClick={() => setDeleteConfirm({ open: false })}>
+              Batal
+            </Button>
+            <Button
+              type="button"
+              disabled={deleteMutation.isPending}
+              onClick={() => {
+                if (!deleteConfirm.open) return;
+                deleteMutation.mutate({ id: deleteConfirm.id });
+              }}
+            >
+              {deleteMutation.isPending ? "Menghapus..." : "Hapus"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <CardTitle className="text-slate-900">Work Orders</CardTitle>
@@ -177,18 +262,19 @@ export default function ServiceListPage() {
                 <TableHead>Status</TableHead>
                 <TableHead className="text-right">Total</TableHead>
                 <TableHead>Tanggal</TableHead>
+                <TableHead>Aksi</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {listQuery.isLoading ? (
                 <TableRow>
-                  <TableCell colSpan={6}>
+                  <TableCell colSpan={7}>
                     <div className="py-10 text-center text-sm text-slate-600">Loading...</div>
                   </TableCell>
                 </TableRow>
               ) : items.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={6}>
+                  <TableCell colSpan={7}>
                     <div className="py-12 text-center">
                       <p className="text-sm font-semibold text-slate-900">Belum ada WO</p>
                       <p className="mt-1 text-sm text-slate-600">Klik &quot;+ Tambah WO&quot; untuk mulai.</p>
@@ -217,6 +303,79 @@ export default function ServiceListPage() {
                     </TableCell>
                     <TableCell className="text-right">{formatRupiah(wo.grandTotal ?? 0)}</TableCell>
                     <TableCell className="text-sm text-slate-700">{formatDateTime(new Date(wo.createdAt))}</TableCell>
+                    <TableCell>
+                      <div className="flex flex-wrap gap-2">
+                        <Button
+                          type="button"
+                          variant="secondary"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            router.push(`/admin/service/${wo.id}?tab=customer`);
+                          }}
+                        >
+                          Edit CS
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="secondary"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            router.push(`/admin/service/${wo.id}?tab=order`);
+                          }}
+                        >
+                          Edit Order
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="secondary"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            router.push(`/admin/service/${wo.id}?tab=payment`);
+                          }}
+                        >
+                          Edit Payment
+                        </Button>
+
+                        <Button
+                          type="button"
+                          variant="secondary"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            const phone = normalizePhoneForWa(wo.customer?.phone ?? "");
+                            if (!phone) {
+                              toast({
+                                variant: "destructive",
+                                title: "No HP customer kosong",
+                                description: "Isi nomor HP customer dulu agar bisa kirim invoice via WA.",
+                              });
+                              return;
+                            }
+
+                            const text = makeWaInvoiceText({
+                              woNumber: wo.woNumber,
+                              customerName: wo.customer?.name,
+                              plateNumber: wo.vehicle?.plateNumber,
+                              grandTotal: wo.grandTotal ?? 0,
+                            });
+                            const url = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+                            window.open(url, "_blank", "noopener,noreferrer");
+                          }}
+                        >
+                          Kirim WA
+                        </Button>
+
+                        <Button
+                          type="button"
+                          variant="secondary"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setDeleteConfirm({ open: true, id: wo.id, woNumber: wo.woNumber });
+                          }}
+                        >
+                          Delete
+                        </Button>
+                      </div>
+                    </TableCell>
                   </TableRow>
                 ))
               )}

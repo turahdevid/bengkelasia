@@ -530,16 +530,16 @@ export const serviceRouter = createTRPCRouter({
     }),
 
   listMechanics: protectedProcedure.query(async ({ ctx }) => {
-    const employees = await ctx.db.employee.findMany({
+    const items = await ctx.db.user.findMany({
       where: {
-        isActive: true,
-        position: { contains: "mekanik" },
+        role: { name: "mekanik" },
+        OR: [{ employee: { is: null } }, { employee: { is: { isActive: true } } }],
       },
-      orderBy: { user: { name: "asc" } },
-      select: { user: { select: { id: true, name: true, email: true } } },
+      orderBy: { name: "asc" },
+      select: { id: true, name: true, email: true },
     });
 
-    return employees.map((e) => e.user);
+    return items;
   }),
 
   listAdvisors: protectedProcedure.query(async ({ ctx }) => {
@@ -730,6 +730,31 @@ export const serviceRouter = createTRPCRouter({
           });
         }
       });
+
+      return { ok: true };
+    }),
+
+  deleteWorkOrder: protectedProcedure
+    .input(z.object({ id: woIdSchema }))
+    .mutation(async ({ ctx, input }) => {
+      const wo = await ctx.db.workOrder.findUnique({
+        where: { id: input.id },
+        select: { id: true, woNumber: true },
+      });
+      if (!wo) throw new TRPCError({ code: "NOT_FOUND", message: "WO tidak ditemukan" });
+
+      const movementsCount = await ctx.db.stockMovement.count({
+        where: { workOrderId: input.id },
+      });
+
+      if (movementsCount > 0) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "WO tidak bisa dihapus karena sudah ada pergerakan stok (sparepart/oli).",
+        });
+      }
+
+      await ctx.db.workOrder.delete({ where: { id: input.id }, select: { id: true } });
 
       return { ok: true };
     }),

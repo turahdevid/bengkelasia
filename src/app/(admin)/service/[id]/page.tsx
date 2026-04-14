@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { useParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 import { Button } from "~/components/ui/button";
 import {
@@ -10,6 +11,14 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "~/components/ui/dialog";
 import { Input } from "~/components/ui/input";
 import { Textarea } from "~/components/ui/textarea";
 import { useDebouncedValue } from "~/hooks/use-debounced-value";
@@ -31,6 +40,17 @@ type JasaLine = {
   qty: string;
   price: string;
 };
+
+type StockZeroConfirm =
+  | {
+      open: true;
+      kind: "SPAREPART" | "OIL";
+      productId: string;
+      name: string;
+      brand?: string | null;
+      stockAvailable: number;
+    }
+  | { open: false };
 
 type Draft = {
   id: string;
@@ -150,6 +170,7 @@ function canGoNextStatus(current: Draft["status"], next: Draft["status"]) {
 
 export default function WorkOrderFormPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { toast } = useToast();
   const utils = api.useUtils();
 
@@ -157,6 +178,13 @@ export default function WorkOrderFormPage() {
   const woId = params?.id ? String(params.id) : "";
 
   const [tab, setTab] = React.useState<TabKey>("customer");
+
+  React.useEffect(() => {
+    const t = searchParams?.get("tab");
+    if (t === "customer" || t === "order" || t === "items" || t === "payment") {
+      setTab(t);
+    }
+  }, [searchParams]);
 
   const [draft, setDraft] = React.useState<Draft>(() => ({
     id: woId,
@@ -262,6 +290,9 @@ export default function WorkOrderFormPage() {
     { enabled: Boolean(draft.customerId) && draft.customerMode === "existing" },
   );
 
+  const [mechanicOpen, setMechanicOpen] = React.useState(false);
+  const [mechanicSearch, setMechanicSearch] = React.useState("");
+
   const [sparepartQuery, setSparepartQuery] = React.useState("");
   const sparepartQueryDebounced = useDebouncedValue(sparepartQuery, 300);
   const sparepartsQuery = api.service.listProductsSparepart.useQuery(
@@ -280,6 +311,11 @@ export default function WorkOrderFormPage() {
   const [sparepartQty, setSparepartQty] = React.useState("1");
   const [oilId, setOilId] = React.useState("");
   const [oilQty, setOilQty] = React.useState("1");
+
+  const [sparepartBrand, setSparepartBrand] = React.useState<string>("Semua");
+  const [oilBrand, setOilBrand] = React.useState<string>("Semua");
+
+  const [stockZeroConfirm, setStockZeroConfirm] = React.useState<StockZeroConfirm>({ open: false });
 
   const saveMutation = api.service.updatePartial.useMutation({
     onSuccess: async () => {
@@ -344,6 +380,27 @@ export default function WorkOrderFormPage() {
     },
     onError: (e) => toast({ variant: "destructive", title: "Gagal", description: e.message }),
   });
+
+  const confirmAddStockZero = React.useCallback(() => {
+    if (!stockZeroConfirm.open) return;
+
+    if (stockZeroConfirm.kind === "SPAREPART") {
+      const qty = Math.max(1, safeInt(sparepartQty));
+      addSparepartMutation.mutate({ workOrderId: woId, productId: stockZeroConfirm.productId, qty });
+    } else {
+      const qty = Math.max(1, safeInt(oilQty));
+      addOilMutation.mutate({ workOrderId: woId, productId: stockZeroConfirm.productId, qty });
+    }
+
+    setStockZeroConfirm({ open: false });
+  }, [
+    addOilMutation,
+    addSparepartMutation,
+    oilQty,
+    sparepartQty,
+    stockZeroConfirm,
+    woId,
+  ]);
 
   const onSave = React.useCallback(async () => {
     const basePayload: UpdatePartialInput = {
@@ -471,48 +528,70 @@ export default function WorkOrderFormPage() {
   );
 
   return (
-    <Card className="border border-slate-200/70 bg-white/60 shadow-sm backdrop-blur-lg">
-      <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <CardTitle className="text-slate-900">Work Order</CardTitle>
-          <p className="mt-1 text-sm text-slate-600">Bisa disimpan kapan saja (draft). Edit kapan saja.</p>
+    <div className="mx-auto w-full max-w-6xl px-4 py-6">
+      <Dialog
+        open={stockZeroConfirm.open}
+        onOpenChange={(open) => {
+          if (!open) setStockZeroConfirm({ open: false });
+        }}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Stok 0</DialogTitle>
+            <DialogDescription>
+              {stockZeroConfirm.open
+                ? `Stok untuk ${stockZeroConfirm.name} (${(stockZeroConfirm.brand ?? "-").trim() || "-"}) adalah 0. Tetap tambahkan ke WO?`
+                : ""}
+            </DialogDescription>
+          </DialogHeader>
+
+          <DialogFooter>
+            <Button variant="secondary" type="button" onClick={() => setStockZeroConfirm({ open: false })}>
+              Batal
+            </Button>
+            <Button
+              type="button"
+              onClick={confirmAddStockZero}
+              disabled={addSparepartMutation.isPending || addOilMutation.isPending}
+            >
+              Lanjut
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <div className="flex flex-wrap gap-2">
+        <TabButton active={tab === "customer"} onClick={() => setTab("customer")}>
+          Customer
+        </TabButton>
+        <TabButton active={tab === "order"} onClick={() => setTab("order")}>
+          Order
+        </TabButton>
+        <TabButton active={tab === "items"} onClick={() => setTab("items")}>
+          Items
+        </TabButton>
+        <TabButton active={tab === "payment"} onClick={() => setTab("payment")}>
+          Payment
+        </TabButton>
+      </div>
+
+      <div className="grid gap-4">
+        <div className="grid gap-2 sm:grid-cols-2">
+          <Field label="WO Number">
+            <Input
+              value={draft.woNumber}
+              onChange={(e) => setDraft((d) => ({ ...d, woNumber: e.target.value }))}
+            />
+          </Field>
+
+          <Field label="Tanggal">
+            <Input
+              type="datetime-local"
+              value={draft.dateTime}
+              onChange={(e) => setDraft((d) => ({ ...d, dateTime: e.target.value }))}
+            />
+          </Field>
         </div>
-        {headerRight}
-      </CardHeader>
-
-      <CardContent className="space-y-4">
-        <div className="flex flex-wrap gap-2">
-          <TabButton active={tab === "customer"} onClick={() => setTab("customer")}>
-            Customer
-          </TabButton>
-          <TabButton active={tab === "order"} onClick={() => setTab("order")}>
-            Order
-          </TabButton>
-          <TabButton active={tab === "items"} onClick={() => setTab("items")}>
-            Items
-          </TabButton>
-          <TabButton active={tab === "payment"} onClick={() => setTab("payment")}>
-            Payment
-          </TabButton>
-        </div>
-
-        <div className="grid gap-4">
-          <div className="grid gap-2 sm:grid-cols-2">
-            <Field label="WO Number">
-              <Input
-                value={draft.woNumber}
-                onChange={(e) => setDraft((d) => ({ ...d, woNumber: e.target.value }))}
-              />
-            </Field>
-
-            <Field label="Tanggal">
-              <Input
-                type="datetime-local"
-                value={draft.dateTime}
-                onChange={(e) => setDraft((d) => ({ ...d, dateTime: e.target.value }))}
-              />
-            </Field>
-          </div>
 
           {tab === "customer" ? (
             <div className="grid gap-3">
@@ -742,6 +821,125 @@ export default function WorkOrderFormPage() {
                     ))}
                   </select>
                 </Field>
+
+                <Field label="Mechanic (Multi)">
+                  <div className="relative">
+                    <button
+                      type="button"
+                      className="flex min-h-10 w-full items-center justify-between rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm"
+                      onClick={() => setMechanicOpen((v) => !v)}
+                    >
+                      <span className={cn("truncate", draft.mechanicIds.length === 0 && "text-slate-400")}>
+                        {draft.mechanicIds.length === 0
+                          ? "Pilih mekanik"
+                          : `${draft.mechanicIds.length} mekanik dipilih`}
+                      </span>
+                      <span className="text-slate-400">▾</span>
+                    </button>
+
+                    {draft.mechanicIds.length > 0 ? (
+                      <div className="mt-2 flex flex-wrap gap-2">
+                        {draft.mechanicIds
+                          .map((id) => (mechanicsQuery.data ?? []).find((m) => m.id === id))
+                          .filter(Boolean)
+                          .map((m) => (
+                            <span
+                              key={(m as { id: string }).id}
+                              className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-700"
+                            >
+                              {(m as { name: string | null; email: string }).name ??
+                                (m as { name: string | null; email: string }).email}
+                              <button
+                                type="button"
+                                className="text-slate-500 hover:text-slate-900"
+                                onClick={() =>
+                                  setDraft((d) => ({
+                                    ...d,
+                                    mechanicIds: d.mechanicIds.filter((x) => x !== (m as { id: string }).id),
+                                  }))
+                                }
+                                aria-label="Remove mechanic"
+                              >
+                                ×
+                              </button>
+                            </span>
+                          ))}
+                      </div>
+                    ) : null}
+
+                    {mechanicOpen ? (
+                      <div className="absolute z-20 mt-2 w-full rounded-2xl border border-slate-200 bg-white p-2 shadow-lg">
+                        <Input
+                          value={mechanicSearch}
+                          onChange={(e) => setMechanicSearch(e.target.value)}
+                          placeholder="Cari mekanik..."
+                        />
+
+                        <div className="mt-2 max-h-64 overflow-auto">
+                          {(mechanicsQuery.data ?? [])
+                            .filter((m) => {
+                              const label = `${m.name ?? ""} ${m.email ?? ""}`.toLowerCase();
+                              return label.includes(mechanicSearch.trim().toLowerCase());
+                            })
+                            .map((m) => {
+                              const active = draft.mechanicIds.includes(m.id);
+                              return (
+                                <button
+                                  key={m.id}
+                                  type="button"
+                                  className={cn(
+                                    "flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-sm hover:bg-slate-50",
+                                    active && "bg-slate-50",
+                                  )}
+                                  onClick={() =>
+                                    setDraft((d) => ({
+                                      ...d,
+                                      mechanicIds: active
+                                        ? d.mechanicIds.filter((x) => x !== m.id)
+                                        : [...d.mechanicIds, m.id],
+                                    }))
+                                  }
+                                >
+                                  <span className="truncate">{m.name ?? m.email}</span>
+                                  <span
+                                    className={cn(
+                                      "ml-3 inline-flex h-5 w-5 items-center justify-center rounded border text-xs",
+                                      active
+                                        ? "border-slate-900 bg-slate-900 text-white"
+                                        : "border-slate-200 bg-white text-transparent",
+                                    )}
+                                  >
+                                    ✓
+                                  </span>
+                                </button>
+                              );
+                            })}
+
+                          {(mechanicsQuery.data ?? []).length > 0 &&
+                          (mechanicsQuery.data ?? []).filter((m) => {
+                            const label = `${m.name ?? ""} ${m.email ?? ""}`.toLowerCase();
+                            return label.includes(mechanicSearch.trim().toLowerCase());
+                          }).length === 0 ? (
+                            <div className="px-3 py-4 text-sm text-slate-500">Tidak ada hasil.</div>
+                          ) : null}
+                        </div>
+
+                        <div className="mt-2 flex justify-end gap-2">
+                          <Button
+                            variant="secondary"
+                            type="button"
+                            onClick={() => {
+                              setMechanicSearch("");
+                              setMechanicOpen(false);
+                            }}
+                          >
+                            Tutup
+                          </Button>
+                        </div>
+                      </div>
+                    ) : null}
+                  </div>
+                </Field>
               </div>
 
               <Field label="Keluhan">
@@ -768,36 +966,6 @@ export default function WorkOrderFormPage() {
                   />
                 </Field>
               </div>
-
-              <Field label="Mechanic (Multi)">
-                <div className="flex flex-wrap gap-2">
-                  {(mechanicsQuery.data ?? []).map((m) => {
-                    const active = draft.mechanicIds.includes(m.id);
-                    return (
-                      <button
-                        key={m.id}
-                        type="button"
-                        className={cn(
-                          "rounded-full border px-3 py-1 text-xs font-semibold",
-                          active
-                            ? "border-slate-900 bg-slate-900 text-white"
-                            : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50",
-                        )}
-                        onClick={() =>
-                          setDraft((d) => ({
-                            ...d,
-                            mechanicIds: active
-                              ? d.mechanicIds.filter((id) => id !== m.id)
-                              : [...d.mechanicIds, m.id],
-                          }))
-                        }
-                      >
-                        {m.name ?? m.email}
-                      </button>
-                    );
-                  })}
-                </div>
-              </Field>
             </div>
           ) : null}
 
@@ -903,105 +1071,215 @@ export default function WorkOrderFormPage() {
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-slate-200 bg-white p-4">
-                <p className="text-sm font-semibold text-slate-900">B. Sparepart (FIFO/HPP)</p>
-                <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                  <Field label="Cari">
-                    <Input
-                      value={sparepartQuery}
-                      onChange={(e) => setSparepartQuery(e.target.value)}
-                      placeholder="Nama / brand"
-                    />
-                  </Field>
-                  <Field label="Qty">
-                    <Input
-                      value={sparepartQty}
-                      onChange={(e) => setSparepartQty(e.target.value)}
-                      inputMode="numeric"
-                    />
-                  </Field>
-                  <Field label="Pilih" className="sm:col-span-2">
-                    <select
-                      className="h-10 w-full rounded-2xl border border-slate-200 bg-white px-3 text-sm"
-                      value={sparepartId}
-                      onChange={(e) => setSparepartId(e.target.value)}
-                    >
-                      <option value="">-</option>
-                      {(sparepartsQuery.data ?? []).map((p) => (
-                        <option key={p.id} value={p.id}>
-                          {p.name} (Stok {p.stockAvailable}) ({formatRupiah(p.sellPrice)})
-                        </option>
-                      ))}
-                    </select>
-                  </Field>
-                </div>
-                <div className="mt-3">
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      if (!sparepartId) {
-                        toast({ variant: "destructive", title: "Sparepart wajib dipilih" });
-                        return;
-                      }
-                      const qty = Math.max(1, safeInt(sparepartQty));
-                      addSparepartMutation.mutate({ workOrderId: woId, productId: sparepartId, qty });
-                    }}
-                    disabled={addSparepartMutation.isPending}
-                  >
-                    {addSparepartMutation.isPending ? "Menambah..." : "Tambah Sparepart"}
-                  </Button>
-                </div>
-              </div>
+              <div className="grid gap-5 lg:grid-cols-2">
+                <div className="rounded-2xl border border-slate-200 bg-white p-4">
+                  <p className="text-sm font-semibold text-slate-900">B. Sparepart (FIFO/HPP)</p>
+                  <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                    <Field label="Cari">
+                      <Input
+                        value={sparepartQuery}
+                        onChange={(e) => setSparepartQuery(e.target.value)}
+                        placeholder="Nama / brand"
+                      />
+                    </Field>
+                    <Field label="Qty">
+                      <Input
+                        value={sparepartQty}
+                        onChange={(e) => setSparepartQty(e.target.value)}
+                        inputMode="numeric"
+                      />
+                    </Field>
+                  </div>
 
-              <div className="rounded-2xl border border-slate-200 bg-white p-4">
-                <p className="text-sm font-semibold text-slate-900">C. Oli (FIFO/HPP)</p>
-                <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                  <Field label="Cari">
-                    <Input
-                      value={oilQuery}
-                      onChange={(e) => setOilQuery(e.target.value)}
-                      placeholder="Nama / brand"
-                    />
-                  </Field>
-                  <Field label="Qty">
-                    <Input
-                      value={oilQty}
-                      onChange={(e) => setOilQty(e.target.value)}
-                      inputMode="numeric"
-                    />
-                  </Field>
-                  <Field label="Pilih" className="sm:col-span-2">
-                    <select
-                      className="h-10 w-full rounded-2xl border border-slate-200 bg-white px-3 text-sm"
-                      value={oilId}
-                      onChange={(e) => setOilId(e.target.value)}
-                    >
-                      <option value="">-</option>
-                      {(oilsGroupedQuery.data ?? []).flatMap((g) =>
-                        g.items.map((it) => (
-                          <option key={it.id} value={it.id}>
-                            {g.brand} - {it.name} (Stok {it.stockAvailable}) ({formatRupiah(it.sellPrice)})
-                          </option>
-                        )),
-                      )}
-                    </select>
-                  </Field>
+                  {(() => {
+                    const items = sparepartsQuery.data ?? [];
+                    const brands = Array.from(
+                      new Set(
+                        items
+                          .map((p) => (p.brand ?? "-").trim() || "-")
+                          .filter((b) => b.length > 0),
+                      ),
+                    ).sort((a, b) => a.localeCompare(b));
+
+                    const visibleBrands = ["Semua", ...brands];
+                    const filtered =
+                      sparepartBrand === "Semua"
+                        ? items
+                        : items.filter((p) => ((p.brand ?? "-").trim() || "-") === sparepartBrand);
+
+                    return (
+                      <div className="mt-4">
+                        <div className="-mx-1 flex flex-nowrap gap-2 overflow-x-auto px-1 pb-1">
+                          {visibleBrands.map((b) => (
+                            <button
+                              key={b}
+                              type="button"
+                              className={cn(
+                                "whitespace-nowrap rounded-full border px-3 py-1 text-xs font-semibold",
+                                b === sparepartBrand
+                                  ? "border-slate-900 bg-slate-900 text-white"
+                                  : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50",
+                              )}
+                              onClick={() => setSparepartBrand(b)}
+                            >
+                              {b}
+                            </button>
+                          ))}
+                        </div>
+
+                        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                          {filtered.length === 0 ? (
+                            <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700 sm:col-span-2">
+                              Tidak ada sparepart.
+                            </div>
+                          ) : (
+                            filtered.map((p) => (
+                              <div
+                                key={p.id}
+                                className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"
+                              >
+                                <div className="flex items-start justify-between gap-3">
+                                  <div className="min-w-0">
+                                    <p className="truncate text-sm font-semibold text-slate-900">{p.name}</p>
+                                    <p className="mt-1 text-xs text-slate-600">
+                                      {(p.brand ?? "-").trim() || "-"} · Stok {p.stockAvailable}
+                                    </p>
+                                    <p className="mt-1 text-xs font-semibold text-slate-900">
+                                      {formatRupiah(p.sellPrice)}
+                                    </p>
+                                  </div>
+                                  <Button
+                                    type="button"
+                                    variant="secondary"
+                                    disabled={addSparepartMutation.isPending}
+                                    onClick={() => {
+                                      const qty = Math.max(1, safeInt(sparepartQty));
+                                      if ((p.stockAvailable ?? 0) === 0) {
+                                        setStockZeroConfirm({
+                                          open: true,
+                                          kind: "SPAREPART",
+                                          productId: p.id,
+                                          name: p.name,
+                                          brand: p.brand,
+                                          stockAvailable: p.stockAvailable ?? 0,
+                                        });
+                                        return;
+                                      }
+                                      addSparepartMutation.mutate({ workOrderId: woId, productId: p.id, qty });
+                                    }}
+                                  >
+                                    Tambah
+                                  </Button>
+                                </div>
+                              </div>
+                            ))
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })()}
                 </div>
-                <div className="mt-3">
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      if (!oilId) {
-                        toast({ variant: "destructive", title: "Oli wajib dipilih" });
-                        return;
-                      }
-                      const qty = Math.max(1, safeInt(oilQty));
-                      addOilMutation.mutate({ workOrderId: woId, productId: oilId, qty });
-                    }}
-                    disabled={addOilMutation.isPending}
-                  >
-                    {addOilMutation.isPending ? "Menambah..." : "Tambah Oli"}
-                  </Button>
+
+                <div className="rounded-2xl border border-slate-200 bg-white p-4">
+                  <p className="text-sm font-semibold text-slate-900">C. Oli (FIFO/HPP)</p>
+                  <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                    <Field label="Cari">
+                      <Input
+                        value={oilQuery}
+                        onChange={(e) => setOilQuery(e.target.value)}
+                        placeholder="Nama / brand"
+                      />
+                    </Field>
+                    <Field label="Qty">
+                      <Input
+                        value={oilQty}
+                        onChange={(e) => setOilQty(e.target.value)}
+                        inputMode="numeric"
+                      />
+                    </Field>
+                  </div>
+
+                  {(() => {
+                    const grouped = oilsGroupedQuery.data ?? [];
+                    const brands = grouped.map((g) => g.brand).filter(Boolean);
+                    const visibleBrands = ["Semua", ...brands];
+
+                    const picked =
+                      oilBrand === "Semua" ? grouped : grouped.filter((g) => g.brand === oilBrand);
+
+                    const flattened = picked.flatMap((g) => g.items.map((it) => ({ ...it, brand: g.brand })));
+
+                    return (
+                      <div className="mt-4">
+                        <div className="-mx-1 flex flex-nowrap gap-2 overflow-x-auto px-1 pb-1">
+                          {visibleBrands.map((b) => (
+                            <button
+                              key={b}
+                              type="button"
+                              className={cn(
+                                "whitespace-nowrap rounded-full border px-3 py-1 text-xs font-semibold",
+                                b === oilBrand
+                                  ? "border-slate-900 bg-slate-900 text-white"
+                                  : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50",
+                              )}
+                              onClick={() => setOilBrand(b)}
+                            >
+                              {b}
+                            </button>
+                          ))}
+                        </div>
+
+                        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                          {flattened.length === 0 ? (
+                            <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700 sm:col-span-2">
+                              Tidak ada oli.
+                            </div>
+                          ) : (
+                            flattened.map((it) => (
+                              <div
+                                key={it.id}
+                                className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"
+                              >
+                                <div className="flex items-start justify-between gap-3">
+                                  <div className="min-w-0">
+                                    <p className="truncate text-sm font-semibold text-slate-900">{it.name}</p>
+                                    <p className="mt-1 text-xs text-slate-600">
+                                      {it.brand} · Stok {it.stockAvailable}
+                                    </p>
+                                    <p className="mt-1 text-xs font-semibold text-slate-900">
+                                      {formatRupiah(it.sellPrice)}
+                                    </p>
+                                  </div>
+                                  <Button
+                                    type="button"
+                                    variant="secondary"
+                                    disabled={addOilMutation.isPending}
+                                    onClick={() => {
+                                      const qty = Math.max(1, safeInt(oilQty));
+                                      if ((it.stockAvailable ?? 0) === 0) {
+                                        setStockZeroConfirm({
+                                          open: true,
+                                          kind: "OIL",
+                                          productId: it.id,
+                                          name: it.name,
+                                          brand: it.brand,
+                                          stockAvailable: it.stockAvailable ?? 0,
+                                        });
+                                        return;
+                                      }
+                                      addOilMutation.mutate({ workOrderId: woId, productId: it.id, qty });
+                                    }}
+                                  >
+                                    Tambah
+                                  </Button>
+                                </div>
+                              </div>
+                            ))
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })()}
                 </div>
               </div>
 
@@ -1096,8 +1374,7 @@ export default function WorkOrderFormPage() {
             </div>
           ) : null}
         </div>
-      </CardContent>
-    </Card>
+    </div>
   );
 }
 
