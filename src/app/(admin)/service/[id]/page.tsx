@@ -180,6 +180,12 @@ export default function WorkOrderFormPage() {
     paymentMethod: "CASH",
   }));
 
+  const [paidAmountTouched, setPaidAmountTouched] = React.useState(false);
+
+  React.useEffect(() => {
+    setPaidAmountTouched(false);
+  }, [woId]);
+
   const woQuery = api.service.getById.useQuery(
     { id: woId },
     {
@@ -236,10 +242,17 @@ export default function WorkOrderFormPage() {
       dp: formatRupiah(wo.dp ?? 0, { prefix: false }),
       discountPercent: String(wo.discountPercent ?? 0),
       taxPercent: String(wo.taxPercent ?? 0),
-      paidAmount: formatRupiah(wo.paidAmount ?? 0, { prefix: false }),
+      paidAmount: paidAmountTouched
+        ? d.paidAmount
+        : formatRupiah(
+            wo.paidAmount && wo.paidAmount > 0
+              ? wo.paidAmount
+              : Math.max(0, (wo.grandTotal ?? 0) - (wo.dp ?? 0)),
+            { prefix: false },
+          ),
       paymentMethod: (wo.paymentMethod ?? "CASH") as "CASH" | "TRANSFER",
     }));
-  }, [woQuery.data]);
+  }, [paidAmountTouched, woQuery.data]);
 
   const mechanicsQuery = api.service.listMechanics.useQuery();
   const advisorsQuery = api.service.listAdvisors.useQuery();
@@ -356,6 +369,64 @@ export default function WorkOrderFormPage() {
     },
     onError: (e) => toast({ variant: "destructive", title: "Gagal", description: e.message }),
   });
+
+  const jasaDirty = React.useMemo(() => {
+    const wo = woQuery.data;
+    if (!wo) return false;
+
+    const saved = (wo.items ?? [])
+      .filter((it) => it.type === "JASA")
+      .map((it) => ({
+        name: (it.name ?? "").trim(),
+        qty: Number(it.qty ?? 0),
+        price: Number(it.price ?? 0),
+      }))
+      .filter((x) => x.name.length > 0);
+
+    const draftNow = jasaLines
+      .map((r) => ({
+        name: r.name.trim(),
+        qty: Math.max(1, safeInt(r.qty)),
+        price: parseRupiah(r.price),
+      }))
+      .filter((x) => x.name.length > 0);
+
+    const key = (x: { name: string; qty: number; price: number }) =>
+      `${x.name}::${x.qty}::${x.price}`;
+    const a = saved.map(key).join("|");
+    const b = draftNow.map(key).join("|");
+    return a !== b;
+  }, [jasaLines, woQuery.data]);
+
+  const goToTab = React.useCallback(
+    async (nextTab: TabKey) => {
+      if (
+        tab === "items" &&
+        nextTab === "payment" &&
+        jasaDirty &&
+        !replaceJasaMutation.isPending
+      ) {
+        const payload = jasaLines
+          .map((r) => ({
+            name: r.name.trim(),
+            qty: Math.max(1, safeInt(r.qty)),
+            price: parseRupiah(r.price),
+          }))
+          .filter((r) => r.name.length > 0);
+
+        await replaceJasaMutation.mutateAsync({ workOrderId: woId, items: payload });
+      }
+
+      setTab(nextTab);
+    },
+    [
+      jasaDirty,
+      jasaLines,
+      replaceJasaMutation,
+      tab,
+      woId,
+    ],
+  );
 
   const addSparepartMutation = api.service.addSparepartItem.useMutation({
     onSuccess: async () => {
@@ -548,7 +619,12 @@ export default function WorkOrderFormPage() {
         <TabButton active={tab === "items"} onClick={() => setTab("items")}>
           Items
         </TabButton>
-        <TabButton active={tab === "payment"} onClick={() => setTab("payment")}>
+        <TabButton
+          active={tab === "payment"}
+          onClick={() => {
+            void goToTab("payment");
+          }}
+        >
           Payment
         </TabButton>
       </div>
@@ -1353,7 +1429,10 @@ export default function WorkOrderFormPage() {
               <Field label="Total Dibayar">
                 <Input
                   value={draft.paidAmount}
-                  onChange={(e) => setDraft((d) => ({ ...d, paidAmount: e.target.value }))}
+                  onChange={(e) => {
+                    setPaidAmountTouched(true);
+                    setDraft((d) => ({ ...d, paidAmount: e.target.value }));
+                  }}
                   onBlur={(e) =>
                     setDraft((d) => ({ ...d, paidAmount: formatRupiahInput(e.target.value) }))
                   }
@@ -1393,9 +1472,49 @@ export default function WorkOrderFormPage() {
               <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:col-span-2">
                 <div className="grid gap-2 text-sm">
                   <div className="flex items-center justify-between">
-                    <span className="text-slate-600">Total (Grand Total)</span>
+                    <span className="text-slate-600">Subtotal</span>
+                    <span className="font-semibold text-slate-900">
+                      {formatRupiah(woQuery.data?.subtotal ?? 0)}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-slate-600">Discount</span>
+                    <span className="font-semibold text-slate-900">
+                      {safeInt(draft.discountPercent) > 0
+                        ? `${String(safeInt(draft.discountPercent))}%`
+                        : "0%"}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-slate-600">Tax / PPN</span>
+                    <span className="font-semibold text-slate-900">
+                      {safeInt(draft.taxPercent) > 0 ? `${String(safeInt(draft.taxPercent))}%` : "0%"}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between border-t border-slate-100 pt-2">
+                    <span className="text-slate-600">Grand Total</span>
                     <span className="font-semibold text-slate-900">
                       {formatRupiah(woQuery.data?.grandTotal ?? 0)}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-slate-600">DP</span>
+                    <span className="font-semibold text-slate-900">
+                      {formatRupiah(woQuery.data?.dp ?? 0)}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-slate-600">Sisa Bayar</span>
+                    <span className="font-semibold text-slate-900">
+                      {formatRupiah(
+                        Math.max(0, (woQuery.data?.grandTotal ?? 0) - (woQuery.data?.dp ?? 0)),
+                      )}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-slate-600">Kembalian</span>
+                    <span className="font-semibold text-slate-900">
+                      {formatRupiah(woQuery.data?.changeAmount ?? 0)}
                     </span>
                   </div>
                 </div>
