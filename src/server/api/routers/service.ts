@@ -260,6 +260,37 @@ function calcGrandTotal(params: {
   return afterDiscount + taxAmount;
 }
 
+async function recomputeWorkOrderTotals(tx: Prisma.TransactionClient, workOrderId: string) {
+  const [items, woNow] = await Promise.all([
+    tx.workOrderItem.findMany({
+      where: { workOrderId },
+      select: { qty: true, price: true },
+    }),
+    tx.workOrder.findUnique({
+      where: { id: workOrderId },
+      select: {
+        discountPercent: true,
+        taxPercent: true,
+        paidAmount: true,
+      },
+    }),
+  ]);
+
+  const subtotal = items.reduce((acc, it) => acc + it.qty * it.price, 0);
+  const grandTotal = calcGrandTotal({
+    itemsSubtotal: subtotal,
+    discountPercent: woNow?.discountPercent ?? 0,
+    taxPercent: woNow?.taxPercent ?? 0,
+  });
+  const changeAmount = Math.max(0, (woNow?.paidAmount ?? 0) - grandTotal);
+
+  await tx.workOrder.update({
+    where: { id: workOrderId },
+    data: { subtotal, grandTotal, changeAmount },
+    select: { id: true },
+  });
+}
+
 const upsertWorkOrderSchema = z
   .object({
     id: woIdSchema.optional(),
@@ -669,15 +700,18 @@ export const serviceRouter = createTRPCRouter({
       });
       if (!wo) throw new TRPCError({ code: "NOT_FOUND", message: "WO tidak ditemukan" });
 
-      return ctx.db.$transaction((tx) =>
-        fifoDeductAndComputeHpp({
+      return ctx.db.$transaction(async (tx) => {
+        const res = await fifoDeductAndComputeHpp({
           tx,
           workOrderId: input.workOrderId,
           productId: input.productId,
           qty: input.qty,
           itemType: "SPAREPART",
-        }),
-      );
+        });
+
+        await recomputeWorkOrderTotals(tx, input.workOrderId);
+        return res;
+      });
     }),
 
   addOilItem: protectedProcedure
@@ -689,15 +723,18 @@ export const serviceRouter = createTRPCRouter({
       });
       if (!wo) throw new TRPCError({ code: "NOT_FOUND", message: "WO tidak ditemukan" });
 
-      return ctx.db.$transaction((tx) =>
-        fifoDeductAndComputeHpp({
+      return ctx.db.$transaction(async (tx) => {
+        const res = await fifoDeductAndComputeHpp({
           tx,
           workOrderId: input.workOrderId,
           productId: input.productId,
           qty: input.qty,
           itemType: "OLI",
-        }),
-      );
+        });
+
+        await recomputeWorkOrderTotals(tx, input.workOrderId);
+        return res;
+      });
     }),
 
   replaceJasaItems: protectedProcedure
@@ -729,6 +766,8 @@ export const serviceRouter = createTRPCRouter({
             })),
           });
         }
+
+        await recomputeWorkOrderTotals(tx, input.workOrderId);
       });
 
       return { ok: true };

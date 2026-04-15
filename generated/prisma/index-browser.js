@@ -331,6 +331,32 @@ exports.Prisma.OilScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.BirthdayReminderScalarFieldEnum = {
+  id: 'id',
+  customerId: 'customerId',
+  reminderDate: 'reminderDate',
+  status: 'status',
+  followedUpAt: 'followedUpAt',
+  snoozedAt: 'snoozedAt',
+  handledByUserId: 'handledByUserId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ServiceReminderScalarFieldEnum = {
+  id: 'id',
+  workOrderId: 'workOrderId',
+  customerId: 'customerId',
+  vehicleId: 'vehicleId',
+  dueDate: 'dueDate',
+  status: 'status',
+  followedUpAt: 'followedUpAt',
+  snoozedAt: 'snoozedAt',
+  handledByUserId: 'handledByUserId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -488,6 +514,20 @@ exports.Prisma.OilOrderByRelevanceFieldEnum = {
   brand: 'brand',
   name: 'name'
 };
+
+exports.Prisma.BirthdayReminderOrderByRelevanceFieldEnum = {
+  id: 'id',
+  customerId: 'customerId',
+  handledByUserId: 'handledByUserId'
+};
+
+exports.Prisma.ServiceReminderOrderByRelevanceFieldEnum = {
+  id: 'id',
+  workOrderId: 'workOrderId',
+  customerId: 'customerId',
+  vehicleId: 'vehicleId',
+  handledByUserId: 'handledByUserId'
+};
 exports.WorkOrderStatus = exports.$Enums.WorkOrderStatus = {
   DRAFT: 'DRAFT',
   ANTRIAN: 'ANTRIAN',
@@ -520,6 +560,12 @@ exports.StockMovementType = exports.$Enums.StockMovementType = {
   OUT: 'OUT'
 };
 
+exports.ReminderStatus = exports.$Enums.ReminderStatus = {
+  PENDING: 'PENDING',
+  FOLLOWED_UP: 'FOLLOWED_UP',
+  SNOOZED: 'SNOOZED'
+};
+
 exports.Prisma.ModelName = {
   Role: 'Role',
   Permission: 'Permission',
@@ -540,7 +586,9 @@ exports.Prisma.ModelName = {
   StockBatch: 'StockBatch',
   StockMovement: 'StockMovement',
   Sparepart: 'Sparepart',
-  Oil: 'Oil'
+  Oil: 'Oil',
+  BirthdayReminder: 'BirthdayReminder',
+  ServiceReminder: 'ServiceReminder'
 };
 
 /**

@@ -12,8 +12,10 @@ import {
   Car,
   ChevronDown,
   Contact,
+  MessageCircle,
   LayoutDashboard,
   Settings,
+  X,
   Users,
   Tags,
   Wrench,
@@ -21,6 +23,17 @@ import {
 
 import { Button } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
+import { api } from "~/trpc/react";
+
+function normalizePhoneForWa(phone: string) {
+  const trimmed = phone.trim();
+  if (!trimmed) return "";
+  const digits = trimmed.replace(/[^0-9+]/g, "");
+  if (digits.startsWith("+")) return digits.slice(1);
+  if (digits.startsWith("0")) return `62${digits.slice(1)}`;
+  if (digits.startsWith("62")) return digits;
+  return digits;
+}
 
 const MANAGEMENT_ITEMS = [
   { href: "/admin/rbac", label: "Manajemen Akses", icon: Users },
@@ -77,6 +90,41 @@ export default function AdminShell({
 }: Readonly<{ children: React.ReactNode }>) {
   const pathname = usePathname();
   const profileMenuRef = React.useRef<HTMLDetailsElement>(null);
+  const [notifOpen, setNotifOpen] = React.useState(false);
+  const [mounted, setMounted] = React.useState(false);
+
+  const utils = api.useUtils();
+  const followUpBirthdayReminderMutation = api.admin.followUpBirthdayReminder.useMutation({
+    onSuccess: async () => {
+      await utils.admin.getHeaderNotifications.invalidate();
+    },
+  });
+  const snoozeBirthdayReminderMutation = api.admin.snoozeBirthdayReminder.useMutation({
+    onSuccess: async () => {
+      await utils.admin.getHeaderNotifications.invalidate();
+    },
+  });
+  const followUpServiceReminderMutation = api.admin.followUpServiceReminder.useMutation({
+    onSuccess: async () => {
+      await utils.admin.getHeaderNotifications.invalidate();
+    },
+  });
+  const snoozeServiceReminderMutation = api.admin.snoozeServiceReminder.useMutation({
+    onSuccess: async () => {
+      await utils.admin.getHeaderNotifications.invalidate();
+    },
+  });
+
+  const notifQuery = api.admin.getHeaderNotifications.useQuery(undefined, {
+    retry: false,
+    refetchInterval: 60_000,
+  });
+
+  const notifTotal = React.useMemo(() => {
+    const birthdays = notifQuery.data?.birthdays ?? [];
+    const service = notifQuery.data?.service ?? [];
+    return birthdays.length + service.length;
+  }, [notifQuery.data?.birthdays, notifQuery.data?.service]);
   const [managementOpen, setManagementOpen] = React.useState(false);
   const managementButtonRef = React.useRef<HTMLButtonElement>(null);
   const managementMenuRef = React.useRef<HTMLDivElement>(null);
@@ -100,8 +148,10 @@ export default function AdminShell({
   const title = getTitleFromPath(pathname);
 
   React.useEffect(() => {
+    setMounted(true);
     setManagementOpen(false);
     setCustomersOpen(false);
+    setNotifOpen(false);
   }, [pathname]);
 
   const cancelManagementClose = React.useCallback(() => {
@@ -215,6 +265,212 @@ export default function AdminShell({
   return (
     <div className="min-h-screen bg-[#f6f1e8]">
       <div className="mx-auto w-full max-w-[1200px] px-4 py-4 lg:px-6 lg:py-6">
+        {mounted && notifOpen
+          ? createPortal(
+              <div className="fixed inset-0 z-50">
+                <button
+                  type="button"
+                  className={cn(
+                    "absolute inset-0 bg-black/30 backdrop-blur-sm",
+                    "animate-in fade-in duration-200",
+                  )}
+                  aria-label="Close notifications"
+                  onClick={() => setNotifOpen(false)}
+                />
+
+                <div
+                  role="dialog"
+                  aria-modal="true"
+                  className={cn(
+                    "absolute right-0 top-0 h-full w-full max-w-md",
+                    "border-l border-slate-200 bg-white shadow-2xl",
+                    "animate-in slide-in-from-right duration-200",
+                  )}
+                >
+                  <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4">
+                    <div className="min-w-0">
+                      <p className="text-base font-semibold text-slate-900">Notifikasi</p>
+                      <p className="mt-0.5 text-xs text-slate-500">
+                        Total: {String(notifTotal)}
+                      </p>
+                    </div>
+                    <Button
+                      type="button"
+                      variant="secondary"
+                      size="icon"
+                      aria-label="Close"
+                      onClick={() => setNotifOpen(false)}
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  </div>
+
+                  <div className="h-[calc(100%-72px)] overflow-y-auto p-5">
+                    <div className="space-y-5">
+                      <section className="space-y-3">
+                        <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                          Birthday hari ini
+                        </p>
+
+                        {(notifQuery.data?.birthdays ?? []).map((b) => {
+                            const wa = normalizePhoneForWa(b.phone);
+                            return (
+                              <div
+                                key={b.reminderId}
+                                className={cn(
+                                  "relative overflow-hidden rounded-3xl border p-4 shadow-sm",
+                                  "border-amber-200/70 bg-linear-to-br from-amber-50 to-white",
+                                )}
+                              >
+                                <div className="absolute left-0 top-0 h-full w-1 bg-amber-400/70" />
+                                <div className="flex items-start justify-between gap-3">
+                                  <div className="min-w-0">
+                                    <span className="inline-flex items-center rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-semibold text-amber-800">
+                                      Birthday
+                                    </span>
+                                    <p className="truncate text-sm font-semibold text-slate-900">
+                                      {b.name}
+                                    </p>
+                                    <p className="mt-1 text-xs text-slate-600">{b.phone}</p>
+                                  </div>
+                                  <div className="flex items-center gap-2">
+                                    <Button
+                                      type="button"
+                                      variant="secondary"
+                                      size="icon"
+                                      title="Follow up via WhatsApp"
+                                      aria-label="Follow up"
+                                      disabled={!wa}
+                                      onClick={async () => {
+                                        if (!wa) return;
+                                        await followUpBirthdayReminderMutation.mutateAsync({
+                                          reminderId: b.reminderId,
+                                        });
+                                        const text = `Halo ${b.name}, selamat ulang tahun 🎉\nSemoga sehat & sukses selalu.\n\nJika ingin booking service, kami siap membantu. Terima kasih.`;
+                                        window.open(
+                                          `https://wa.me/${wa}?text=${encodeURIComponent(text)}`,
+                                          "_blank",
+                                          "noopener,noreferrer",
+                                        );
+                                      }}
+                                    >
+                                      <MessageCircle className="h-4 w-4" />
+                                    </Button>
+                                    <Button
+                                      type="button"
+                                      variant="secondary"
+                                      size="icon"
+                                      title="Snooze"
+                                      aria-label="Snooze"
+                                      onClick={async () => {
+                                        await snoozeBirthdayReminderMutation.mutateAsync({
+                                          reminderId: b.reminderId,
+                                        });
+                                      }}
+                                    >
+                                      <X className="h-4 w-4" />
+                                    </Button>
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })}
+
+                        {(notifQuery.data?.birthdays ?? []).length === 0 && (
+                          <p className="text-sm text-slate-600">Tidak ada ulang tahun hari ini.</p>
+                        )}
+                      </section>
+
+                      <section className="space-y-3">
+                        <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                          Service reminder
+                        </p>
+
+                        {(notifQuery.data?.service ?? []).map((s) => {
+                            const name = s.customer?.name ?? "-";
+                            const phone = s.customer?.phone ?? "";
+                            const wa = normalizePhoneForWa(phone);
+                            const plate = s.vehicle?.plateNumber ?? "-";
+                            const vehicleLabel = `${s.vehicle?.brand ?? ""} ${s.vehicle?.model ?? ""}`.trim();
+                            return (
+                              <div
+                                key={s.reminderId}
+                                className={cn(
+                                  "relative overflow-hidden rounded-3xl border p-4 shadow-sm",
+                                  "border-sky-200/70 bg-linear-to-br from-sky-50 to-white",
+                                )}
+                              >
+                                <div className="absolute left-0 top-0 h-full w-1 bg-sky-400/70" />
+                                <div className="flex items-start justify-between gap-3">
+                                  <div className="min-w-0">
+                                    <span className="inline-flex items-center rounded-full bg-sky-100 px-2 py-0.5 text-[10px] font-semibold text-sky-800">
+                                      Service
+                                    </span>
+                                    <p className="truncate text-sm font-semibold text-slate-900">
+                                      {name}
+                                    </p>
+                                    <p className="mt-1 text-xs text-slate-600">{phone || "-"}</p>
+                                    <p className="mt-2 text-xs font-semibold text-slate-900">
+                                      {plate}
+                                    </p>
+                                    <p className="mt-1 text-xs text-slate-600">{vehicleLabel || "-"}</p>
+                                    <p className="mt-2 text-xs text-slate-500">WO terakhir: {s.woNumber}</p>
+                                  </div>
+                                  <div className="flex items-center gap-2">
+                                    <Button
+                                      type="button"
+                                      variant="secondary"
+                                      size="icon"
+                                      title="Follow up via WhatsApp"
+                                      aria-label="Follow up"
+                                      disabled={!wa}
+                                      onClick={async () => {
+                                        if (!wa) return;
+                                        await followUpServiceReminderMutation.mutateAsync({
+                                          reminderId: s.reminderId,
+                                        });
+                                        const text = `Halo ${name},\n\nKami ingatkan jadwal service kendaraan ${plate}.\nSilakan balas chat ini untuk booking service.\n\nTerima kasih.`;
+                                        window.open(
+                                          `https://wa.me/${wa}?text=${encodeURIComponent(text)}`,
+                                          "_blank",
+                                          "noopener,noreferrer",
+                                        );
+                                      }}
+                                    >
+                                      <MessageCircle className="h-4 w-4" />
+                                    </Button>
+                                    <Button
+                                      type="button"
+                                      variant="secondary"
+                                      size="icon"
+                                      title="Snooze"
+                                      aria-label="Snooze"
+                                      onClick={async () => {
+                                        await snoozeServiceReminderMutation.mutateAsync({
+                                          reminderId: s.reminderId,
+                                        });
+                                      }}
+                                    >
+                                      <X className="h-4 w-4" />
+                                    </Button>
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })}
+
+                        {(notifQuery.data?.service ?? []).length === 0 && (
+                          <p className="text-sm text-slate-600">Tidak ada reminder service hari ini.</p>
+                        )}
+                      </section>
+                    </div>
+                  </div>
+                </div>
+              </div>,
+              document.body,
+            )
+          : null}
+
         <header className="sticky top-0 z-40 print:hidden">
           <div className="rounded-3xl border border-slate-200/70 bg-white/60 shadow-sm backdrop-blur-lg">
             <div className="flex flex-col gap-3 p-3 sm:flex-row sm:items-center sm:justify-between">
@@ -230,9 +486,14 @@ export default function AdminShell({
                     size="icon"
                     className="relative"
                     aria-label="Notifications"
+                    onClick={() => setNotifOpen(true)}
                   >
                     <Bell className="h-5 w-5" />
-                    <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-orange-500" />
+                    {notifTotal > 0 ? (
+                      <span className="absolute -right-1 -top-1 grid h-5 min-w-5 place-items-center rounded-full bg-orange-500 px-1 text-[10px] font-semibold text-white">
+                        {notifTotal > 99 ? "99+" : String(notifTotal)}
+                      </span>
+                    ) : null}
                   </Button>
                 </div>
               </div>
@@ -411,9 +672,14 @@ export default function AdminShell({
                   size="icon"
                   className="relative"
                   aria-label="Notifications"
+                  onClick={() => setNotifOpen(true)}
                 >
                   <Bell className="h-5 w-5" />
-                  <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-orange-500" />
+                  {notifTotal > 0 ? (
+                    <span className="absolute -right-1 -top-1 grid h-5 min-w-5 place-items-center rounded-full bg-orange-500 px-1 text-[10px] font-semibold text-white">
+                      {notifTotal > 99 ? "99+" : String(notifTotal)}
+                    </span>
+                  ) : null}
                 </Button>
 
                 <details ref={profileMenuRef} className="group relative">

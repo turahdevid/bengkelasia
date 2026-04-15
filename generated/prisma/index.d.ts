@@ -113,6 +113,16 @@ export type Sparepart = $Result.DefaultSelection<Prisma.$SparepartPayload>
  * 
  */
 export type Oil = $Result.DefaultSelection<Prisma.$OilPayload>
+/**
+ * Model BirthdayReminder
+ * 
+ */
+export type BirthdayReminder = $Result.DefaultSelection<Prisma.$BirthdayReminderPayload>
+/**
+ * Model ServiceReminder
+ * 
+ */
+export type ServiceReminder = $Result.DefaultSelection<Prisma.$ServiceReminderPayload>
 
 /**
  * Enums
@@ -157,6 +167,15 @@ export const StockMovementType: {
 export type StockMovementType = (typeof StockMovementType)[keyof typeof StockMovementType]
 
 
+export const ReminderStatus: {
+  PENDING: 'PENDING',
+  FOLLOWED_UP: 'FOLLOWED_UP',
+  SNOOZED: 'SNOOZED'
+};
+
+export type ReminderStatus = (typeof ReminderStatus)[keyof typeof ReminderStatus]
+
+
 export const PaymentMethod: {
   CASH: 'CASH',
   TRANSFER: 'TRANSFER'
@@ -181,6 +200,10 @@ export const ProductType: typeof $Enums.ProductType
 export type StockMovementType = $Enums.StockMovementType
 
 export const StockMovementType: typeof $Enums.StockMovementType
+
+export type ReminderStatus = $Enums.ReminderStatus
+
+export const ReminderStatus: typeof $Enums.ReminderStatus
 
 export type PaymentMethod = $Enums.PaymentMethod
 
@@ -503,6 +526,26 @@ export class PrismaClient<
     * ```
     */
   get oil(): Prisma.OilDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.birthdayReminder`: Exposes CRUD operations for the **BirthdayReminder** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BirthdayReminders
+    * const birthdayReminders = await prisma.birthdayReminder.findMany()
+    * ```
+    */
+  get birthdayReminder(): Prisma.BirthdayReminderDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.serviceReminder`: Exposes CRUD operations for the **ServiceReminder** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ServiceReminders
+    * const serviceReminders = await prisma.serviceReminder.findMany()
+    * ```
+    */
+  get serviceReminder(): Prisma.ServiceReminderDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -963,7 +1006,9 @@ export namespace Prisma {
     StockBatch: 'StockBatch',
     StockMovement: 'StockMovement',
     Sparepart: 'Sparepart',
-    Oil: 'Oil'
+    Oil: 'Oil',
+    BirthdayReminder: 'BirthdayReminder',
+    ServiceReminder: 'ServiceReminder'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -982,7 +1027,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "role" | "permission" | "rolePermission" | "account" | "session" | "user" | "employee" | "verificationToken" | "customer" | "vehicle" | "brand" | "workOrder" | "workOrderMechanic" | "workOrderItem" | "product" | "unit" | "stockBatch" | "stockMovement" | "sparepart" | "oil"
+      modelProps: "role" | "permission" | "rolePermission" | "account" | "session" | "user" | "employee" | "verificationToken" | "customer" | "vehicle" | "brand" | "workOrder" | "workOrderMechanic" | "workOrderItem" | "product" | "unit" | "stockBatch" | "stockMovement" | "sparepart" | "oil" | "birthdayReminder" | "serviceReminder"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2306,6 +2351,138 @@ export namespace Prisma {
           }
         }
       }
+      BirthdayReminder: {
+        payload: Prisma.$BirthdayReminderPayload<ExtArgs>
+        fields: Prisma.BirthdayReminderFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BirthdayReminderFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BirthdayReminderPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BirthdayReminderFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BirthdayReminderPayload>
+          }
+          findFirst: {
+            args: Prisma.BirthdayReminderFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BirthdayReminderPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BirthdayReminderFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BirthdayReminderPayload>
+          }
+          findMany: {
+            args: Prisma.BirthdayReminderFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BirthdayReminderPayload>[]
+          }
+          create: {
+            args: Prisma.BirthdayReminderCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BirthdayReminderPayload>
+          }
+          createMany: {
+            args: Prisma.BirthdayReminderCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.BirthdayReminderDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BirthdayReminderPayload>
+          }
+          update: {
+            args: Prisma.BirthdayReminderUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BirthdayReminderPayload>
+          }
+          deleteMany: {
+            args: Prisma.BirthdayReminderDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BirthdayReminderUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.BirthdayReminderUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BirthdayReminderPayload>
+          }
+          aggregate: {
+            args: Prisma.BirthdayReminderAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBirthdayReminder>
+          }
+          groupBy: {
+            args: Prisma.BirthdayReminderGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BirthdayReminderGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BirthdayReminderCountArgs<ExtArgs>
+            result: $Utils.Optional<BirthdayReminderCountAggregateOutputType> | number
+          }
+        }
+      }
+      ServiceReminder: {
+        payload: Prisma.$ServiceReminderPayload<ExtArgs>
+        fields: Prisma.ServiceReminderFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ServiceReminderFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceReminderPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ServiceReminderFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceReminderPayload>
+          }
+          findFirst: {
+            args: Prisma.ServiceReminderFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceReminderPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ServiceReminderFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceReminderPayload>
+          }
+          findMany: {
+            args: Prisma.ServiceReminderFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceReminderPayload>[]
+          }
+          create: {
+            args: Prisma.ServiceReminderCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceReminderPayload>
+          }
+          createMany: {
+            args: Prisma.ServiceReminderCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.ServiceReminderDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceReminderPayload>
+          }
+          update: {
+            args: Prisma.ServiceReminderUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceReminderPayload>
+          }
+          deleteMany: {
+            args: Prisma.ServiceReminderDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ServiceReminderUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.ServiceReminderUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceReminderPayload>
+          }
+          aggregate: {
+            args: Prisma.ServiceReminderAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateServiceReminder>
+          }
+          groupBy: {
+            args: Prisma.ServiceReminderGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ServiceReminderGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ServiceReminderCountArgs<ExtArgs>
+            result: $Utils.Optional<ServiceReminderCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2422,6 +2599,8 @@ export namespace Prisma {
     stockMovement?: StockMovementOmit
     sparepart?: SparepartOmit
     oil?: OilOmit
+    birthdayReminder?: BirthdayReminderOmit
+    serviceReminder?: ServiceReminderOmit
   }
 
   /* Types for Logging */
@@ -2577,6 +2756,8 @@ export namespace Prisma {
     sessions: number
     advisorWorkOrders: number
     mechanicWorkOrders: number
+    handledBirthdayReminders: number
+    handledServiceReminders: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2584,6 +2765,8 @@ export namespace Prisma {
     sessions?: boolean | UserCountOutputTypeCountSessionsArgs
     advisorWorkOrders?: boolean | UserCountOutputTypeCountAdvisorWorkOrdersArgs
     mechanicWorkOrders?: boolean | UserCountOutputTypeCountMechanicWorkOrdersArgs
+    handledBirthdayReminders?: boolean | UserCountOutputTypeCountHandledBirthdayRemindersArgs
+    handledServiceReminders?: boolean | UserCountOutputTypeCountHandledServiceRemindersArgs
   }
 
   // Custom InputTypes
@@ -2625,6 +2808,20 @@ export namespace Prisma {
     where?: WorkOrderMechanicWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountHandledBirthdayRemindersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BirthdayReminderWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountHandledServiceRemindersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ServiceReminderWhereInput
+  }
+
 
   /**
    * Count Type CustomerCountOutputType
@@ -2633,11 +2830,15 @@ export namespace Prisma {
   export type CustomerCountOutputType = {
     vehicles: number
     workOrders: number
+    birthdayReminders: number
+    serviceReminders: number
   }
 
   export type CustomerCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     vehicles?: boolean | CustomerCountOutputTypeCountVehiclesArgs
     workOrders?: boolean | CustomerCountOutputTypeCountWorkOrdersArgs
+    birthdayReminders?: boolean | CustomerCountOutputTypeCountBirthdayRemindersArgs
+    serviceReminders?: boolean | CustomerCountOutputTypeCountServiceRemindersArgs
   }
 
   // Custom InputTypes
@@ -2665,6 +2866,20 @@ export namespace Prisma {
     where?: WorkOrderWhereInput
   }
 
+  /**
+   * CustomerCountOutputType without action
+   */
+  export type CustomerCountOutputTypeCountBirthdayRemindersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BirthdayReminderWhereInput
+  }
+
+  /**
+   * CustomerCountOutputType without action
+   */
+  export type CustomerCountOutputTypeCountServiceRemindersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ServiceReminderWhereInput
+  }
+
 
   /**
    * Count Type VehicleCountOutputType
@@ -2672,10 +2887,12 @@ export namespace Prisma {
 
   export type VehicleCountOutputType = {
     workOrders: number
+    serviceReminders: number
   }
 
   export type VehicleCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     workOrders?: boolean | VehicleCountOutputTypeCountWorkOrdersArgs
+    serviceReminders?: boolean | VehicleCountOutputTypeCountServiceRemindersArgs
   }
 
   // Custom InputTypes
@@ -2694,6 +2911,13 @@ export namespace Prisma {
    */
   export type VehicleCountOutputTypeCountWorkOrdersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: WorkOrderWhereInput
+  }
+
+  /**
+   * VehicleCountOutputType without action
+   */
+  export type VehicleCountOutputTypeCountServiceRemindersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ServiceReminderWhereInput
   }
 
 
@@ -2736,12 +2960,14 @@ export namespace Prisma {
     items: number
     mechanics: number
     stockMovements: number
+    serviceReminders: number
   }
 
   export type WorkOrderCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     items?: boolean | WorkOrderCountOutputTypeCountItemsArgs
     mechanics?: boolean | WorkOrderCountOutputTypeCountMechanicsArgs
     stockMovements?: boolean | WorkOrderCountOutputTypeCountStockMovementsArgs
+    serviceReminders?: boolean | WorkOrderCountOutputTypeCountServiceRemindersArgs
   }
 
   // Custom InputTypes
@@ -2774,6 +3000,13 @@ export namespace Prisma {
    */
   export type WorkOrderCountOutputTypeCountStockMovementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: StockMovementWhereInput
+  }
+
+  /**
+   * WorkOrderCountOutputType without action
+   */
+  export type WorkOrderCountOutputTypeCountServiceRemindersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ServiceReminderWhereInput
   }
 
 
@@ -7927,6 +8160,8 @@ export namespace Prisma {
     employee?: boolean | User$employeeArgs<ExtArgs>
     advisorWorkOrders?: boolean | User$advisorWorkOrdersArgs<ExtArgs>
     mechanicWorkOrders?: boolean | User$mechanicWorkOrdersArgs<ExtArgs>
+    handledBirthdayReminders?: boolean | User$handledBirthdayRemindersArgs<ExtArgs>
+    handledServiceReminders?: boolean | User$handledServiceRemindersArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -7950,6 +8185,8 @@ export namespace Prisma {
     employee?: boolean | User$employeeArgs<ExtArgs>
     advisorWorkOrders?: boolean | User$advisorWorkOrdersArgs<ExtArgs>
     mechanicWorkOrders?: boolean | User$mechanicWorkOrdersArgs<ExtArgs>
+    handledBirthdayReminders?: boolean | User$handledBirthdayRemindersArgs<ExtArgs>
+    handledServiceReminders?: boolean | User$handledServiceRemindersArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -7962,6 +8199,8 @@ export namespace Prisma {
       employee: Prisma.$EmployeePayload<ExtArgs> | null
       advisorWorkOrders: Prisma.$WorkOrderPayload<ExtArgs>[]
       mechanicWorkOrders: Prisma.$WorkOrderMechanicPayload<ExtArgs>[]
+      handledBirthdayReminders: Prisma.$BirthdayReminderPayload<ExtArgs>[]
+      handledServiceReminders: Prisma.$ServiceReminderPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -8317,6 +8556,8 @@ export namespace Prisma {
     employee<T extends User$employeeArgs<ExtArgs> = {}>(args?: Subset<T, User$employeeArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     advisorWorkOrders<T extends User$advisorWorkOrdersArgs<ExtArgs> = {}>(args?: Subset<T, User$advisorWorkOrdersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkOrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     mechanicWorkOrders<T extends User$mechanicWorkOrdersArgs<ExtArgs> = {}>(args?: Subset<T, User$mechanicWorkOrdersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkOrderMechanicPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    handledBirthdayReminders<T extends User$handledBirthdayRemindersArgs<ExtArgs> = {}>(args?: Subset<T, User$handledBirthdayRemindersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BirthdayReminderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    handledServiceReminders<T extends User$handledServiceRemindersArgs<ExtArgs> = {}>(args?: Subset<T, User$handledServiceRemindersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceReminderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8808,6 +9049,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: WorkOrderMechanicScalarFieldEnum | WorkOrderMechanicScalarFieldEnum[]
+  }
+
+  /**
+   * User.handledBirthdayReminders
+   */
+  export type User$handledBirthdayRemindersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BirthdayReminder
+     */
+    select?: BirthdayReminderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BirthdayReminder
+     */
+    omit?: BirthdayReminderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BirthdayReminderInclude<ExtArgs> | null
+    where?: BirthdayReminderWhereInput
+    orderBy?: BirthdayReminderOrderByWithRelationInput | BirthdayReminderOrderByWithRelationInput[]
+    cursor?: BirthdayReminderWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BirthdayReminderScalarFieldEnum | BirthdayReminderScalarFieldEnum[]
+  }
+
+  /**
+   * User.handledServiceReminders
+   */
+  export type User$handledServiceRemindersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceReminder
+     */
+    select?: ServiceReminderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceReminder
+     */
+    omit?: ServiceReminderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceReminderInclude<ExtArgs> | null
+    where?: ServiceReminderWhereInput
+    orderBy?: ServiceReminderOrderByWithRelationInput | ServiceReminderOrderByWithRelationInput[]
+    cursor?: ServiceReminderWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ServiceReminderScalarFieldEnum | ServiceReminderScalarFieldEnum[]
   }
 
   /**
@@ -10852,6 +11141,8 @@ export namespace Prisma {
     updatedAt?: boolean
     vehicles?: boolean | Customer$vehiclesArgs<ExtArgs>
     workOrders?: boolean | Customer$workOrdersArgs<ExtArgs>
+    birthdayReminders?: boolean | Customer$birthdayRemindersArgs<ExtArgs>
+    serviceReminders?: boolean | Customer$serviceRemindersArgs<ExtArgs>
     _count?: boolean | CustomerCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["customer"]>
 
@@ -10872,6 +11163,8 @@ export namespace Prisma {
   export type CustomerInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     vehicles?: boolean | Customer$vehiclesArgs<ExtArgs>
     workOrders?: boolean | Customer$workOrdersArgs<ExtArgs>
+    birthdayReminders?: boolean | Customer$birthdayRemindersArgs<ExtArgs>
+    serviceReminders?: boolean | Customer$serviceRemindersArgs<ExtArgs>
     _count?: boolean | CustomerCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -10880,6 +11173,8 @@ export namespace Prisma {
     objects: {
       vehicles: Prisma.$VehiclePayload<ExtArgs>[]
       workOrders: Prisma.$WorkOrderPayload<ExtArgs>[]
+      birthdayReminders: Prisma.$BirthdayReminderPayload<ExtArgs>[]
+      serviceReminders: Prisma.$ServiceReminderPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -11232,6 +11527,8 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     vehicles<T extends Customer$vehiclesArgs<ExtArgs> = {}>(args?: Subset<T, Customer$vehiclesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     workOrders<T extends Customer$workOrdersArgs<ExtArgs> = {}>(args?: Subset<T, Customer$workOrdersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkOrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    birthdayReminders<T extends Customer$birthdayRemindersArgs<ExtArgs> = {}>(args?: Subset<T, Customer$birthdayRemindersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BirthdayReminderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    serviceReminders<T extends Customer$serviceRemindersArgs<ExtArgs> = {}>(args?: Subset<T, Customer$serviceRemindersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceReminderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11660,6 +11957,54 @@ export namespace Prisma {
   }
 
   /**
+   * Customer.birthdayReminders
+   */
+  export type Customer$birthdayRemindersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BirthdayReminder
+     */
+    select?: BirthdayReminderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BirthdayReminder
+     */
+    omit?: BirthdayReminderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BirthdayReminderInclude<ExtArgs> | null
+    where?: BirthdayReminderWhereInput
+    orderBy?: BirthdayReminderOrderByWithRelationInput | BirthdayReminderOrderByWithRelationInput[]
+    cursor?: BirthdayReminderWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BirthdayReminderScalarFieldEnum | BirthdayReminderScalarFieldEnum[]
+  }
+
+  /**
+   * Customer.serviceReminders
+   */
+  export type Customer$serviceRemindersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceReminder
+     */
+    select?: ServiceReminderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceReminder
+     */
+    omit?: ServiceReminderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceReminderInclude<ExtArgs> | null
+    where?: ServiceReminderWhereInput
+    orderBy?: ServiceReminderOrderByWithRelationInput | ServiceReminderOrderByWithRelationInput[]
+    cursor?: ServiceReminderWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ServiceReminderScalarFieldEnum | ServiceReminderScalarFieldEnum[]
+  }
+
+  /**
    * Customer without action
    */
   export type CustomerDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -11946,6 +12291,7 @@ export namespace Prisma {
     updatedAt?: boolean
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
     workOrders?: boolean | Vehicle$workOrdersArgs<ExtArgs>
+    serviceReminders?: boolean | Vehicle$serviceRemindersArgs<ExtArgs>
     _count?: boolean | VehicleCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["vehicle"]>
 
@@ -11971,6 +12317,7 @@ export namespace Prisma {
   export type VehicleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
     workOrders?: boolean | Vehicle$workOrdersArgs<ExtArgs>
+    serviceReminders?: boolean | Vehicle$serviceRemindersArgs<ExtArgs>
     _count?: boolean | VehicleCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -11979,6 +12326,7 @@ export namespace Prisma {
     objects: {
       customer: Prisma.$CustomerPayload<ExtArgs>
       workOrders: Prisma.$WorkOrderPayload<ExtArgs>[]
+      serviceReminders: Prisma.$ServiceReminderPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -12336,6 +12684,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     customer<T extends CustomerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CustomerDefaultArgs<ExtArgs>>): Prisma__CustomerClient<$Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     workOrders<T extends Vehicle$workOrdersArgs<ExtArgs> = {}>(args?: Subset<T, Vehicle$workOrdersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkOrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    serviceReminders<T extends Vehicle$serviceRemindersArgs<ExtArgs> = {}>(args?: Subset<T, Vehicle$serviceRemindersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceReminderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -12742,6 +13091,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: WorkOrderScalarFieldEnum | WorkOrderScalarFieldEnum[]
+  }
+
+  /**
+   * Vehicle.serviceReminders
+   */
+  export type Vehicle$serviceRemindersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceReminder
+     */
+    select?: ServiceReminderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceReminder
+     */
+    omit?: ServiceReminderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceReminderInclude<ExtArgs> | null
+    where?: ServiceReminderWhereInput
+    orderBy?: ServiceReminderOrderByWithRelationInput | ServiceReminderOrderByWithRelationInput[]
+    cursor?: ServiceReminderWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ServiceReminderScalarFieldEnum | ServiceReminderScalarFieldEnum[]
   }
 
   /**
@@ -14095,6 +14468,7 @@ export namespace Prisma {
     items?: boolean | WorkOrder$itemsArgs<ExtArgs>
     mechanics?: boolean | WorkOrder$mechanicsArgs<ExtArgs>
     stockMovements?: boolean | WorkOrder$stockMovementsArgs<ExtArgs>
+    serviceReminders?: boolean | WorkOrder$serviceRemindersArgs<ExtArgs>
     _count?: boolean | WorkOrderCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["workOrder"]>
 
@@ -14135,6 +14509,7 @@ export namespace Prisma {
     items?: boolean | WorkOrder$itemsArgs<ExtArgs>
     mechanics?: boolean | WorkOrder$mechanicsArgs<ExtArgs>
     stockMovements?: boolean | WorkOrder$stockMovementsArgs<ExtArgs>
+    serviceReminders?: boolean | WorkOrder$serviceRemindersArgs<ExtArgs>
     _count?: boolean | WorkOrderCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -14147,6 +14522,7 @@ export namespace Prisma {
       items: Prisma.$WorkOrderItemPayload<ExtArgs>[]
       mechanics: Prisma.$WorkOrderMechanicPayload<ExtArgs>[]
       stockMovements: Prisma.$StockMovementPayload<ExtArgs>[]
+      serviceReminders: Prisma.$ServiceReminderPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -14519,6 +14895,7 @@ export namespace Prisma {
     items<T extends WorkOrder$itemsArgs<ExtArgs> = {}>(args?: Subset<T, WorkOrder$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkOrderItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     mechanics<T extends WorkOrder$mechanicsArgs<ExtArgs> = {}>(args?: Subset<T, WorkOrder$mechanicsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkOrderMechanicPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     stockMovements<T extends WorkOrder$stockMovementsArgs<ExtArgs> = {}>(args?: Subset<T, WorkOrder$stockMovementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StockMovementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    serviceReminders<T extends WorkOrder$serviceRemindersArgs<ExtArgs> = {}>(args?: Subset<T, WorkOrder$serviceRemindersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceReminderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -15041,6 +15418,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: StockMovementScalarFieldEnum | StockMovementScalarFieldEnum[]
+  }
+
+  /**
+   * WorkOrder.serviceReminders
+   */
+  export type WorkOrder$serviceRemindersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceReminder
+     */
+    select?: ServiceReminderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceReminder
+     */
+    omit?: ServiceReminderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceReminderInclude<ExtArgs> | null
+    where?: ServiceReminderWhereInput
+    orderBy?: ServiceReminderOrderByWithRelationInput | ServiceReminderOrderByWithRelationInput[]
+    cursor?: ServiceReminderWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ServiceReminderScalarFieldEnum | ServiceReminderScalarFieldEnum[]
   }
 
   /**
@@ -23310,6 +23711,2066 @@ export namespace Prisma {
 
 
   /**
+   * Model BirthdayReminder
+   */
+
+  export type AggregateBirthdayReminder = {
+    _count: BirthdayReminderCountAggregateOutputType | null
+    _min: BirthdayReminderMinAggregateOutputType | null
+    _max: BirthdayReminderMaxAggregateOutputType | null
+  }
+
+  export type BirthdayReminderMinAggregateOutputType = {
+    id: string | null
+    customerId: string | null
+    reminderDate: Date | null
+    status: $Enums.ReminderStatus | null
+    followedUpAt: Date | null
+    snoozedAt: Date | null
+    handledByUserId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BirthdayReminderMaxAggregateOutputType = {
+    id: string | null
+    customerId: string | null
+    reminderDate: Date | null
+    status: $Enums.ReminderStatus | null
+    followedUpAt: Date | null
+    snoozedAt: Date | null
+    handledByUserId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BirthdayReminderCountAggregateOutputType = {
+    id: number
+    customerId: number
+    reminderDate: number
+    status: number
+    followedUpAt: number
+    snoozedAt: number
+    handledByUserId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type BirthdayReminderMinAggregateInputType = {
+    id?: true
+    customerId?: true
+    reminderDate?: true
+    status?: true
+    followedUpAt?: true
+    snoozedAt?: true
+    handledByUserId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BirthdayReminderMaxAggregateInputType = {
+    id?: true
+    customerId?: true
+    reminderDate?: true
+    status?: true
+    followedUpAt?: true
+    snoozedAt?: true
+    handledByUserId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BirthdayReminderCountAggregateInputType = {
+    id?: true
+    customerId?: true
+    reminderDate?: true
+    status?: true
+    followedUpAt?: true
+    snoozedAt?: true
+    handledByUserId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type BirthdayReminderAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BirthdayReminder to aggregate.
+     */
+    where?: BirthdayReminderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BirthdayReminders to fetch.
+     */
+    orderBy?: BirthdayReminderOrderByWithRelationInput | BirthdayReminderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BirthdayReminderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BirthdayReminders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BirthdayReminders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BirthdayReminders
+    **/
+    _count?: true | BirthdayReminderCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BirthdayReminderMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BirthdayReminderMaxAggregateInputType
+  }
+
+  export type GetBirthdayReminderAggregateType<T extends BirthdayReminderAggregateArgs> = {
+        [P in keyof T & keyof AggregateBirthdayReminder]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBirthdayReminder[P]>
+      : GetScalarType<T[P], AggregateBirthdayReminder[P]>
+  }
+
+
+
+
+  export type BirthdayReminderGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BirthdayReminderWhereInput
+    orderBy?: BirthdayReminderOrderByWithAggregationInput | BirthdayReminderOrderByWithAggregationInput[]
+    by: BirthdayReminderScalarFieldEnum[] | BirthdayReminderScalarFieldEnum
+    having?: BirthdayReminderScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BirthdayReminderCountAggregateInputType | true
+    _min?: BirthdayReminderMinAggregateInputType
+    _max?: BirthdayReminderMaxAggregateInputType
+  }
+
+  export type BirthdayReminderGroupByOutputType = {
+    id: string
+    customerId: string
+    reminderDate: Date
+    status: $Enums.ReminderStatus
+    followedUpAt: Date | null
+    snoozedAt: Date | null
+    handledByUserId: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: BirthdayReminderCountAggregateOutputType | null
+    _min: BirthdayReminderMinAggregateOutputType | null
+    _max: BirthdayReminderMaxAggregateOutputType | null
+  }
+
+  type GetBirthdayReminderGroupByPayload<T extends BirthdayReminderGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BirthdayReminderGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BirthdayReminderGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BirthdayReminderGroupByOutputType[P]>
+            : GetScalarType<T[P], BirthdayReminderGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BirthdayReminderSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    customerId?: boolean
+    reminderDate?: boolean
+    status?: boolean
+    followedUpAt?: boolean
+    snoozedAt?: boolean
+    handledByUserId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    customer?: boolean | CustomerDefaultArgs<ExtArgs>
+    handledByUser?: boolean | BirthdayReminder$handledByUserArgs<ExtArgs>
+  }, ExtArgs["result"]["birthdayReminder"]>
+
+
+
+  export type BirthdayReminderSelectScalar = {
+    id?: boolean
+    customerId?: boolean
+    reminderDate?: boolean
+    status?: boolean
+    followedUpAt?: boolean
+    snoozedAt?: boolean
+    handledByUserId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type BirthdayReminderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "customerId" | "reminderDate" | "status" | "followedUpAt" | "snoozedAt" | "handledByUserId" | "createdAt" | "updatedAt", ExtArgs["result"]["birthdayReminder"]>
+  export type BirthdayReminderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    customer?: boolean | CustomerDefaultArgs<ExtArgs>
+    handledByUser?: boolean | BirthdayReminder$handledByUserArgs<ExtArgs>
+  }
+
+  export type $BirthdayReminderPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "BirthdayReminder"
+    objects: {
+      customer: Prisma.$CustomerPayload<ExtArgs>
+      handledByUser: Prisma.$UserPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      customerId: string
+      reminderDate: Date
+      status: $Enums.ReminderStatus
+      followedUpAt: Date | null
+      snoozedAt: Date | null
+      handledByUserId: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["birthdayReminder"]>
+    composites: {}
+  }
+
+  type BirthdayReminderGetPayload<S extends boolean | null | undefined | BirthdayReminderDefaultArgs> = $Result.GetResult<Prisma.$BirthdayReminderPayload, S>
+
+  type BirthdayReminderCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BirthdayReminderFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BirthdayReminderCountAggregateInputType | true
+    }
+
+  export interface BirthdayReminderDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BirthdayReminder'], meta: { name: 'BirthdayReminder' } }
+    /**
+     * Find zero or one BirthdayReminder that matches the filter.
+     * @param {BirthdayReminderFindUniqueArgs} args - Arguments to find a BirthdayReminder
+     * @example
+     * // Get one BirthdayReminder
+     * const birthdayReminder = await prisma.birthdayReminder.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BirthdayReminderFindUniqueArgs>(args: SelectSubset<T, BirthdayReminderFindUniqueArgs<ExtArgs>>): Prisma__BirthdayReminderClient<$Result.GetResult<Prisma.$BirthdayReminderPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one BirthdayReminder that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BirthdayReminderFindUniqueOrThrowArgs} args - Arguments to find a BirthdayReminder
+     * @example
+     * // Get one BirthdayReminder
+     * const birthdayReminder = await prisma.birthdayReminder.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BirthdayReminderFindUniqueOrThrowArgs>(args: SelectSubset<T, BirthdayReminderFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BirthdayReminderClient<$Result.GetResult<Prisma.$BirthdayReminderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BirthdayReminder that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BirthdayReminderFindFirstArgs} args - Arguments to find a BirthdayReminder
+     * @example
+     * // Get one BirthdayReminder
+     * const birthdayReminder = await prisma.birthdayReminder.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BirthdayReminderFindFirstArgs>(args?: SelectSubset<T, BirthdayReminderFindFirstArgs<ExtArgs>>): Prisma__BirthdayReminderClient<$Result.GetResult<Prisma.$BirthdayReminderPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BirthdayReminder that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BirthdayReminderFindFirstOrThrowArgs} args - Arguments to find a BirthdayReminder
+     * @example
+     * // Get one BirthdayReminder
+     * const birthdayReminder = await prisma.birthdayReminder.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BirthdayReminderFindFirstOrThrowArgs>(args?: SelectSubset<T, BirthdayReminderFindFirstOrThrowArgs<ExtArgs>>): Prisma__BirthdayReminderClient<$Result.GetResult<Prisma.$BirthdayReminderPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more BirthdayReminders that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BirthdayReminderFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BirthdayReminders
+     * const birthdayReminders = await prisma.birthdayReminder.findMany()
+     * 
+     * // Get first 10 BirthdayReminders
+     * const birthdayReminders = await prisma.birthdayReminder.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const birthdayReminderWithIdOnly = await prisma.birthdayReminder.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BirthdayReminderFindManyArgs>(args?: SelectSubset<T, BirthdayReminderFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BirthdayReminderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a BirthdayReminder.
+     * @param {BirthdayReminderCreateArgs} args - Arguments to create a BirthdayReminder.
+     * @example
+     * // Create one BirthdayReminder
+     * const BirthdayReminder = await prisma.birthdayReminder.create({
+     *   data: {
+     *     // ... data to create a BirthdayReminder
+     *   }
+     * })
+     * 
+     */
+    create<T extends BirthdayReminderCreateArgs>(args: SelectSubset<T, BirthdayReminderCreateArgs<ExtArgs>>): Prisma__BirthdayReminderClient<$Result.GetResult<Prisma.$BirthdayReminderPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many BirthdayReminders.
+     * @param {BirthdayReminderCreateManyArgs} args - Arguments to create many BirthdayReminders.
+     * @example
+     * // Create many BirthdayReminders
+     * const birthdayReminder = await prisma.birthdayReminder.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BirthdayReminderCreateManyArgs>(args?: SelectSubset<T, BirthdayReminderCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a BirthdayReminder.
+     * @param {BirthdayReminderDeleteArgs} args - Arguments to delete one BirthdayReminder.
+     * @example
+     * // Delete one BirthdayReminder
+     * const BirthdayReminder = await prisma.birthdayReminder.delete({
+     *   where: {
+     *     // ... filter to delete one BirthdayReminder
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BirthdayReminderDeleteArgs>(args: SelectSubset<T, BirthdayReminderDeleteArgs<ExtArgs>>): Prisma__BirthdayReminderClient<$Result.GetResult<Prisma.$BirthdayReminderPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one BirthdayReminder.
+     * @param {BirthdayReminderUpdateArgs} args - Arguments to update one BirthdayReminder.
+     * @example
+     * // Update one BirthdayReminder
+     * const birthdayReminder = await prisma.birthdayReminder.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BirthdayReminderUpdateArgs>(args: SelectSubset<T, BirthdayReminderUpdateArgs<ExtArgs>>): Prisma__BirthdayReminderClient<$Result.GetResult<Prisma.$BirthdayReminderPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more BirthdayReminders.
+     * @param {BirthdayReminderDeleteManyArgs} args - Arguments to filter BirthdayReminders to delete.
+     * @example
+     * // Delete a few BirthdayReminders
+     * const { count } = await prisma.birthdayReminder.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BirthdayReminderDeleteManyArgs>(args?: SelectSubset<T, BirthdayReminderDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BirthdayReminders.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BirthdayReminderUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BirthdayReminders
+     * const birthdayReminder = await prisma.birthdayReminder.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BirthdayReminderUpdateManyArgs>(args: SelectSubset<T, BirthdayReminderUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one BirthdayReminder.
+     * @param {BirthdayReminderUpsertArgs} args - Arguments to update or create a BirthdayReminder.
+     * @example
+     * // Update or create a BirthdayReminder
+     * const birthdayReminder = await prisma.birthdayReminder.upsert({
+     *   create: {
+     *     // ... data to create a BirthdayReminder
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BirthdayReminder we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BirthdayReminderUpsertArgs>(args: SelectSubset<T, BirthdayReminderUpsertArgs<ExtArgs>>): Prisma__BirthdayReminderClient<$Result.GetResult<Prisma.$BirthdayReminderPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of BirthdayReminders.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BirthdayReminderCountArgs} args - Arguments to filter BirthdayReminders to count.
+     * @example
+     * // Count the number of BirthdayReminders
+     * const count = await prisma.birthdayReminder.count({
+     *   where: {
+     *     // ... the filter for the BirthdayReminders we want to count
+     *   }
+     * })
+    **/
+    count<T extends BirthdayReminderCountArgs>(
+      args?: Subset<T, BirthdayReminderCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BirthdayReminderCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BirthdayReminder.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BirthdayReminderAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BirthdayReminderAggregateArgs>(args: Subset<T, BirthdayReminderAggregateArgs>): Prisma.PrismaPromise<GetBirthdayReminderAggregateType<T>>
+
+    /**
+     * Group by BirthdayReminder.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BirthdayReminderGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BirthdayReminderGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BirthdayReminderGroupByArgs['orderBy'] }
+        : { orderBy?: BirthdayReminderGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BirthdayReminderGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBirthdayReminderGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the BirthdayReminder model
+   */
+  readonly fields: BirthdayReminderFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BirthdayReminder.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BirthdayReminderClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    customer<T extends CustomerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CustomerDefaultArgs<ExtArgs>>): Prisma__CustomerClient<$Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    handledByUser<T extends BirthdayReminder$handledByUserArgs<ExtArgs> = {}>(args?: Subset<T, BirthdayReminder$handledByUserArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the BirthdayReminder model
+   */
+  interface BirthdayReminderFieldRefs {
+    readonly id: FieldRef<"BirthdayReminder", 'String'>
+    readonly customerId: FieldRef<"BirthdayReminder", 'String'>
+    readonly reminderDate: FieldRef<"BirthdayReminder", 'DateTime'>
+    readonly status: FieldRef<"BirthdayReminder", 'ReminderStatus'>
+    readonly followedUpAt: FieldRef<"BirthdayReminder", 'DateTime'>
+    readonly snoozedAt: FieldRef<"BirthdayReminder", 'DateTime'>
+    readonly handledByUserId: FieldRef<"BirthdayReminder", 'String'>
+    readonly createdAt: FieldRef<"BirthdayReminder", 'DateTime'>
+    readonly updatedAt: FieldRef<"BirthdayReminder", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * BirthdayReminder findUnique
+   */
+  export type BirthdayReminderFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BirthdayReminder
+     */
+    select?: BirthdayReminderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BirthdayReminder
+     */
+    omit?: BirthdayReminderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BirthdayReminderInclude<ExtArgs> | null
+    /**
+     * Filter, which BirthdayReminder to fetch.
+     */
+    where: BirthdayReminderWhereUniqueInput
+  }
+
+  /**
+   * BirthdayReminder findUniqueOrThrow
+   */
+  export type BirthdayReminderFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BirthdayReminder
+     */
+    select?: BirthdayReminderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BirthdayReminder
+     */
+    omit?: BirthdayReminderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BirthdayReminderInclude<ExtArgs> | null
+    /**
+     * Filter, which BirthdayReminder to fetch.
+     */
+    where: BirthdayReminderWhereUniqueInput
+  }
+
+  /**
+   * BirthdayReminder findFirst
+   */
+  export type BirthdayReminderFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BirthdayReminder
+     */
+    select?: BirthdayReminderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BirthdayReminder
+     */
+    omit?: BirthdayReminderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BirthdayReminderInclude<ExtArgs> | null
+    /**
+     * Filter, which BirthdayReminder to fetch.
+     */
+    where?: BirthdayReminderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BirthdayReminders to fetch.
+     */
+    orderBy?: BirthdayReminderOrderByWithRelationInput | BirthdayReminderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BirthdayReminders.
+     */
+    cursor?: BirthdayReminderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BirthdayReminders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BirthdayReminders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BirthdayReminders.
+     */
+    distinct?: BirthdayReminderScalarFieldEnum | BirthdayReminderScalarFieldEnum[]
+  }
+
+  /**
+   * BirthdayReminder findFirstOrThrow
+   */
+  export type BirthdayReminderFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BirthdayReminder
+     */
+    select?: BirthdayReminderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BirthdayReminder
+     */
+    omit?: BirthdayReminderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BirthdayReminderInclude<ExtArgs> | null
+    /**
+     * Filter, which BirthdayReminder to fetch.
+     */
+    where?: BirthdayReminderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BirthdayReminders to fetch.
+     */
+    orderBy?: BirthdayReminderOrderByWithRelationInput | BirthdayReminderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BirthdayReminders.
+     */
+    cursor?: BirthdayReminderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BirthdayReminders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BirthdayReminders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BirthdayReminders.
+     */
+    distinct?: BirthdayReminderScalarFieldEnum | BirthdayReminderScalarFieldEnum[]
+  }
+
+  /**
+   * BirthdayReminder findMany
+   */
+  export type BirthdayReminderFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BirthdayReminder
+     */
+    select?: BirthdayReminderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BirthdayReminder
+     */
+    omit?: BirthdayReminderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BirthdayReminderInclude<ExtArgs> | null
+    /**
+     * Filter, which BirthdayReminders to fetch.
+     */
+    where?: BirthdayReminderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BirthdayReminders to fetch.
+     */
+    orderBy?: BirthdayReminderOrderByWithRelationInput | BirthdayReminderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BirthdayReminders.
+     */
+    cursor?: BirthdayReminderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BirthdayReminders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BirthdayReminders.
+     */
+    skip?: number
+    distinct?: BirthdayReminderScalarFieldEnum | BirthdayReminderScalarFieldEnum[]
+  }
+
+  /**
+   * BirthdayReminder create
+   */
+  export type BirthdayReminderCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BirthdayReminder
+     */
+    select?: BirthdayReminderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BirthdayReminder
+     */
+    omit?: BirthdayReminderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BirthdayReminderInclude<ExtArgs> | null
+    /**
+     * The data needed to create a BirthdayReminder.
+     */
+    data: XOR<BirthdayReminderCreateInput, BirthdayReminderUncheckedCreateInput>
+  }
+
+  /**
+   * BirthdayReminder createMany
+   */
+  export type BirthdayReminderCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BirthdayReminders.
+     */
+    data: BirthdayReminderCreateManyInput | BirthdayReminderCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BirthdayReminder update
+   */
+  export type BirthdayReminderUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BirthdayReminder
+     */
+    select?: BirthdayReminderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BirthdayReminder
+     */
+    omit?: BirthdayReminderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BirthdayReminderInclude<ExtArgs> | null
+    /**
+     * The data needed to update a BirthdayReminder.
+     */
+    data: XOR<BirthdayReminderUpdateInput, BirthdayReminderUncheckedUpdateInput>
+    /**
+     * Choose, which BirthdayReminder to update.
+     */
+    where: BirthdayReminderWhereUniqueInput
+  }
+
+  /**
+   * BirthdayReminder updateMany
+   */
+  export type BirthdayReminderUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BirthdayReminders.
+     */
+    data: XOR<BirthdayReminderUpdateManyMutationInput, BirthdayReminderUncheckedUpdateManyInput>
+    /**
+     * Filter which BirthdayReminders to update
+     */
+    where?: BirthdayReminderWhereInput
+    /**
+     * Limit how many BirthdayReminders to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * BirthdayReminder upsert
+   */
+  export type BirthdayReminderUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BirthdayReminder
+     */
+    select?: BirthdayReminderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BirthdayReminder
+     */
+    omit?: BirthdayReminderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BirthdayReminderInclude<ExtArgs> | null
+    /**
+     * The filter to search for the BirthdayReminder to update in case it exists.
+     */
+    where: BirthdayReminderWhereUniqueInput
+    /**
+     * In case the BirthdayReminder found by the `where` argument doesn't exist, create a new BirthdayReminder with this data.
+     */
+    create: XOR<BirthdayReminderCreateInput, BirthdayReminderUncheckedCreateInput>
+    /**
+     * In case the BirthdayReminder was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BirthdayReminderUpdateInput, BirthdayReminderUncheckedUpdateInput>
+  }
+
+  /**
+   * BirthdayReminder delete
+   */
+  export type BirthdayReminderDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BirthdayReminder
+     */
+    select?: BirthdayReminderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BirthdayReminder
+     */
+    omit?: BirthdayReminderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BirthdayReminderInclude<ExtArgs> | null
+    /**
+     * Filter which BirthdayReminder to delete.
+     */
+    where: BirthdayReminderWhereUniqueInput
+  }
+
+  /**
+   * BirthdayReminder deleteMany
+   */
+  export type BirthdayReminderDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BirthdayReminders to delete
+     */
+    where?: BirthdayReminderWhereInput
+    /**
+     * Limit how many BirthdayReminders to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * BirthdayReminder.handledByUser
+   */
+  export type BirthdayReminder$handledByUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * BirthdayReminder without action
+   */
+  export type BirthdayReminderDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BirthdayReminder
+     */
+    select?: BirthdayReminderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BirthdayReminder
+     */
+    omit?: BirthdayReminderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BirthdayReminderInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ServiceReminder
+   */
+
+  export type AggregateServiceReminder = {
+    _count: ServiceReminderCountAggregateOutputType | null
+    _min: ServiceReminderMinAggregateOutputType | null
+    _max: ServiceReminderMaxAggregateOutputType | null
+  }
+
+  export type ServiceReminderMinAggregateOutputType = {
+    id: string | null
+    workOrderId: string | null
+    customerId: string | null
+    vehicleId: string | null
+    dueDate: Date | null
+    status: $Enums.ReminderStatus | null
+    followedUpAt: Date | null
+    snoozedAt: Date | null
+    handledByUserId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ServiceReminderMaxAggregateOutputType = {
+    id: string | null
+    workOrderId: string | null
+    customerId: string | null
+    vehicleId: string | null
+    dueDate: Date | null
+    status: $Enums.ReminderStatus | null
+    followedUpAt: Date | null
+    snoozedAt: Date | null
+    handledByUserId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ServiceReminderCountAggregateOutputType = {
+    id: number
+    workOrderId: number
+    customerId: number
+    vehicleId: number
+    dueDate: number
+    status: number
+    followedUpAt: number
+    snoozedAt: number
+    handledByUserId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ServiceReminderMinAggregateInputType = {
+    id?: true
+    workOrderId?: true
+    customerId?: true
+    vehicleId?: true
+    dueDate?: true
+    status?: true
+    followedUpAt?: true
+    snoozedAt?: true
+    handledByUserId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ServiceReminderMaxAggregateInputType = {
+    id?: true
+    workOrderId?: true
+    customerId?: true
+    vehicleId?: true
+    dueDate?: true
+    status?: true
+    followedUpAt?: true
+    snoozedAt?: true
+    handledByUserId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ServiceReminderCountAggregateInputType = {
+    id?: true
+    workOrderId?: true
+    customerId?: true
+    vehicleId?: true
+    dueDate?: true
+    status?: true
+    followedUpAt?: true
+    snoozedAt?: true
+    handledByUserId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ServiceReminderAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ServiceReminder to aggregate.
+     */
+    where?: ServiceReminderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServiceReminders to fetch.
+     */
+    orderBy?: ServiceReminderOrderByWithRelationInput | ServiceReminderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ServiceReminderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServiceReminders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServiceReminders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ServiceReminders
+    **/
+    _count?: true | ServiceReminderCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ServiceReminderMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ServiceReminderMaxAggregateInputType
+  }
+
+  export type GetServiceReminderAggregateType<T extends ServiceReminderAggregateArgs> = {
+        [P in keyof T & keyof AggregateServiceReminder]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateServiceReminder[P]>
+      : GetScalarType<T[P], AggregateServiceReminder[P]>
+  }
+
+
+
+
+  export type ServiceReminderGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ServiceReminderWhereInput
+    orderBy?: ServiceReminderOrderByWithAggregationInput | ServiceReminderOrderByWithAggregationInput[]
+    by: ServiceReminderScalarFieldEnum[] | ServiceReminderScalarFieldEnum
+    having?: ServiceReminderScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ServiceReminderCountAggregateInputType | true
+    _min?: ServiceReminderMinAggregateInputType
+    _max?: ServiceReminderMaxAggregateInputType
+  }
+
+  export type ServiceReminderGroupByOutputType = {
+    id: string
+    workOrderId: string
+    customerId: string | null
+    vehicleId: string | null
+    dueDate: Date
+    status: $Enums.ReminderStatus
+    followedUpAt: Date | null
+    snoozedAt: Date | null
+    handledByUserId: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: ServiceReminderCountAggregateOutputType | null
+    _min: ServiceReminderMinAggregateOutputType | null
+    _max: ServiceReminderMaxAggregateOutputType | null
+  }
+
+  type GetServiceReminderGroupByPayload<T extends ServiceReminderGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ServiceReminderGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ServiceReminderGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ServiceReminderGroupByOutputType[P]>
+            : GetScalarType<T[P], ServiceReminderGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ServiceReminderSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    workOrderId?: boolean
+    customerId?: boolean
+    vehicleId?: boolean
+    dueDate?: boolean
+    status?: boolean
+    followedUpAt?: boolean
+    snoozedAt?: boolean
+    handledByUserId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    workOrder?: boolean | WorkOrderDefaultArgs<ExtArgs>
+    customer?: boolean | ServiceReminder$customerArgs<ExtArgs>
+    vehicle?: boolean | ServiceReminder$vehicleArgs<ExtArgs>
+    handledByUser?: boolean | ServiceReminder$handledByUserArgs<ExtArgs>
+  }, ExtArgs["result"]["serviceReminder"]>
+
+
+
+  export type ServiceReminderSelectScalar = {
+    id?: boolean
+    workOrderId?: boolean
+    customerId?: boolean
+    vehicleId?: boolean
+    dueDate?: boolean
+    status?: boolean
+    followedUpAt?: boolean
+    snoozedAt?: boolean
+    handledByUserId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ServiceReminderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "workOrderId" | "customerId" | "vehicleId" | "dueDate" | "status" | "followedUpAt" | "snoozedAt" | "handledByUserId" | "createdAt" | "updatedAt", ExtArgs["result"]["serviceReminder"]>
+  export type ServiceReminderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    workOrder?: boolean | WorkOrderDefaultArgs<ExtArgs>
+    customer?: boolean | ServiceReminder$customerArgs<ExtArgs>
+    vehicle?: boolean | ServiceReminder$vehicleArgs<ExtArgs>
+    handledByUser?: boolean | ServiceReminder$handledByUserArgs<ExtArgs>
+  }
+
+  export type $ServiceReminderPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ServiceReminder"
+    objects: {
+      workOrder: Prisma.$WorkOrderPayload<ExtArgs>
+      customer: Prisma.$CustomerPayload<ExtArgs> | null
+      vehicle: Prisma.$VehiclePayload<ExtArgs> | null
+      handledByUser: Prisma.$UserPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      workOrderId: string
+      customerId: string | null
+      vehicleId: string | null
+      dueDate: Date
+      status: $Enums.ReminderStatus
+      followedUpAt: Date | null
+      snoozedAt: Date | null
+      handledByUserId: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["serviceReminder"]>
+    composites: {}
+  }
+
+  type ServiceReminderGetPayload<S extends boolean | null | undefined | ServiceReminderDefaultArgs> = $Result.GetResult<Prisma.$ServiceReminderPayload, S>
+
+  type ServiceReminderCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ServiceReminderFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ServiceReminderCountAggregateInputType | true
+    }
+
+  export interface ServiceReminderDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ServiceReminder'], meta: { name: 'ServiceReminder' } }
+    /**
+     * Find zero or one ServiceReminder that matches the filter.
+     * @param {ServiceReminderFindUniqueArgs} args - Arguments to find a ServiceReminder
+     * @example
+     * // Get one ServiceReminder
+     * const serviceReminder = await prisma.serviceReminder.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ServiceReminderFindUniqueArgs>(args: SelectSubset<T, ServiceReminderFindUniqueArgs<ExtArgs>>): Prisma__ServiceReminderClient<$Result.GetResult<Prisma.$ServiceReminderPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ServiceReminder that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ServiceReminderFindUniqueOrThrowArgs} args - Arguments to find a ServiceReminder
+     * @example
+     * // Get one ServiceReminder
+     * const serviceReminder = await prisma.serviceReminder.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ServiceReminderFindUniqueOrThrowArgs>(args: SelectSubset<T, ServiceReminderFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ServiceReminderClient<$Result.GetResult<Prisma.$ServiceReminderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ServiceReminder that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceReminderFindFirstArgs} args - Arguments to find a ServiceReminder
+     * @example
+     * // Get one ServiceReminder
+     * const serviceReminder = await prisma.serviceReminder.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ServiceReminderFindFirstArgs>(args?: SelectSubset<T, ServiceReminderFindFirstArgs<ExtArgs>>): Prisma__ServiceReminderClient<$Result.GetResult<Prisma.$ServiceReminderPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ServiceReminder that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceReminderFindFirstOrThrowArgs} args - Arguments to find a ServiceReminder
+     * @example
+     * // Get one ServiceReminder
+     * const serviceReminder = await prisma.serviceReminder.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ServiceReminderFindFirstOrThrowArgs>(args?: SelectSubset<T, ServiceReminderFindFirstOrThrowArgs<ExtArgs>>): Prisma__ServiceReminderClient<$Result.GetResult<Prisma.$ServiceReminderPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ServiceReminders that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceReminderFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ServiceReminders
+     * const serviceReminders = await prisma.serviceReminder.findMany()
+     * 
+     * // Get first 10 ServiceReminders
+     * const serviceReminders = await prisma.serviceReminder.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const serviceReminderWithIdOnly = await prisma.serviceReminder.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ServiceReminderFindManyArgs>(args?: SelectSubset<T, ServiceReminderFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceReminderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ServiceReminder.
+     * @param {ServiceReminderCreateArgs} args - Arguments to create a ServiceReminder.
+     * @example
+     * // Create one ServiceReminder
+     * const ServiceReminder = await prisma.serviceReminder.create({
+     *   data: {
+     *     // ... data to create a ServiceReminder
+     *   }
+     * })
+     * 
+     */
+    create<T extends ServiceReminderCreateArgs>(args: SelectSubset<T, ServiceReminderCreateArgs<ExtArgs>>): Prisma__ServiceReminderClient<$Result.GetResult<Prisma.$ServiceReminderPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ServiceReminders.
+     * @param {ServiceReminderCreateManyArgs} args - Arguments to create many ServiceReminders.
+     * @example
+     * // Create many ServiceReminders
+     * const serviceReminder = await prisma.serviceReminder.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ServiceReminderCreateManyArgs>(args?: SelectSubset<T, ServiceReminderCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a ServiceReminder.
+     * @param {ServiceReminderDeleteArgs} args - Arguments to delete one ServiceReminder.
+     * @example
+     * // Delete one ServiceReminder
+     * const ServiceReminder = await prisma.serviceReminder.delete({
+     *   where: {
+     *     // ... filter to delete one ServiceReminder
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ServiceReminderDeleteArgs>(args: SelectSubset<T, ServiceReminderDeleteArgs<ExtArgs>>): Prisma__ServiceReminderClient<$Result.GetResult<Prisma.$ServiceReminderPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ServiceReminder.
+     * @param {ServiceReminderUpdateArgs} args - Arguments to update one ServiceReminder.
+     * @example
+     * // Update one ServiceReminder
+     * const serviceReminder = await prisma.serviceReminder.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ServiceReminderUpdateArgs>(args: SelectSubset<T, ServiceReminderUpdateArgs<ExtArgs>>): Prisma__ServiceReminderClient<$Result.GetResult<Prisma.$ServiceReminderPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ServiceReminders.
+     * @param {ServiceReminderDeleteManyArgs} args - Arguments to filter ServiceReminders to delete.
+     * @example
+     * // Delete a few ServiceReminders
+     * const { count } = await prisma.serviceReminder.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ServiceReminderDeleteManyArgs>(args?: SelectSubset<T, ServiceReminderDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ServiceReminders.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceReminderUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ServiceReminders
+     * const serviceReminder = await prisma.serviceReminder.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ServiceReminderUpdateManyArgs>(args: SelectSubset<T, ServiceReminderUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ServiceReminder.
+     * @param {ServiceReminderUpsertArgs} args - Arguments to update or create a ServiceReminder.
+     * @example
+     * // Update or create a ServiceReminder
+     * const serviceReminder = await prisma.serviceReminder.upsert({
+     *   create: {
+     *     // ... data to create a ServiceReminder
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ServiceReminder we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ServiceReminderUpsertArgs>(args: SelectSubset<T, ServiceReminderUpsertArgs<ExtArgs>>): Prisma__ServiceReminderClient<$Result.GetResult<Prisma.$ServiceReminderPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ServiceReminders.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceReminderCountArgs} args - Arguments to filter ServiceReminders to count.
+     * @example
+     * // Count the number of ServiceReminders
+     * const count = await prisma.serviceReminder.count({
+     *   where: {
+     *     // ... the filter for the ServiceReminders we want to count
+     *   }
+     * })
+    **/
+    count<T extends ServiceReminderCountArgs>(
+      args?: Subset<T, ServiceReminderCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ServiceReminderCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ServiceReminder.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceReminderAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ServiceReminderAggregateArgs>(args: Subset<T, ServiceReminderAggregateArgs>): Prisma.PrismaPromise<GetServiceReminderAggregateType<T>>
+
+    /**
+     * Group by ServiceReminder.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceReminderGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ServiceReminderGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ServiceReminderGroupByArgs['orderBy'] }
+        : { orderBy?: ServiceReminderGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ServiceReminderGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetServiceReminderGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ServiceReminder model
+   */
+  readonly fields: ServiceReminderFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ServiceReminder.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ServiceReminderClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    workOrder<T extends WorkOrderDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WorkOrderDefaultArgs<ExtArgs>>): Prisma__WorkOrderClient<$Result.GetResult<Prisma.$WorkOrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    customer<T extends ServiceReminder$customerArgs<ExtArgs> = {}>(args?: Subset<T, ServiceReminder$customerArgs<ExtArgs>>): Prisma__CustomerClient<$Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    vehicle<T extends ServiceReminder$vehicleArgs<ExtArgs> = {}>(args?: Subset<T, ServiceReminder$vehicleArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    handledByUser<T extends ServiceReminder$handledByUserArgs<ExtArgs> = {}>(args?: Subset<T, ServiceReminder$handledByUserArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ServiceReminder model
+   */
+  interface ServiceReminderFieldRefs {
+    readonly id: FieldRef<"ServiceReminder", 'String'>
+    readonly workOrderId: FieldRef<"ServiceReminder", 'String'>
+    readonly customerId: FieldRef<"ServiceReminder", 'String'>
+    readonly vehicleId: FieldRef<"ServiceReminder", 'String'>
+    readonly dueDate: FieldRef<"ServiceReminder", 'DateTime'>
+    readonly status: FieldRef<"ServiceReminder", 'ReminderStatus'>
+    readonly followedUpAt: FieldRef<"ServiceReminder", 'DateTime'>
+    readonly snoozedAt: FieldRef<"ServiceReminder", 'DateTime'>
+    readonly handledByUserId: FieldRef<"ServiceReminder", 'String'>
+    readonly createdAt: FieldRef<"ServiceReminder", 'DateTime'>
+    readonly updatedAt: FieldRef<"ServiceReminder", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ServiceReminder findUnique
+   */
+  export type ServiceReminderFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceReminder
+     */
+    select?: ServiceReminderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceReminder
+     */
+    omit?: ServiceReminderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceReminderInclude<ExtArgs> | null
+    /**
+     * Filter, which ServiceReminder to fetch.
+     */
+    where: ServiceReminderWhereUniqueInput
+  }
+
+  /**
+   * ServiceReminder findUniqueOrThrow
+   */
+  export type ServiceReminderFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceReminder
+     */
+    select?: ServiceReminderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceReminder
+     */
+    omit?: ServiceReminderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceReminderInclude<ExtArgs> | null
+    /**
+     * Filter, which ServiceReminder to fetch.
+     */
+    where: ServiceReminderWhereUniqueInput
+  }
+
+  /**
+   * ServiceReminder findFirst
+   */
+  export type ServiceReminderFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceReminder
+     */
+    select?: ServiceReminderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceReminder
+     */
+    omit?: ServiceReminderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceReminderInclude<ExtArgs> | null
+    /**
+     * Filter, which ServiceReminder to fetch.
+     */
+    where?: ServiceReminderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServiceReminders to fetch.
+     */
+    orderBy?: ServiceReminderOrderByWithRelationInput | ServiceReminderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ServiceReminders.
+     */
+    cursor?: ServiceReminderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServiceReminders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServiceReminders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ServiceReminders.
+     */
+    distinct?: ServiceReminderScalarFieldEnum | ServiceReminderScalarFieldEnum[]
+  }
+
+  /**
+   * ServiceReminder findFirstOrThrow
+   */
+  export type ServiceReminderFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceReminder
+     */
+    select?: ServiceReminderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceReminder
+     */
+    omit?: ServiceReminderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceReminderInclude<ExtArgs> | null
+    /**
+     * Filter, which ServiceReminder to fetch.
+     */
+    where?: ServiceReminderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServiceReminders to fetch.
+     */
+    orderBy?: ServiceReminderOrderByWithRelationInput | ServiceReminderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ServiceReminders.
+     */
+    cursor?: ServiceReminderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServiceReminders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServiceReminders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ServiceReminders.
+     */
+    distinct?: ServiceReminderScalarFieldEnum | ServiceReminderScalarFieldEnum[]
+  }
+
+  /**
+   * ServiceReminder findMany
+   */
+  export type ServiceReminderFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceReminder
+     */
+    select?: ServiceReminderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceReminder
+     */
+    omit?: ServiceReminderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceReminderInclude<ExtArgs> | null
+    /**
+     * Filter, which ServiceReminders to fetch.
+     */
+    where?: ServiceReminderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServiceReminders to fetch.
+     */
+    orderBy?: ServiceReminderOrderByWithRelationInput | ServiceReminderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ServiceReminders.
+     */
+    cursor?: ServiceReminderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServiceReminders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServiceReminders.
+     */
+    skip?: number
+    distinct?: ServiceReminderScalarFieldEnum | ServiceReminderScalarFieldEnum[]
+  }
+
+  /**
+   * ServiceReminder create
+   */
+  export type ServiceReminderCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceReminder
+     */
+    select?: ServiceReminderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceReminder
+     */
+    omit?: ServiceReminderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceReminderInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ServiceReminder.
+     */
+    data: XOR<ServiceReminderCreateInput, ServiceReminderUncheckedCreateInput>
+  }
+
+  /**
+   * ServiceReminder createMany
+   */
+  export type ServiceReminderCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ServiceReminders.
+     */
+    data: ServiceReminderCreateManyInput | ServiceReminderCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ServiceReminder update
+   */
+  export type ServiceReminderUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceReminder
+     */
+    select?: ServiceReminderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceReminder
+     */
+    omit?: ServiceReminderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceReminderInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ServiceReminder.
+     */
+    data: XOR<ServiceReminderUpdateInput, ServiceReminderUncheckedUpdateInput>
+    /**
+     * Choose, which ServiceReminder to update.
+     */
+    where: ServiceReminderWhereUniqueInput
+  }
+
+  /**
+   * ServiceReminder updateMany
+   */
+  export type ServiceReminderUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ServiceReminders.
+     */
+    data: XOR<ServiceReminderUpdateManyMutationInput, ServiceReminderUncheckedUpdateManyInput>
+    /**
+     * Filter which ServiceReminders to update
+     */
+    where?: ServiceReminderWhereInput
+    /**
+     * Limit how many ServiceReminders to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ServiceReminder upsert
+   */
+  export type ServiceReminderUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceReminder
+     */
+    select?: ServiceReminderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceReminder
+     */
+    omit?: ServiceReminderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceReminderInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ServiceReminder to update in case it exists.
+     */
+    where: ServiceReminderWhereUniqueInput
+    /**
+     * In case the ServiceReminder found by the `where` argument doesn't exist, create a new ServiceReminder with this data.
+     */
+    create: XOR<ServiceReminderCreateInput, ServiceReminderUncheckedCreateInput>
+    /**
+     * In case the ServiceReminder was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ServiceReminderUpdateInput, ServiceReminderUncheckedUpdateInput>
+  }
+
+  /**
+   * ServiceReminder delete
+   */
+  export type ServiceReminderDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceReminder
+     */
+    select?: ServiceReminderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceReminder
+     */
+    omit?: ServiceReminderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceReminderInclude<ExtArgs> | null
+    /**
+     * Filter which ServiceReminder to delete.
+     */
+    where: ServiceReminderWhereUniqueInput
+  }
+
+  /**
+   * ServiceReminder deleteMany
+   */
+  export type ServiceReminderDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ServiceReminders to delete
+     */
+    where?: ServiceReminderWhereInput
+    /**
+     * Limit how many ServiceReminders to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ServiceReminder.customer
+   */
+  export type ServiceReminder$customerArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Customer
+     */
+    select?: CustomerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Customer
+     */
+    omit?: CustomerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomerInclude<ExtArgs> | null
+    where?: CustomerWhereInput
+  }
+
+  /**
+   * ServiceReminder.vehicle
+   */
+  export type ServiceReminder$vehicleArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vehicle
+     */
+    select?: VehicleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vehicle
+     */
+    omit?: VehicleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleInclude<ExtArgs> | null
+    where?: VehicleWhereInput
+  }
+
+  /**
+   * ServiceReminder.handledByUser
+   */
+  export type ServiceReminder$handledByUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * ServiceReminder without action
+   */
+  export type ServiceReminderDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceReminder
+     */
+    select?: ServiceReminderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceReminder
+     */
+    omit?: ServiceReminderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceReminderInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -23593,6 +26054,38 @@ export namespace Prisma {
   export type OilScalarFieldEnum = (typeof OilScalarFieldEnum)[keyof typeof OilScalarFieldEnum]
 
 
+  export const BirthdayReminderScalarFieldEnum: {
+    id: 'id',
+    customerId: 'customerId',
+    reminderDate: 'reminderDate',
+    status: 'status',
+    followedUpAt: 'followedUpAt',
+    snoozedAt: 'snoozedAt',
+    handledByUserId: 'handledByUserId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type BirthdayReminderScalarFieldEnum = (typeof BirthdayReminderScalarFieldEnum)[keyof typeof BirthdayReminderScalarFieldEnum]
+
+
+  export const ServiceReminderScalarFieldEnum: {
+    id: 'id',
+    workOrderId: 'workOrderId',
+    customerId: 'customerId',
+    vehicleId: 'vehicleId',
+    dueDate: 'dueDate',
+    status: 'status',
+    followedUpAt: 'followedUpAt',
+    snoozedAt: 'snoozedAt',
+    handledByUserId: 'handledByUserId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ServiceReminderScalarFieldEnum = (typeof ServiceReminderScalarFieldEnum)[keyof typeof ServiceReminderScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -23817,6 +26310,26 @@ export namespace Prisma {
   export type OilOrderByRelevanceFieldEnum = (typeof OilOrderByRelevanceFieldEnum)[keyof typeof OilOrderByRelevanceFieldEnum]
 
 
+  export const BirthdayReminderOrderByRelevanceFieldEnum: {
+    id: 'id',
+    customerId: 'customerId',
+    handledByUserId: 'handledByUserId'
+  };
+
+  export type BirthdayReminderOrderByRelevanceFieldEnum = (typeof BirthdayReminderOrderByRelevanceFieldEnum)[keyof typeof BirthdayReminderOrderByRelevanceFieldEnum]
+
+
+  export const ServiceReminderOrderByRelevanceFieldEnum: {
+    id: 'id',
+    workOrderId: 'workOrderId',
+    customerId: 'customerId',
+    vehicleId: 'vehicleId',
+    handledByUserId: 'handledByUserId'
+  };
+
+  export type ServiceReminderOrderByRelevanceFieldEnum = (typeof ServiceReminderOrderByRelevanceFieldEnum)[keyof typeof ServiceReminderOrderByRelevanceFieldEnum]
+
+
   /**
    * Field references
    */
@@ -23882,6 +26395,13 @@ export namespace Prisma {
    * Reference to a field of type 'StockMovementType'
    */
   export type EnumStockMovementTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StockMovementType'>
+    
+
+
+  /**
+   * Reference to a field of type 'ReminderStatus'
+   */
+  export type EnumReminderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReminderStatus'>
     
 
 
@@ -24197,6 +26717,8 @@ export namespace Prisma {
     employee?: XOR<EmployeeNullableScalarRelationFilter, EmployeeWhereInput> | null
     advisorWorkOrders?: WorkOrderListRelationFilter
     mechanicWorkOrders?: WorkOrderMechanicListRelationFilter
+    handledBirthdayReminders?: BirthdayReminderListRelationFilter
+    handledServiceReminders?: ServiceReminderListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -24213,6 +26735,8 @@ export namespace Prisma {
     employee?: EmployeeOrderByWithRelationInput
     advisorWorkOrders?: WorkOrderOrderByRelationAggregateInput
     mechanicWorkOrders?: WorkOrderMechanicOrderByRelationAggregateInput
+    handledBirthdayReminders?: BirthdayReminderOrderByRelationAggregateInput
+    handledServiceReminders?: ServiceReminderOrderByRelationAggregateInput
     _relevance?: UserOrderByRelevanceInput
   }
 
@@ -24233,6 +26757,8 @@ export namespace Prisma {
     employee?: XOR<EmployeeNullableScalarRelationFilter, EmployeeWhereInput> | null
     advisorWorkOrders?: WorkOrderListRelationFilter
     mechanicWorkOrders?: WorkOrderMechanicListRelationFilter
+    handledBirthdayReminders?: BirthdayReminderListRelationFilter
+    handledServiceReminders?: ServiceReminderListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -24395,6 +26921,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Customer"> | Date | string
     vehicles?: VehicleListRelationFilter
     workOrders?: WorkOrderListRelationFilter
+    birthdayReminders?: BirthdayReminderListRelationFilter
+    serviceReminders?: ServiceReminderListRelationFilter
   }
 
   export type CustomerOrderByWithRelationInput = {
@@ -24408,6 +26936,8 @@ export namespace Prisma {
     updatedAt?: SortOrder
     vehicles?: VehicleOrderByRelationAggregateInput
     workOrders?: WorkOrderOrderByRelationAggregateInput
+    birthdayReminders?: BirthdayReminderOrderByRelationAggregateInput
+    serviceReminders?: ServiceReminderOrderByRelationAggregateInput
     _relevance?: CustomerOrderByRelevanceInput
   }
 
@@ -24425,6 +26955,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Customer"> | Date | string
     vehicles?: VehicleListRelationFilter
     workOrders?: WorkOrderListRelationFilter
+    birthdayReminders?: BirthdayReminderListRelationFilter
+    serviceReminders?: ServiceReminderListRelationFilter
   }, "id">
 
   export type CustomerOrderByWithAggregationInput = {
@@ -24474,6 +27006,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Vehicle"> | Date | string
     customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
     workOrders?: WorkOrderListRelationFilter
+    serviceReminders?: ServiceReminderListRelationFilter
   }
 
   export type VehicleOrderByWithRelationInput = {
@@ -24492,6 +27025,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     customer?: CustomerOrderByWithRelationInput
     workOrders?: WorkOrderOrderByRelationAggregateInput
+    serviceReminders?: ServiceReminderOrderByRelationAggregateInput
     _relevance?: VehicleOrderByRelevanceInput
   }
 
@@ -24514,6 +27048,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Vehicle"> | Date | string
     customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
     workOrders?: WorkOrderListRelationFilter
+    serviceReminders?: ServiceReminderListRelationFilter
   }, "id" | "plateNumber">
 
   export type VehicleOrderByWithAggregationInput = {
@@ -24641,6 +27176,7 @@ export namespace Prisma {
     items?: WorkOrderItemListRelationFilter
     mechanics?: WorkOrderMechanicListRelationFilter
     stockMovements?: StockMovementListRelationFilter
+    serviceReminders?: ServiceReminderListRelationFilter
   }
 
   export type WorkOrderOrderByWithRelationInput = {
@@ -24674,6 +27210,7 @@ export namespace Prisma {
     items?: WorkOrderItemOrderByRelationAggregateInput
     mechanics?: WorkOrderMechanicOrderByRelationAggregateInput
     stockMovements?: StockMovementOrderByRelationAggregateInput
+    serviceReminders?: ServiceReminderOrderByRelationAggregateInput
     _relevance?: WorkOrderOrderByRelevanceInput
   }
 
@@ -24711,6 +27248,7 @@ export namespace Prisma {
     items?: WorkOrderItemListRelationFilter
     mechanics?: WorkOrderMechanicListRelationFilter
     stockMovements?: StockMovementListRelationFilter
+    serviceReminders?: ServiceReminderListRelationFilter
   }, "id" | "woNumber">
 
   export type WorkOrderOrderByWithAggregationInput = {
@@ -25365,6 +27903,182 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Oil"> | Date | string
   }
 
+  export type BirthdayReminderWhereInput = {
+    AND?: BirthdayReminderWhereInput | BirthdayReminderWhereInput[]
+    OR?: BirthdayReminderWhereInput[]
+    NOT?: BirthdayReminderWhereInput | BirthdayReminderWhereInput[]
+    id?: StringFilter<"BirthdayReminder"> | string
+    customerId?: StringFilter<"BirthdayReminder"> | string
+    reminderDate?: DateTimeFilter<"BirthdayReminder"> | Date | string
+    status?: EnumReminderStatusFilter<"BirthdayReminder"> | $Enums.ReminderStatus
+    followedUpAt?: DateTimeNullableFilter<"BirthdayReminder"> | Date | string | null
+    snoozedAt?: DateTimeNullableFilter<"BirthdayReminder"> | Date | string | null
+    handledByUserId?: StringNullableFilter<"BirthdayReminder"> | string | null
+    createdAt?: DateTimeFilter<"BirthdayReminder"> | Date | string
+    updatedAt?: DateTimeFilter<"BirthdayReminder"> | Date | string
+    customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
+    handledByUser?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }
+
+  export type BirthdayReminderOrderByWithRelationInput = {
+    id?: SortOrder
+    customerId?: SortOrder
+    reminderDate?: SortOrder
+    status?: SortOrder
+    followedUpAt?: SortOrderInput | SortOrder
+    snoozedAt?: SortOrderInput | SortOrder
+    handledByUserId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    customer?: CustomerOrderByWithRelationInput
+    handledByUser?: UserOrderByWithRelationInput
+    _relevance?: BirthdayReminderOrderByRelevanceInput
+  }
+
+  export type BirthdayReminderWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    customerId_reminderDate?: BirthdayReminderCustomerIdReminderDateCompoundUniqueInput
+    AND?: BirthdayReminderWhereInput | BirthdayReminderWhereInput[]
+    OR?: BirthdayReminderWhereInput[]
+    NOT?: BirthdayReminderWhereInput | BirthdayReminderWhereInput[]
+    customerId?: StringFilter<"BirthdayReminder"> | string
+    reminderDate?: DateTimeFilter<"BirthdayReminder"> | Date | string
+    status?: EnumReminderStatusFilter<"BirthdayReminder"> | $Enums.ReminderStatus
+    followedUpAt?: DateTimeNullableFilter<"BirthdayReminder"> | Date | string | null
+    snoozedAt?: DateTimeNullableFilter<"BirthdayReminder"> | Date | string | null
+    handledByUserId?: StringNullableFilter<"BirthdayReminder"> | string | null
+    createdAt?: DateTimeFilter<"BirthdayReminder"> | Date | string
+    updatedAt?: DateTimeFilter<"BirthdayReminder"> | Date | string
+    customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
+    handledByUser?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }, "id" | "customerId_reminderDate">
+
+  export type BirthdayReminderOrderByWithAggregationInput = {
+    id?: SortOrder
+    customerId?: SortOrder
+    reminderDate?: SortOrder
+    status?: SortOrder
+    followedUpAt?: SortOrderInput | SortOrder
+    snoozedAt?: SortOrderInput | SortOrder
+    handledByUserId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: BirthdayReminderCountOrderByAggregateInput
+    _max?: BirthdayReminderMaxOrderByAggregateInput
+    _min?: BirthdayReminderMinOrderByAggregateInput
+  }
+
+  export type BirthdayReminderScalarWhereWithAggregatesInput = {
+    AND?: BirthdayReminderScalarWhereWithAggregatesInput | BirthdayReminderScalarWhereWithAggregatesInput[]
+    OR?: BirthdayReminderScalarWhereWithAggregatesInput[]
+    NOT?: BirthdayReminderScalarWhereWithAggregatesInput | BirthdayReminderScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"BirthdayReminder"> | string
+    customerId?: StringWithAggregatesFilter<"BirthdayReminder"> | string
+    reminderDate?: DateTimeWithAggregatesFilter<"BirthdayReminder"> | Date | string
+    status?: EnumReminderStatusWithAggregatesFilter<"BirthdayReminder"> | $Enums.ReminderStatus
+    followedUpAt?: DateTimeNullableWithAggregatesFilter<"BirthdayReminder"> | Date | string | null
+    snoozedAt?: DateTimeNullableWithAggregatesFilter<"BirthdayReminder"> | Date | string | null
+    handledByUserId?: StringNullableWithAggregatesFilter<"BirthdayReminder"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"BirthdayReminder"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"BirthdayReminder"> | Date | string
+  }
+
+  export type ServiceReminderWhereInput = {
+    AND?: ServiceReminderWhereInput | ServiceReminderWhereInput[]
+    OR?: ServiceReminderWhereInput[]
+    NOT?: ServiceReminderWhereInput | ServiceReminderWhereInput[]
+    id?: StringFilter<"ServiceReminder"> | string
+    workOrderId?: StringFilter<"ServiceReminder"> | string
+    customerId?: StringNullableFilter<"ServiceReminder"> | string | null
+    vehicleId?: StringNullableFilter<"ServiceReminder"> | string | null
+    dueDate?: DateTimeFilter<"ServiceReminder"> | Date | string
+    status?: EnumReminderStatusFilter<"ServiceReminder"> | $Enums.ReminderStatus
+    followedUpAt?: DateTimeNullableFilter<"ServiceReminder"> | Date | string | null
+    snoozedAt?: DateTimeNullableFilter<"ServiceReminder"> | Date | string | null
+    handledByUserId?: StringNullableFilter<"ServiceReminder"> | string | null
+    createdAt?: DateTimeFilter<"ServiceReminder"> | Date | string
+    updatedAt?: DateTimeFilter<"ServiceReminder"> | Date | string
+    workOrder?: XOR<WorkOrderScalarRelationFilter, WorkOrderWhereInput>
+    customer?: XOR<CustomerNullableScalarRelationFilter, CustomerWhereInput> | null
+    vehicle?: XOR<VehicleNullableScalarRelationFilter, VehicleWhereInput> | null
+    handledByUser?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }
+
+  export type ServiceReminderOrderByWithRelationInput = {
+    id?: SortOrder
+    workOrderId?: SortOrder
+    customerId?: SortOrderInput | SortOrder
+    vehicleId?: SortOrderInput | SortOrder
+    dueDate?: SortOrder
+    status?: SortOrder
+    followedUpAt?: SortOrderInput | SortOrder
+    snoozedAt?: SortOrderInput | SortOrder
+    handledByUserId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    workOrder?: WorkOrderOrderByWithRelationInput
+    customer?: CustomerOrderByWithRelationInput
+    vehicle?: VehicleOrderByWithRelationInput
+    handledByUser?: UserOrderByWithRelationInput
+    _relevance?: ServiceReminderOrderByRelevanceInput
+  }
+
+  export type ServiceReminderWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    workOrderId_dueDate?: ServiceReminderWorkOrderIdDueDateCompoundUniqueInput
+    AND?: ServiceReminderWhereInput | ServiceReminderWhereInput[]
+    OR?: ServiceReminderWhereInput[]
+    NOT?: ServiceReminderWhereInput | ServiceReminderWhereInput[]
+    workOrderId?: StringFilter<"ServiceReminder"> | string
+    customerId?: StringNullableFilter<"ServiceReminder"> | string | null
+    vehicleId?: StringNullableFilter<"ServiceReminder"> | string | null
+    dueDate?: DateTimeFilter<"ServiceReminder"> | Date | string
+    status?: EnumReminderStatusFilter<"ServiceReminder"> | $Enums.ReminderStatus
+    followedUpAt?: DateTimeNullableFilter<"ServiceReminder"> | Date | string | null
+    snoozedAt?: DateTimeNullableFilter<"ServiceReminder"> | Date | string | null
+    handledByUserId?: StringNullableFilter<"ServiceReminder"> | string | null
+    createdAt?: DateTimeFilter<"ServiceReminder"> | Date | string
+    updatedAt?: DateTimeFilter<"ServiceReminder"> | Date | string
+    workOrder?: XOR<WorkOrderScalarRelationFilter, WorkOrderWhereInput>
+    customer?: XOR<CustomerNullableScalarRelationFilter, CustomerWhereInput> | null
+    vehicle?: XOR<VehicleNullableScalarRelationFilter, VehicleWhereInput> | null
+    handledByUser?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }, "id" | "workOrderId_dueDate">
+
+  export type ServiceReminderOrderByWithAggregationInput = {
+    id?: SortOrder
+    workOrderId?: SortOrder
+    customerId?: SortOrderInput | SortOrder
+    vehicleId?: SortOrderInput | SortOrder
+    dueDate?: SortOrder
+    status?: SortOrder
+    followedUpAt?: SortOrderInput | SortOrder
+    snoozedAt?: SortOrderInput | SortOrder
+    handledByUserId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ServiceReminderCountOrderByAggregateInput
+    _max?: ServiceReminderMaxOrderByAggregateInput
+    _min?: ServiceReminderMinOrderByAggregateInput
+  }
+
+  export type ServiceReminderScalarWhereWithAggregatesInput = {
+    AND?: ServiceReminderScalarWhereWithAggregatesInput | ServiceReminderScalarWhereWithAggregatesInput[]
+    OR?: ServiceReminderScalarWhereWithAggregatesInput[]
+    NOT?: ServiceReminderScalarWhereWithAggregatesInput | ServiceReminderScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ServiceReminder"> | string
+    workOrderId?: StringWithAggregatesFilter<"ServiceReminder"> | string
+    customerId?: StringNullableWithAggregatesFilter<"ServiceReminder"> | string | null
+    vehicleId?: StringNullableWithAggregatesFilter<"ServiceReminder"> | string | null
+    dueDate?: DateTimeWithAggregatesFilter<"ServiceReminder"> | Date | string
+    status?: EnumReminderStatusWithAggregatesFilter<"ServiceReminder"> | $Enums.ReminderStatus
+    followedUpAt?: DateTimeNullableWithAggregatesFilter<"ServiceReminder"> | Date | string | null
+    snoozedAt?: DateTimeNullableWithAggregatesFilter<"ServiceReminder"> | Date | string | null
+    handledByUserId?: StringNullableWithAggregatesFilter<"ServiceReminder"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"ServiceReminder"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ServiceReminder"> | Date | string
+  }
+
   export type RoleCreateInput = {
     id?: string
     name: string
@@ -25660,6 +28374,8 @@ export namespace Prisma {
     employee?: EmployeeCreateNestedOneWithoutUserInput
     advisorWorkOrders?: WorkOrderCreateNestedManyWithoutAdvisorInput
     mechanicWorkOrders?: WorkOrderMechanicCreateNestedManyWithoutUserInput
+    handledBirthdayReminders?: BirthdayReminderCreateNestedManyWithoutHandledByUserInput
+    handledServiceReminders?: ServiceReminderCreateNestedManyWithoutHandledByUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -25675,6 +28391,8 @@ export namespace Prisma {
     employee?: EmployeeUncheckedCreateNestedOneWithoutUserInput
     advisorWorkOrders?: WorkOrderUncheckedCreateNestedManyWithoutAdvisorInput
     mechanicWorkOrders?: WorkOrderMechanicUncheckedCreateNestedManyWithoutUserInput
+    handledBirthdayReminders?: BirthdayReminderUncheckedCreateNestedManyWithoutHandledByUserInput
+    handledServiceReminders?: ServiceReminderUncheckedCreateNestedManyWithoutHandledByUserInput
   }
 
   export type UserUpdateInput = {
@@ -25690,6 +28408,8 @@ export namespace Prisma {
     employee?: EmployeeUpdateOneWithoutUserNestedInput
     advisorWorkOrders?: WorkOrderUpdateManyWithoutAdvisorNestedInput
     mechanicWorkOrders?: WorkOrderMechanicUpdateManyWithoutUserNestedInput
+    handledBirthdayReminders?: BirthdayReminderUpdateManyWithoutHandledByUserNestedInput
+    handledServiceReminders?: ServiceReminderUpdateManyWithoutHandledByUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -25705,6 +28425,8 @@ export namespace Prisma {
     employee?: EmployeeUncheckedUpdateOneWithoutUserNestedInput
     advisorWorkOrders?: WorkOrderUncheckedUpdateManyWithoutAdvisorNestedInput
     mechanicWorkOrders?: WorkOrderMechanicUncheckedUpdateManyWithoutUserNestedInput
+    handledBirthdayReminders?: BirthdayReminderUncheckedUpdateManyWithoutHandledByUserNestedInput
+    handledServiceReminders?: ServiceReminderUncheckedUpdateManyWithoutHandledByUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -25872,6 +28594,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     vehicles?: VehicleCreateNestedManyWithoutCustomerInput
     workOrders?: WorkOrderCreateNestedManyWithoutCustomerInput
+    birthdayReminders?: BirthdayReminderCreateNestedManyWithoutCustomerInput
+    serviceReminders?: ServiceReminderCreateNestedManyWithoutCustomerInput
   }
 
   export type CustomerUncheckedCreateInput = {
@@ -25885,6 +28609,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     vehicles?: VehicleUncheckedCreateNestedManyWithoutCustomerInput
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutCustomerInput
+    birthdayReminders?: BirthdayReminderUncheckedCreateNestedManyWithoutCustomerInput
+    serviceReminders?: ServiceReminderUncheckedCreateNestedManyWithoutCustomerInput
   }
 
   export type CustomerUpdateInput = {
@@ -25898,6 +28624,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     vehicles?: VehicleUpdateManyWithoutCustomerNestedInput
     workOrders?: WorkOrderUpdateManyWithoutCustomerNestedInput
+    birthdayReminders?: BirthdayReminderUpdateManyWithoutCustomerNestedInput
+    serviceReminders?: ServiceReminderUpdateManyWithoutCustomerNestedInput
   }
 
   export type CustomerUncheckedUpdateInput = {
@@ -25911,6 +28639,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     vehicles?: VehicleUncheckedUpdateManyWithoutCustomerNestedInput
     workOrders?: WorkOrderUncheckedUpdateManyWithoutCustomerNestedInput
+    birthdayReminders?: BirthdayReminderUncheckedUpdateManyWithoutCustomerNestedInput
+    serviceReminders?: ServiceReminderUncheckedUpdateManyWithoutCustomerNestedInput
   }
 
   export type CustomerCreateManyInput = {
@@ -25961,6 +28691,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     customer: CustomerCreateNestedOneWithoutVehiclesInput
     workOrders?: WorkOrderCreateNestedManyWithoutVehicleInput
+    serviceReminders?: ServiceReminderCreateNestedManyWithoutVehicleInput
   }
 
   export type VehicleUncheckedCreateInput = {
@@ -25978,6 +28709,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutVehicleInput
+    serviceReminders?: ServiceReminderUncheckedCreateNestedManyWithoutVehicleInput
   }
 
   export type VehicleUpdateInput = {
@@ -25995,6 +28727,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     customer?: CustomerUpdateOneRequiredWithoutVehiclesNestedInput
     workOrders?: WorkOrderUpdateManyWithoutVehicleNestedInput
+    serviceReminders?: ServiceReminderUpdateManyWithoutVehicleNestedInput
   }
 
   export type VehicleUncheckedUpdateInput = {
@@ -26012,6 +28745,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workOrders?: WorkOrderUncheckedUpdateManyWithoutVehicleNestedInput
+    serviceReminders?: ServiceReminderUncheckedUpdateManyWithoutVehicleNestedInput
   }
 
   export type VehicleCreateManyInput = {
@@ -26142,6 +28876,7 @@ export namespace Prisma {
     items?: WorkOrderItemCreateNestedManyWithoutWorkOrderInput
     mechanics?: WorkOrderMechanicCreateNestedManyWithoutWorkOrderInput
     stockMovements?: StockMovementCreateNestedManyWithoutWorkOrderInput
+    serviceReminders?: ServiceReminderCreateNestedManyWithoutWorkOrderInput
   }
 
   export type WorkOrderUncheckedCreateInput = {
@@ -26172,6 +28907,7 @@ export namespace Prisma {
     items?: WorkOrderItemUncheckedCreateNestedManyWithoutWorkOrderInput
     mechanics?: WorkOrderMechanicUncheckedCreateNestedManyWithoutWorkOrderInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutWorkOrderInput
+    serviceReminders?: ServiceReminderUncheckedCreateNestedManyWithoutWorkOrderInput
   }
 
   export type WorkOrderUpdateInput = {
@@ -26202,6 +28938,7 @@ export namespace Prisma {
     items?: WorkOrderItemUpdateManyWithoutWorkOrderNestedInput
     mechanics?: WorkOrderMechanicUpdateManyWithoutWorkOrderNestedInput
     stockMovements?: StockMovementUpdateManyWithoutWorkOrderNestedInput
+    serviceReminders?: ServiceReminderUpdateManyWithoutWorkOrderNestedInput
   }
 
   export type WorkOrderUncheckedUpdateInput = {
@@ -26232,6 +28969,7 @@ export namespace Prisma {
     items?: WorkOrderItemUncheckedUpdateManyWithoutWorkOrderNestedInput
     mechanics?: WorkOrderMechanicUncheckedUpdateManyWithoutWorkOrderNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutWorkOrderNestedInput
+    serviceReminders?: ServiceReminderUncheckedUpdateManyWithoutWorkOrderNestedInput
   }
 
   export type WorkOrderCreateManyInput = {
@@ -26906,6 +29644,182 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type BirthdayReminderCreateInput = {
+    id?: string
+    reminderDate: Date | string
+    status?: $Enums.ReminderStatus
+    followedUpAt?: Date | string | null
+    snoozedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    customer: CustomerCreateNestedOneWithoutBirthdayRemindersInput
+    handledByUser?: UserCreateNestedOneWithoutHandledBirthdayRemindersInput
+  }
+
+  export type BirthdayReminderUncheckedCreateInput = {
+    id?: string
+    customerId: string
+    reminderDate: Date | string
+    status?: $Enums.ReminderStatus
+    followedUpAt?: Date | string | null
+    snoozedAt?: Date | string | null
+    handledByUserId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BirthdayReminderUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reminderDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumReminderStatusFieldUpdateOperationsInput | $Enums.ReminderStatus
+    followedUpAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    snoozedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customer?: CustomerUpdateOneRequiredWithoutBirthdayRemindersNestedInput
+    handledByUser?: UserUpdateOneWithoutHandledBirthdayRemindersNestedInput
+  }
+
+  export type BirthdayReminderUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    reminderDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumReminderStatusFieldUpdateOperationsInput | $Enums.ReminderStatus
+    followedUpAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    snoozedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    handledByUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BirthdayReminderCreateManyInput = {
+    id?: string
+    customerId: string
+    reminderDate: Date | string
+    status?: $Enums.ReminderStatus
+    followedUpAt?: Date | string | null
+    snoozedAt?: Date | string | null
+    handledByUserId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BirthdayReminderUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reminderDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumReminderStatusFieldUpdateOperationsInput | $Enums.ReminderStatus
+    followedUpAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    snoozedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BirthdayReminderUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    reminderDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumReminderStatusFieldUpdateOperationsInput | $Enums.ReminderStatus
+    followedUpAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    snoozedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    handledByUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServiceReminderCreateInput = {
+    id?: string
+    dueDate: Date | string
+    status?: $Enums.ReminderStatus
+    followedUpAt?: Date | string | null
+    snoozedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workOrder: WorkOrderCreateNestedOneWithoutServiceRemindersInput
+    customer?: CustomerCreateNestedOneWithoutServiceRemindersInput
+    vehicle?: VehicleCreateNestedOneWithoutServiceRemindersInput
+    handledByUser?: UserCreateNestedOneWithoutHandledServiceRemindersInput
+  }
+
+  export type ServiceReminderUncheckedCreateInput = {
+    id?: string
+    workOrderId: string
+    customerId?: string | null
+    vehicleId?: string | null
+    dueDate: Date | string
+    status?: $Enums.ReminderStatus
+    followedUpAt?: Date | string | null
+    snoozedAt?: Date | string | null
+    handledByUserId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ServiceReminderUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumReminderStatusFieldUpdateOperationsInput | $Enums.ReminderStatus
+    followedUpAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    snoozedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workOrder?: WorkOrderUpdateOneRequiredWithoutServiceRemindersNestedInput
+    customer?: CustomerUpdateOneWithoutServiceRemindersNestedInput
+    vehicle?: VehicleUpdateOneWithoutServiceRemindersNestedInput
+    handledByUser?: UserUpdateOneWithoutHandledServiceRemindersNestedInput
+  }
+
+  export type ServiceReminderUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    workOrderId?: StringFieldUpdateOperationsInput | string
+    customerId?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleId?: NullableStringFieldUpdateOperationsInput | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumReminderStatusFieldUpdateOperationsInput | $Enums.ReminderStatus
+    followedUpAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    snoozedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    handledByUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServiceReminderCreateManyInput = {
+    id?: string
+    workOrderId: string
+    customerId?: string | null
+    vehicleId?: string | null
+    dueDate: Date | string
+    status?: $Enums.ReminderStatus
+    followedUpAt?: Date | string | null
+    snoozedAt?: Date | string | null
+    handledByUserId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ServiceReminderUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumReminderStatusFieldUpdateOperationsInput | $Enums.ReminderStatus
+    followedUpAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    snoozedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServiceReminderUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    workOrderId?: StringFieldUpdateOperationsInput | string
+    customerId?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleId?: NullableStringFieldUpdateOperationsInput | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumReminderStatusFieldUpdateOperationsInput | $Enums.ReminderStatus
+    followedUpAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    snoozedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    handledByUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -27271,6 +30185,18 @@ export namespace Prisma {
     none?: WorkOrderMechanicWhereInput
   }
 
+  export type BirthdayReminderListRelationFilter = {
+    every?: BirthdayReminderWhereInput
+    some?: BirthdayReminderWhereInput
+    none?: BirthdayReminderWhereInput
+  }
+
+  export type ServiceReminderListRelationFilter = {
+    every?: ServiceReminderWhereInput
+    some?: ServiceReminderWhereInput
+    none?: ServiceReminderWhereInput
+  }
+
   export type AccountOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -27284,6 +30210,14 @@ export namespace Prisma {
   }
 
   export type WorkOrderMechanicOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BirthdayReminderOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ServiceReminderOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -28253,6 +31187,123 @@ export namespace Prisma {
     price?: SortOrder
   }
 
+  export type EnumReminderStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReminderStatus | EnumReminderStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ReminderStatus[]
+    notIn?: $Enums.ReminderStatus[]
+    not?: NestedEnumReminderStatusFilter<$PrismaModel> | $Enums.ReminderStatus
+  }
+
+  export type BirthdayReminderOrderByRelevanceInput = {
+    fields: BirthdayReminderOrderByRelevanceFieldEnum | BirthdayReminderOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type BirthdayReminderCustomerIdReminderDateCompoundUniqueInput = {
+    customerId: string
+    reminderDate: Date | string
+  }
+
+  export type BirthdayReminderCountOrderByAggregateInput = {
+    id?: SortOrder
+    customerId?: SortOrder
+    reminderDate?: SortOrder
+    status?: SortOrder
+    followedUpAt?: SortOrder
+    snoozedAt?: SortOrder
+    handledByUserId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BirthdayReminderMaxOrderByAggregateInput = {
+    id?: SortOrder
+    customerId?: SortOrder
+    reminderDate?: SortOrder
+    status?: SortOrder
+    followedUpAt?: SortOrder
+    snoozedAt?: SortOrder
+    handledByUserId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BirthdayReminderMinOrderByAggregateInput = {
+    id?: SortOrder
+    customerId?: SortOrder
+    reminderDate?: SortOrder
+    status?: SortOrder
+    followedUpAt?: SortOrder
+    snoozedAt?: SortOrder
+    handledByUserId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumReminderStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReminderStatus | EnumReminderStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ReminderStatus[]
+    notIn?: $Enums.ReminderStatus[]
+    not?: NestedEnumReminderStatusWithAggregatesFilter<$PrismaModel> | $Enums.ReminderStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumReminderStatusFilter<$PrismaModel>
+    _max?: NestedEnumReminderStatusFilter<$PrismaModel>
+  }
+
+  export type ServiceReminderOrderByRelevanceInput = {
+    fields: ServiceReminderOrderByRelevanceFieldEnum | ServiceReminderOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type ServiceReminderWorkOrderIdDueDateCompoundUniqueInput = {
+    workOrderId: string
+    dueDate: Date | string
+  }
+
+  export type ServiceReminderCountOrderByAggregateInput = {
+    id?: SortOrder
+    workOrderId?: SortOrder
+    customerId?: SortOrder
+    vehicleId?: SortOrder
+    dueDate?: SortOrder
+    status?: SortOrder
+    followedUpAt?: SortOrder
+    snoozedAt?: SortOrder
+    handledByUserId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ServiceReminderMaxOrderByAggregateInput = {
+    id?: SortOrder
+    workOrderId?: SortOrder
+    customerId?: SortOrder
+    vehicleId?: SortOrder
+    dueDate?: SortOrder
+    status?: SortOrder
+    followedUpAt?: SortOrder
+    snoozedAt?: SortOrder
+    handledByUserId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ServiceReminderMinOrderByAggregateInput = {
+    id?: SortOrder
+    workOrderId?: SortOrder
+    customerId?: SortOrder
+    vehicleId?: SortOrder
+    dueDate?: SortOrder
+    status?: SortOrder
+    followedUpAt?: SortOrder
+    snoozedAt?: SortOrder
+    handledByUserId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type UserCreateNestedManyWithoutRoleInput = {
     create?: XOR<UserCreateWithoutRoleInput, UserUncheckedCreateWithoutRoleInput> | UserCreateWithoutRoleInput[] | UserUncheckedCreateWithoutRoleInput[]
     connectOrCreate?: UserCreateOrConnectWithoutRoleInput | UserCreateOrConnectWithoutRoleInput[]
@@ -28495,6 +31546,20 @@ export namespace Prisma {
     connect?: WorkOrderMechanicWhereUniqueInput | WorkOrderMechanicWhereUniqueInput[]
   }
 
+  export type BirthdayReminderCreateNestedManyWithoutHandledByUserInput = {
+    create?: XOR<BirthdayReminderCreateWithoutHandledByUserInput, BirthdayReminderUncheckedCreateWithoutHandledByUserInput> | BirthdayReminderCreateWithoutHandledByUserInput[] | BirthdayReminderUncheckedCreateWithoutHandledByUserInput[]
+    connectOrCreate?: BirthdayReminderCreateOrConnectWithoutHandledByUserInput | BirthdayReminderCreateOrConnectWithoutHandledByUserInput[]
+    createMany?: BirthdayReminderCreateManyHandledByUserInputEnvelope
+    connect?: BirthdayReminderWhereUniqueInput | BirthdayReminderWhereUniqueInput[]
+  }
+
+  export type ServiceReminderCreateNestedManyWithoutHandledByUserInput = {
+    create?: XOR<ServiceReminderCreateWithoutHandledByUserInput, ServiceReminderUncheckedCreateWithoutHandledByUserInput> | ServiceReminderCreateWithoutHandledByUserInput[] | ServiceReminderUncheckedCreateWithoutHandledByUserInput[]
+    connectOrCreate?: ServiceReminderCreateOrConnectWithoutHandledByUserInput | ServiceReminderCreateOrConnectWithoutHandledByUserInput[]
+    createMany?: ServiceReminderCreateManyHandledByUserInputEnvelope
+    connect?: ServiceReminderWhereUniqueInput | ServiceReminderWhereUniqueInput[]
+  }
+
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -28527,6 +31592,20 @@ export namespace Prisma {
     connectOrCreate?: WorkOrderMechanicCreateOrConnectWithoutUserInput | WorkOrderMechanicCreateOrConnectWithoutUserInput[]
     createMany?: WorkOrderMechanicCreateManyUserInputEnvelope
     connect?: WorkOrderMechanicWhereUniqueInput | WorkOrderMechanicWhereUniqueInput[]
+  }
+
+  export type BirthdayReminderUncheckedCreateNestedManyWithoutHandledByUserInput = {
+    create?: XOR<BirthdayReminderCreateWithoutHandledByUserInput, BirthdayReminderUncheckedCreateWithoutHandledByUserInput> | BirthdayReminderCreateWithoutHandledByUserInput[] | BirthdayReminderUncheckedCreateWithoutHandledByUserInput[]
+    connectOrCreate?: BirthdayReminderCreateOrConnectWithoutHandledByUserInput | BirthdayReminderCreateOrConnectWithoutHandledByUserInput[]
+    createMany?: BirthdayReminderCreateManyHandledByUserInputEnvelope
+    connect?: BirthdayReminderWhereUniqueInput | BirthdayReminderWhereUniqueInput[]
+  }
+
+  export type ServiceReminderUncheckedCreateNestedManyWithoutHandledByUserInput = {
+    create?: XOR<ServiceReminderCreateWithoutHandledByUserInput, ServiceReminderUncheckedCreateWithoutHandledByUserInput> | ServiceReminderCreateWithoutHandledByUserInput[] | ServiceReminderUncheckedCreateWithoutHandledByUserInput[]
+    connectOrCreate?: ServiceReminderCreateOrConnectWithoutHandledByUserInput | ServiceReminderCreateOrConnectWithoutHandledByUserInput[]
+    createMany?: ServiceReminderCreateManyHandledByUserInputEnvelope
+    connect?: ServiceReminderWhereUniqueInput | ServiceReminderWhereUniqueInput[]
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -28607,6 +31686,34 @@ export namespace Prisma {
     deleteMany?: WorkOrderMechanicScalarWhereInput | WorkOrderMechanicScalarWhereInput[]
   }
 
+  export type BirthdayReminderUpdateManyWithoutHandledByUserNestedInput = {
+    create?: XOR<BirthdayReminderCreateWithoutHandledByUserInput, BirthdayReminderUncheckedCreateWithoutHandledByUserInput> | BirthdayReminderCreateWithoutHandledByUserInput[] | BirthdayReminderUncheckedCreateWithoutHandledByUserInput[]
+    connectOrCreate?: BirthdayReminderCreateOrConnectWithoutHandledByUserInput | BirthdayReminderCreateOrConnectWithoutHandledByUserInput[]
+    upsert?: BirthdayReminderUpsertWithWhereUniqueWithoutHandledByUserInput | BirthdayReminderUpsertWithWhereUniqueWithoutHandledByUserInput[]
+    createMany?: BirthdayReminderCreateManyHandledByUserInputEnvelope
+    set?: BirthdayReminderWhereUniqueInput | BirthdayReminderWhereUniqueInput[]
+    disconnect?: BirthdayReminderWhereUniqueInput | BirthdayReminderWhereUniqueInput[]
+    delete?: BirthdayReminderWhereUniqueInput | BirthdayReminderWhereUniqueInput[]
+    connect?: BirthdayReminderWhereUniqueInput | BirthdayReminderWhereUniqueInput[]
+    update?: BirthdayReminderUpdateWithWhereUniqueWithoutHandledByUserInput | BirthdayReminderUpdateWithWhereUniqueWithoutHandledByUserInput[]
+    updateMany?: BirthdayReminderUpdateManyWithWhereWithoutHandledByUserInput | BirthdayReminderUpdateManyWithWhereWithoutHandledByUserInput[]
+    deleteMany?: BirthdayReminderScalarWhereInput | BirthdayReminderScalarWhereInput[]
+  }
+
+  export type ServiceReminderUpdateManyWithoutHandledByUserNestedInput = {
+    create?: XOR<ServiceReminderCreateWithoutHandledByUserInput, ServiceReminderUncheckedCreateWithoutHandledByUserInput> | ServiceReminderCreateWithoutHandledByUserInput[] | ServiceReminderUncheckedCreateWithoutHandledByUserInput[]
+    connectOrCreate?: ServiceReminderCreateOrConnectWithoutHandledByUserInput | ServiceReminderCreateOrConnectWithoutHandledByUserInput[]
+    upsert?: ServiceReminderUpsertWithWhereUniqueWithoutHandledByUserInput | ServiceReminderUpsertWithWhereUniqueWithoutHandledByUserInput[]
+    createMany?: ServiceReminderCreateManyHandledByUserInputEnvelope
+    set?: ServiceReminderWhereUniqueInput | ServiceReminderWhereUniqueInput[]
+    disconnect?: ServiceReminderWhereUniqueInput | ServiceReminderWhereUniqueInput[]
+    delete?: ServiceReminderWhereUniqueInput | ServiceReminderWhereUniqueInput[]
+    connect?: ServiceReminderWhereUniqueInput | ServiceReminderWhereUniqueInput[]
+    update?: ServiceReminderUpdateWithWhereUniqueWithoutHandledByUserInput | ServiceReminderUpdateWithWhereUniqueWithoutHandledByUserInput[]
+    updateMany?: ServiceReminderUpdateManyWithWhereWithoutHandledByUserInput | ServiceReminderUpdateManyWithWhereWithoutHandledByUserInput[]
+    deleteMany?: ServiceReminderScalarWhereInput | ServiceReminderScalarWhereInput[]
+  }
+
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -28673,6 +31780,34 @@ export namespace Prisma {
     deleteMany?: WorkOrderMechanicScalarWhereInput | WorkOrderMechanicScalarWhereInput[]
   }
 
+  export type BirthdayReminderUncheckedUpdateManyWithoutHandledByUserNestedInput = {
+    create?: XOR<BirthdayReminderCreateWithoutHandledByUserInput, BirthdayReminderUncheckedCreateWithoutHandledByUserInput> | BirthdayReminderCreateWithoutHandledByUserInput[] | BirthdayReminderUncheckedCreateWithoutHandledByUserInput[]
+    connectOrCreate?: BirthdayReminderCreateOrConnectWithoutHandledByUserInput | BirthdayReminderCreateOrConnectWithoutHandledByUserInput[]
+    upsert?: BirthdayReminderUpsertWithWhereUniqueWithoutHandledByUserInput | BirthdayReminderUpsertWithWhereUniqueWithoutHandledByUserInput[]
+    createMany?: BirthdayReminderCreateManyHandledByUserInputEnvelope
+    set?: BirthdayReminderWhereUniqueInput | BirthdayReminderWhereUniqueInput[]
+    disconnect?: BirthdayReminderWhereUniqueInput | BirthdayReminderWhereUniqueInput[]
+    delete?: BirthdayReminderWhereUniqueInput | BirthdayReminderWhereUniqueInput[]
+    connect?: BirthdayReminderWhereUniqueInput | BirthdayReminderWhereUniqueInput[]
+    update?: BirthdayReminderUpdateWithWhereUniqueWithoutHandledByUserInput | BirthdayReminderUpdateWithWhereUniqueWithoutHandledByUserInput[]
+    updateMany?: BirthdayReminderUpdateManyWithWhereWithoutHandledByUserInput | BirthdayReminderUpdateManyWithWhereWithoutHandledByUserInput[]
+    deleteMany?: BirthdayReminderScalarWhereInput | BirthdayReminderScalarWhereInput[]
+  }
+
+  export type ServiceReminderUncheckedUpdateManyWithoutHandledByUserNestedInput = {
+    create?: XOR<ServiceReminderCreateWithoutHandledByUserInput, ServiceReminderUncheckedCreateWithoutHandledByUserInput> | ServiceReminderCreateWithoutHandledByUserInput[] | ServiceReminderUncheckedCreateWithoutHandledByUserInput[]
+    connectOrCreate?: ServiceReminderCreateOrConnectWithoutHandledByUserInput | ServiceReminderCreateOrConnectWithoutHandledByUserInput[]
+    upsert?: ServiceReminderUpsertWithWhereUniqueWithoutHandledByUserInput | ServiceReminderUpsertWithWhereUniqueWithoutHandledByUserInput[]
+    createMany?: ServiceReminderCreateManyHandledByUserInputEnvelope
+    set?: ServiceReminderWhereUniqueInput | ServiceReminderWhereUniqueInput[]
+    disconnect?: ServiceReminderWhereUniqueInput | ServiceReminderWhereUniqueInput[]
+    delete?: ServiceReminderWhereUniqueInput | ServiceReminderWhereUniqueInput[]
+    connect?: ServiceReminderWhereUniqueInput | ServiceReminderWhereUniqueInput[]
+    update?: ServiceReminderUpdateWithWhereUniqueWithoutHandledByUserInput | ServiceReminderUpdateWithWhereUniqueWithoutHandledByUserInput[]
+    updateMany?: ServiceReminderUpdateManyWithWhereWithoutHandledByUserInput | ServiceReminderUpdateManyWithWhereWithoutHandledByUserInput[]
+    deleteMany?: ServiceReminderScalarWhereInput | ServiceReminderScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutEmployeeInput = {
     create?: XOR<UserCreateWithoutEmployeeInput, UserUncheckedCreateWithoutEmployeeInput>
     connectOrCreate?: UserCreateOrConnectWithoutEmployeeInput
@@ -28705,6 +31840,20 @@ export namespace Prisma {
     connect?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
   }
 
+  export type BirthdayReminderCreateNestedManyWithoutCustomerInput = {
+    create?: XOR<BirthdayReminderCreateWithoutCustomerInput, BirthdayReminderUncheckedCreateWithoutCustomerInput> | BirthdayReminderCreateWithoutCustomerInput[] | BirthdayReminderUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: BirthdayReminderCreateOrConnectWithoutCustomerInput | BirthdayReminderCreateOrConnectWithoutCustomerInput[]
+    createMany?: BirthdayReminderCreateManyCustomerInputEnvelope
+    connect?: BirthdayReminderWhereUniqueInput | BirthdayReminderWhereUniqueInput[]
+  }
+
+  export type ServiceReminderCreateNestedManyWithoutCustomerInput = {
+    create?: XOR<ServiceReminderCreateWithoutCustomerInput, ServiceReminderUncheckedCreateWithoutCustomerInput> | ServiceReminderCreateWithoutCustomerInput[] | ServiceReminderUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: ServiceReminderCreateOrConnectWithoutCustomerInput | ServiceReminderCreateOrConnectWithoutCustomerInput[]
+    createMany?: ServiceReminderCreateManyCustomerInputEnvelope
+    connect?: ServiceReminderWhereUniqueInput | ServiceReminderWhereUniqueInput[]
+  }
+
   export type VehicleUncheckedCreateNestedManyWithoutCustomerInput = {
     create?: XOR<VehicleCreateWithoutCustomerInput, VehicleUncheckedCreateWithoutCustomerInput> | VehicleCreateWithoutCustomerInput[] | VehicleUncheckedCreateWithoutCustomerInput[]
     connectOrCreate?: VehicleCreateOrConnectWithoutCustomerInput | VehicleCreateOrConnectWithoutCustomerInput[]
@@ -28717,6 +31866,20 @@ export namespace Prisma {
     connectOrCreate?: WorkOrderCreateOrConnectWithoutCustomerInput | WorkOrderCreateOrConnectWithoutCustomerInput[]
     createMany?: WorkOrderCreateManyCustomerInputEnvelope
     connect?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+  }
+
+  export type BirthdayReminderUncheckedCreateNestedManyWithoutCustomerInput = {
+    create?: XOR<BirthdayReminderCreateWithoutCustomerInput, BirthdayReminderUncheckedCreateWithoutCustomerInput> | BirthdayReminderCreateWithoutCustomerInput[] | BirthdayReminderUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: BirthdayReminderCreateOrConnectWithoutCustomerInput | BirthdayReminderCreateOrConnectWithoutCustomerInput[]
+    createMany?: BirthdayReminderCreateManyCustomerInputEnvelope
+    connect?: BirthdayReminderWhereUniqueInput | BirthdayReminderWhereUniqueInput[]
+  }
+
+  export type ServiceReminderUncheckedCreateNestedManyWithoutCustomerInput = {
+    create?: XOR<ServiceReminderCreateWithoutCustomerInput, ServiceReminderUncheckedCreateWithoutCustomerInput> | ServiceReminderCreateWithoutCustomerInput[] | ServiceReminderUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: ServiceReminderCreateOrConnectWithoutCustomerInput | ServiceReminderCreateOrConnectWithoutCustomerInput[]
+    createMany?: ServiceReminderCreateManyCustomerInputEnvelope
+    connect?: ServiceReminderWhereUniqueInput | ServiceReminderWhereUniqueInput[]
   }
 
   export type VehicleUpdateManyWithoutCustomerNestedInput = {
@@ -28747,6 +31910,34 @@ export namespace Prisma {
     deleteMany?: WorkOrderScalarWhereInput | WorkOrderScalarWhereInput[]
   }
 
+  export type BirthdayReminderUpdateManyWithoutCustomerNestedInput = {
+    create?: XOR<BirthdayReminderCreateWithoutCustomerInput, BirthdayReminderUncheckedCreateWithoutCustomerInput> | BirthdayReminderCreateWithoutCustomerInput[] | BirthdayReminderUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: BirthdayReminderCreateOrConnectWithoutCustomerInput | BirthdayReminderCreateOrConnectWithoutCustomerInput[]
+    upsert?: BirthdayReminderUpsertWithWhereUniqueWithoutCustomerInput | BirthdayReminderUpsertWithWhereUniqueWithoutCustomerInput[]
+    createMany?: BirthdayReminderCreateManyCustomerInputEnvelope
+    set?: BirthdayReminderWhereUniqueInput | BirthdayReminderWhereUniqueInput[]
+    disconnect?: BirthdayReminderWhereUniqueInput | BirthdayReminderWhereUniqueInput[]
+    delete?: BirthdayReminderWhereUniqueInput | BirthdayReminderWhereUniqueInput[]
+    connect?: BirthdayReminderWhereUniqueInput | BirthdayReminderWhereUniqueInput[]
+    update?: BirthdayReminderUpdateWithWhereUniqueWithoutCustomerInput | BirthdayReminderUpdateWithWhereUniqueWithoutCustomerInput[]
+    updateMany?: BirthdayReminderUpdateManyWithWhereWithoutCustomerInput | BirthdayReminderUpdateManyWithWhereWithoutCustomerInput[]
+    deleteMany?: BirthdayReminderScalarWhereInput | BirthdayReminderScalarWhereInput[]
+  }
+
+  export type ServiceReminderUpdateManyWithoutCustomerNestedInput = {
+    create?: XOR<ServiceReminderCreateWithoutCustomerInput, ServiceReminderUncheckedCreateWithoutCustomerInput> | ServiceReminderCreateWithoutCustomerInput[] | ServiceReminderUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: ServiceReminderCreateOrConnectWithoutCustomerInput | ServiceReminderCreateOrConnectWithoutCustomerInput[]
+    upsert?: ServiceReminderUpsertWithWhereUniqueWithoutCustomerInput | ServiceReminderUpsertWithWhereUniqueWithoutCustomerInput[]
+    createMany?: ServiceReminderCreateManyCustomerInputEnvelope
+    set?: ServiceReminderWhereUniqueInput | ServiceReminderWhereUniqueInput[]
+    disconnect?: ServiceReminderWhereUniqueInput | ServiceReminderWhereUniqueInput[]
+    delete?: ServiceReminderWhereUniqueInput | ServiceReminderWhereUniqueInput[]
+    connect?: ServiceReminderWhereUniqueInput | ServiceReminderWhereUniqueInput[]
+    update?: ServiceReminderUpdateWithWhereUniqueWithoutCustomerInput | ServiceReminderUpdateWithWhereUniqueWithoutCustomerInput[]
+    updateMany?: ServiceReminderUpdateManyWithWhereWithoutCustomerInput | ServiceReminderUpdateManyWithWhereWithoutCustomerInput[]
+    deleteMany?: ServiceReminderScalarWhereInput | ServiceReminderScalarWhereInput[]
+  }
+
   export type VehicleUncheckedUpdateManyWithoutCustomerNestedInput = {
     create?: XOR<VehicleCreateWithoutCustomerInput, VehicleUncheckedCreateWithoutCustomerInput> | VehicleCreateWithoutCustomerInput[] | VehicleUncheckedCreateWithoutCustomerInput[]
     connectOrCreate?: VehicleCreateOrConnectWithoutCustomerInput | VehicleCreateOrConnectWithoutCustomerInput[]
@@ -28775,6 +31966,34 @@ export namespace Prisma {
     deleteMany?: WorkOrderScalarWhereInput | WorkOrderScalarWhereInput[]
   }
 
+  export type BirthdayReminderUncheckedUpdateManyWithoutCustomerNestedInput = {
+    create?: XOR<BirthdayReminderCreateWithoutCustomerInput, BirthdayReminderUncheckedCreateWithoutCustomerInput> | BirthdayReminderCreateWithoutCustomerInput[] | BirthdayReminderUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: BirthdayReminderCreateOrConnectWithoutCustomerInput | BirthdayReminderCreateOrConnectWithoutCustomerInput[]
+    upsert?: BirthdayReminderUpsertWithWhereUniqueWithoutCustomerInput | BirthdayReminderUpsertWithWhereUniqueWithoutCustomerInput[]
+    createMany?: BirthdayReminderCreateManyCustomerInputEnvelope
+    set?: BirthdayReminderWhereUniqueInput | BirthdayReminderWhereUniqueInput[]
+    disconnect?: BirthdayReminderWhereUniqueInput | BirthdayReminderWhereUniqueInput[]
+    delete?: BirthdayReminderWhereUniqueInput | BirthdayReminderWhereUniqueInput[]
+    connect?: BirthdayReminderWhereUniqueInput | BirthdayReminderWhereUniqueInput[]
+    update?: BirthdayReminderUpdateWithWhereUniqueWithoutCustomerInput | BirthdayReminderUpdateWithWhereUniqueWithoutCustomerInput[]
+    updateMany?: BirthdayReminderUpdateManyWithWhereWithoutCustomerInput | BirthdayReminderUpdateManyWithWhereWithoutCustomerInput[]
+    deleteMany?: BirthdayReminderScalarWhereInput | BirthdayReminderScalarWhereInput[]
+  }
+
+  export type ServiceReminderUncheckedUpdateManyWithoutCustomerNestedInput = {
+    create?: XOR<ServiceReminderCreateWithoutCustomerInput, ServiceReminderUncheckedCreateWithoutCustomerInput> | ServiceReminderCreateWithoutCustomerInput[] | ServiceReminderUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: ServiceReminderCreateOrConnectWithoutCustomerInput | ServiceReminderCreateOrConnectWithoutCustomerInput[]
+    upsert?: ServiceReminderUpsertWithWhereUniqueWithoutCustomerInput | ServiceReminderUpsertWithWhereUniqueWithoutCustomerInput[]
+    createMany?: ServiceReminderCreateManyCustomerInputEnvelope
+    set?: ServiceReminderWhereUniqueInput | ServiceReminderWhereUniqueInput[]
+    disconnect?: ServiceReminderWhereUniqueInput | ServiceReminderWhereUniqueInput[]
+    delete?: ServiceReminderWhereUniqueInput | ServiceReminderWhereUniqueInput[]
+    connect?: ServiceReminderWhereUniqueInput | ServiceReminderWhereUniqueInput[]
+    update?: ServiceReminderUpdateWithWhereUniqueWithoutCustomerInput | ServiceReminderUpdateWithWhereUniqueWithoutCustomerInput[]
+    updateMany?: ServiceReminderUpdateManyWithWhereWithoutCustomerInput | ServiceReminderUpdateManyWithWhereWithoutCustomerInput[]
+    deleteMany?: ServiceReminderScalarWhereInput | ServiceReminderScalarWhereInput[]
+  }
+
   export type CustomerCreateNestedOneWithoutVehiclesInput = {
     create?: XOR<CustomerCreateWithoutVehiclesInput, CustomerUncheckedCreateWithoutVehiclesInput>
     connectOrCreate?: CustomerCreateOrConnectWithoutVehiclesInput
@@ -28788,11 +32007,25 @@ export namespace Prisma {
     connect?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
   }
 
+  export type ServiceReminderCreateNestedManyWithoutVehicleInput = {
+    create?: XOR<ServiceReminderCreateWithoutVehicleInput, ServiceReminderUncheckedCreateWithoutVehicleInput> | ServiceReminderCreateWithoutVehicleInput[] | ServiceReminderUncheckedCreateWithoutVehicleInput[]
+    connectOrCreate?: ServiceReminderCreateOrConnectWithoutVehicleInput | ServiceReminderCreateOrConnectWithoutVehicleInput[]
+    createMany?: ServiceReminderCreateManyVehicleInputEnvelope
+    connect?: ServiceReminderWhereUniqueInput | ServiceReminderWhereUniqueInput[]
+  }
+
   export type WorkOrderUncheckedCreateNestedManyWithoutVehicleInput = {
     create?: XOR<WorkOrderCreateWithoutVehicleInput, WorkOrderUncheckedCreateWithoutVehicleInput> | WorkOrderCreateWithoutVehicleInput[] | WorkOrderUncheckedCreateWithoutVehicleInput[]
     connectOrCreate?: WorkOrderCreateOrConnectWithoutVehicleInput | WorkOrderCreateOrConnectWithoutVehicleInput[]
     createMany?: WorkOrderCreateManyVehicleInputEnvelope
     connect?: WorkOrderWhereUniqueInput | WorkOrderWhereUniqueInput[]
+  }
+
+  export type ServiceReminderUncheckedCreateNestedManyWithoutVehicleInput = {
+    create?: XOR<ServiceReminderCreateWithoutVehicleInput, ServiceReminderUncheckedCreateWithoutVehicleInput> | ServiceReminderCreateWithoutVehicleInput[] | ServiceReminderUncheckedCreateWithoutVehicleInput[]
+    connectOrCreate?: ServiceReminderCreateOrConnectWithoutVehicleInput | ServiceReminderCreateOrConnectWithoutVehicleInput[]
+    createMany?: ServiceReminderCreateManyVehicleInputEnvelope
+    connect?: ServiceReminderWhereUniqueInput | ServiceReminderWhereUniqueInput[]
   }
 
   export type CustomerUpdateOneRequiredWithoutVehiclesNestedInput = {
@@ -28817,6 +32050,20 @@ export namespace Prisma {
     deleteMany?: WorkOrderScalarWhereInput | WorkOrderScalarWhereInput[]
   }
 
+  export type ServiceReminderUpdateManyWithoutVehicleNestedInput = {
+    create?: XOR<ServiceReminderCreateWithoutVehicleInput, ServiceReminderUncheckedCreateWithoutVehicleInput> | ServiceReminderCreateWithoutVehicleInput[] | ServiceReminderUncheckedCreateWithoutVehicleInput[]
+    connectOrCreate?: ServiceReminderCreateOrConnectWithoutVehicleInput | ServiceReminderCreateOrConnectWithoutVehicleInput[]
+    upsert?: ServiceReminderUpsertWithWhereUniqueWithoutVehicleInput | ServiceReminderUpsertWithWhereUniqueWithoutVehicleInput[]
+    createMany?: ServiceReminderCreateManyVehicleInputEnvelope
+    set?: ServiceReminderWhereUniqueInput | ServiceReminderWhereUniqueInput[]
+    disconnect?: ServiceReminderWhereUniqueInput | ServiceReminderWhereUniqueInput[]
+    delete?: ServiceReminderWhereUniqueInput | ServiceReminderWhereUniqueInput[]
+    connect?: ServiceReminderWhereUniqueInput | ServiceReminderWhereUniqueInput[]
+    update?: ServiceReminderUpdateWithWhereUniqueWithoutVehicleInput | ServiceReminderUpdateWithWhereUniqueWithoutVehicleInput[]
+    updateMany?: ServiceReminderUpdateManyWithWhereWithoutVehicleInput | ServiceReminderUpdateManyWithWhereWithoutVehicleInput[]
+    deleteMany?: ServiceReminderScalarWhereInput | ServiceReminderScalarWhereInput[]
+  }
+
   export type WorkOrderUncheckedUpdateManyWithoutVehicleNestedInput = {
     create?: XOR<WorkOrderCreateWithoutVehicleInput, WorkOrderUncheckedCreateWithoutVehicleInput> | WorkOrderCreateWithoutVehicleInput[] | WorkOrderUncheckedCreateWithoutVehicleInput[]
     connectOrCreate?: WorkOrderCreateOrConnectWithoutVehicleInput | WorkOrderCreateOrConnectWithoutVehicleInput[]
@@ -28829,6 +32076,20 @@ export namespace Prisma {
     update?: WorkOrderUpdateWithWhereUniqueWithoutVehicleInput | WorkOrderUpdateWithWhereUniqueWithoutVehicleInput[]
     updateMany?: WorkOrderUpdateManyWithWhereWithoutVehicleInput | WorkOrderUpdateManyWithWhereWithoutVehicleInput[]
     deleteMany?: WorkOrderScalarWhereInput | WorkOrderScalarWhereInput[]
+  }
+
+  export type ServiceReminderUncheckedUpdateManyWithoutVehicleNestedInput = {
+    create?: XOR<ServiceReminderCreateWithoutVehicleInput, ServiceReminderUncheckedCreateWithoutVehicleInput> | ServiceReminderCreateWithoutVehicleInput[] | ServiceReminderUncheckedCreateWithoutVehicleInput[]
+    connectOrCreate?: ServiceReminderCreateOrConnectWithoutVehicleInput | ServiceReminderCreateOrConnectWithoutVehicleInput[]
+    upsert?: ServiceReminderUpsertWithWhereUniqueWithoutVehicleInput | ServiceReminderUpsertWithWhereUniqueWithoutVehicleInput[]
+    createMany?: ServiceReminderCreateManyVehicleInputEnvelope
+    set?: ServiceReminderWhereUniqueInput | ServiceReminderWhereUniqueInput[]
+    disconnect?: ServiceReminderWhereUniqueInput | ServiceReminderWhereUniqueInput[]
+    delete?: ServiceReminderWhereUniqueInput | ServiceReminderWhereUniqueInput[]
+    connect?: ServiceReminderWhereUniqueInput | ServiceReminderWhereUniqueInput[]
+    update?: ServiceReminderUpdateWithWhereUniqueWithoutVehicleInput | ServiceReminderUpdateWithWhereUniqueWithoutVehicleInput[]
+    updateMany?: ServiceReminderUpdateManyWithWhereWithoutVehicleInput | ServiceReminderUpdateManyWithWhereWithoutVehicleInput[]
+    deleteMany?: ServiceReminderScalarWhereInput | ServiceReminderScalarWhereInput[]
   }
 
   export type ProductCreateNestedManyWithoutBrandInput = {
@@ -28912,6 +32173,13 @@ export namespace Prisma {
     connect?: StockMovementWhereUniqueInput | StockMovementWhereUniqueInput[]
   }
 
+  export type ServiceReminderCreateNestedManyWithoutWorkOrderInput = {
+    create?: XOR<ServiceReminderCreateWithoutWorkOrderInput, ServiceReminderUncheckedCreateWithoutWorkOrderInput> | ServiceReminderCreateWithoutWorkOrderInput[] | ServiceReminderUncheckedCreateWithoutWorkOrderInput[]
+    connectOrCreate?: ServiceReminderCreateOrConnectWithoutWorkOrderInput | ServiceReminderCreateOrConnectWithoutWorkOrderInput[]
+    createMany?: ServiceReminderCreateManyWorkOrderInputEnvelope
+    connect?: ServiceReminderWhereUniqueInput | ServiceReminderWhereUniqueInput[]
+  }
+
   export type WorkOrderItemUncheckedCreateNestedManyWithoutWorkOrderInput = {
     create?: XOR<WorkOrderItemCreateWithoutWorkOrderInput, WorkOrderItemUncheckedCreateWithoutWorkOrderInput> | WorkOrderItemCreateWithoutWorkOrderInput[] | WorkOrderItemUncheckedCreateWithoutWorkOrderInput[]
     connectOrCreate?: WorkOrderItemCreateOrConnectWithoutWorkOrderInput | WorkOrderItemCreateOrConnectWithoutWorkOrderInput[]
@@ -28931,6 +32199,13 @@ export namespace Prisma {
     connectOrCreate?: StockMovementCreateOrConnectWithoutWorkOrderInput | StockMovementCreateOrConnectWithoutWorkOrderInput[]
     createMany?: StockMovementCreateManyWorkOrderInputEnvelope
     connect?: StockMovementWhereUniqueInput | StockMovementWhereUniqueInput[]
+  }
+
+  export type ServiceReminderUncheckedCreateNestedManyWithoutWorkOrderInput = {
+    create?: XOR<ServiceReminderCreateWithoutWorkOrderInput, ServiceReminderUncheckedCreateWithoutWorkOrderInput> | ServiceReminderCreateWithoutWorkOrderInput[] | ServiceReminderUncheckedCreateWithoutWorkOrderInput[]
+    connectOrCreate?: ServiceReminderCreateOrConnectWithoutWorkOrderInput | ServiceReminderCreateOrConnectWithoutWorkOrderInput[]
+    createMany?: ServiceReminderCreateManyWorkOrderInputEnvelope
+    connect?: ServiceReminderWhereUniqueInput | ServiceReminderWhereUniqueInput[]
   }
 
   export type EnumWorkOrderStatusFieldUpdateOperationsInput = {
@@ -29021,6 +32296,20 @@ export namespace Prisma {
     deleteMany?: StockMovementScalarWhereInput | StockMovementScalarWhereInput[]
   }
 
+  export type ServiceReminderUpdateManyWithoutWorkOrderNestedInput = {
+    create?: XOR<ServiceReminderCreateWithoutWorkOrderInput, ServiceReminderUncheckedCreateWithoutWorkOrderInput> | ServiceReminderCreateWithoutWorkOrderInput[] | ServiceReminderUncheckedCreateWithoutWorkOrderInput[]
+    connectOrCreate?: ServiceReminderCreateOrConnectWithoutWorkOrderInput | ServiceReminderCreateOrConnectWithoutWorkOrderInput[]
+    upsert?: ServiceReminderUpsertWithWhereUniqueWithoutWorkOrderInput | ServiceReminderUpsertWithWhereUniqueWithoutWorkOrderInput[]
+    createMany?: ServiceReminderCreateManyWorkOrderInputEnvelope
+    set?: ServiceReminderWhereUniqueInput | ServiceReminderWhereUniqueInput[]
+    disconnect?: ServiceReminderWhereUniqueInput | ServiceReminderWhereUniqueInput[]
+    delete?: ServiceReminderWhereUniqueInput | ServiceReminderWhereUniqueInput[]
+    connect?: ServiceReminderWhereUniqueInput | ServiceReminderWhereUniqueInput[]
+    update?: ServiceReminderUpdateWithWhereUniqueWithoutWorkOrderInput | ServiceReminderUpdateWithWhereUniqueWithoutWorkOrderInput[]
+    updateMany?: ServiceReminderUpdateManyWithWhereWithoutWorkOrderInput | ServiceReminderUpdateManyWithWhereWithoutWorkOrderInput[]
+    deleteMany?: ServiceReminderScalarWhereInput | ServiceReminderScalarWhereInput[]
+  }
+
   export type WorkOrderItemUncheckedUpdateManyWithoutWorkOrderNestedInput = {
     create?: XOR<WorkOrderItemCreateWithoutWorkOrderInput, WorkOrderItemUncheckedCreateWithoutWorkOrderInput> | WorkOrderItemCreateWithoutWorkOrderInput[] | WorkOrderItemUncheckedCreateWithoutWorkOrderInput[]
     connectOrCreate?: WorkOrderItemCreateOrConnectWithoutWorkOrderInput | WorkOrderItemCreateOrConnectWithoutWorkOrderInput[]
@@ -29061,6 +32350,20 @@ export namespace Prisma {
     update?: StockMovementUpdateWithWhereUniqueWithoutWorkOrderInput | StockMovementUpdateWithWhereUniqueWithoutWorkOrderInput[]
     updateMany?: StockMovementUpdateManyWithWhereWithoutWorkOrderInput | StockMovementUpdateManyWithWhereWithoutWorkOrderInput[]
     deleteMany?: StockMovementScalarWhereInput | StockMovementScalarWhereInput[]
+  }
+
+  export type ServiceReminderUncheckedUpdateManyWithoutWorkOrderNestedInput = {
+    create?: XOR<ServiceReminderCreateWithoutWorkOrderInput, ServiceReminderUncheckedCreateWithoutWorkOrderInput> | ServiceReminderCreateWithoutWorkOrderInput[] | ServiceReminderUncheckedCreateWithoutWorkOrderInput[]
+    connectOrCreate?: ServiceReminderCreateOrConnectWithoutWorkOrderInput | ServiceReminderCreateOrConnectWithoutWorkOrderInput[]
+    upsert?: ServiceReminderUpsertWithWhereUniqueWithoutWorkOrderInput | ServiceReminderUpsertWithWhereUniqueWithoutWorkOrderInput[]
+    createMany?: ServiceReminderCreateManyWorkOrderInputEnvelope
+    set?: ServiceReminderWhereUniqueInput | ServiceReminderWhereUniqueInput[]
+    disconnect?: ServiceReminderWhereUniqueInput | ServiceReminderWhereUniqueInput[]
+    delete?: ServiceReminderWhereUniqueInput | ServiceReminderWhereUniqueInput[]
+    connect?: ServiceReminderWhereUniqueInput | ServiceReminderWhereUniqueInput[]
+    update?: ServiceReminderUpdateWithWhereUniqueWithoutWorkOrderInput | ServiceReminderUpdateWithWhereUniqueWithoutWorkOrderInput[]
+    updateMany?: ServiceReminderUpdateManyWithWhereWithoutWorkOrderInput | ServiceReminderUpdateManyWithWhereWithoutWorkOrderInput[]
+    deleteMany?: ServiceReminderScalarWhereInput | ServiceReminderScalarWhereInput[]
   }
 
   export type WorkOrderCreateNestedOneWithoutMechanicsInput = {
@@ -29607,6 +32910,102 @@ export namespace Prisma {
     deleteMany?: WorkOrderItemScalarWhereInput | WorkOrderItemScalarWhereInput[]
   }
 
+  export type CustomerCreateNestedOneWithoutBirthdayRemindersInput = {
+    create?: XOR<CustomerCreateWithoutBirthdayRemindersInput, CustomerUncheckedCreateWithoutBirthdayRemindersInput>
+    connectOrCreate?: CustomerCreateOrConnectWithoutBirthdayRemindersInput
+    connect?: CustomerWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutHandledBirthdayRemindersInput = {
+    create?: XOR<UserCreateWithoutHandledBirthdayRemindersInput, UserUncheckedCreateWithoutHandledBirthdayRemindersInput>
+    connectOrCreate?: UserCreateOrConnectWithoutHandledBirthdayRemindersInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumReminderStatusFieldUpdateOperationsInput = {
+    set?: $Enums.ReminderStatus
+  }
+
+  export type CustomerUpdateOneRequiredWithoutBirthdayRemindersNestedInput = {
+    create?: XOR<CustomerCreateWithoutBirthdayRemindersInput, CustomerUncheckedCreateWithoutBirthdayRemindersInput>
+    connectOrCreate?: CustomerCreateOrConnectWithoutBirthdayRemindersInput
+    upsert?: CustomerUpsertWithoutBirthdayRemindersInput
+    connect?: CustomerWhereUniqueInput
+    update?: XOR<XOR<CustomerUpdateToOneWithWhereWithoutBirthdayRemindersInput, CustomerUpdateWithoutBirthdayRemindersInput>, CustomerUncheckedUpdateWithoutBirthdayRemindersInput>
+  }
+
+  export type UserUpdateOneWithoutHandledBirthdayRemindersNestedInput = {
+    create?: XOR<UserCreateWithoutHandledBirthdayRemindersInput, UserUncheckedCreateWithoutHandledBirthdayRemindersInput>
+    connectOrCreate?: UserCreateOrConnectWithoutHandledBirthdayRemindersInput
+    upsert?: UserUpsertWithoutHandledBirthdayRemindersInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutHandledBirthdayRemindersInput, UserUpdateWithoutHandledBirthdayRemindersInput>, UserUncheckedUpdateWithoutHandledBirthdayRemindersInput>
+  }
+
+  export type WorkOrderCreateNestedOneWithoutServiceRemindersInput = {
+    create?: XOR<WorkOrderCreateWithoutServiceRemindersInput, WorkOrderUncheckedCreateWithoutServiceRemindersInput>
+    connectOrCreate?: WorkOrderCreateOrConnectWithoutServiceRemindersInput
+    connect?: WorkOrderWhereUniqueInput
+  }
+
+  export type CustomerCreateNestedOneWithoutServiceRemindersInput = {
+    create?: XOR<CustomerCreateWithoutServiceRemindersInput, CustomerUncheckedCreateWithoutServiceRemindersInput>
+    connectOrCreate?: CustomerCreateOrConnectWithoutServiceRemindersInput
+    connect?: CustomerWhereUniqueInput
+  }
+
+  export type VehicleCreateNestedOneWithoutServiceRemindersInput = {
+    create?: XOR<VehicleCreateWithoutServiceRemindersInput, VehicleUncheckedCreateWithoutServiceRemindersInput>
+    connectOrCreate?: VehicleCreateOrConnectWithoutServiceRemindersInput
+    connect?: VehicleWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutHandledServiceRemindersInput = {
+    create?: XOR<UserCreateWithoutHandledServiceRemindersInput, UserUncheckedCreateWithoutHandledServiceRemindersInput>
+    connectOrCreate?: UserCreateOrConnectWithoutHandledServiceRemindersInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type WorkOrderUpdateOneRequiredWithoutServiceRemindersNestedInput = {
+    create?: XOR<WorkOrderCreateWithoutServiceRemindersInput, WorkOrderUncheckedCreateWithoutServiceRemindersInput>
+    connectOrCreate?: WorkOrderCreateOrConnectWithoutServiceRemindersInput
+    upsert?: WorkOrderUpsertWithoutServiceRemindersInput
+    connect?: WorkOrderWhereUniqueInput
+    update?: XOR<XOR<WorkOrderUpdateToOneWithWhereWithoutServiceRemindersInput, WorkOrderUpdateWithoutServiceRemindersInput>, WorkOrderUncheckedUpdateWithoutServiceRemindersInput>
+  }
+
+  export type CustomerUpdateOneWithoutServiceRemindersNestedInput = {
+    create?: XOR<CustomerCreateWithoutServiceRemindersInput, CustomerUncheckedCreateWithoutServiceRemindersInput>
+    connectOrCreate?: CustomerCreateOrConnectWithoutServiceRemindersInput
+    upsert?: CustomerUpsertWithoutServiceRemindersInput
+    disconnect?: CustomerWhereInput | boolean
+    delete?: CustomerWhereInput | boolean
+    connect?: CustomerWhereUniqueInput
+    update?: XOR<XOR<CustomerUpdateToOneWithWhereWithoutServiceRemindersInput, CustomerUpdateWithoutServiceRemindersInput>, CustomerUncheckedUpdateWithoutServiceRemindersInput>
+  }
+
+  export type VehicleUpdateOneWithoutServiceRemindersNestedInput = {
+    create?: XOR<VehicleCreateWithoutServiceRemindersInput, VehicleUncheckedCreateWithoutServiceRemindersInput>
+    connectOrCreate?: VehicleCreateOrConnectWithoutServiceRemindersInput
+    upsert?: VehicleUpsertWithoutServiceRemindersInput
+    disconnect?: VehicleWhereInput | boolean
+    delete?: VehicleWhereInput | boolean
+    connect?: VehicleWhereUniqueInput
+    update?: XOR<XOR<VehicleUpdateToOneWithWhereWithoutServiceRemindersInput, VehicleUpdateWithoutServiceRemindersInput>, VehicleUncheckedUpdateWithoutServiceRemindersInput>
+  }
+
+  export type UserUpdateOneWithoutHandledServiceRemindersNestedInput = {
+    create?: XOR<UserCreateWithoutHandledServiceRemindersInput, UserUncheckedCreateWithoutHandledServiceRemindersInput>
+    connectOrCreate?: UserCreateOrConnectWithoutHandledServiceRemindersInput
+    upsert?: UserUpsertWithoutHandledServiceRemindersInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutHandledServiceRemindersInput, UserUpdateWithoutHandledServiceRemindersInput>, UserUncheckedUpdateWithoutHandledServiceRemindersInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -29897,6 +33296,23 @@ export namespace Prisma {
     _max?: NestedEnumStockMovementTypeFilter<$PrismaModel>
   }
 
+  export type NestedEnumReminderStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReminderStatus | EnumReminderStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ReminderStatus[]
+    notIn?: $Enums.ReminderStatus[]
+    not?: NestedEnumReminderStatusFilter<$PrismaModel> | $Enums.ReminderStatus
+  }
+
+  export type NestedEnumReminderStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ReminderStatus | EnumReminderStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ReminderStatus[]
+    notIn?: $Enums.ReminderStatus[]
+    not?: NestedEnumReminderStatusWithAggregatesFilter<$PrismaModel> | $Enums.ReminderStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumReminderStatusFilter<$PrismaModel>
+    _max?: NestedEnumReminderStatusFilter<$PrismaModel>
+  }
+
   export type UserCreateWithoutRoleInput = {
     id?: string
     name?: string | null
@@ -29909,6 +33325,8 @@ export namespace Prisma {
     employee?: EmployeeCreateNestedOneWithoutUserInput
     advisorWorkOrders?: WorkOrderCreateNestedManyWithoutAdvisorInput
     mechanicWorkOrders?: WorkOrderMechanicCreateNestedManyWithoutUserInput
+    handledBirthdayReminders?: BirthdayReminderCreateNestedManyWithoutHandledByUserInput
+    handledServiceReminders?: ServiceReminderCreateNestedManyWithoutHandledByUserInput
   }
 
   export type UserUncheckedCreateWithoutRoleInput = {
@@ -29923,6 +33341,8 @@ export namespace Prisma {
     employee?: EmployeeUncheckedCreateNestedOneWithoutUserInput
     advisorWorkOrders?: WorkOrderUncheckedCreateNestedManyWithoutAdvisorInput
     mechanicWorkOrders?: WorkOrderMechanicUncheckedCreateNestedManyWithoutUserInput
+    handledBirthdayReminders?: BirthdayReminderUncheckedCreateNestedManyWithoutHandledByUserInput
+    handledServiceReminders?: ServiceReminderUncheckedCreateNestedManyWithoutHandledByUserInput
   }
 
   export type UserCreateOrConnectWithoutRoleInput = {
@@ -30132,6 +33552,8 @@ export namespace Prisma {
     employee?: EmployeeCreateNestedOneWithoutUserInput
     advisorWorkOrders?: WorkOrderCreateNestedManyWithoutAdvisorInput
     mechanicWorkOrders?: WorkOrderMechanicCreateNestedManyWithoutUserInput
+    handledBirthdayReminders?: BirthdayReminderCreateNestedManyWithoutHandledByUserInput
+    handledServiceReminders?: ServiceReminderCreateNestedManyWithoutHandledByUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -30146,6 +33568,8 @@ export namespace Prisma {
     employee?: EmployeeUncheckedCreateNestedOneWithoutUserInput
     advisorWorkOrders?: WorkOrderUncheckedCreateNestedManyWithoutAdvisorInput
     mechanicWorkOrders?: WorkOrderMechanicUncheckedCreateNestedManyWithoutUserInput
+    handledBirthdayReminders?: BirthdayReminderUncheckedCreateNestedManyWithoutHandledByUserInput
+    handledServiceReminders?: ServiceReminderUncheckedCreateNestedManyWithoutHandledByUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -30176,6 +33600,8 @@ export namespace Prisma {
     employee?: EmployeeUpdateOneWithoutUserNestedInput
     advisorWorkOrders?: WorkOrderUpdateManyWithoutAdvisorNestedInput
     mechanicWorkOrders?: WorkOrderMechanicUpdateManyWithoutUserNestedInput
+    handledBirthdayReminders?: BirthdayReminderUpdateManyWithoutHandledByUserNestedInput
+    handledServiceReminders?: ServiceReminderUpdateManyWithoutHandledByUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -30190,6 +33616,8 @@ export namespace Prisma {
     employee?: EmployeeUncheckedUpdateOneWithoutUserNestedInput
     advisorWorkOrders?: WorkOrderUncheckedUpdateManyWithoutAdvisorNestedInput
     mechanicWorkOrders?: WorkOrderMechanicUncheckedUpdateManyWithoutUserNestedInput
+    handledBirthdayReminders?: BirthdayReminderUncheckedUpdateManyWithoutHandledByUserNestedInput
+    handledServiceReminders?: ServiceReminderUncheckedUpdateManyWithoutHandledByUserNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -30204,6 +33632,8 @@ export namespace Prisma {
     employee?: EmployeeCreateNestedOneWithoutUserInput
     advisorWorkOrders?: WorkOrderCreateNestedManyWithoutAdvisorInput
     mechanicWorkOrders?: WorkOrderMechanicCreateNestedManyWithoutUserInput
+    handledBirthdayReminders?: BirthdayReminderCreateNestedManyWithoutHandledByUserInput
+    handledServiceReminders?: ServiceReminderCreateNestedManyWithoutHandledByUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -30218,6 +33648,8 @@ export namespace Prisma {
     employee?: EmployeeUncheckedCreateNestedOneWithoutUserInput
     advisorWorkOrders?: WorkOrderUncheckedCreateNestedManyWithoutAdvisorInput
     mechanicWorkOrders?: WorkOrderMechanicUncheckedCreateNestedManyWithoutUserInput
+    handledBirthdayReminders?: BirthdayReminderUncheckedCreateNestedManyWithoutHandledByUserInput
+    handledServiceReminders?: ServiceReminderUncheckedCreateNestedManyWithoutHandledByUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -30248,6 +33680,8 @@ export namespace Prisma {
     employee?: EmployeeUpdateOneWithoutUserNestedInput
     advisorWorkOrders?: WorkOrderUpdateManyWithoutAdvisorNestedInput
     mechanicWorkOrders?: WorkOrderMechanicUpdateManyWithoutUserNestedInput
+    handledBirthdayReminders?: BirthdayReminderUpdateManyWithoutHandledByUserNestedInput
+    handledServiceReminders?: ServiceReminderUpdateManyWithoutHandledByUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -30262,6 +33696,8 @@ export namespace Prisma {
     employee?: EmployeeUncheckedUpdateOneWithoutUserNestedInput
     advisorWorkOrders?: WorkOrderUncheckedUpdateManyWithoutAdvisorNestedInput
     mechanicWorkOrders?: WorkOrderMechanicUncheckedUpdateManyWithoutUserNestedInput
+    handledBirthdayReminders?: BirthdayReminderUncheckedUpdateManyWithoutHandledByUserNestedInput
+    handledServiceReminders?: ServiceReminderUncheckedUpdateManyWithoutHandledByUserNestedInput
   }
 
   export type RoleCreateWithoutUsersInput = {
@@ -30399,6 +33835,7 @@ export namespace Prisma {
     items?: WorkOrderItemCreateNestedManyWithoutWorkOrderInput
     mechanics?: WorkOrderMechanicCreateNestedManyWithoutWorkOrderInput
     stockMovements?: StockMovementCreateNestedManyWithoutWorkOrderInput
+    serviceReminders?: ServiceReminderCreateNestedManyWithoutWorkOrderInput
   }
 
   export type WorkOrderUncheckedCreateWithoutAdvisorInput = {
@@ -30428,6 +33865,7 @@ export namespace Prisma {
     items?: WorkOrderItemUncheckedCreateNestedManyWithoutWorkOrderInput
     mechanics?: WorkOrderMechanicUncheckedCreateNestedManyWithoutWorkOrderInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutWorkOrderInput
+    serviceReminders?: ServiceReminderUncheckedCreateNestedManyWithoutWorkOrderInput
   }
 
   export type WorkOrderCreateOrConnectWithoutAdvisorInput = {
@@ -30455,6 +33893,74 @@ export namespace Prisma {
 
   export type WorkOrderMechanicCreateManyUserInputEnvelope = {
     data: WorkOrderMechanicCreateManyUserInput | WorkOrderMechanicCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BirthdayReminderCreateWithoutHandledByUserInput = {
+    id?: string
+    reminderDate: Date | string
+    status?: $Enums.ReminderStatus
+    followedUpAt?: Date | string | null
+    snoozedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    customer: CustomerCreateNestedOneWithoutBirthdayRemindersInput
+  }
+
+  export type BirthdayReminderUncheckedCreateWithoutHandledByUserInput = {
+    id?: string
+    customerId: string
+    reminderDate: Date | string
+    status?: $Enums.ReminderStatus
+    followedUpAt?: Date | string | null
+    snoozedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BirthdayReminderCreateOrConnectWithoutHandledByUserInput = {
+    where: BirthdayReminderWhereUniqueInput
+    create: XOR<BirthdayReminderCreateWithoutHandledByUserInput, BirthdayReminderUncheckedCreateWithoutHandledByUserInput>
+  }
+
+  export type BirthdayReminderCreateManyHandledByUserInputEnvelope = {
+    data: BirthdayReminderCreateManyHandledByUserInput | BirthdayReminderCreateManyHandledByUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ServiceReminderCreateWithoutHandledByUserInput = {
+    id?: string
+    dueDate: Date | string
+    status?: $Enums.ReminderStatus
+    followedUpAt?: Date | string | null
+    snoozedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workOrder: WorkOrderCreateNestedOneWithoutServiceRemindersInput
+    customer?: CustomerCreateNestedOneWithoutServiceRemindersInput
+    vehicle?: VehicleCreateNestedOneWithoutServiceRemindersInput
+  }
+
+  export type ServiceReminderUncheckedCreateWithoutHandledByUserInput = {
+    id?: string
+    workOrderId: string
+    customerId?: string | null
+    vehicleId?: string | null
+    dueDate: Date | string
+    status?: $Enums.ReminderStatus
+    followedUpAt?: Date | string | null
+    snoozedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ServiceReminderCreateOrConnectWithoutHandledByUserInput = {
+    where: ServiceReminderWhereUniqueInput
+    create: XOR<ServiceReminderCreateWithoutHandledByUserInput, ServiceReminderUncheckedCreateWithoutHandledByUserInput>
+  }
+
+  export type ServiceReminderCreateManyHandledByUserInputEnvelope = {
+    data: ServiceReminderCreateManyHandledByUserInput | ServiceReminderCreateManyHandledByUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -30647,6 +34153,70 @@ export namespace Prisma {
     userId?: StringFilter<"WorkOrderMechanic"> | string
   }
 
+  export type BirthdayReminderUpsertWithWhereUniqueWithoutHandledByUserInput = {
+    where: BirthdayReminderWhereUniqueInput
+    update: XOR<BirthdayReminderUpdateWithoutHandledByUserInput, BirthdayReminderUncheckedUpdateWithoutHandledByUserInput>
+    create: XOR<BirthdayReminderCreateWithoutHandledByUserInput, BirthdayReminderUncheckedCreateWithoutHandledByUserInput>
+  }
+
+  export type BirthdayReminderUpdateWithWhereUniqueWithoutHandledByUserInput = {
+    where: BirthdayReminderWhereUniqueInput
+    data: XOR<BirthdayReminderUpdateWithoutHandledByUserInput, BirthdayReminderUncheckedUpdateWithoutHandledByUserInput>
+  }
+
+  export type BirthdayReminderUpdateManyWithWhereWithoutHandledByUserInput = {
+    where: BirthdayReminderScalarWhereInput
+    data: XOR<BirthdayReminderUpdateManyMutationInput, BirthdayReminderUncheckedUpdateManyWithoutHandledByUserInput>
+  }
+
+  export type BirthdayReminderScalarWhereInput = {
+    AND?: BirthdayReminderScalarWhereInput | BirthdayReminderScalarWhereInput[]
+    OR?: BirthdayReminderScalarWhereInput[]
+    NOT?: BirthdayReminderScalarWhereInput | BirthdayReminderScalarWhereInput[]
+    id?: StringFilter<"BirthdayReminder"> | string
+    customerId?: StringFilter<"BirthdayReminder"> | string
+    reminderDate?: DateTimeFilter<"BirthdayReminder"> | Date | string
+    status?: EnumReminderStatusFilter<"BirthdayReminder"> | $Enums.ReminderStatus
+    followedUpAt?: DateTimeNullableFilter<"BirthdayReminder"> | Date | string | null
+    snoozedAt?: DateTimeNullableFilter<"BirthdayReminder"> | Date | string | null
+    handledByUserId?: StringNullableFilter<"BirthdayReminder"> | string | null
+    createdAt?: DateTimeFilter<"BirthdayReminder"> | Date | string
+    updatedAt?: DateTimeFilter<"BirthdayReminder"> | Date | string
+  }
+
+  export type ServiceReminderUpsertWithWhereUniqueWithoutHandledByUserInput = {
+    where: ServiceReminderWhereUniqueInput
+    update: XOR<ServiceReminderUpdateWithoutHandledByUserInput, ServiceReminderUncheckedUpdateWithoutHandledByUserInput>
+    create: XOR<ServiceReminderCreateWithoutHandledByUserInput, ServiceReminderUncheckedCreateWithoutHandledByUserInput>
+  }
+
+  export type ServiceReminderUpdateWithWhereUniqueWithoutHandledByUserInput = {
+    where: ServiceReminderWhereUniqueInput
+    data: XOR<ServiceReminderUpdateWithoutHandledByUserInput, ServiceReminderUncheckedUpdateWithoutHandledByUserInput>
+  }
+
+  export type ServiceReminderUpdateManyWithWhereWithoutHandledByUserInput = {
+    where: ServiceReminderScalarWhereInput
+    data: XOR<ServiceReminderUpdateManyMutationInput, ServiceReminderUncheckedUpdateManyWithoutHandledByUserInput>
+  }
+
+  export type ServiceReminderScalarWhereInput = {
+    AND?: ServiceReminderScalarWhereInput | ServiceReminderScalarWhereInput[]
+    OR?: ServiceReminderScalarWhereInput[]
+    NOT?: ServiceReminderScalarWhereInput | ServiceReminderScalarWhereInput[]
+    id?: StringFilter<"ServiceReminder"> | string
+    workOrderId?: StringFilter<"ServiceReminder"> | string
+    customerId?: StringNullableFilter<"ServiceReminder"> | string | null
+    vehicleId?: StringNullableFilter<"ServiceReminder"> | string | null
+    dueDate?: DateTimeFilter<"ServiceReminder"> | Date | string
+    status?: EnumReminderStatusFilter<"ServiceReminder"> | $Enums.ReminderStatus
+    followedUpAt?: DateTimeNullableFilter<"ServiceReminder"> | Date | string | null
+    snoozedAt?: DateTimeNullableFilter<"ServiceReminder"> | Date | string | null
+    handledByUserId?: StringNullableFilter<"ServiceReminder"> | string | null
+    createdAt?: DateTimeFilter<"ServiceReminder"> | Date | string
+    updatedAt?: DateTimeFilter<"ServiceReminder"> | Date | string
+  }
+
   export type UserCreateWithoutEmployeeInput = {
     id?: string
     name?: string | null
@@ -30659,6 +34229,8 @@ export namespace Prisma {
     sessions?: SessionCreateNestedManyWithoutUserInput
     advisorWorkOrders?: WorkOrderCreateNestedManyWithoutAdvisorInput
     mechanicWorkOrders?: WorkOrderMechanicCreateNestedManyWithoutUserInput
+    handledBirthdayReminders?: BirthdayReminderCreateNestedManyWithoutHandledByUserInput
+    handledServiceReminders?: ServiceReminderCreateNestedManyWithoutHandledByUserInput
   }
 
   export type UserUncheckedCreateWithoutEmployeeInput = {
@@ -30673,6 +34245,8 @@ export namespace Prisma {
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     advisorWorkOrders?: WorkOrderUncheckedCreateNestedManyWithoutAdvisorInput
     mechanicWorkOrders?: WorkOrderMechanicUncheckedCreateNestedManyWithoutUserInput
+    handledBirthdayReminders?: BirthdayReminderUncheckedCreateNestedManyWithoutHandledByUserInput
+    handledServiceReminders?: ServiceReminderUncheckedCreateNestedManyWithoutHandledByUserInput
   }
 
   export type UserCreateOrConnectWithoutEmployeeInput = {
@@ -30703,6 +34277,8 @@ export namespace Prisma {
     sessions?: SessionUpdateManyWithoutUserNestedInput
     advisorWorkOrders?: WorkOrderUpdateManyWithoutAdvisorNestedInput
     mechanicWorkOrders?: WorkOrderMechanicUpdateManyWithoutUserNestedInput
+    handledBirthdayReminders?: BirthdayReminderUpdateManyWithoutHandledByUserNestedInput
+    handledServiceReminders?: ServiceReminderUpdateManyWithoutHandledByUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutEmployeeInput = {
@@ -30717,6 +34293,8 @@ export namespace Prisma {
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     advisorWorkOrders?: WorkOrderUncheckedUpdateManyWithoutAdvisorNestedInput
     mechanicWorkOrders?: WorkOrderMechanicUncheckedUpdateManyWithoutUserNestedInput
+    handledBirthdayReminders?: BirthdayReminderUncheckedUpdateManyWithoutHandledByUserNestedInput
+    handledServiceReminders?: ServiceReminderUncheckedUpdateManyWithoutHandledByUserNestedInput
   }
 
   export type VehicleCreateWithoutCustomerInput = {
@@ -30733,6 +34311,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     workOrders?: WorkOrderCreateNestedManyWithoutVehicleInput
+    serviceReminders?: ServiceReminderCreateNestedManyWithoutVehicleInput
   }
 
   export type VehicleUncheckedCreateWithoutCustomerInput = {
@@ -30749,6 +34328,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutVehicleInput
+    serviceReminders?: ServiceReminderUncheckedCreateNestedManyWithoutVehicleInput
   }
 
   export type VehicleCreateOrConnectWithoutCustomerInput = {
@@ -30788,6 +34368,7 @@ export namespace Prisma {
     items?: WorkOrderItemCreateNestedManyWithoutWorkOrderInput
     mechanics?: WorkOrderMechanicCreateNestedManyWithoutWorkOrderInput
     stockMovements?: StockMovementCreateNestedManyWithoutWorkOrderInput
+    serviceReminders?: ServiceReminderCreateNestedManyWithoutWorkOrderInput
   }
 
   export type WorkOrderUncheckedCreateWithoutCustomerInput = {
@@ -30817,6 +34398,7 @@ export namespace Prisma {
     items?: WorkOrderItemUncheckedCreateNestedManyWithoutWorkOrderInput
     mechanics?: WorkOrderMechanicUncheckedCreateNestedManyWithoutWorkOrderInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutWorkOrderInput
+    serviceReminders?: ServiceReminderUncheckedCreateNestedManyWithoutWorkOrderInput
   }
 
   export type WorkOrderCreateOrConnectWithoutCustomerInput = {
@@ -30826,6 +34408,74 @@ export namespace Prisma {
 
   export type WorkOrderCreateManyCustomerInputEnvelope = {
     data: WorkOrderCreateManyCustomerInput | WorkOrderCreateManyCustomerInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BirthdayReminderCreateWithoutCustomerInput = {
+    id?: string
+    reminderDate: Date | string
+    status?: $Enums.ReminderStatus
+    followedUpAt?: Date | string | null
+    snoozedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    handledByUser?: UserCreateNestedOneWithoutHandledBirthdayRemindersInput
+  }
+
+  export type BirthdayReminderUncheckedCreateWithoutCustomerInput = {
+    id?: string
+    reminderDate: Date | string
+    status?: $Enums.ReminderStatus
+    followedUpAt?: Date | string | null
+    snoozedAt?: Date | string | null
+    handledByUserId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BirthdayReminderCreateOrConnectWithoutCustomerInput = {
+    where: BirthdayReminderWhereUniqueInput
+    create: XOR<BirthdayReminderCreateWithoutCustomerInput, BirthdayReminderUncheckedCreateWithoutCustomerInput>
+  }
+
+  export type BirthdayReminderCreateManyCustomerInputEnvelope = {
+    data: BirthdayReminderCreateManyCustomerInput | BirthdayReminderCreateManyCustomerInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ServiceReminderCreateWithoutCustomerInput = {
+    id?: string
+    dueDate: Date | string
+    status?: $Enums.ReminderStatus
+    followedUpAt?: Date | string | null
+    snoozedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workOrder: WorkOrderCreateNestedOneWithoutServiceRemindersInput
+    vehicle?: VehicleCreateNestedOneWithoutServiceRemindersInput
+    handledByUser?: UserCreateNestedOneWithoutHandledServiceRemindersInput
+  }
+
+  export type ServiceReminderUncheckedCreateWithoutCustomerInput = {
+    id?: string
+    workOrderId: string
+    vehicleId?: string | null
+    dueDate: Date | string
+    status?: $Enums.ReminderStatus
+    followedUpAt?: Date | string | null
+    snoozedAt?: Date | string | null
+    handledByUserId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ServiceReminderCreateOrConnectWithoutCustomerInput = {
+    where: ServiceReminderWhereUniqueInput
+    create: XOR<ServiceReminderCreateWithoutCustomerInput, ServiceReminderUncheckedCreateWithoutCustomerInput>
+  }
+
+  export type ServiceReminderCreateManyCustomerInputEnvelope = {
+    data: ServiceReminderCreateManyCustomerInput | ServiceReminderCreateManyCustomerInput[]
     skipDuplicates?: boolean
   }
 
@@ -30880,6 +34530,38 @@ export namespace Prisma {
     data: XOR<WorkOrderUpdateManyMutationInput, WorkOrderUncheckedUpdateManyWithoutCustomerInput>
   }
 
+  export type BirthdayReminderUpsertWithWhereUniqueWithoutCustomerInput = {
+    where: BirthdayReminderWhereUniqueInput
+    update: XOR<BirthdayReminderUpdateWithoutCustomerInput, BirthdayReminderUncheckedUpdateWithoutCustomerInput>
+    create: XOR<BirthdayReminderCreateWithoutCustomerInput, BirthdayReminderUncheckedCreateWithoutCustomerInput>
+  }
+
+  export type BirthdayReminderUpdateWithWhereUniqueWithoutCustomerInput = {
+    where: BirthdayReminderWhereUniqueInput
+    data: XOR<BirthdayReminderUpdateWithoutCustomerInput, BirthdayReminderUncheckedUpdateWithoutCustomerInput>
+  }
+
+  export type BirthdayReminderUpdateManyWithWhereWithoutCustomerInput = {
+    where: BirthdayReminderScalarWhereInput
+    data: XOR<BirthdayReminderUpdateManyMutationInput, BirthdayReminderUncheckedUpdateManyWithoutCustomerInput>
+  }
+
+  export type ServiceReminderUpsertWithWhereUniqueWithoutCustomerInput = {
+    where: ServiceReminderWhereUniqueInput
+    update: XOR<ServiceReminderUpdateWithoutCustomerInput, ServiceReminderUncheckedUpdateWithoutCustomerInput>
+    create: XOR<ServiceReminderCreateWithoutCustomerInput, ServiceReminderUncheckedCreateWithoutCustomerInput>
+  }
+
+  export type ServiceReminderUpdateWithWhereUniqueWithoutCustomerInput = {
+    where: ServiceReminderWhereUniqueInput
+    data: XOR<ServiceReminderUpdateWithoutCustomerInput, ServiceReminderUncheckedUpdateWithoutCustomerInput>
+  }
+
+  export type ServiceReminderUpdateManyWithWhereWithoutCustomerInput = {
+    where: ServiceReminderScalarWhereInput
+    data: XOR<ServiceReminderUpdateManyMutationInput, ServiceReminderUncheckedUpdateManyWithoutCustomerInput>
+  }
+
   export type CustomerCreateWithoutVehiclesInput = {
     id?: string
     name: string
@@ -30890,6 +34572,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     workOrders?: WorkOrderCreateNestedManyWithoutCustomerInput
+    birthdayReminders?: BirthdayReminderCreateNestedManyWithoutCustomerInput
+    serviceReminders?: ServiceReminderCreateNestedManyWithoutCustomerInput
   }
 
   export type CustomerUncheckedCreateWithoutVehiclesInput = {
@@ -30902,6 +34586,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     workOrders?: WorkOrderUncheckedCreateNestedManyWithoutCustomerInput
+    birthdayReminders?: BirthdayReminderUncheckedCreateNestedManyWithoutCustomerInput
+    serviceReminders?: ServiceReminderUncheckedCreateNestedManyWithoutCustomerInput
   }
 
   export type CustomerCreateOrConnectWithoutVehiclesInput = {
@@ -30936,6 +34622,7 @@ export namespace Prisma {
     items?: WorkOrderItemCreateNestedManyWithoutWorkOrderInput
     mechanics?: WorkOrderMechanicCreateNestedManyWithoutWorkOrderInput
     stockMovements?: StockMovementCreateNestedManyWithoutWorkOrderInput
+    serviceReminders?: ServiceReminderCreateNestedManyWithoutWorkOrderInput
   }
 
   export type WorkOrderUncheckedCreateWithoutVehicleInput = {
@@ -30965,6 +34652,7 @@ export namespace Prisma {
     items?: WorkOrderItemUncheckedCreateNestedManyWithoutWorkOrderInput
     mechanics?: WorkOrderMechanicUncheckedCreateNestedManyWithoutWorkOrderInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutWorkOrderInput
+    serviceReminders?: ServiceReminderUncheckedCreateNestedManyWithoutWorkOrderInput
   }
 
   export type WorkOrderCreateOrConnectWithoutVehicleInput = {
@@ -30974,6 +34662,42 @@ export namespace Prisma {
 
   export type WorkOrderCreateManyVehicleInputEnvelope = {
     data: WorkOrderCreateManyVehicleInput | WorkOrderCreateManyVehicleInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ServiceReminderCreateWithoutVehicleInput = {
+    id?: string
+    dueDate: Date | string
+    status?: $Enums.ReminderStatus
+    followedUpAt?: Date | string | null
+    snoozedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workOrder: WorkOrderCreateNestedOneWithoutServiceRemindersInput
+    customer?: CustomerCreateNestedOneWithoutServiceRemindersInput
+    handledByUser?: UserCreateNestedOneWithoutHandledServiceRemindersInput
+  }
+
+  export type ServiceReminderUncheckedCreateWithoutVehicleInput = {
+    id?: string
+    workOrderId: string
+    customerId?: string | null
+    dueDate: Date | string
+    status?: $Enums.ReminderStatus
+    followedUpAt?: Date | string | null
+    snoozedAt?: Date | string | null
+    handledByUserId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ServiceReminderCreateOrConnectWithoutVehicleInput = {
+    where: ServiceReminderWhereUniqueInput
+    create: XOR<ServiceReminderCreateWithoutVehicleInput, ServiceReminderUncheckedCreateWithoutVehicleInput>
+  }
+
+  export type ServiceReminderCreateManyVehicleInputEnvelope = {
+    data: ServiceReminderCreateManyVehicleInput | ServiceReminderCreateManyVehicleInput[]
     skipDuplicates?: boolean
   }
 
@@ -30998,6 +34722,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workOrders?: WorkOrderUpdateManyWithoutCustomerNestedInput
+    birthdayReminders?: BirthdayReminderUpdateManyWithoutCustomerNestedInput
+    serviceReminders?: ServiceReminderUpdateManyWithoutCustomerNestedInput
   }
 
   export type CustomerUncheckedUpdateWithoutVehiclesInput = {
@@ -31010,6 +34736,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workOrders?: WorkOrderUncheckedUpdateManyWithoutCustomerNestedInput
+    birthdayReminders?: BirthdayReminderUncheckedUpdateManyWithoutCustomerNestedInput
+    serviceReminders?: ServiceReminderUncheckedUpdateManyWithoutCustomerNestedInput
   }
 
   export type WorkOrderUpsertWithWhereUniqueWithoutVehicleInput = {
@@ -31026,6 +34754,22 @@ export namespace Prisma {
   export type WorkOrderUpdateManyWithWhereWithoutVehicleInput = {
     where: WorkOrderScalarWhereInput
     data: XOR<WorkOrderUpdateManyMutationInput, WorkOrderUncheckedUpdateManyWithoutVehicleInput>
+  }
+
+  export type ServiceReminderUpsertWithWhereUniqueWithoutVehicleInput = {
+    where: ServiceReminderWhereUniqueInput
+    update: XOR<ServiceReminderUpdateWithoutVehicleInput, ServiceReminderUncheckedUpdateWithoutVehicleInput>
+    create: XOR<ServiceReminderCreateWithoutVehicleInput, ServiceReminderUncheckedCreateWithoutVehicleInput>
+  }
+
+  export type ServiceReminderUpdateWithWhereUniqueWithoutVehicleInput = {
+    where: ServiceReminderWhereUniqueInput
+    data: XOR<ServiceReminderUpdateWithoutVehicleInput, ServiceReminderUncheckedUpdateWithoutVehicleInput>
+  }
+
+  export type ServiceReminderUpdateManyWithWhereWithoutVehicleInput = {
+    where: ServiceReminderScalarWhereInput
+    data: XOR<ServiceReminderUpdateManyMutationInput, ServiceReminderUncheckedUpdateManyWithoutVehicleInput>
   }
 
   export type ProductCreateWithoutBrandInput = {
@@ -31107,6 +34851,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     vehicles?: VehicleCreateNestedManyWithoutCustomerInput
+    birthdayReminders?: BirthdayReminderCreateNestedManyWithoutCustomerInput
+    serviceReminders?: ServiceReminderCreateNestedManyWithoutCustomerInput
   }
 
   export type CustomerUncheckedCreateWithoutWorkOrdersInput = {
@@ -31119,6 +34865,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     vehicles?: VehicleUncheckedCreateNestedManyWithoutCustomerInput
+    birthdayReminders?: BirthdayReminderUncheckedCreateNestedManyWithoutCustomerInput
+    serviceReminders?: ServiceReminderUncheckedCreateNestedManyWithoutCustomerInput
   }
 
   export type CustomerCreateOrConnectWithoutWorkOrdersInput = {
@@ -31140,6 +34888,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     customer: CustomerCreateNestedOneWithoutVehiclesInput
+    serviceReminders?: ServiceReminderCreateNestedManyWithoutVehicleInput
   }
 
   export type VehicleUncheckedCreateWithoutWorkOrdersInput = {
@@ -31156,6 +34905,7 @@ export namespace Prisma {
     note?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    serviceReminders?: ServiceReminderUncheckedCreateNestedManyWithoutVehicleInput
   }
 
   export type VehicleCreateOrConnectWithoutWorkOrdersInput = {
@@ -31175,6 +34925,8 @@ export namespace Prisma {
     sessions?: SessionCreateNestedManyWithoutUserInput
     employee?: EmployeeCreateNestedOneWithoutUserInput
     mechanicWorkOrders?: WorkOrderMechanicCreateNestedManyWithoutUserInput
+    handledBirthdayReminders?: BirthdayReminderCreateNestedManyWithoutHandledByUserInput
+    handledServiceReminders?: ServiceReminderCreateNestedManyWithoutHandledByUserInput
   }
 
   export type UserUncheckedCreateWithoutAdvisorWorkOrdersInput = {
@@ -31189,6 +34941,8 @@ export namespace Prisma {
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     employee?: EmployeeUncheckedCreateNestedOneWithoutUserInput
     mechanicWorkOrders?: WorkOrderMechanicUncheckedCreateNestedManyWithoutUserInput
+    handledBirthdayReminders?: BirthdayReminderUncheckedCreateNestedManyWithoutHandledByUserInput
+    handledServiceReminders?: ServiceReminderUncheckedCreateNestedManyWithoutHandledByUserInput
   }
 
   export type UserCreateOrConnectWithoutAdvisorWorkOrdersInput = {
@@ -31290,6 +35044,42 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ServiceReminderCreateWithoutWorkOrderInput = {
+    id?: string
+    dueDate: Date | string
+    status?: $Enums.ReminderStatus
+    followedUpAt?: Date | string | null
+    snoozedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    customer?: CustomerCreateNestedOneWithoutServiceRemindersInput
+    vehicle?: VehicleCreateNestedOneWithoutServiceRemindersInput
+    handledByUser?: UserCreateNestedOneWithoutHandledServiceRemindersInput
+  }
+
+  export type ServiceReminderUncheckedCreateWithoutWorkOrderInput = {
+    id?: string
+    customerId?: string | null
+    vehicleId?: string | null
+    dueDate: Date | string
+    status?: $Enums.ReminderStatus
+    followedUpAt?: Date | string | null
+    snoozedAt?: Date | string | null
+    handledByUserId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ServiceReminderCreateOrConnectWithoutWorkOrderInput = {
+    where: ServiceReminderWhereUniqueInput
+    create: XOR<ServiceReminderCreateWithoutWorkOrderInput, ServiceReminderUncheckedCreateWithoutWorkOrderInput>
+  }
+
+  export type ServiceReminderCreateManyWorkOrderInputEnvelope = {
+    data: ServiceReminderCreateManyWorkOrderInput | ServiceReminderCreateManyWorkOrderInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CustomerUpsertWithoutWorkOrdersInput = {
     update: XOR<CustomerUpdateWithoutWorkOrdersInput, CustomerUncheckedUpdateWithoutWorkOrdersInput>
     create: XOR<CustomerCreateWithoutWorkOrdersInput, CustomerUncheckedCreateWithoutWorkOrdersInput>
@@ -31311,6 +35101,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     vehicles?: VehicleUpdateManyWithoutCustomerNestedInput
+    birthdayReminders?: BirthdayReminderUpdateManyWithoutCustomerNestedInput
+    serviceReminders?: ServiceReminderUpdateManyWithoutCustomerNestedInput
   }
 
   export type CustomerUncheckedUpdateWithoutWorkOrdersInput = {
@@ -31323,6 +35115,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     vehicles?: VehicleUncheckedUpdateManyWithoutCustomerNestedInput
+    birthdayReminders?: BirthdayReminderUncheckedUpdateManyWithoutCustomerNestedInput
+    serviceReminders?: ServiceReminderUncheckedUpdateManyWithoutCustomerNestedInput
   }
 
   export type VehicleUpsertWithoutWorkOrdersInput = {
@@ -31350,6 +35144,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     customer?: CustomerUpdateOneRequiredWithoutVehiclesNestedInput
+    serviceReminders?: ServiceReminderUpdateManyWithoutVehicleNestedInput
   }
 
   export type VehicleUncheckedUpdateWithoutWorkOrdersInput = {
@@ -31366,6 +35161,7 @@ export namespace Prisma {
     note?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    serviceReminders?: ServiceReminderUncheckedUpdateManyWithoutVehicleNestedInput
   }
 
   export type UserUpsertWithoutAdvisorWorkOrdersInput = {
@@ -31391,6 +35187,8 @@ export namespace Prisma {
     sessions?: SessionUpdateManyWithoutUserNestedInput
     employee?: EmployeeUpdateOneWithoutUserNestedInput
     mechanicWorkOrders?: WorkOrderMechanicUpdateManyWithoutUserNestedInput
+    handledBirthdayReminders?: BirthdayReminderUpdateManyWithoutHandledByUserNestedInput
+    handledServiceReminders?: ServiceReminderUpdateManyWithoutHandledByUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAdvisorWorkOrdersInput = {
@@ -31405,6 +35203,8 @@ export namespace Prisma {
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     employee?: EmployeeUncheckedUpdateOneWithoutUserNestedInput
     mechanicWorkOrders?: WorkOrderMechanicUncheckedUpdateManyWithoutUserNestedInput
+    handledBirthdayReminders?: BirthdayReminderUncheckedUpdateManyWithoutHandledByUserNestedInput
+    handledServiceReminders?: ServiceReminderUncheckedUpdateManyWithoutHandledByUserNestedInput
   }
 
   export type WorkOrderItemUpsertWithWhereUniqueWithoutWorkOrderInput = {
@@ -31490,6 +35290,22 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"StockMovement"> | Date | string
   }
 
+  export type ServiceReminderUpsertWithWhereUniqueWithoutWorkOrderInput = {
+    where: ServiceReminderWhereUniqueInput
+    update: XOR<ServiceReminderUpdateWithoutWorkOrderInput, ServiceReminderUncheckedUpdateWithoutWorkOrderInput>
+    create: XOR<ServiceReminderCreateWithoutWorkOrderInput, ServiceReminderUncheckedCreateWithoutWorkOrderInput>
+  }
+
+  export type ServiceReminderUpdateWithWhereUniqueWithoutWorkOrderInput = {
+    where: ServiceReminderWhereUniqueInput
+    data: XOR<ServiceReminderUpdateWithoutWorkOrderInput, ServiceReminderUncheckedUpdateWithoutWorkOrderInput>
+  }
+
+  export type ServiceReminderUpdateManyWithWhereWithoutWorkOrderInput = {
+    where: ServiceReminderScalarWhereInput
+    data: XOR<ServiceReminderUpdateManyMutationInput, ServiceReminderUncheckedUpdateManyWithoutWorkOrderInput>
+  }
+
   export type WorkOrderCreateWithoutMechanicsInput = {
     id?: string
     woNumber: string
@@ -31517,6 +35333,7 @@ export namespace Prisma {
     advisor?: UserCreateNestedOneWithoutAdvisorWorkOrdersInput
     items?: WorkOrderItemCreateNestedManyWithoutWorkOrderInput
     stockMovements?: StockMovementCreateNestedManyWithoutWorkOrderInput
+    serviceReminders?: ServiceReminderCreateNestedManyWithoutWorkOrderInput
   }
 
   export type WorkOrderUncheckedCreateWithoutMechanicsInput = {
@@ -31546,6 +35363,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     items?: WorkOrderItemUncheckedCreateNestedManyWithoutWorkOrderInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutWorkOrderInput
+    serviceReminders?: ServiceReminderUncheckedCreateNestedManyWithoutWorkOrderInput
   }
 
   export type WorkOrderCreateOrConnectWithoutMechanicsInput = {
@@ -31565,6 +35383,8 @@ export namespace Prisma {
     sessions?: SessionCreateNestedManyWithoutUserInput
     employee?: EmployeeCreateNestedOneWithoutUserInput
     advisorWorkOrders?: WorkOrderCreateNestedManyWithoutAdvisorInput
+    handledBirthdayReminders?: BirthdayReminderCreateNestedManyWithoutHandledByUserInput
+    handledServiceReminders?: ServiceReminderCreateNestedManyWithoutHandledByUserInput
   }
 
   export type UserUncheckedCreateWithoutMechanicWorkOrdersInput = {
@@ -31579,6 +35399,8 @@ export namespace Prisma {
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     employee?: EmployeeUncheckedCreateNestedOneWithoutUserInput
     advisorWorkOrders?: WorkOrderUncheckedCreateNestedManyWithoutAdvisorInput
+    handledBirthdayReminders?: BirthdayReminderUncheckedCreateNestedManyWithoutHandledByUserInput
+    handledServiceReminders?: ServiceReminderUncheckedCreateNestedManyWithoutHandledByUserInput
   }
 
   export type UserCreateOrConnectWithoutMechanicWorkOrdersInput = {
@@ -31624,6 +35446,7 @@ export namespace Prisma {
     advisor?: UserUpdateOneWithoutAdvisorWorkOrdersNestedInput
     items?: WorkOrderItemUpdateManyWithoutWorkOrderNestedInput
     stockMovements?: StockMovementUpdateManyWithoutWorkOrderNestedInput
+    serviceReminders?: ServiceReminderUpdateManyWithoutWorkOrderNestedInput
   }
 
   export type WorkOrderUncheckedUpdateWithoutMechanicsInput = {
@@ -31653,6 +35476,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: WorkOrderItemUncheckedUpdateManyWithoutWorkOrderNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutWorkOrderNestedInput
+    serviceReminders?: ServiceReminderUncheckedUpdateManyWithoutWorkOrderNestedInput
   }
 
   export type UserUpsertWithoutMechanicWorkOrdersInput = {
@@ -31678,6 +35502,8 @@ export namespace Prisma {
     sessions?: SessionUpdateManyWithoutUserNestedInput
     employee?: EmployeeUpdateOneWithoutUserNestedInput
     advisorWorkOrders?: WorkOrderUpdateManyWithoutAdvisorNestedInput
+    handledBirthdayReminders?: BirthdayReminderUpdateManyWithoutHandledByUserNestedInput
+    handledServiceReminders?: ServiceReminderUpdateManyWithoutHandledByUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMechanicWorkOrdersInput = {
@@ -31692,6 +35518,8 @@ export namespace Prisma {
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     employee?: EmployeeUncheckedUpdateOneWithoutUserNestedInput
     advisorWorkOrders?: WorkOrderUncheckedUpdateManyWithoutAdvisorNestedInput
+    handledBirthdayReminders?: BirthdayReminderUncheckedUpdateManyWithoutHandledByUserNestedInput
+    handledServiceReminders?: ServiceReminderUncheckedUpdateManyWithoutHandledByUserNestedInput
   }
 
   export type WorkOrderCreateWithoutItemsInput = {
@@ -31721,6 +35549,7 @@ export namespace Prisma {
     advisor?: UserCreateNestedOneWithoutAdvisorWorkOrdersInput
     mechanics?: WorkOrderMechanicCreateNestedManyWithoutWorkOrderInput
     stockMovements?: StockMovementCreateNestedManyWithoutWorkOrderInput
+    serviceReminders?: ServiceReminderCreateNestedManyWithoutWorkOrderInput
   }
 
   export type WorkOrderUncheckedCreateWithoutItemsInput = {
@@ -31750,6 +35579,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     mechanics?: WorkOrderMechanicUncheckedCreateNestedManyWithoutWorkOrderInput
     stockMovements?: StockMovementUncheckedCreateNestedManyWithoutWorkOrderInput
+    serviceReminders?: ServiceReminderUncheckedCreateNestedManyWithoutWorkOrderInput
   }
 
   export type WorkOrderCreateOrConnectWithoutItemsInput = {
@@ -31914,6 +35744,7 @@ export namespace Prisma {
     advisor?: UserUpdateOneWithoutAdvisorWorkOrdersNestedInput
     mechanics?: WorkOrderMechanicUpdateManyWithoutWorkOrderNestedInput
     stockMovements?: StockMovementUpdateManyWithoutWorkOrderNestedInput
+    serviceReminders?: ServiceReminderUpdateManyWithoutWorkOrderNestedInput
   }
 
   export type WorkOrderUncheckedUpdateWithoutItemsInput = {
@@ -31943,6 +35774,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     mechanics?: WorkOrderMechanicUncheckedUpdateManyWithoutWorkOrderNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutWorkOrderNestedInput
+    serviceReminders?: ServiceReminderUncheckedUpdateManyWithoutWorkOrderNestedInput
   }
 
   export type ProductUpsertWithoutWorkOrderItemsInput = {
@@ -32575,6 +36407,7 @@ export namespace Prisma {
     advisor?: UserCreateNestedOneWithoutAdvisorWorkOrdersInput
     items?: WorkOrderItemCreateNestedManyWithoutWorkOrderInput
     mechanics?: WorkOrderMechanicCreateNestedManyWithoutWorkOrderInput
+    serviceReminders?: ServiceReminderCreateNestedManyWithoutWorkOrderInput
   }
 
   export type WorkOrderUncheckedCreateWithoutStockMovementsInput = {
@@ -32604,6 +36437,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     items?: WorkOrderItemUncheckedCreateNestedManyWithoutWorkOrderInput
     mechanics?: WorkOrderMechanicUncheckedCreateNestedManyWithoutWorkOrderInput
+    serviceReminders?: ServiceReminderUncheckedCreateNestedManyWithoutWorkOrderInput
   }
 
   export type WorkOrderCreateOrConnectWithoutStockMovementsInput = {
@@ -32752,6 +36586,7 @@ export namespace Prisma {
     advisor?: UserUpdateOneWithoutAdvisorWorkOrdersNestedInput
     items?: WorkOrderItemUpdateManyWithoutWorkOrderNestedInput
     mechanics?: WorkOrderMechanicUpdateManyWithoutWorkOrderNestedInput
+    serviceReminders?: ServiceReminderUpdateManyWithoutWorkOrderNestedInput
   }
 
   export type WorkOrderUncheckedUpdateWithoutStockMovementsInput = {
@@ -32781,6 +36616,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: WorkOrderItemUncheckedUpdateManyWithoutWorkOrderNestedInput
     mechanics?: WorkOrderMechanicUncheckedUpdateManyWithoutWorkOrderNestedInput
+    serviceReminders?: ServiceReminderUncheckedUpdateManyWithoutWorkOrderNestedInput
   }
 
   export type WorkOrderItemUpsertWithoutStockMovementsInput = {
@@ -32936,6 +36772,530 @@ export namespace Prisma {
     data: XOR<WorkOrderItemUpdateManyMutationInput, WorkOrderItemUncheckedUpdateManyWithoutOilInput>
   }
 
+  export type CustomerCreateWithoutBirthdayRemindersInput = {
+    id?: string
+    name: string
+    phone: string
+    address?: string | null
+    birthDate?: Date | string | null
+    note?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    vehicles?: VehicleCreateNestedManyWithoutCustomerInput
+    workOrders?: WorkOrderCreateNestedManyWithoutCustomerInput
+    serviceReminders?: ServiceReminderCreateNestedManyWithoutCustomerInput
+  }
+
+  export type CustomerUncheckedCreateWithoutBirthdayRemindersInput = {
+    id?: string
+    name: string
+    phone: string
+    address?: string | null
+    birthDate?: Date | string | null
+    note?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutCustomerInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutCustomerInput
+    serviceReminders?: ServiceReminderUncheckedCreateNestedManyWithoutCustomerInput
+  }
+
+  export type CustomerCreateOrConnectWithoutBirthdayRemindersInput = {
+    where: CustomerWhereUniqueInput
+    create: XOR<CustomerCreateWithoutBirthdayRemindersInput, CustomerUncheckedCreateWithoutBirthdayRemindersInput>
+  }
+
+  export type UserCreateWithoutHandledBirthdayRemindersInput = {
+    id?: string
+    name?: string | null
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    password: string
+    role: RoleCreateNestedOneWithoutUsersInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    employee?: EmployeeCreateNestedOneWithoutUserInput
+    advisorWorkOrders?: WorkOrderCreateNestedManyWithoutAdvisorInput
+    mechanicWorkOrders?: WorkOrderMechanicCreateNestedManyWithoutUserInput
+    handledServiceReminders?: ServiceReminderCreateNestedManyWithoutHandledByUserInput
+  }
+
+  export type UserUncheckedCreateWithoutHandledBirthdayRemindersInput = {
+    id?: string
+    name?: string | null
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    password: string
+    roleId: string
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    employee?: EmployeeUncheckedCreateNestedOneWithoutUserInput
+    advisorWorkOrders?: WorkOrderUncheckedCreateNestedManyWithoutAdvisorInput
+    mechanicWorkOrders?: WorkOrderMechanicUncheckedCreateNestedManyWithoutUserInput
+    handledServiceReminders?: ServiceReminderUncheckedCreateNestedManyWithoutHandledByUserInput
+  }
+
+  export type UserCreateOrConnectWithoutHandledBirthdayRemindersInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutHandledBirthdayRemindersInput, UserUncheckedCreateWithoutHandledBirthdayRemindersInput>
+  }
+
+  export type CustomerUpsertWithoutBirthdayRemindersInput = {
+    update: XOR<CustomerUpdateWithoutBirthdayRemindersInput, CustomerUncheckedUpdateWithoutBirthdayRemindersInput>
+    create: XOR<CustomerCreateWithoutBirthdayRemindersInput, CustomerUncheckedCreateWithoutBirthdayRemindersInput>
+    where?: CustomerWhereInput
+  }
+
+  export type CustomerUpdateToOneWithWhereWithoutBirthdayRemindersInput = {
+    where?: CustomerWhereInput
+    data: XOR<CustomerUpdateWithoutBirthdayRemindersInput, CustomerUncheckedUpdateWithoutBirthdayRemindersInput>
+  }
+
+  export type CustomerUpdateWithoutBirthdayRemindersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    vehicles?: VehicleUpdateManyWithoutCustomerNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutCustomerNestedInput
+    serviceReminders?: ServiceReminderUpdateManyWithoutCustomerNestedInput
+  }
+
+  export type CustomerUncheckedUpdateWithoutBirthdayRemindersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    vehicles?: VehicleUncheckedUpdateManyWithoutCustomerNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutCustomerNestedInput
+    serviceReminders?: ServiceReminderUncheckedUpdateManyWithoutCustomerNestedInput
+  }
+
+  export type UserUpsertWithoutHandledBirthdayRemindersInput = {
+    update: XOR<UserUpdateWithoutHandledBirthdayRemindersInput, UserUncheckedUpdateWithoutHandledBirthdayRemindersInput>
+    create: XOR<UserCreateWithoutHandledBirthdayRemindersInput, UserUncheckedCreateWithoutHandledBirthdayRemindersInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutHandledBirthdayRemindersInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutHandledBirthdayRemindersInput, UserUncheckedUpdateWithoutHandledBirthdayRemindersInput>
+  }
+
+  export type UserUpdateWithoutHandledBirthdayRemindersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: StringFieldUpdateOperationsInput | string
+    role?: RoleUpdateOneRequiredWithoutUsersNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    employee?: EmployeeUpdateOneWithoutUserNestedInput
+    advisorWorkOrders?: WorkOrderUpdateManyWithoutAdvisorNestedInput
+    mechanicWorkOrders?: WorkOrderMechanicUpdateManyWithoutUserNestedInput
+    handledServiceReminders?: ServiceReminderUpdateManyWithoutHandledByUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutHandledBirthdayRemindersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: StringFieldUpdateOperationsInput | string
+    roleId?: StringFieldUpdateOperationsInput | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    employee?: EmployeeUncheckedUpdateOneWithoutUserNestedInput
+    advisorWorkOrders?: WorkOrderUncheckedUpdateManyWithoutAdvisorNestedInput
+    mechanicWorkOrders?: WorkOrderMechanicUncheckedUpdateManyWithoutUserNestedInput
+    handledServiceReminders?: ServiceReminderUncheckedUpdateManyWithoutHandledByUserNestedInput
+  }
+
+  export type WorkOrderCreateWithoutServiceRemindersInput = {
+    id?: string
+    woNumber: string
+    status?: $Enums.WorkOrderStatus
+    jobType?: string | null
+    odo?: number | null
+    complaint?: string | null
+    preCheck?: string | null
+    postCheck?: string | null
+    estimatedDoneAt?: Date | string | null
+    reminderNextOdo?: number | null
+    reminderNextDate?: Date | string | null
+    dp?: number
+    discountPercent?: number
+    taxPercent?: number
+    subtotal?: number
+    grandTotal?: number
+    paidAmount?: number
+    changeAmount?: number
+    paymentMethod?: $Enums.PaymentMethod
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    customer?: CustomerCreateNestedOneWithoutWorkOrdersInput
+    vehicle?: VehicleCreateNestedOneWithoutWorkOrdersInput
+    advisor?: UserCreateNestedOneWithoutAdvisorWorkOrdersInput
+    items?: WorkOrderItemCreateNestedManyWithoutWorkOrderInput
+    mechanics?: WorkOrderMechanicCreateNestedManyWithoutWorkOrderInput
+    stockMovements?: StockMovementCreateNestedManyWithoutWorkOrderInput
+  }
+
+  export type WorkOrderUncheckedCreateWithoutServiceRemindersInput = {
+    id?: string
+    woNumber: string
+    status?: $Enums.WorkOrderStatus
+    customerId?: string | null
+    vehicleId?: string | null
+    advisorId?: string | null
+    jobType?: string | null
+    odo?: number | null
+    complaint?: string | null
+    preCheck?: string | null
+    postCheck?: string | null
+    estimatedDoneAt?: Date | string | null
+    reminderNextOdo?: number | null
+    reminderNextDate?: Date | string | null
+    dp?: number
+    discountPercent?: number
+    taxPercent?: number
+    subtotal?: number
+    grandTotal?: number
+    paidAmount?: number
+    changeAmount?: number
+    paymentMethod?: $Enums.PaymentMethod
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    items?: WorkOrderItemUncheckedCreateNestedManyWithoutWorkOrderInput
+    mechanics?: WorkOrderMechanicUncheckedCreateNestedManyWithoutWorkOrderInput
+    stockMovements?: StockMovementUncheckedCreateNestedManyWithoutWorkOrderInput
+  }
+
+  export type WorkOrderCreateOrConnectWithoutServiceRemindersInput = {
+    where: WorkOrderWhereUniqueInput
+    create: XOR<WorkOrderCreateWithoutServiceRemindersInput, WorkOrderUncheckedCreateWithoutServiceRemindersInput>
+  }
+
+  export type CustomerCreateWithoutServiceRemindersInput = {
+    id?: string
+    name: string
+    phone: string
+    address?: string | null
+    birthDate?: Date | string | null
+    note?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    vehicles?: VehicleCreateNestedManyWithoutCustomerInput
+    workOrders?: WorkOrderCreateNestedManyWithoutCustomerInput
+    birthdayReminders?: BirthdayReminderCreateNestedManyWithoutCustomerInput
+  }
+
+  export type CustomerUncheckedCreateWithoutServiceRemindersInput = {
+    id?: string
+    name: string
+    phone: string
+    address?: string | null
+    birthDate?: Date | string | null
+    note?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutCustomerInput
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutCustomerInput
+    birthdayReminders?: BirthdayReminderUncheckedCreateNestedManyWithoutCustomerInput
+  }
+
+  export type CustomerCreateOrConnectWithoutServiceRemindersInput = {
+    where: CustomerWhereUniqueInput
+    create: XOR<CustomerCreateWithoutServiceRemindersInput, CustomerUncheckedCreateWithoutServiceRemindersInput>
+  }
+
+  export type VehicleCreateWithoutServiceRemindersInput = {
+    id?: string
+    plateNumber: string
+    brand: string
+    model: string
+    year?: number | null
+    color?: string | null
+    engineNumber?: string | null
+    chassisNumber?: string | null
+    currentOdometer?: number | null
+    note?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    customer: CustomerCreateNestedOneWithoutVehiclesInput
+    workOrders?: WorkOrderCreateNestedManyWithoutVehicleInput
+  }
+
+  export type VehicleUncheckedCreateWithoutServiceRemindersInput = {
+    id?: string
+    customerId: string
+    plateNumber: string
+    brand: string
+    model: string
+    year?: number | null
+    color?: string | null
+    engineNumber?: string | null
+    chassisNumber?: string | null
+    currentOdometer?: number | null
+    note?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workOrders?: WorkOrderUncheckedCreateNestedManyWithoutVehicleInput
+  }
+
+  export type VehicleCreateOrConnectWithoutServiceRemindersInput = {
+    where: VehicleWhereUniqueInput
+    create: XOR<VehicleCreateWithoutServiceRemindersInput, VehicleUncheckedCreateWithoutServiceRemindersInput>
+  }
+
+  export type UserCreateWithoutHandledServiceRemindersInput = {
+    id?: string
+    name?: string | null
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    password: string
+    role: RoleCreateNestedOneWithoutUsersInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    employee?: EmployeeCreateNestedOneWithoutUserInput
+    advisorWorkOrders?: WorkOrderCreateNestedManyWithoutAdvisorInput
+    mechanicWorkOrders?: WorkOrderMechanicCreateNestedManyWithoutUserInput
+    handledBirthdayReminders?: BirthdayReminderCreateNestedManyWithoutHandledByUserInput
+  }
+
+  export type UserUncheckedCreateWithoutHandledServiceRemindersInput = {
+    id?: string
+    name?: string | null
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    password: string
+    roleId: string
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    employee?: EmployeeUncheckedCreateNestedOneWithoutUserInput
+    advisorWorkOrders?: WorkOrderUncheckedCreateNestedManyWithoutAdvisorInput
+    mechanicWorkOrders?: WorkOrderMechanicUncheckedCreateNestedManyWithoutUserInput
+    handledBirthdayReminders?: BirthdayReminderUncheckedCreateNestedManyWithoutHandledByUserInput
+  }
+
+  export type UserCreateOrConnectWithoutHandledServiceRemindersInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutHandledServiceRemindersInput, UserUncheckedCreateWithoutHandledServiceRemindersInput>
+  }
+
+  export type WorkOrderUpsertWithoutServiceRemindersInput = {
+    update: XOR<WorkOrderUpdateWithoutServiceRemindersInput, WorkOrderUncheckedUpdateWithoutServiceRemindersInput>
+    create: XOR<WorkOrderCreateWithoutServiceRemindersInput, WorkOrderUncheckedCreateWithoutServiceRemindersInput>
+    where?: WorkOrderWhereInput
+  }
+
+  export type WorkOrderUpdateToOneWithWhereWithoutServiceRemindersInput = {
+    where?: WorkOrderWhereInput
+    data: XOR<WorkOrderUpdateWithoutServiceRemindersInput, WorkOrderUncheckedUpdateWithoutServiceRemindersInput>
+  }
+
+  export type WorkOrderUpdateWithoutServiceRemindersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    woNumber?: StringFieldUpdateOperationsInput | string
+    status?: EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
+    jobType?: NullableStringFieldUpdateOperationsInput | string | null
+    odo?: NullableIntFieldUpdateOperationsInput | number | null
+    complaint?: NullableStringFieldUpdateOperationsInput | string | null
+    preCheck?: NullableStringFieldUpdateOperationsInput | string | null
+    postCheck?: NullableStringFieldUpdateOperationsInput | string | null
+    estimatedDoneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reminderNextOdo?: NullableIntFieldUpdateOperationsInput | number | null
+    reminderNextDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dp?: IntFieldUpdateOperationsInput | number
+    discountPercent?: IntFieldUpdateOperationsInput | number
+    taxPercent?: IntFieldUpdateOperationsInput | number
+    subtotal?: IntFieldUpdateOperationsInput | number
+    grandTotal?: IntFieldUpdateOperationsInput | number
+    paidAmount?: IntFieldUpdateOperationsInput | number
+    changeAmount?: IntFieldUpdateOperationsInput | number
+    paymentMethod?: EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customer?: CustomerUpdateOneWithoutWorkOrdersNestedInput
+    vehicle?: VehicleUpdateOneWithoutWorkOrdersNestedInput
+    advisor?: UserUpdateOneWithoutAdvisorWorkOrdersNestedInput
+    items?: WorkOrderItemUpdateManyWithoutWorkOrderNestedInput
+    mechanics?: WorkOrderMechanicUpdateManyWithoutWorkOrderNestedInput
+    stockMovements?: StockMovementUpdateManyWithoutWorkOrderNestedInput
+  }
+
+  export type WorkOrderUncheckedUpdateWithoutServiceRemindersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    woNumber?: StringFieldUpdateOperationsInput | string
+    status?: EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
+    customerId?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleId?: NullableStringFieldUpdateOperationsInput | string | null
+    advisorId?: NullableStringFieldUpdateOperationsInput | string | null
+    jobType?: NullableStringFieldUpdateOperationsInput | string | null
+    odo?: NullableIntFieldUpdateOperationsInput | number | null
+    complaint?: NullableStringFieldUpdateOperationsInput | string | null
+    preCheck?: NullableStringFieldUpdateOperationsInput | string | null
+    postCheck?: NullableStringFieldUpdateOperationsInput | string | null
+    estimatedDoneAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reminderNextOdo?: NullableIntFieldUpdateOperationsInput | number | null
+    reminderNextDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dp?: IntFieldUpdateOperationsInput | number
+    discountPercent?: IntFieldUpdateOperationsInput | number
+    taxPercent?: IntFieldUpdateOperationsInput | number
+    subtotal?: IntFieldUpdateOperationsInput | number
+    grandTotal?: IntFieldUpdateOperationsInput | number
+    paidAmount?: IntFieldUpdateOperationsInput | number
+    changeAmount?: IntFieldUpdateOperationsInput | number
+    paymentMethod?: EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: WorkOrderItemUncheckedUpdateManyWithoutWorkOrderNestedInput
+    mechanics?: WorkOrderMechanicUncheckedUpdateManyWithoutWorkOrderNestedInput
+    stockMovements?: StockMovementUncheckedUpdateManyWithoutWorkOrderNestedInput
+  }
+
+  export type CustomerUpsertWithoutServiceRemindersInput = {
+    update: XOR<CustomerUpdateWithoutServiceRemindersInput, CustomerUncheckedUpdateWithoutServiceRemindersInput>
+    create: XOR<CustomerCreateWithoutServiceRemindersInput, CustomerUncheckedCreateWithoutServiceRemindersInput>
+    where?: CustomerWhereInput
+  }
+
+  export type CustomerUpdateToOneWithWhereWithoutServiceRemindersInput = {
+    where?: CustomerWhereInput
+    data: XOR<CustomerUpdateWithoutServiceRemindersInput, CustomerUncheckedUpdateWithoutServiceRemindersInput>
+  }
+
+  export type CustomerUpdateWithoutServiceRemindersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    vehicles?: VehicleUpdateManyWithoutCustomerNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutCustomerNestedInput
+    birthdayReminders?: BirthdayReminderUpdateManyWithoutCustomerNestedInput
+  }
+
+  export type CustomerUncheckedUpdateWithoutServiceRemindersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    vehicles?: VehicleUncheckedUpdateManyWithoutCustomerNestedInput
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutCustomerNestedInput
+    birthdayReminders?: BirthdayReminderUncheckedUpdateManyWithoutCustomerNestedInput
+  }
+
+  export type VehicleUpsertWithoutServiceRemindersInput = {
+    update: XOR<VehicleUpdateWithoutServiceRemindersInput, VehicleUncheckedUpdateWithoutServiceRemindersInput>
+    create: XOR<VehicleCreateWithoutServiceRemindersInput, VehicleUncheckedCreateWithoutServiceRemindersInput>
+    where?: VehicleWhereInput
+  }
+
+  export type VehicleUpdateToOneWithWhereWithoutServiceRemindersInput = {
+    where?: VehicleWhereInput
+    data: XOR<VehicleUpdateWithoutServiceRemindersInput, VehicleUncheckedUpdateWithoutServiceRemindersInput>
+  }
+
+  export type VehicleUpdateWithoutServiceRemindersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    plateNumber?: StringFieldUpdateOperationsInput | string
+    brand?: StringFieldUpdateOperationsInput | string
+    model?: StringFieldUpdateOperationsInput | string
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    engineNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    chassisNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    currentOdometer?: NullableIntFieldUpdateOperationsInput | number | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customer?: CustomerUpdateOneRequiredWithoutVehiclesNestedInput
+    workOrders?: WorkOrderUpdateManyWithoutVehicleNestedInput
+  }
+
+  export type VehicleUncheckedUpdateWithoutServiceRemindersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    plateNumber?: StringFieldUpdateOperationsInput | string
+    brand?: StringFieldUpdateOperationsInput | string
+    model?: StringFieldUpdateOperationsInput | string
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    engineNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    chassisNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    currentOdometer?: NullableIntFieldUpdateOperationsInput | number | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workOrders?: WorkOrderUncheckedUpdateManyWithoutVehicleNestedInput
+  }
+
+  export type UserUpsertWithoutHandledServiceRemindersInput = {
+    update: XOR<UserUpdateWithoutHandledServiceRemindersInput, UserUncheckedUpdateWithoutHandledServiceRemindersInput>
+    create: XOR<UserCreateWithoutHandledServiceRemindersInput, UserUncheckedCreateWithoutHandledServiceRemindersInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutHandledServiceRemindersInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutHandledServiceRemindersInput, UserUncheckedUpdateWithoutHandledServiceRemindersInput>
+  }
+
+  export type UserUpdateWithoutHandledServiceRemindersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: StringFieldUpdateOperationsInput | string
+    role?: RoleUpdateOneRequiredWithoutUsersNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    employee?: EmployeeUpdateOneWithoutUserNestedInput
+    advisorWorkOrders?: WorkOrderUpdateManyWithoutAdvisorNestedInput
+    mechanicWorkOrders?: WorkOrderMechanicUpdateManyWithoutUserNestedInput
+    handledBirthdayReminders?: BirthdayReminderUpdateManyWithoutHandledByUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutHandledServiceRemindersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: StringFieldUpdateOperationsInput | string
+    roleId?: StringFieldUpdateOperationsInput | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    employee?: EmployeeUncheckedUpdateOneWithoutUserNestedInput
+    advisorWorkOrders?: WorkOrderUncheckedUpdateManyWithoutAdvisorNestedInput
+    mechanicWorkOrders?: WorkOrderMechanicUncheckedUpdateManyWithoutUserNestedInput
+    handledBirthdayReminders?: BirthdayReminderUncheckedUpdateManyWithoutHandledByUserNestedInput
+  }
+
   export type UserCreateManyRoleInput = {
     id?: string
     name?: string | null
@@ -32961,6 +37321,8 @@ export namespace Prisma {
     employee?: EmployeeUpdateOneWithoutUserNestedInput
     advisorWorkOrders?: WorkOrderUpdateManyWithoutAdvisorNestedInput
     mechanicWorkOrders?: WorkOrderMechanicUpdateManyWithoutUserNestedInput
+    handledBirthdayReminders?: BirthdayReminderUpdateManyWithoutHandledByUserNestedInput
+    handledServiceReminders?: ServiceReminderUpdateManyWithoutHandledByUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRoleInput = {
@@ -32975,6 +37337,8 @@ export namespace Prisma {
     employee?: EmployeeUncheckedUpdateOneWithoutUserNestedInput
     advisorWorkOrders?: WorkOrderUncheckedUpdateManyWithoutAdvisorNestedInput
     mechanicWorkOrders?: WorkOrderMechanicUncheckedUpdateManyWithoutUserNestedInput
+    handledBirthdayReminders?: BirthdayReminderUncheckedUpdateManyWithoutHandledByUserNestedInput
+    handledServiceReminders?: ServiceReminderUncheckedUpdateManyWithoutHandledByUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutRoleInput = {
@@ -33063,6 +37427,30 @@ export namespace Prisma {
 
   export type WorkOrderMechanicCreateManyUserInput = {
     workOrderId: string
+  }
+
+  export type BirthdayReminderCreateManyHandledByUserInput = {
+    id?: string
+    customerId: string
+    reminderDate: Date | string
+    status?: $Enums.ReminderStatus
+    followedUpAt?: Date | string | null
+    snoozedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ServiceReminderCreateManyHandledByUserInput = {
+    id?: string
+    workOrderId: string
+    customerId?: string | null
+    vehicleId?: string | null
+    dueDate: Date | string
+    status?: $Enums.ReminderStatus
+    followedUpAt?: Date | string | null
+    snoozedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type AccountUpdateWithoutUserInput = {
@@ -33155,6 +37543,7 @@ export namespace Prisma {
     items?: WorkOrderItemUpdateManyWithoutWorkOrderNestedInput
     mechanics?: WorkOrderMechanicUpdateManyWithoutWorkOrderNestedInput
     stockMovements?: StockMovementUpdateManyWithoutWorkOrderNestedInput
+    serviceReminders?: ServiceReminderUpdateManyWithoutWorkOrderNestedInput
   }
 
   export type WorkOrderUncheckedUpdateWithoutAdvisorInput = {
@@ -33184,6 +37573,7 @@ export namespace Prisma {
     items?: WorkOrderItemUncheckedUpdateManyWithoutWorkOrderNestedInput
     mechanics?: WorkOrderMechanicUncheckedUpdateManyWithoutWorkOrderNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutWorkOrderNestedInput
+    serviceReminders?: ServiceReminderUncheckedUpdateManyWithoutWorkOrderNestedInput
   }
 
   export type WorkOrderUncheckedUpdateManyWithoutAdvisorInput = {
@@ -33222,6 +37612,78 @@ export namespace Prisma {
 
   export type WorkOrderMechanicUncheckedUpdateManyWithoutUserInput = {
     workOrderId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type BirthdayReminderUpdateWithoutHandledByUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reminderDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumReminderStatusFieldUpdateOperationsInput | $Enums.ReminderStatus
+    followedUpAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    snoozedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customer?: CustomerUpdateOneRequiredWithoutBirthdayRemindersNestedInput
+  }
+
+  export type BirthdayReminderUncheckedUpdateWithoutHandledByUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    reminderDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumReminderStatusFieldUpdateOperationsInput | $Enums.ReminderStatus
+    followedUpAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    snoozedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BirthdayReminderUncheckedUpdateManyWithoutHandledByUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    reminderDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumReminderStatusFieldUpdateOperationsInput | $Enums.ReminderStatus
+    followedUpAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    snoozedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServiceReminderUpdateWithoutHandledByUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumReminderStatusFieldUpdateOperationsInput | $Enums.ReminderStatus
+    followedUpAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    snoozedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workOrder?: WorkOrderUpdateOneRequiredWithoutServiceRemindersNestedInput
+    customer?: CustomerUpdateOneWithoutServiceRemindersNestedInput
+    vehicle?: VehicleUpdateOneWithoutServiceRemindersNestedInput
+  }
+
+  export type ServiceReminderUncheckedUpdateWithoutHandledByUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    workOrderId?: StringFieldUpdateOperationsInput | string
+    customerId?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleId?: NullableStringFieldUpdateOperationsInput | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumReminderStatusFieldUpdateOperationsInput | $Enums.ReminderStatus
+    followedUpAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    snoozedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServiceReminderUncheckedUpdateManyWithoutHandledByUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    workOrderId?: StringFieldUpdateOperationsInput | string
+    customerId?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleId?: NullableStringFieldUpdateOperationsInput | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumReminderStatusFieldUpdateOperationsInput | $Enums.ReminderStatus
+    followedUpAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    snoozedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type VehicleCreateManyCustomerInput = {
@@ -33265,6 +37727,30 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type BirthdayReminderCreateManyCustomerInput = {
+    id?: string
+    reminderDate: Date | string
+    status?: $Enums.ReminderStatus
+    followedUpAt?: Date | string | null
+    snoozedAt?: Date | string | null
+    handledByUserId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ServiceReminderCreateManyCustomerInput = {
+    id?: string
+    workOrderId: string
+    vehicleId?: string | null
+    dueDate: Date | string
+    status?: $Enums.ReminderStatus
+    followedUpAt?: Date | string | null
+    snoozedAt?: Date | string | null
+    handledByUserId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type VehicleUpdateWithoutCustomerInput = {
     id?: StringFieldUpdateOperationsInput | string
     plateNumber?: StringFieldUpdateOperationsInput | string
@@ -33279,6 +37765,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workOrders?: WorkOrderUpdateManyWithoutVehicleNestedInput
+    serviceReminders?: ServiceReminderUpdateManyWithoutVehicleNestedInput
   }
 
   export type VehicleUncheckedUpdateWithoutCustomerInput = {
@@ -33295,6 +37782,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workOrders?: WorkOrderUncheckedUpdateManyWithoutVehicleNestedInput
+    serviceReminders?: ServiceReminderUncheckedUpdateManyWithoutVehicleNestedInput
   }
 
   export type VehicleUncheckedUpdateManyWithoutCustomerInput = {
@@ -33339,6 +37827,7 @@ export namespace Prisma {
     items?: WorkOrderItemUpdateManyWithoutWorkOrderNestedInput
     mechanics?: WorkOrderMechanicUpdateManyWithoutWorkOrderNestedInput
     stockMovements?: StockMovementUpdateManyWithoutWorkOrderNestedInput
+    serviceReminders?: ServiceReminderUpdateManyWithoutWorkOrderNestedInput
   }
 
   export type WorkOrderUncheckedUpdateWithoutCustomerInput = {
@@ -33368,6 +37857,7 @@ export namespace Prisma {
     items?: WorkOrderItemUncheckedUpdateManyWithoutWorkOrderNestedInput
     mechanics?: WorkOrderMechanicUncheckedUpdateManyWithoutWorkOrderNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutWorkOrderNestedInput
+    serviceReminders?: ServiceReminderUncheckedUpdateManyWithoutWorkOrderNestedInput
   }
 
   export type WorkOrderUncheckedUpdateManyWithoutCustomerInput = {
@@ -33396,6 +37886,78 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type BirthdayReminderUpdateWithoutCustomerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reminderDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumReminderStatusFieldUpdateOperationsInput | $Enums.ReminderStatus
+    followedUpAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    snoozedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    handledByUser?: UserUpdateOneWithoutHandledBirthdayRemindersNestedInput
+  }
+
+  export type BirthdayReminderUncheckedUpdateWithoutCustomerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reminderDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumReminderStatusFieldUpdateOperationsInput | $Enums.ReminderStatus
+    followedUpAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    snoozedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    handledByUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BirthdayReminderUncheckedUpdateManyWithoutCustomerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reminderDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumReminderStatusFieldUpdateOperationsInput | $Enums.ReminderStatus
+    followedUpAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    snoozedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    handledByUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServiceReminderUpdateWithoutCustomerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumReminderStatusFieldUpdateOperationsInput | $Enums.ReminderStatus
+    followedUpAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    snoozedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workOrder?: WorkOrderUpdateOneRequiredWithoutServiceRemindersNestedInput
+    vehicle?: VehicleUpdateOneWithoutServiceRemindersNestedInput
+    handledByUser?: UserUpdateOneWithoutHandledServiceRemindersNestedInput
+  }
+
+  export type ServiceReminderUncheckedUpdateWithoutCustomerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    workOrderId?: StringFieldUpdateOperationsInput | string
+    vehicleId?: NullableStringFieldUpdateOperationsInput | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumReminderStatusFieldUpdateOperationsInput | $Enums.ReminderStatus
+    followedUpAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    snoozedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    handledByUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServiceReminderUncheckedUpdateManyWithoutCustomerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    workOrderId?: StringFieldUpdateOperationsInput | string
+    vehicleId?: NullableStringFieldUpdateOperationsInput | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumReminderStatusFieldUpdateOperationsInput | $Enums.ReminderStatus
+    followedUpAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    snoozedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    handledByUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type WorkOrderCreateManyVehicleInput = {
     id?: string
     woNumber: string
@@ -33418,6 +37980,19 @@ export namespace Prisma {
     paidAmount?: number
     changeAmount?: number
     paymentMethod?: $Enums.PaymentMethod
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ServiceReminderCreateManyVehicleInput = {
+    id?: string
+    workOrderId: string
+    customerId?: string | null
+    dueDate: Date | string
+    status?: $Enums.ReminderStatus
+    followedUpAt?: Date | string | null
+    snoozedAt?: Date | string | null
+    handledByUserId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -33449,6 +38024,7 @@ export namespace Prisma {
     items?: WorkOrderItemUpdateManyWithoutWorkOrderNestedInput
     mechanics?: WorkOrderMechanicUpdateManyWithoutWorkOrderNestedInput
     stockMovements?: StockMovementUpdateManyWithoutWorkOrderNestedInput
+    serviceReminders?: ServiceReminderUpdateManyWithoutWorkOrderNestedInput
   }
 
   export type WorkOrderUncheckedUpdateWithoutVehicleInput = {
@@ -33478,6 +38054,7 @@ export namespace Prisma {
     items?: WorkOrderItemUncheckedUpdateManyWithoutWorkOrderNestedInput
     mechanics?: WorkOrderMechanicUncheckedUpdateManyWithoutWorkOrderNestedInput
     stockMovements?: StockMovementUncheckedUpdateManyWithoutWorkOrderNestedInput
+    serviceReminders?: ServiceReminderUncheckedUpdateManyWithoutWorkOrderNestedInput
   }
 
   export type WorkOrderUncheckedUpdateManyWithoutVehicleInput = {
@@ -33502,6 +38079,45 @@ export namespace Prisma {
     paidAmount?: IntFieldUpdateOperationsInput | number
     changeAmount?: IntFieldUpdateOperationsInput | number
     paymentMethod?: EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServiceReminderUpdateWithoutVehicleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumReminderStatusFieldUpdateOperationsInput | $Enums.ReminderStatus
+    followedUpAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    snoozedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workOrder?: WorkOrderUpdateOneRequiredWithoutServiceRemindersNestedInput
+    customer?: CustomerUpdateOneWithoutServiceRemindersNestedInput
+    handledByUser?: UserUpdateOneWithoutHandledServiceRemindersNestedInput
+  }
+
+  export type ServiceReminderUncheckedUpdateWithoutVehicleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    workOrderId?: StringFieldUpdateOperationsInput | string
+    customerId?: NullableStringFieldUpdateOperationsInput | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumReminderStatusFieldUpdateOperationsInput | $Enums.ReminderStatus
+    followedUpAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    snoozedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    handledByUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServiceReminderUncheckedUpdateManyWithoutVehicleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    workOrderId?: StringFieldUpdateOperationsInput | string
+    customerId?: NullableStringFieldUpdateOperationsInput | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumReminderStatusFieldUpdateOperationsInput | $Enums.ReminderStatus
+    followedUpAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    snoozedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    handledByUserId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -33585,6 +38201,19 @@ export namespace Prisma {
     note?: string | null
     workOrderItemId?: string | null
     createdAt?: Date | string
+  }
+
+  export type ServiceReminderCreateManyWorkOrderInput = {
+    id?: string
+    customerId?: string | null
+    vehicleId?: string | null
+    dueDate: Date | string
+    status?: $Enums.ReminderStatus
+    followedUpAt?: Date | string | null
+    snoozedAt?: Date | string | null
+    handledByUserId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type WorkOrderItemUpdateWithoutWorkOrderInput = {
@@ -33680,6 +38309,45 @@ export namespace Prisma {
     note?: NullableStringFieldUpdateOperationsInput | string | null
     workOrderItemId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServiceReminderUpdateWithoutWorkOrderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumReminderStatusFieldUpdateOperationsInput | $Enums.ReminderStatus
+    followedUpAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    snoozedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customer?: CustomerUpdateOneWithoutServiceRemindersNestedInput
+    vehicle?: VehicleUpdateOneWithoutServiceRemindersNestedInput
+    handledByUser?: UserUpdateOneWithoutHandledServiceRemindersNestedInput
+  }
+
+  export type ServiceReminderUncheckedUpdateWithoutWorkOrderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerId?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleId?: NullableStringFieldUpdateOperationsInput | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumReminderStatusFieldUpdateOperationsInput | $Enums.ReminderStatus
+    followedUpAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    snoozedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    handledByUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServiceReminderUncheckedUpdateManyWithoutWorkOrderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerId?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleId?: NullableStringFieldUpdateOperationsInput | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumReminderStatusFieldUpdateOperationsInput | $Enums.ReminderStatus
+    followedUpAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    snoozedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    handledByUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StockMovementCreateManyWorkOrderItemInput = {
