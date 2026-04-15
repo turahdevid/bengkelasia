@@ -304,6 +304,8 @@ exports.Prisma.StockMovementScalarFieldEnum = {
   batchId: 'batchId',
   qty: 'qty',
   buyPrice: 'buyPrice',
+  invoiceNumber: 'invoiceNumber',
+  note: 'note',
   workOrderId: 'workOrderId',
   workOrderItemId: 'workOrderItemId',
   createdAt: 'createdAt'
@@ -469,6 +471,8 @@ exports.Prisma.StockMovementOrderByRelevanceFieldEnum = {
   id: 'id',
   productId: 'productId',
   batchId: 'batchId',
+  invoiceNumber: 'invoiceNumber',
+  note: 'note',
   workOrderId: 'workOrderId',
   workOrderItemId: 'workOrderItemId'
 };

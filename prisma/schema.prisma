@@ -371,6 +371,9 @@ model StockMovement {
     qty Int
     buyPrice Int?
 
+    invoiceNumber String?
+    note String?
+
     workOrderId String?
     workOrder WorkOrder? @relation(fields: [workOrderId], references: [id], onDelete: SetNull)
 

@@ -6,12 +6,6 @@ import { useSearchParams } from "next/navigation";
 
 import { Button } from "~/components/ui/button";
 import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "~/components/ui/card";
-import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -30,9 +24,14 @@ import { type RouterInputs, type RouterOutputs } from "~/trpc/react";
 type WorkOrderGetById = RouterOutputs["service"]["getById"];
 type WorkOrderItem = WorkOrderGetById["items"][number];
 type WorkOrderMechanic = WorkOrderGetById["mechanics"][number];
+
 type UpdatePartialInput = RouterInputs["service"]["updatePartial"];
 
 type TabKey = "customer" | "order" | "items" | "payment";
+
+function isDefined<T>(value: T | null | undefined): value is T {
+  return value !== null && value !== undefined;
+}
 
 type JasaLine = {
   clientId: string;
@@ -76,6 +75,8 @@ type Draft = {
   complaint: string;
   odo: string;
   dateTime: string;
+  estimatedDoneAt: string;
+  reminderNextDate: string;
 
   preCheck: string;
   postCheck: string;
@@ -121,53 +122,6 @@ function formatRupiahInput(value: string) {
   return formatRupiah(parseRupiah(value), { prefix: false });
 }
 
-function statusLabel(s: Draft["status"]) {
-  switch (s) {
-    case "DRAFT":
-      return "Draft";
-    case "ANTRIAN":
-      return "Antrian";
-    case "PROSES":
-      return "Proses";
-    case "SELESAI":
-      return "Selesai";
-    case "DIAMBIL":
-      return "Diambil";
-    case "OPEN":
-      return "Open";
-    case "DONE":
-      return "Done";
-    case "CANCELLED":
-      return "Cancelled";
-  }
-}
-
-function statusColor(s: Draft["status"]) {
-  switch (s) {
-    case "DRAFT":
-      return "bg-slate-100 text-slate-700 border-slate-200";
-    case "ANTRIAN":
-      return "bg-blue-50 text-blue-700 border-blue-200";
-    case "PROSES":
-      return "bg-amber-50 text-amber-700 border-amber-200";
-    case "SELESAI":
-      return "bg-emerald-50 text-emerald-700 border-emerald-200";
-    case "DIAMBIL":
-      return "bg-purple-50 text-purple-700 border-purple-200";
-    default:
-      return "bg-slate-100 text-slate-700 border-slate-200";
-  }
-}
-
-function canGoNextStatus(current: Draft["status"], next: Draft["status"]) {
-  return (
-    (current === "DRAFT" && next === "ANTRIAN") ||
-    (current === "ANTRIAN" && next === "PROSES") ||
-    (current === "PROSES" && next === "SELESAI") ||
-    (current === "SELESAI" && next === "DIAMBIL")
-  );
-}
-
 export default function WorkOrderFormPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -210,6 +164,8 @@ export default function WorkOrderFormPage() {
     complaint: "",
     odo: "",
     dateTime: nowLocalInputValue(),
+    estimatedDoneAt: "",
+    reminderNextDate: "",
 
     preCheck: "",
     postCheck: "",
@@ -231,6 +187,9 @@ export default function WorkOrderFormPage() {
       enabled: Boolean(woId),
     },
   );
+
+  const hasLinkedCustomerVehicle =
+    Boolean(woQuery.data?.customerId) && Boolean(woQuery.data?.vehicleId);
 
   const [jasaLines, setJasaLines] = React.useState<JasaLine[]>([]);
 
@@ -257,12 +216,19 @@ export default function WorkOrderFormPage() {
       ...d,
       woNumber: wo.woNumber,
       status: wo.status as Draft["status"],
+      customerMode: wo.customerId && wo.vehicleId ? "existing" : d.customerMode,
       customerId: wo.customerId ?? "",
       vehicleId: wo.vehicleId ?? "",
       jobType: wo.jobType ?? "",
       complaint: wo.complaint ?? "",
       odo: wo.odo != null ? String(wo.odo) : "",
       dateTime: wo.createdAt ? new Date(wo.createdAt).toISOString().slice(0, 16) : d.dateTime,
+      estimatedDoneAt: wo.estimatedDoneAt
+        ? new Date(wo.estimatedDoneAt).toISOString().slice(0, 16)
+        : "",
+      reminderNextDate: wo.reminderNextDate
+        ? new Date(wo.reminderNextDate).toISOString().slice(0, 10)
+        : "",
       advisorId: wo.advisorId ?? "",
       mechanicIds: (wo.mechanics ?? []).map((m: WorkOrderMechanic) => m.userId),
       preCheck: wo.preCheck ?? "",
@@ -278,17 +244,69 @@ export default function WorkOrderFormPage() {
   const mechanicsQuery = api.service.listMechanics.useQuery();
   const advisorsQuery = api.service.listAdvisors.useQuery();
 
+  const mechanicsById = React.useMemo(() => {
+    const rows = mechanicsQuery.data ?? [];
+    return new Map(rows.map((m) => [m.id, m] as const));
+  }, [mechanicsQuery.data]);
+
+  const selectedMechanics = React.useMemo(() => {
+    return draft.mechanicIds
+      .map((id) => mechanicsById.get(id))
+      .filter(isDefined);
+  }, [draft.mechanicIds, mechanicsById]);
+
+  const selectedMechanicsLabel = React.useMemo(() => {
+    if (selectedMechanics.length === 0) return "Pilih mekanik";
+    const names = selectedMechanics.map((m) => m.name ?? m.email);
+    return names.join(", ");
+  }, [selectedMechanics]);
+
   const [customerSearch, setCustomerSearch] = React.useState("");
   const customerSearchDebounced = useDebouncedValue(customerSearch, 300);
-  const customersQuery = api.service.searchCustomers.useQuery(
-    { query: customerSearchDebounced || "-", limit: 10 },
-    { enabled: customerSearchDebounced.trim().length > 0 },
+  const customersAllQuery = api.customer.listAll.useQuery(
+    {
+      query: customerSearchDebounced.trim() ? customerSearchDebounced.trim() : undefined,
+    },
+    {
+      retry: false,
+    },
   );
 
   const vehiclesQuery = api.service.listVehiclesByCustomer.useQuery(
     { customerId: draft.customerId },
     { enabled: Boolean(draft.customerId) && draft.customerMode === "existing" },
   );
+
+  const customerSelectOptions = React.useMemo(() => {
+    const fromSearch = customersAllQuery.data ?? [];
+    const selectedId = draft.customerId.trim();
+    if (!selectedId) return fromSearch;
+
+    const alreadyInList = fromSearch.some((c) => c.id === selectedId);
+    if (alreadyInList) return fromSearch;
+
+    const wo = woQuery.data;
+    if (!wo?.customerId || wo.customerId !== selectedId) return fromSearch;
+    const labelName = wo.customer?.name ?? "-";
+    const labelPhone = wo.customer?.phone ?? "-";
+    return [{ id: wo.customerId, name: labelName, phone: labelPhone }, ...fromSearch];
+  }, [customersAllQuery.data, draft.customerId, woQuery.data]);
+
+  const vehicleSelectOptions = React.useMemo(() => {
+    const fromList = vehiclesQuery.data ?? [];
+    const selectedId = draft.vehicleId.trim();
+    if (!selectedId) return fromList;
+
+    const alreadyInList = fromList.some((v) => v.id === selectedId);
+    if (alreadyInList) return fromList;
+
+    const wo = woQuery.data;
+    if (!wo?.vehicleId || wo.vehicleId !== selectedId) return fromList;
+    const plate = wo.vehicle?.plateNumber ?? "-";
+    const brand = wo.vehicle?.brand ?? "-";
+    const model = wo.vehicle?.model ?? "";
+    return [{ id: wo.vehicleId, plateNumber: plate, brand, model }, ...fromList];
+  }, [draft.vehicleId, vehiclesQuery.data, woQuery.data]);
 
   const [mechanicOpen, setMechanicOpen] = React.useState(false);
   const [mechanicSearch, setMechanicSearch] = React.useState("");
@@ -307,9 +325,7 @@ export default function WorkOrderFormPage() {
     { retry: false },
   );
 
-  const [sparepartId, setSparepartId] = React.useState("");
   const [sparepartQty, setSparepartQty] = React.useState("1");
-  const [oilId, setOilId] = React.useState("");
   const [oilQty, setOilQty] = React.useState("1");
 
   const [sparepartBrand, setSparepartBrand] = React.useState<string>("Semua");
@@ -344,7 +360,6 @@ export default function WorkOrderFormPage() {
   const addSparepartMutation = api.service.addSparepartItem.useMutation({
     onSuccess: async () => {
       toast({ variant: "success", title: "Sparepart ditambahkan" });
-      setSparepartId("");
       setSparepartQty("1");
       await Promise.all([
         utils.service.getById.invalidate({ id: woId }),
@@ -358,20 +373,7 @@ export default function WorkOrderFormPage() {
   const addOilMutation = api.service.addOilItem.useMutation({
     onSuccess: async () => {
       toast({ variant: "success", title: "Oli ditambahkan" });
-      setOilId("");
       setOilQty("1");
-      await Promise.all([
-        utils.service.getById.invalidate({ id: woId }),
-        utils.service.searchWorkOrders.invalidate(),
-        utils.service.recent.invalidate(),
-      ]);
-    },
-    onError: (e) => toast({ variant: "destructive", title: "Gagal", description: e.message }),
-  });
-
-  const setStatusMutation = api.service.setStatus.useMutation({
-    onSuccess: async () => {
-      toast({ variant: "success", title: "Status diupdate" });
       await Promise.all([
         utils.service.getById.invalidate({ id: woId }),
         utils.service.searchWorkOrders.invalidate(),
@@ -403,6 +405,9 @@ export default function WorkOrderFormPage() {
   ]);
 
   const onSave = React.useCallback(async () => {
+    const hasLinkedCustomer =
+      draft.customerId.trim().length > 0 && draft.vehicleId.trim().length > 0;
+
     const basePayload: UpdatePartialInput = {
       id: woId,
       woNumber: draft.woNumber?.trim() ? draft.woNumber.trim() : undefined,
@@ -416,6 +421,13 @@ export default function WorkOrderFormPage() {
       preCheck: draft.preCheck.trim() ? draft.preCheck : null,
       postCheck: draft.postCheck.trim() ? draft.postCheck : null,
 
+      estimatedDoneAt: draft.estimatedDoneAt.trim()
+        ? new Date(draft.estimatedDoneAt).toISOString()
+        : null,
+      reminderNextDate: draft.reminderNextDate.trim()
+        ? new Date(`${draft.reminderNextDate}T00:00`).toISOString()
+        : null,
+
       dp: parseRupiah(draft.dp),
       discountPercent: safeInt(draft.discountPercent),
       taxPercent: safeInt(draft.taxPercent),
@@ -424,7 +436,7 @@ export default function WorkOrderFormPage() {
     };
 
     const payload: UpdatePartialInput =
-      draft.customerMode === "existing"
+      draft.customerMode === "existing" || hasLinkedCustomer
         ? {
             ...basePayload,
             customerId: draft.customerId.trim() ? draft.customerId : null,
@@ -466,67 +478,6 @@ export default function WorkOrderFormPage() {
     }, 0);
   }, [jasaLines]);
 
-  const statusOptions: Draft["status"][] = ["DRAFT", "ANTRIAN", "PROSES", "SELESAI", "DIAMBIL"];
-
-  const headerRight = (
-    <div className="flex flex-wrap items-center gap-2">
-      <Button asChild variant="secondary">
-        <a href={`/admin/service/${woId}/print`} target="_blank" rel="noreferrer">
-          Print
-        </a>
-      </Button>
-      <span
-        className={cn(
-          "inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold",
-          statusColor(draft.status),
-        )}
-      >
-        {statusLabel(draft.status)}
-      </span>
-
-      <select
-        className={cn(
-          "h-10 rounded-2xl border border-slate-200 bg-white px-3 text-sm",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-200",
-        )}
-        value={draft.status}
-        onChange={async (e) => {
-          const next = e.target.value as Draft["status"];
-          if (next === draft.status) return;
-          if (!canGoNextStatus(draft.status, next)) {
-            toast({
-              variant: "destructive",
-              title: "Transisi status tidak valid",
-              description: `${statusLabel(draft.status)} -> ${statusLabel(next)}`,
-            });
-            return;
-          }
-          await setStatusMutation.mutateAsync({ id: woId, status: next });
-          setDraft((d) => ({ ...d, status: next }));
-        }}
-      >
-        {statusOptions.map((s) => (
-          <option key={s} value={s}>
-            {statusLabel(s)}
-          </option>
-        ))}
-      </select>
-
-      <Button onClick={() => void onSave()} disabled={saveMutation.isPending}>
-        {saveMutation.isPending ? "Menyimpan..." : "Simpan"}
-      </Button>
-
-      <Button
-        variant="secondary"
-        onClick={() => {
-          router.push("/admin/service");
-        }}
-      >
-        Kembali
-      </Button>
-    </div>
-  );
-
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-6">
       <Dialog
@@ -559,6 +510,33 @@ export default function WorkOrderFormPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+        <div className="text-sm font-semibold text-slate-900">Work Order</div>
+        <div className="flex flex-wrap items-center gap-2">
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={() => {
+              window.open(`/admin/service/${woId}/print`, "_blank", "noopener,noreferrer");
+            }}
+          >
+            Print
+          </Button>
+          <Button type="button" onClick={() => void onSave()} disabled={saveMutation.isPending}>
+            {saveMutation.isPending ? "Menyimpan..." : "Simpan"}
+          </Button>
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={() => {
+              router.push("/admin/service");
+            }}
+          >
+            Kembali
+          </Button>
+        </div>
+      </div>
 
       <div className="flex flex-wrap gap-2">
         <TabButton active={tab === "customer"} onClick={() => setTab("customer")}>
@@ -595,45 +573,78 @@ export default function WorkOrderFormPage() {
 
           {tab === "customer" ? (
             <div className="grid gap-3">
-              <div className="flex flex-wrap gap-2">
-                <Button
-                  type="button"
-                  variant={draft.customerMode === "existing" ? "default" : "secondary"}
-                  onClick={() =>
-                    setDraft((d) => ({
-                      ...d,
-                      customerMode: "existing",
-                      newCustomer: { name: "", phone: "", address: "" },
-                      newVehicle: {
-                        plateNumber: "",
-                        brand: "",
-                        model: "",
-                        engineNumber: "",
-                        chassisNumber: "",
-                        km: "",
-                      },
-                    }))
-                  }
-                >
-                  Pilih Customer
-                </Button>
-                <Button
-                  type="button"
-                  variant={draft.customerMode === "new" ? "default" : "secondary"}
-                  onClick={() =>
-                    setDraft((d) => ({
-                      ...d,
-                      customerMode: "new",
-                      customerId: "",
-                      vehicleId: "",
-                    }))
-                  }
-                >
-                  Customer Baru
-                </Button>
-              </div>
+              {hasLinkedCustomerVehicle ? (
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <Field label="Nama Customer">
+                    <Input value={woQuery.data?.customer?.name ?? ""} readOnly />
+                  </Field>
+                  <Field label="No HP">
+                    <Input value={woQuery.data?.customer?.phone ?? ""} readOnly />
+                  </Field>
+                  <Field label="Alamat" className="sm:col-span-2">
+                    <Input value={woQuery.data?.customer?.address ?? ""} readOnly />
+                  </Field>
 
-              {draft.customerMode === "existing" ? (
+                  <Field label="Plat Nomor">
+                    <Input value={woQuery.data?.vehicle?.plateNumber ?? ""} readOnly />
+                  </Field>
+                  <Field label="Merk">
+                    <Input value={woQuery.data?.vehicle?.brand ?? ""} readOnly />
+                  </Field>
+                  <Field label="Model">
+                    <Input value={woQuery.data?.vehicle?.model ?? ""} readOnly />
+                  </Field>
+                  <Field label="KM">
+                    <Input
+                      value={(() => {
+                        const odo = woQuery.data?.vehicle?.currentOdometer;
+                        return odo != null ? String(odo) : "";
+                      })()}
+                      readOnly
+                    />
+                  </Field>
+                </div>
+              ) : (
+                <>
+                  <div className="flex flex-wrap gap-2">
+                    <Button
+                      type="button"
+                      variant={draft.customerMode === "existing" ? "default" : "secondary"}
+                      onClick={() =>
+                        setDraft((d) => ({
+                          ...d,
+                          customerMode: "existing",
+                          newCustomer: { name: "", phone: "", address: "" },
+                          newVehicle: {
+                            plateNumber: "",
+                            brand: "",
+                            model: "",
+                            engineNumber: "",
+                            chassisNumber: "",
+                            km: "",
+                          },
+                        }))
+                      }
+                    >
+                      Pilih Customer
+                    </Button>
+                    <Button
+                      type="button"
+                      variant={draft.customerMode === "new" ? "default" : "secondary"}
+                      onClick={() =>
+                        setDraft((d) => ({
+                          ...d,
+                          customerMode: "new",
+                          customerId: "",
+                          vehicleId: "",
+                        }))
+                      }
+                    >
+                      Customer Baru
+                    </Button>
+                  </div>
+
+                  {draft.customerMode === "existing" ? (
                 <div className="grid gap-3">
                   <Field label="Cari Customer">
                     <Input
@@ -657,7 +668,7 @@ export default function WorkOrderFormPage() {
                         }
                       >
                         <option value="">-</option>
-                        {(customersQuery.data ?? []).map((c) => (
+                        {customerSelectOptions.map((c) => (
                           <option key={c.id} value={c.id}>
                             {c.name} ({c.phone})
                           </option>
@@ -673,7 +684,7 @@ export default function WorkOrderFormPage() {
                         disabled={!draft.customerId}
                       >
                         <option value="">-</option>
-                        {(vehiclesQuery.data ?? []).map((v) => (
+                        {vehicleSelectOptions.map((v) => (
                           <option key={v.id} value={v.id}>
                             {v.plateNumber} - {v.brand} {v.model}
                           </option>
@@ -682,7 +693,7 @@ export default function WorkOrderFormPage() {
                     </Field>
                   </div>
                 </div>
-              ) : (
+                  ) : (
                 <div className="grid gap-3 sm:grid-cols-2">
                   <Field label="Nama Customer">
                     <Input
@@ -786,6 +797,8 @@ export default function WorkOrderFormPage() {
                     />
                   </Field>
                 </div>
+                  )}
+                </>
               )}
             </div>
           ) : null}
@@ -807,6 +820,23 @@ export default function WorkOrderFormPage() {
                     placeholder="Contoh: WALK IN"
                   />
                 </Field>
+
+                <Field label="Estimasi Tanggal Keluar">
+                  <Input
+                    type="datetime-local"
+                    value={draft.estimatedDoneAt}
+                    onChange={(e) => setDraft((d) => ({ ...d, estimatedDoneAt: e.target.value }))}
+                  />
+                </Field>
+
+                <Field label="Estimasi Tanggal Service Kembali">
+                  <Input
+                    type="date"
+                    value={draft.reminderNextDate}
+                    onChange={(e) => setDraft((d) => ({ ...d, reminderNextDate: e.target.value }))}
+                  />
+                </Field>
+
                 <Field label="Advisor">
                   <select
                     className="h-10 w-full rounded-2xl border border-slate-200 bg-white px-3 text-sm"
@@ -829,41 +859,40 @@ export default function WorkOrderFormPage() {
                       className="flex min-h-10 w-full items-center justify-between rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm"
                       onClick={() => setMechanicOpen((v) => !v)}
                     >
-                      <span className={cn("truncate", draft.mechanicIds.length === 0 && "text-slate-400")}>
-                        {draft.mechanicIds.length === 0
-                          ? "Pilih mekanik"
-                          : `${draft.mechanicIds.length} mekanik dipilih`}
+                      <span
+                        className={cn(
+                          "truncate",
+                          selectedMechanics.length === 0 && "text-slate-400",
+                        )}
+                      >
+                        {selectedMechanicsLabel}
                       </span>
                       <span className="text-slate-400">▾</span>
                     </button>
 
-                    {draft.mechanicIds.length > 0 ? (
+                    {selectedMechanics.length > 0 ? (
                       <div className="mt-2 flex flex-wrap gap-2">
-                        {draft.mechanicIds
-                          .map((id) => (mechanicsQuery.data ?? []).find((m) => m.id === id))
-                          .filter(Boolean)
-                          .map((m) => (
-                            <span
-                              key={(m as { id: string }).id}
-                              className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-700"
+                        {selectedMechanics.map((m) => (
+                          <span
+                            key={m.id}
+                            className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-700"
+                          >
+                            {m.name ?? m.email}
+                            <button
+                              type="button"
+                              className="text-slate-500 hover:text-slate-900"
+                              onClick={() =>
+                                setDraft((d) => ({
+                                  ...d,
+                                  mechanicIds: d.mechanicIds.filter((x) => x !== m.id),
+                                }))
+                              }
+                              aria-label="Remove mechanic"
                             >
-                              {(m as { name: string | null; email: string }).name ??
-                                (m as { name: string | null; email: string }).email}
-                              <button
-                                type="button"
-                                className="text-slate-500 hover:text-slate-900"
-                                onClick={() =>
-                                  setDraft((d) => ({
-                                    ...d,
-                                    mechanicIds: d.mechanicIds.filter((x) => x !== (m as { id: string }).id),
-                                  }))
-                                }
-                                aria-label="Remove mechanic"
-                              >
-                                ×
-                              </button>
-                            </span>
-                          ))}
+                              ×
+                            </button>
+                          </span>
+                        ))}
                       </div>
                     ) : null}
 

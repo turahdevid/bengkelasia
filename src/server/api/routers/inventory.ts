@@ -22,6 +22,11 @@ const unitNameSchema = z
 
 const productTypeSchema = z.enum(["SPAREPART", "OIL"]);
 
+const stockInHistorySchema = z.object({
+  page: z.number().int().min(1).default(1),
+  limit: z.union([z.literal(10), z.literal(20), z.literal(50)]).default(20),
+});
+
 const productNameSchema = z
   .string()
   .trim()
@@ -493,12 +498,68 @@ export const inventoryRouter = createTRPCRouter({
     }),
 
   // Stock In
+  stockInHistory: adminProcedure
+    .input(stockInHistorySchema.optional().default({}))
+    .query(async ({ ctx, input }) => {
+      const skip = (input.page - 1) * input.limit;
+
+      const [total, rows] = await ctx.db.$transaction([
+        ctx.db.stockMovement.count({ where: { type: "IN" } }),
+        ctx.db.stockMovement.findMany({
+          where: { type: "IN" },
+          orderBy: { createdAt: "desc" },
+          skip,
+          take: input.limit,
+          select: {
+            id: true,
+            qty: true,
+            buyPrice: true,
+            invoiceNumber: true,
+            note: true,
+            createdAt: true,
+            product: {
+              select: {
+                id: true,
+                name: true,
+                type: true,
+                brand: { select: { name: true } },
+                unit: { select: { name: true } },
+              },
+            },
+          },
+        }),
+      ] as const);
+
+      return {
+        total,
+        page: input.page,
+        limit: input.limit,
+        items: rows.map((r) => ({
+          id: r.id,
+          qty: r.qty,
+          buyPrice: r.buyPrice ?? 0,
+          invoiceNumber: r.invoiceNumber,
+          note: r.note,
+          createdAt: r.createdAt,
+          product: {
+            id: r.product.id,
+            name: r.product.name,
+            type: r.product.type,
+            brand: r.product.brand?.name ?? null,
+            unit: r.product.unit.name,
+          },
+        })),
+      };
+    }),
+
   stockIn: adminProcedure
     .input(
       z.object({
         productId: z.string().min(1, "Product wajib dipilih"),
         qty: z.number().int().min(1).max(10_000),
         buyPrice: moneySchema,
+        invoiceNumber: z.string().trim().min(1).max(60).optional(),
+        note: z.string().trim().min(1).max(500).optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -535,6 +596,8 @@ export const inventoryRouter = createTRPCRouter({
               batchId: batch.id,
               qty: input.qty,
               buyPrice: input.buyPrice,
+              invoiceNumber: input.invoiceNumber,
+              note: input.note,
             },
             select: { id: true },
           });

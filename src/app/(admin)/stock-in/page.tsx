@@ -38,6 +38,8 @@ import { type RouterOutputs } from "~/trpc/react";
 
 const stockInSchema = z.object({
   productId: z.string().min(1, "Product wajib dipilih"),
+  invoiceNumber: z.string().trim().max(60).optional(),
+  note: z.string().trim().max(500).optional(),
   qty: z
     .string()
     .trim()
@@ -56,6 +58,8 @@ const stockInSchema = z.object({
 type StockInValues = z.infer<typeof stockInSchema>;
 
 type ProductListItem = RouterOutputs["inventory"]["listProducts"]["items"][number];
+
+type StockInHistoryItem = RouterOutputs["inventory"]["stockInHistory"]["items"][number];
 
 function safeInt(v: string) {
   const trimmed = v.trim();
@@ -97,10 +101,13 @@ export default function StockInPage() {
 
   const stockInMutation = api.inventory.stockIn.useMutation({
     onSuccess: async () => {
-      await utils.inventory.listProducts.invalidate();
+      await Promise.all([
+        utils.inventory.listProducts.invalidate(),
+        utils.inventory.stockInHistory.invalidate(),
+      ]);
       toast({ variant: "success", title: "Stock berhasil ditambahkan" });
       setModalOpen(false);
-      form.reset({ productId: "", qty: "", buyPrice: "" });
+      form.reset({ productId: "", invoiceNumber: "", note: "", qty: "", buyPrice: "" });
     },
     onError: (e) => toast({ variant: "destructive", title: "Gagal", description: e.message }),
   });
@@ -109,9 +116,12 @@ export default function StockInPage() {
     resolver: zodResolver(stockInSchema),
     defaultValues: {
       productId: "",
+      invoiceNumber: "",
+      note: "",
       qty: "",
       buyPrice: "",
     },
+    mode: "onChange",
   });
 
   const selectedProductId = form.watch("productId");
@@ -134,10 +144,24 @@ export default function StockInPage() {
   const onSubmit = form.handleSubmit(async (values) => {
     await stockInMutation.mutateAsync({
       productId: values.productId,
+      invoiceNumber: values.invoiceNumber?.trim() ? values.invoiceNumber.trim() : undefined,
+      note: values.note?.trim() ? values.note.trim() : undefined,
       qty: safeInt(values.qty),
       buyPrice: parseRupiah(values.buyPrice),
     });
   });
+
+  const [historyPage, setHistoryPage] = React.useState(1);
+  const [historyLimit, setHistoryLimit] = React.useState<10 | 20 | 50>(20);
+
+  const historyQuery = api.inventory.stockInHistory.useQuery(
+    { page: historyPage, limit: historyLimit },
+    { retry: false },
+  );
+
+  const historyItems: StockInHistoryItem[] = historyQuery.data?.items ?? [];
+  const historyTotal = historyQuery.data?.total ?? 0;
+  const historyTotalPages = Math.max(1, Math.ceil(historyTotal / historyLimit));
 
   const items: ProductListItem[] = productsQuery.data?.items ?? [];
   const total = productsQuery.data?.total ?? 0;
@@ -263,6 +287,109 @@ export default function StockInPage() {
             </Button>
           </div>
         </div>
+
+        <div className="rounded-2xl border border-slate-200/70 bg-white/40 shadow-sm">
+          <div className="flex flex-col gap-3 border-b border-slate-200/70 p-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="text-sm font-semibold text-slate-900">Riwayat Stock In</p>
+              <p className="mt-1 text-sm text-slate-600">Catatan nota pembelian tersimpan di sini.</p>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-slate-700">Limit</span>
+              <select
+                className={cn(
+                  "h-11 rounded-xl border border-white/20 bg-white/40 px-3 text-sm text-slate-900 shadow-sm backdrop-blur-md",
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-200",
+                )}
+                value={historyLimit}
+                onChange={(e) => {
+                  const next = Number(e.target.value);
+                  if (next === 10 || next === 20 || next === 50) {
+                    setHistoryLimit(next);
+                    setHistoryPage(1);
+                  }
+                }}
+              >
+                <option value={10}>10</option>
+                <option value={20}>20</option>
+                <option value={50}>50</option>
+              </select>
+            </div>
+          </div>
+
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Tanggal</TableHead>
+                <TableHead>Product</TableHead>
+                <TableHead className="text-right">Qty</TableHead>
+                <TableHead className="text-right">Harga Beli</TableHead>
+                <TableHead>No Nota</TableHead>
+                <TableHead>Catatan</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {historyQuery.isLoading ? (
+                <TableRow>
+                  <TableCell colSpan={6}>
+                    <div className="py-8 text-center text-sm text-slate-600">Loading...</div>
+                  </TableCell>
+                </TableRow>
+              ) : historyItems.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={6}>
+                    <div className="py-10 text-center text-sm text-slate-600">Belum ada data.</div>
+                  </TableCell>
+                </TableRow>
+              ) : (
+                historyItems.map((r) => (
+                  <TableRow key={r.id}>
+                    <TableCell>
+                      {new Date(r.createdAt).toLocaleString("id-ID", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </TableCell>
+                    <TableCell className="font-semibold">{r.product.name}</TableCell>
+                    <TableCell className="text-right">{r.qty}</TableCell>
+                    <TableCell className="text-right">{formatRupiah(r.buyPrice)}</TableCell>
+                    <TableCell>{r.invoiceNumber ?? "-"}</TableCell>
+                    <TableCell className="max-w-[240px] truncate" title={r.note ?? undefined}>
+                      {r.note ?? "-"}
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
+
+          <div className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-sm text-slate-700">
+              Page {historyPage} dari {historyTotalPages} (Total: {historyTotal})
+            </p>
+
+            <div className="flex items-center gap-2">
+              <Button
+                variant="secondary"
+                disabled={historyPage <= 1 || historyQuery.isFetching}
+                onClick={() => setHistoryPage((p) => Math.max(1, p - 1))}
+              >
+                Prev
+              </Button>
+              <Button
+                variant="secondary"
+                disabled={historyPage >= historyTotalPages || historyQuery.isFetching}
+                onClick={() => setHistoryPage((p) => Math.min(historyTotalPages, p + 1))}
+              >
+                Next
+              </Button>
+            </div>
+          </div>
+        </div>
       </CardContent>
 
       <Dialog open={modalOpen} onOpenChange={setModalOpen}>
@@ -299,6 +426,20 @@ export default function StockInPage() {
                 {form.formState.errors.productId ? (
                   <p className="text-sm text-red-600">{form.formState.errors.productId.message}</p>
                 ) : null}
+              </div>
+
+              <div className="grid gap-1">
+                <label className="text-sm font-semibold text-slate-700" htmlFor="invoiceNumber">
+                  No Nota
+                </label>
+                <Input id="invoiceNumber" {...form.register("invoiceNumber")} />
+              </div>
+
+              <div className="grid gap-1">
+                <label className="text-sm font-semibold text-slate-700" htmlFor="note">
+                  Catatan
+                </label>
+                <Input id="note" {...form.register("note")} />
               </div>
 
               <div className="grid gap-1">
@@ -339,7 +480,7 @@ export default function StockInPage() {
               <Button variant="secondary" type="button" onClick={() => setModalOpen(false)}>
                 Batal
               </Button>
-              <Button type="submit" disabled={stockInMutation.isPending}>
+              <Button type="submit" disabled={!form.formState.isValid || stockInMutation.isPending}>
                 {stockInMutation.isPending ? "Menyimpan..." : "Simpan"}
               </Button>
             </DialogFooter>

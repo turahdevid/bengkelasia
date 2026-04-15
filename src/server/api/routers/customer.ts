@@ -39,6 +39,10 @@ const paginationSchema = z.object({
   query: z.string().trim().max(120).optional(),
 });
 
+const listAllSchema = z.object({
+  query: z.string().trim().max(120).optional(),
+});
+
 const plateNumberSchema = z
   .string()
   .trim()
@@ -104,6 +108,28 @@ export const customerRouter = createTRPCRouter({
         totalVehicles: c._count.vehicles,
       })),
     };
+  }),
+
+  listAll: protectedProcedure.input(listAllSchema).query(async ({ ctx, input }) => {
+    const q = input.query?.trim();
+
+    const where = q
+      ? {
+          OR: [{ name: { contains: q } }, { phone: { contains: q } }],
+        }
+      : undefined;
+
+    const items = await ctx.db.customer.findMany({
+      where,
+      orderBy: { createdAt: "desc" },
+      select: {
+        id: true,
+        name: true,
+        phone: true,
+      },
+    });
+
+    return items;
   }),
 
   getById: protectedProcedure

@@ -20214,6 +20214,8 @@ export namespace Prisma {
     batchId: string | null
     qty: number | null
     buyPrice: number | null
+    invoiceNumber: string | null
+    note: string | null
     workOrderId: string | null
     workOrderItemId: string | null
     createdAt: Date | null
@@ -20226,6 +20228,8 @@ export namespace Prisma {
     batchId: string | null
     qty: number | null
     buyPrice: number | null
+    invoiceNumber: string | null
+    note: string | null
     workOrderId: string | null
     workOrderItemId: string | null
     createdAt: Date | null
@@ -20238,6 +20242,8 @@ export namespace Prisma {
     batchId: number
     qty: number
     buyPrice: number
+    invoiceNumber: number
+    note: number
     workOrderId: number
     workOrderItemId: number
     createdAt: number
@@ -20262,6 +20268,8 @@ export namespace Prisma {
     batchId?: true
     qty?: true
     buyPrice?: true
+    invoiceNumber?: true
+    note?: true
     workOrderId?: true
     workOrderItemId?: true
     createdAt?: true
@@ -20274,6 +20282,8 @@ export namespace Prisma {
     batchId?: true
     qty?: true
     buyPrice?: true
+    invoiceNumber?: true
+    note?: true
     workOrderId?: true
     workOrderItemId?: true
     createdAt?: true
@@ -20286,6 +20296,8 @@ export namespace Prisma {
     batchId?: true
     qty?: true
     buyPrice?: true
+    invoiceNumber?: true
+    note?: true
     workOrderId?: true
     workOrderItemId?: true
     createdAt?: true
@@ -20385,6 +20397,8 @@ export namespace Prisma {
     batchId: string | null
     qty: number
     buyPrice: number | null
+    invoiceNumber: string | null
+    note: string | null
     workOrderId: string | null
     workOrderItemId: string | null
     createdAt: Date
@@ -20416,6 +20430,8 @@ export namespace Prisma {
     batchId?: boolean
     qty?: boolean
     buyPrice?: boolean
+    invoiceNumber?: boolean
+    note?: boolean
     workOrderId?: boolean
     workOrderItemId?: boolean
     createdAt?: boolean
@@ -20434,12 +20450,14 @@ export namespace Prisma {
     batchId?: boolean
     qty?: boolean
     buyPrice?: boolean
+    invoiceNumber?: boolean
+    note?: boolean
     workOrderId?: boolean
     workOrderItemId?: boolean
     createdAt?: boolean
   }
 
-  export type StockMovementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "type" | "productId" | "batchId" | "qty" | "buyPrice" | "workOrderId" | "workOrderItemId" | "createdAt", ExtArgs["result"]["stockMovement"]>
+  export type StockMovementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "type" | "productId" | "batchId" | "qty" | "buyPrice" | "invoiceNumber" | "note" | "workOrderId" | "workOrderItemId" | "createdAt", ExtArgs["result"]["stockMovement"]>
   export type StockMovementInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     product?: boolean | ProductDefaultArgs<ExtArgs>
     batch?: boolean | StockMovement$batchArgs<ExtArgs>
@@ -20462,6 +20480,8 @@ export namespace Prisma {
       batchId: string | null
       qty: number
       buyPrice: number | null
+      invoiceNumber: string | null
+      note: string | null
       workOrderId: string | null
       workOrderItemId: string | null
       createdAt: Date
@@ -20844,6 +20864,8 @@ export namespace Prisma {
     readonly batchId: FieldRef<"StockMovement", 'String'>
     readonly qty: FieldRef<"StockMovement", 'Int'>
     readonly buyPrice: FieldRef<"StockMovement", 'Int'>
+    readonly invoiceNumber: FieldRef<"StockMovement", 'String'>
+    readonly note: FieldRef<"StockMovement", 'String'>
     readonly workOrderId: FieldRef<"StockMovement", 'String'>
     readonly workOrderItemId: FieldRef<"StockMovement", 'String'>
     readonly createdAt: FieldRef<"StockMovement", 'DateTime'>
@@ -23535,6 +23557,8 @@ export namespace Prisma {
     batchId: 'batchId',
     qty: 'qty',
     buyPrice: 'buyPrice',
+    invoiceNumber: 'invoiceNumber',
+    note: 'note',
     workOrderId: 'workOrderId',
     workOrderItemId: 'workOrderItemId',
     createdAt: 'createdAt'
@@ -23766,6 +23790,8 @@ export namespace Prisma {
     id: 'id',
     productId: 'productId',
     batchId: 'batchId',
+    invoiceNumber: 'invoiceNumber',
+    note: 'note',
     workOrderId: 'workOrderId',
     workOrderItemId: 'workOrderItemId'
   };
@@ -25116,6 +25142,8 @@ export namespace Prisma {
     batchId?: StringNullableFilter<"StockMovement"> | string | null
     qty?: IntFilter<"StockMovement"> | number
     buyPrice?: IntNullableFilter<"StockMovement"> | number | null
+    invoiceNumber?: StringNullableFilter<"StockMovement"> | string | null
+    note?: StringNullableFilter<"StockMovement"> | string | null
     workOrderId?: StringNullableFilter<"StockMovement"> | string | null
     workOrderItemId?: StringNullableFilter<"StockMovement"> | string | null
     createdAt?: DateTimeFilter<"StockMovement"> | Date | string
@@ -25132,6 +25160,8 @@ export namespace Prisma {
     batchId?: SortOrderInput | SortOrder
     qty?: SortOrder
     buyPrice?: SortOrderInput | SortOrder
+    invoiceNumber?: SortOrderInput | SortOrder
+    note?: SortOrderInput | SortOrder
     workOrderId?: SortOrderInput | SortOrder
     workOrderItemId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -25152,6 +25182,8 @@ export namespace Prisma {
     batchId?: StringNullableFilter<"StockMovement"> | string | null
     qty?: IntFilter<"StockMovement"> | number
     buyPrice?: IntNullableFilter<"StockMovement"> | number | null
+    invoiceNumber?: StringNullableFilter<"StockMovement"> | string | null
+    note?: StringNullableFilter<"StockMovement"> | string | null
     workOrderId?: StringNullableFilter<"StockMovement"> | string | null
     workOrderItemId?: StringNullableFilter<"StockMovement"> | string | null
     createdAt?: DateTimeFilter<"StockMovement"> | Date | string
@@ -25168,6 +25200,8 @@ export namespace Prisma {
     batchId?: SortOrderInput | SortOrder
     qty?: SortOrder
     buyPrice?: SortOrderInput | SortOrder
+    invoiceNumber?: SortOrderInput | SortOrder
+    note?: SortOrderInput | SortOrder
     workOrderId?: SortOrderInput | SortOrder
     workOrderItemId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -25188,6 +25222,8 @@ export namespace Prisma {
     batchId?: StringNullableWithAggregatesFilter<"StockMovement"> | string | null
     qty?: IntWithAggregatesFilter<"StockMovement"> | number
     buyPrice?: IntNullableWithAggregatesFilter<"StockMovement"> | number | null
+    invoiceNumber?: StringNullableWithAggregatesFilter<"StockMovement"> | string | null
+    note?: StringNullableWithAggregatesFilter<"StockMovement"> | string | null
     workOrderId?: StringNullableWithAggregatesFilter<"StockMovement"> | string | null
     workOrderItemId?: StringNullableWithAggregatesFilter<"StockMovement"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"StockMovement"> | Date | string
@@ -26633,6 +26669,8 @@ export namespace Prisma {
     type: $Enums.StockMovementType
     qty: number
     buyPrice?: number | null
+    invoiceNumber?: string | null
+    note?: string | null
     createdAt?: Date | string
     product: ProductCreateNestedOneWithoutMovementsInput
     batch?: StockBatchCreateNestedOneWithoutMovementsInput
@@ -26647,6 +26685,8 @@ export namespace Prisma {
     batchId?: string | null
     qty: number
     buyPrice?: number | null
+    invoiceNumber?: string | null
+    note?: string | null
     workOrderId?: string | null
     workOrderItemId?: string | null
     createdAt?: Date | string
@@ -26657,6 +26697,8 @@ export namespace Prisma {
     type?: EnumStockMovementTypeFieldUpdateOperationsInput | $Enums.StockMovementType
     qty?: IntFieldUpdateOperationsInput | number
     buyPrice?: NullableIntFieldUpdateOperationsInput | number | null
+    invoiceNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     product?: ProductUpdateOneRequiredWithoutMovementsNestedInput
     batch?: StockBatchUpdateOneWithoutMovementsNestedInput
@@ -26671,6 +26713,8 @@ export namespace Prisma {
     batchId?: NullableStringFieldUpdateOperationsInput | string | null
     qty?: IntFieldUpdateOperationsInput | number
     buyPrice?: NullableIntFieldUpdateOperationsInput | number | null
+    invoiceNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     workOrderId?: NullableStringFieldUpdateOperationsInput | string | null
     workOrderItemId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26683,6 +26727,8 @@ export namespace Prisma {
     batchId?: string | null
     qty: number
     buyPrice?: number | null
+    invoiceNumber?: string | null
+    note?: string | null
     workOrderId?: string | null
     workOrderItemId?: string | null
     createdAt?: Date | string
@@ -26693,6 +26739,8 @@ export namespace Prisma {
     type?: EnumStockMovementTypeFieldUpdateOperationsInput | $Enums.StockMovementType
     qty?: IntFieldUpdateOperationsInput | number
     buyPrice?: NullableIntFieldUpdateOperationsInput | number | null
+    invoiceNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -26703,6 +26751,8 @@ export namespace Prisma {
     batchId?: NullableStringFieldUpdateOperationsInput | string | null
     qty?: IntFieldUpdateOperationsInput | number
     buyPrice?: NullableIntFieldUpdateOperationsInput | number | null
+    invoiceNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     workOrderId?: NullableStringFieldUpdateOperationsInput | string | null
     workOrderItemId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28060,6 +28110,8 @@ export namespace Prisma {
     batchId?: SortOrder
     qty?: SortOrder
     buyPrice?: SortOrder
+    invoiceNumber?: SortOrder
+    note?: SortOrder
     workOrderId?: SortOrder
     workOrderItemId?: SortOrder
     createdAt?: SortOrder
@@ -28077,6 +28129,8 @@ export namespace Prisma {
     batchId?: SortOrder
     qty?: SortOrder
     buyPrice?: SortOrder
+    invoiceNumber?: SortOrder
+    note?: SortOrder
     workOrderId?: SortOrder
     workOrderItemId?: SortOrder
     createdAt?: SortOrder
@@ -28089,6 +28143,8 @@ export namespace Prisma {
     batchId?: SortOrder
     qty?: SortOrder
     buyPrice?: SortOrder
+    invoiceNumber?: SortOrder
+    note?: SortOrder
     workOrderId?: SortOrder
     workOrderItemId?: SortOrder
     createdAt?: SortOrder
@@ -31203,6 +31259,8 @@ export namespace Prisma {
     type: $Enums.StockMovementType
     qty: number
     buyPrice?: number | null
+    invoiceNumber?: string | null
+    note?: string | null
     createdAt?: Date | string
     product: ProductCreateNestedOneWithoutMovementsInput
     batch?: StockBatchCreateNestedOneWithoutMovementsInput
@@ -31216,6 +31274,8 @@ export namespace Prisma {
     batchId?: string | null
     qty: number
     buyPrice?: number | null
+    invoiceNumber?: string | null
+    note?: string | null
     workOrderItemId?: string | null
     createdAt?: Date | string
   }
@@ -31423,6 +31483,8 @@ export namespace Prisma {
     batchId?: StringNullableFilter<"StockMovement"> | string | null
     qty?: IntFilter<"StockMovement"> | number
     buyPrice?: IntNullableFilter<"StockMovement"> | number | null
+    invoiceNumber?: StringNullableFilter<"StockMovement"> | string | null
+    note?: StringNullableFilter<"StockMovement"> | string | null
     workOrderId?: StringNullableFilter<"StockMovement"> | string | null
     workOrderItemId?: StringNullableFilter<"StockMovement"> | string | null
     createdAt?: DateTimeFilter<"StockMovement"> | Date | string
@@ -31783,6 +31845,8 @@ export namespace Prisma {
     type: $Enums.StockMovementType
     qty: number
     buyPrice?: number | null
+    invoiceNumber?: string | null
+    note?: string | null
     createdAt?: Date | string
     product: ProductCreateNestedOneWithoutMovementsInput
     batch?: StockBatchCreateNestedOneWithoutMovementsInput
@@ -31796,6 +31860,8 @@ export namespace Prisma {
     batchId?: string | null
     qty: number
     buyPrice?: number | null
+    invoiceNumber?: string | null
+    note?: string | null
     workOrderId?: string | null
     createdAt?: Date | string
   }
@@ -32067,6 +32133,8 @@ export namespace Prisma {
     type: $Enums.StockMovementType
     qty: number
     buyPrice?: number | null
+    invoiceNumber?: string | null
+    note?: string | null
     createdAt?: Date | string
     batch?: StockBatchCreateNestedOneWithoutMovementsInput
     workOrder?: WorkOrderCreateNestedOneWithoutStockMovementsInput
@@ -32079,6 +32147,8 @@ export namespace Prisma {
     batchId?: string | null
     qty: number
     buyPrice?: number | null
+    invoiceNumber?: string | null
+    note?: string | null
     workOrderId?: string | null
     workOrderItemId?: string | null
     createdAt?: Date | string
@@ -32336,6 +32406,8 @@ export namespace Prisma {
     type: $Enums.StockMovementType
     qty: number
     buyPrice?: number | null
+    invoiceNumber?: string | null
+    note?: string | null
     createdAt?: Date | string
     product: ProductCreateNestedOneWithoutMovementsInput
     workOrder?: WorkOrderCreateNestedOneWithoutStockMovementsInput
@@ -32348,6 +32420,8 @@ export namespace Prisma {
     productId: string
     qty: number
     buyPrice?: number | null
+    invoiceNumber?: string | null
+    note?: string | null
     workOrderId?: string | null
     workOrderItemId?: string | null
     createdAt?: Date | string
@@ -33507,6 +33581,8 @@ export namespace Prisma {
     batchId?: string | null
     qty: number
     buyPrice?: number | null
+    invoiceNumber?: string | null
+    note?: string | null
     workOrderItemId?: string | null
     createdAt?: Date | string
   }
@@ -33572,6 +33648,8 @@ export namespace Prisma {
     type?: EnumStockMovementTypeFieldUpdateOperationsInput | $Enums.StockMovementType
     qty?: IntFieldUpdateOperationsInput | number
     buyPrice?: NullableIntFieldUpdateOperationsInput | number | null
+    invoiceNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     product?: ProductUpdateOneRequiredWithoutMovementsNestedInput
     batch?: StockBatchUpdateOneWithoutMovementsNestedInput
@@ -33585,6 +33663,8 @@ export namespace Prisma {
     batchId?: NullableStringFieldUpdateOperationsInput | string | null
     qty?: IntFieldUpdateOperationsInput | number
     buyPrice?: NullableIntFieldUpdateOperationsInput | number | null
+    invoiceNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     workOrderItemId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -33596,6 +33676,8 @@ export namespace Prisma {
     batchId?: NullableStringFieldUpdateOperationsInput | string | null
     qty?: IntFieldUpdateOperationsInput | number
     buyPrice?: NullableIntFieldUpdateOperationsInput | number | null
+    invoiceNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     workOrderItemId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -33607,6 +33689,8 @@ export namespace Prisma {
     batchId?: string | null
     qty: number
     buyPrice?: number | null
+    invoiceNumber?: string | null
+    note?: string | null
     workOrderId?: string | null
     createdAt?: Date | string
   }
@@ -33616,6 +33700,8 @@ export namespace Prisma {
     type?: EnumStockMovementTypeFieldUpdateOperationsInput | $Enums.StockMovementType
     qty?: IntFieldUpdateOperationsInput | number
     buyPrice?: NullableIntFieldUpdateOperationsInput | number | null
+    invoiceNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     product?: ProductUpdateOneRequiredWithoutMovementsNestedInput
     batch?: StockBatchUpdateOneWithoutMovementsNestedInput
@@ -33629,6 +33715,8 @@ export namespace Prisma {
     batchId?: NullableStringFieldUpdateOperationsInput | string | null
     qty?: IntFieldUpdateOperationsInput | number
     buyPrice?: NullableIntFieldUpdateOperationsInput | number | null
+    invoiceNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     workOrderId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -33640,6 +33728,8 @@ export namespace Prisma {
     batchId?: NullableStringFieldUpdateOperationsInput | string | null
     qty?: IntFieldUpdateOperationsInput | number
     buyPrice?: NullableIntFieldUpdateOperationsInput | number | null
+    invoiceNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     workOrderId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -33658,6 +33748,8 @@ export namespace Prisma {
     batchId?: string | null
     qty: number
     buyPrice?: number | null
+    invoiceNumber?: string | null
+    note?: string | null
     workOrderId?: string | null
     workOrderItemId?: string | null
     createdAt?: Date | string
@@ -33708,6 +33800,8 @@ export namespace Prisma {
     type?: EnumStockMovementTypeFieldUpdateOperationsInput | $Enums.StockMovementType
     qty?: IntFieldUpdateOperationsInput | number
     buyPrice?: NullableIntFieldUpdateOperationsInput | number | null
+    invoiceNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     batch?: StockBatchUpdateOneWithoutMovementsNestedInput
     workOrder?: WorkOrderUpdateOneWithoutStockMovementsNestedInput
@@ -33720,6 +33814,8 @@ export namespace Prisma {
     batchId?: NullableStringFieldUpdateOperationsInput | string | null
     qty?: IntFieldUpdateOperationsInput | number
     buyPrice?: NullableIntFieldUpdateOperationsInput | number | null
+    invoiceNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     workOrderId?: NullableStringFieldUpdateOperationsInput | string | null
     workOrderItemId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33731,6 +33827,8 @@ export namespace Prisma {
     batchId?: NullableStringFieldUpdateOperationsInput | string | null
     qty?: IntFieldUpdateOperationsInput | number
     buyPrice?: NullableIntFieldUpdateOperationsInput | number | null
+    invoiceNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     workOrderId?: NullableStringFieldUpdateOperationsInput | string | null
     workOrderItemId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33836,6 +33934,8 @@ export namespace Prisma {
     productId: string
     qty: number
     buyPrice?: number | null
+    invoiceNumber?: string | null
+    note?: string | null
     workOrderId?: string | null
     workOrderItemId?: string | null
     createdAt?: Date | string
@@ -33846,6 +33946,8 @@ export namespace Prisma {
     type?: EnumStockMovementTypeFieldUpdateOperationsInput | $Enums.StockMovementType
     qty?: IntFieldUpdateOperationsInput | number
     buyPrice?: NullableIntFieldUpdateOperationsInput | number | null
+    invoiceNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     product?: ProductUpdateOneRequiredWithoutMovementsNestedInput
     workOrder?: WorkOrderUpdateOneWithoutStockMovementsNestedInput
@@ -33858,6 +33960,8 @@ export namespace Prisma {
     productId?: StringFieldUpdateOperationsInput | string
     qty?: IntFieldUpdateOperationsInput | number
     buyPrice?: NullableIntFieldUpdateOperationsInput | number | null
+    invoiceNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     workOrderId?: NullableStringFieldUpdateOperationsInput | string | null
     workOrderItemId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33869,6 +33973,8 @@ export namespace Prisma {
     productId?: StringFieldUpdateOperationsInput | string
     qty?: IntFieldUpdateOperationsInput | number
     buyPrice?: NullableIntFieldUpdateOperationsInput | number | null
+    invoiceNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     workOrderId?: NullableStringFieldUpdateOperationsInput | string | null
     workOrderItemId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

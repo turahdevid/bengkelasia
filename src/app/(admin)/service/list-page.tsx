@@ -3,6 +3,16 @@
 import * as React from "react";
 import { useRouter } from "next/navigation";
 
+import {
+  CreditCard,
+  LoaderCircle,
+  MessageCircle,
+  Printer,
+  Trash2,
+  UserRoundCog,
+  Wrench,
+} from "lucide-react";
+
 import { Button } from "~/components/ui/button";
 import {
   Card,
@@ -253,16 +263,16 @@ export default function ServiceListPage() {
         </div>
 
         <div className="rounded-2xl border border-slate-200/70 bg-white/40 shadow-sm">
-          <Table>
+          <Table className="text-xs">
             <TableHeader>
               <TableRow>
-                <TableHead>WO</TableHead>
-                <TableHead>Customer</TableHead>
-                <TableHead>Kendaraan</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Total</TableHead>
-                <TableHead>Tanggal</TableHead>
-                <TableHead>Aksi</TableHead>
+                <TableHead className="h-9 px-3">WO</TableHead>
+                <TableHead className="h-9 px-3">Customer</TableHead>
+                <TableHead className="h-9 px-3">Kendaraan</TableHead>
+                <TableHead className="h-9 px-3">Status</TableHead>
+                <TableHead className="h-9 px-3 text-right">Total</TableHead>
+                <TableHead className="h-9 px-3">Tanggal</TableHead>
+                <TableHead className="h-9 px-3">Aksi</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -288,9 +298,9 @@ export default function ServiceListPage() {
                     className="cursor-pointer"
                     onClick={() => router.push(`/admin/service/${wo.id}`)}
                   >
-                    <TableCell className="font-semibold">{wo.woNumber}</TableCell>
-                    <TableCell>{wo.customer?.name ?? "-"}</TableCell>
-                    <TableCell>{wo.vehicle?.plateNumber ?? "-"}</TableCell>
+                    <TableCell className="px-3 py-2 font-semibold">{wo.woNumber}</TableCell>
+                    <TableCell className="px-3 py-2">{wo.customer?.name ?? "-"}</TableCell>
+                    <TableCell className="px-3 py-2">{wo.vehicle?.plateNumber ?? "-"}</TableCell>
                     <TableCell>
                       <span
                         className={cn(
@@ -301,44 +311,76 @@ export default function ServiceListPage() {
                         {statusLabel(wo.status as WoStatus)}
                       </span>
                     </TableCell>
-                    <TableCell className="text-right">{formatRupiah(wo.grandTotal ?? 0)}</TableCell>
-                    <TableCell className="text-sm text-slate-700">{formatDateTime(new Date(wo.createdAt))}</TableCell>
-                    <TableCell>
-                      <div className="flex flex-wrap gap-2">
+                    <TableCell className="px-3 py-2 text-right">{formatRupiah(wo.grandTotal ?? 0)}</TableCell>
+                    <TableCell className="px-3 py-2 text-slate-700">{formatDateTime(new Date(wo.createdAt))}</TableCell>
+                    <TableCell className="px-3 py-2">
+                      <div className="flex flex-nowrap items-center gap-1">
                         <Button
                           type="button"
                           variant="secondary"
+                          size="icon"
+                          aria-label="Print WO (PDF)"
+                          title="Print WO (PDF)"
                           onClick={(e) => {
                             e.stopPropagation();
-                            router.push(`/admin/service/${wo.id}?tab=customer`);
+                            window.open(
+                              `/admin/service/${wo.id}/print`,
+                              "_blank",
+                              "noopener,noreferrer",
+                            );
                           }}
                         >
-                          Edit CS
-                        </Button>
-                        <Button
-                          type="button"
-                          variant="secondary"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            router.push(`/admin/service/${wo.id}?tab=order`);
-                          }}
-                        >
-                          Edit Order
-                        </Button>
-                        <Button
-                          type="button"
-                          variant="secondary"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            router.push(`/admin/service/${wo.id}?tab=payment`);
-                          }}
-                        >
-                          Edit Payment
+                          <Printer className="h-4 w-4" aria-hidden="true" />
                         </Button>
 
                         <Button
                           type="button"
                           variant="secondary"
+                          size="icon"
+                          aria-label="Edit customer"
+                          title="Edit customer"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            router.push(`/admin/service/${wo.id}?tab=customer`);
+                          }}
+                        >
+                          <UserRoundCog className="h-4 w-4" aria-hidden="true" />
+                        </Button>
+
+                        <Button
+                          type="button"
+                          variant="secondary"
+                          size="icon"
+                          aria-label="Edit order"
+                          title="Edit order"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            router.push(`/admin/service/${wo.id}?tab=order`);
+                          }}
+                        >
+                          <Wrench className="h-4 w-4" aria-hidden="true" />
+                        </Button>
+
+                        <Button
+                          type="button"
+                          variant="secondary"
+                          size="icon"
+                          aria-label="Edit payment"
+                          title="Edit payment"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            router.push(`/admin/service/${wo.id}?tab=payment`);
+                          }}
+                        >
+                          <CreditCard className="h-4 w-4" aria-hidden="true" />
+                        </Button>
+
+                        <Button
+                          type="button"
+                          variant="secondary"
+                          size="icon"
+                          aria-label="Kirim invoice via WhatsApp"
+                          title="Kirim invoice via WhatsApp"
                           onClick={(e) => {
                             e.stopPropagation();
                             const phone = normalizePhoneForWa(wo.customer?.phone ?? "");
@@ -361,18 +403,26 @@ export default function ServiceListPage() {
                             window.open(url, "_blank", "noopener,noreferrer");
                           }}
                         >
-                          Kirim WA
+                          <MessageCircle className="h-4 w-4" aria-hidden="true" />
                         </Button>
 
                         <Button
                           type="button"
                           variant="secondary"
+                          size="icon"
+                          aria-label="Hapus"
+                          title="Hapus"
                           onClick={(e) => {
                             e.stopPropagation();
+                            if (deleteMutation.isPending) return;
                             setDeleteConfirm({ open: true, id: wo.id, woNumber: wo.woNumber });
                           }}
                         >
-                          Delete
+                          {deleteMutation.isPending ? (
+                            <LoaderCircle className="h-4 w-4 animate-spin" aria-hidden="true" />
+                          ) : (
+                            <Trash2 className="h-4 w-4" aria-hidden="true" />
+                          )}
                         </Button>
                       </div>
                     </TableCell>

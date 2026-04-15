@@ -215,7 +215,7 @@ export default function AdminShell({
   return (
     <div className="min-h-screen bg-[#f6f1e8]">
       <div className="mx-auto w-full max-w-[1200px] px-4 py-4 lg:px-6 lg:py-6">
-        <header className="sticky top-0 z-40">
+        <header className="sticky top-0 z-40 print:hidden">
           <div className="rounded-3xl border border-slate-200/70 bg-white/60 shadow-sm backdrop-blur-lg">
             <div className="flex flex-col gap-3 p-3 sm:flex-row sm:items-center sm:justify-between">
               <div className="flex items-center justify-between gap-3">
