@@ -142,6 +142,14 @@ export namespace $Enums {
 export type WorkOrderStatus = (typeof WorkOrderStatus)[keyof typeof WorkOrderStatus]
 
 
+export const DiscountType: {
+  PERCENT: 'PERCENT',
+  AMOUNT: 'AMOUNT'
+};
+
+export type DiscountType = (typeof DiscountType)[keyof typeof DiscountType]
+
+
 export const WorkOrderItemType: {
   JASA: 'JASA',
   SPAREPART: 'SPAREPART',
@@ -188,6 +196,10 @@ export type PaymentMethod = (typeof PaymentMethod)[keyof typeof PaymentMethod]
 export type WorkOrderStatus = $Enums.WorkOrderStatus
 
 export const WorkOrderStatus: typeof $Enums.WorkOrderStatus
+
+export type DiscountType = $Enums.DiscountType
+
+export const DiscountType: typeof $Enums.DiscountType
 
 export type WorkOrderItemType = $Enums.WorkOrderItemType
 
@@ -14097,6 +14109,7 @@ export namespace Prisma {
     reminderNextOdo: number | null
     dp: number | null
     discountPercent: number | null
+    discountAmount: number | null
     taxPercent: number | null
     subtotal: number | null
     grandTotal: number | null
@@ -14109,6 +14122,7 @@ export namespace Prisma {
     reminderNextOdo: number | null
     dp: number | null
     discountPercent: number | null
+    discountAmount: number | null
     taxPercent: number | null
     subtotal: number | null
     grandTotal: number | null
@@ -14133,6 +14147,8 @@ export namespace Prisma {
     reminderNextDate: Date | null
     dp: number | null
     discountPercent: number | null
+    discountType: $Enums.DiscountType | null
+    discountAmount: number | null
     taxPercent: number | null
     subtotal: number | null
     grandTotal: number | null
@@ -14160,6 +14176,8 @@ export namespace Prisma {
     reminderNextDate: Date | null
     dp: number | null
     discountPercent: number | null
+    discountType: $Enums.DiscountType | null
+    discountAmount: number | null
     taxPercent: number | null
     subtotal: number | null
     grandTotal: number | null
@@ -14187,6 +14205,8 @@ export namespace Prisma {
     reminderNextDate: number
     dp: number
     discountPercent: number
+    discountType: number
+    discountAmount: number
     taxPercent: number
     subtotal: number
     grandTotal: number
@@ -14204,6 +14224,7 @@ export namespace Prisma {
     reminderNextOdo?: true
     dp?: true
     discountPercent?: true
+    discountAmount?: true
     taxPercent?: true
     subtotal?: true
     grandTotal?: true
@@ -14216,6 +14237,7 @@ export namespace Prisma {
     reminderNextOdo?: true
     dp?: true
     discountPercent?: true
+    discountAmount?: true
     taxPercent?: true
     subtotal?: true
     grandTotal?: true
@@ -14240,6 +14262,8 @@ export namespace Prisma {
     reminderNextDate?: true
     dp?: true
     discountPercent?: true
+    discountType?: true
+    discountAmount?: true
     taxPercent?: true
     subtotal?: true
     grandTotal?: true
@@ -14267,6 +14291,8 @@ export namespace Prisma {
     reminderNextDate?: true
     dp?: true
     discountPercent?: true
+    discountType?: true
+    discountAmount?: true
     taxPercent?: true
     subtotal?: true
     grandTotal?: true
@@ -14294,6 +14320,8 @@ export namespace Prisma {
     reminderNextDate?: true
     dp?: true
     discountPercent?: true
+    discountType?: true
+    discountAmount?: true
     taxPercent?: true
     subtotal?: true
     grandTotal?: true
@@ -14408,6 +14436,8 @@ export namespace Prisma {
     reminderNextDate: Date | null
     dp: number
     discountPercent: number
+    discountType: $Enums.DiscountType
+    discountAmount: number
     taxPercent: number
     subtotal: number
     grandTotal: number
@@ -14454,6 +14484,8 @@ export namespace Prisma {
     reminderNextDate?: boolean
     dp?: boolean
     discountPercent?: boolean
+    discountType?: boolean
+    discountAmount?: boolean
     taxPercent?: boolean
     subtotal?: boolean
     grandTotal?: boolean
@@ -14491,6 +14523,8 @@ export namespace Prisma {
     reminderNextDate?: boolean
     dp?: boolean
     discountPercent?: boolean
+    discountType?: boolean
+    discountAmount?: boolean
     taxPercent?: boolean
     subtotal?: boolean
     grandTotal?: boolean
@@ -14501,7 +14535,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type WorkOrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "woNumber" | "status" | "customerId" | "vehicleId" | "advisorId" | "jobType" | "odo" | "complaint" | "preCheck" | "postCheck" | "estimatedDoneAt" | "reminderNextOdo" | "reminderNextDate" | "dp" | "discountPercent" | "taxPercent" | "subtotal" | "grandTotal" | "paidAmount" | "changeAmount" | "paymentMethod" | "createdAt" | "updatedAt", ExtArgs["result"]["workOrder"]>
+  export type WorkOrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "woNumber" | "status" | "customerId" | "vehicleId" | "advisorId" | "jobType" | "odo" | "complaint" | "preCheck" | "postCheck" | "estimatedDoneAt" | "reminderNextOdo" | "reminderNextDate" | "dp" | "discountPercent" | "discountType" | "discountAmount" | "taxPercent" | "subtotal" | "grandTotal" | "paidAmount" | "changeAmount" | "paymentMethod" | "createdAt" | "updatedAt", ExtArgs["result"]["workOrder"]>
   export type WorkOrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customer?: boolean | WorkOrder$customerArgs<ExtArgs>
     vehicle?: boolean | WorkOrder$vehicleArgs<ExtArgs>
@@ -14541,6 +14575,8 @@ export namespace Prisma {
       reminderNextDate: Date | null
       dp: number
       discountPercent: number
+      discountType: $Enums.DiscountType
+      discountAmount: number
       taxPercent: number
       subtotal: number
       grandTotal: number
@@ -14941,6 +14977,8 @@ export namespace Prisma {
     readonly reminderNextDate: FieldRef<"WorkOrder", 'DateTime'>
     readonly dp: FieldRef<"WorkOrder", 'Int'>
     readonly discountPercent: FieldRef<"WorkOrder", 'Int'>
+    readonly discountType: FieldRef<"WorkOrder", 'DiscountType'>
+    readonly discountAmount: FieldRef<"WorkOrder", 'Int'>
     readonly taxPercent: FieldRef<"WorkOrder", 'Int'>
     readonly subtotal: FieldRef<"WorkOrder", 'Int'>
     readonly grandTotal: FieldRef<"WorkOrder", 'Int'>
@@ -25935,6 +25973,8 @@ export namespace Prisma {
     reminderNextDate: 'reminderNextDate',
     dp: 'dp',
     discountPercent: 'discountPercent',
+    discountType: 'discountType',
+    discountAmount: 'discountAmount',
     taxPercent: 'taxPercent',
     subtotal: 'subtotal',
     grandTotal: 'grandTotal',
@@ -26367,6 +26407,13 @@ export namespace Prisma {
    * Reference to a field of type 'WorkOrderStatus'
    */
   export type EnumWorkOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WorkOrderStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'DiscountType'
+   */
+  export type EnumDiscountTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DiscountType'>
     
 
 
@@ -27162,6 +27209,8 @@ export namespace Prisma {
     reminderNextDate?: DateTimeNullableFilter<"WorkOrder"> | Date | string | null
     dp?: IntFilter<"WorkOrder"> | number
     discountPercent?: IntFilter<"WorkOrder"> | number
+    discountType?: EnumDiscountTypeFilter<"WorkOrder"> | $Enums.DiscountType
+    discountAmount?: IntFilter<"WorkOrder"> | number
     taxPercent?: IntFilter<"WorkOrder"> | number
     subtotal?: IntFilter<"WorkOrder"> | number
     grandTotal?: IntFilter<"WorkOrder"> | number
@@ -27196,6 +27245,8 @@ export namespace Prisma {
     reminderNextDate?: SortOrderInput | SortOrder
     dp?: SortOrder
     discountPercent?: SortOrder
+    discountType?: SortOrder
+    discountAmount?: SortOrder
     taxPercent?: SortOrder
     subtotal?: SortOrder
     grandTotal?: SortOrder
@@ -27234,6 +27285,8 @@ export namespace Prisma {
     reminderNextDate?: DateTimeNullableFilter<"WorkOrder"> | Date | string | null
     dp?: IntFilter<"WorkOrder"> | number
     discountPercent?: IntFilter<"WorkOrder"> | number
+    discountType?: EnumDiscountTypeFilter<"WorkOrder"> | $Enums.DiscountType
+    discountAmount?: IntFilter<"WorkOrder"> | number
     taxPercent?: IntFilter<"WorkOrder"> | number
     subtotal?: IntFilter<"WorkOrder"> | number
     grandTotal?: IntFilter<"WorkOrder"> | number
@@ -27268,6 +27321,8 @@ export namespace Prisma {
     reminderNextDate?: SortOrderInput | SortOrder
     dp?: SortOrder
     discountPercent?: SortOrder
+    discountType?: SortOrder
+    discountAmount?: SortOrder
     taxPercent?: SortOrder
     subtotal?: SortOrder
     grandTotal?: SortOrder
@@ -27303,6 +27358,8 @@ export namespace Prisma {
     reminderNextDate?: DateTimeNullableWithAggregatesFilter<"WorkOrder"> | Date | string | null
     dp?: IntWithAggregatesFilter<"WorkOrder"> | number
     discountPercent?: IntWithAggregatesFilter<"WorkOrder"> | number
+    discountType?: EnumDiscountTypeWithAggregatesFilter<"WorkOrder"> | $Enums.DiscountType
+    discountAmount?: IntWithAggregatesFilter<"WorkOrder"> | number
     taxPercent?: IntWithAggregatesFilter<"WorkOrder"> | number
     subtotal?: IntWithAggregatesFilter<"WorkOrder"> | number
     grandTotal?: IntWithAggregatesFilter<"WorkOrder"> | number
@@ -28862,6 +28919,8 @@ export namespace Prisma {
     reminderNextDate?: Date | string | null
     dp?: number
     discountPercent?: number
+    discountType?: $Enums.DiscountType
+    discountAmount?: number
     taxPercent?: number
     subtotal?: number
     grandTotal?: number
@@ -28896,6 +28955,8 @@ export namespace Prisma {
     reminderNextDate?: Date | string | null
     dp?: number
     discountPercent?: number
+    discountType?: $Enums.DiscountType
+    discountAmount?: number
     taxPercent?: number
     subtotal?: number
     grandTotal?: number
@@ -28924,6 +28985,8 @@ export namespace Prisma {
     reminderNextDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dp?: IntFieldUpdateOperationsInput | number
     discountPercent?: IntFieldUpdateOperationsInput | number
+    discountType?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    discountAmount?: IntFieldUpdateOperationsInput | number
     taxPercent?: IntFieldUpdateOperationsInput | number
     subtotal?: IntFieldUpdateOperationsInput | number
     grandTotal?: IntFieldUpdateOperationsInput | number
@@ -28958,6 +29021,8 @@ export namespace Prisma {
     reminderNextDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dp?: IntFieldUpdateOperationsInput | number
     discountPercent?: IntFieldUpdateOperationsInput | number
+    discountType?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    discountAmount?: IntFieldUpdateOperationsInput | number
     taxPercent?: IntFieldUpdateOperationsInput | number
     subtotal?: IntFieldUpdateOperationsInput | number
     grandTotal?: IntFieldUpdateOperationsInput | number
@@ -28989,6 +29054,8 @@ export namespace Prisma {
     reminderNextDate?: Date | string | null
     dp?: number
     discountPercent?: number
+    discountType?: $Enums.DiscountType
+    discountAmount?: number
     taxPercent?: number
     subtotal?: number
     grandTotal?: number
@@ -29013,6 +29080,8 @@ export namespace Prisma {
     reminderNextDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dp?: IntFieldUpdateOperationsInput | number
     discountPercent?: IntFieldUpdateOperationsInput | number
+    discountType?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    discountAmount?: IntFieldUpdateOperationsInput | number
     taxPercent?: IntFieldUpdateOperationsInput | number
     subtotal?: IntFieldUpdateOperationsInput | number
     grandTotal?: IntFieldUpdateOperationsInput | number
@@ -29040,6 +29109,8 @@ export namespace Prisma {
     reminderNextDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dp?: IntFieldUpdateOperationsInput | number
     discountPercent?: IntFieldUpdateOperationsInput | number
+    discountType?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    discountAmount?: IntFieldUpdateOperationsInput | number
     taxPercent?: IntFieldUpdateOperationsInput | number
     subtotal?: IntFieldUpdateOperationsInput | number
     grandTotal?: IntFieldUpdateOperationsInput | number
@@ -30528,6 +30599,13 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
+  export type EnumDiscountTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.DiscountType | EnumDiscountTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.DiscountType[]
+    notIn?: $Enums.DiscountType[]
+    not?: NestedEnumDiscountTypeFilter<$PrismaModel> | $Enums.DiscountType
+  }
+
   export type EnumPaymentMethodFilter<$PrismaModel = never> = {
     equals?: $Enums.PaymentMethod | EnumPaymentMethodFieldRefInput<$PrismaModel>
     in?: $Enums.PaymentMethod[]
@@ -30593,6 +30671,8 @@ export namespace Prisma {
     reminderNextDate?: SortOrder
     dp?: SortOrder
     discountPercent?: SortOrder
+    discountType?: SortOrder
+    discountAmount?: SortOrder
     taxPercent?: SortOrder
     subtotal?: SortOrder
     grandTotal?: SortOrder
@@ -30608,6 +30688,7 @@ export namespace Prisma {
     reminderNextOdo?: SortOrder
     dp?: SortOrder
     discountPercent?: SortOrder
+    discountAmount?: SortOrder
     taxPercent?: SortOrder
     subtotal?: SortOrder
     grandTotal?: SortOrder
@@ -30632,6 +30713,8 @@ export namespace Prisma {
     reminderNextDate?: SortOrder
     dp?: SortOrder
     discountPercent?: SortOrder
+    discountType?: SortOrder
+    discountAmount?: SortOrder
     taxPercent?: SortOrder
     subtotal?: SortOrder
     grandTotal?: SortOrder
@@ -30659,6 +30742,8 @@ export namespace Prisma {
     reminderNextDate?: SortOrder
     dp?: SortOrder
     discountPercent?: SortOrder
+    discountType?: SortOrder
+    discountAmount?: SortOrder
     taxPercent?: SortOrder
     subtotal?: SortOrder
     grandTotal?: SortOrder
@@ -30674,6 +30759,7 @@ export namespace Prisma {
     reminderNextOdo?: SortOrder
     dp?: SortOrder
     discountPercent?: SortOrder
+    discountAmount?: SortOrder
     taxPercent?: SortOrder
     subtotal?: SortOrder
     grandTotal?: SortOrder
@@ -30705,6 +30791,16 @@ export namespace Prisma {
     _sum?: NestedIntFilter<$PrismaModel>
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type EnumDiscountTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DiscountType | EnumDiscountTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.DiscountType[]
+    notIn?: $Enums.DiscountType[]
+    not?: NestedEnumDiscountTypeWithAggregatesFilter<$PrismaModel> | $Enums.DiscountType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDiscountTypeFilter<$PrismaModel>
+    _max?: NestedEnumDiscountTypeFilter<$PrismaModel>
   }
 
   export type EnumPaymentMethodWithAggregatesFilter<$PrismaModel = never> = {
@@ -32220,6 +32316,10 @@ export namespace Prisma {
     divide?: number
   }
 
+  export type EnumDiscountTypeFieldUpdateOperationsInput = {
+    set?: $Enums.DiscountType
+  }
+
   export type EnumPaymentMethodFieldUpdateOperationsInput = {
     set?: $Enums.PaymentMethod
   }
@@ -33191,6 +33291,13 @@ export namespace Prisma {
     not?: NestedEnumWorkOrderStatusFilter<$PrismaModel> | $Enums.WorkOrderStatus
   }
 
+  export type NestedEnumDiscountTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.DiscountType | EnumDiscountTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.DiscountType[]
+    notIn?: $Enums.DiscountType[]
+    not?: NestedEnumDiscountTypeFilter<$PrismaModel> | $Enums.DiscountType
+  }
+
   export type NestedEnumPaymentMethodFilter<$PrismaModel = never> = {
     equals?: $Enums.PaymentMethod | EnumPaymentMethodFieldRefInput<$PrismaModel>
     in?: $Enums.PaymentMethod[]
@@ -33233,6 +33340,16 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type NestedEnumDiscountTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DiscountType | EnumDiscountTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.DiscountType[]
+    notIn?: $Enums.DiscountType[]
+    not?: NestedEnumDiscountTypeWithAggregatesFilter<$PrismaModel> | $Enums.DiscountType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDiscountTypeFilter<$PrismaModel>
+    _max?: NestedEnumDiscountTypeFilter<$PrismaModel>
   }
 
   export type NestedEnumPaymentMethodWithAggregatesFilter<$PrismaModel = never> = {
@@ -33822,6 +33939,8 @@ export namespace Prisma {
     reminderNextDate?: Date | string | null
     dp?: number
     discountPercent?: number
+    discountType?: $Enums.DiscountType
+    discountAmount?: number
     taxPercent?: number
     subtotal?: number
     grandTotal?: number
@@ -33854,6 +33973,8 @@ export namespace Prisma {
     reminderNextDate?: Date | string | null
     dp?: number
     discountPercent?: number
+    discountType?: $Enums.DiscountType
+    discountAmount?: number
     taxPercent?: number
     subtotal?: number
     grandTotal?: number
@@ -34119,6 +34240,8 @@ export namespace Prisma {
     reminderNextDate?: DateTimeNullableFilter<"WorkOrder"> | Date | string | null
     dp?: IntFilter<"WorkOrder"> | number
     discountPercent?: IntFilter<"WorkOrder"> | number
+    discountType?: EnumDiscountTypeFilter<"WorkOrder"> | $Enums.DiscountType
+    discountAmount?: IntFilter<"WorkOrder"> | number
     taxPercent?: IntFilter<"WorkOrder"> | number
     subtotal?: IntFilter<"WorkOrder"> | number
     grandTotal?: IntFilter<"WorkOrder"> | number
@@ -34355,6 +34478,8 @@ export namespace Prisma {
     reminderNextDate?: Date | string | null
     dp?: number
     discountPercent?: number
+    discountType?: $Enums.DiscountType
+    discountAmount?: number
     taxPercent?: number
     subtotal?: number
     grandTotal?: number
@@ -34387,6 +34512,8 @@ export namespace Prisma {
     reminderNextDate?: Date | string | null
     dp?: number
     discountPercent?: number
+    discountType?: $Enums.DiscountType
+    discountAmount?: number
     taxPercent?: number
     subtotal?: number
     grandTotal?: number
@@ -34609,6 +34736,8 @@ export namespace Prisma {
     reminderNextDate?: Date | string | null
     dp?: number
     discountPercent?: number
+    discountType?: $Enums.DiscountType
+    discountAmount?: number
     taxPercent?: number
     subtotal?: number
     grandTotal?: number
@@ -34641,6 +34770,8 @@ export namespace Prisma {
     reminderNextDate?: Date | string | null
     dp?: number
     discountPercent?: number
+    discountType?: $Enums.DiscountType
+    discountAmount?: number
     taxPercent?: number
     subtotal?: number
     grandTotal?: number
@@ -35320,6 +35451,8 @@ export namespace Prisma {
     reminderNextDate?: Date | string | null
     dp?: number
     discountPercent?: number
+    discountType?: $Enums.DiscountType
+    discountAmount?: number
     taxPercent?: number
     subtotal?: number
     grandTotal?: number
@@ -35353,6 +35486,8 @@ export namespace Prisma {
     reminderNextDate?: Date | string | null
     dp?: number
     discountPercent?: number
+    discountType?: $Enums.DiscountType
+    discountAmount?: number
     taxPercent?: number
     subtotal?: number
     grandTotal?: number
@@ -35433,6 +35568,8 @@ export namespace Prisma {
     reminderNextDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dp?: IntFieldUpdateOperationsInput | number
     discountPercent?: IntFieldUpdateOperationsInput | number
+    discountType?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    discountAmount?: IntFieldUpdateOperationsInput | number
     taxPercent?: IntFieldUpdateOperationsInput | number
     subtotal?: IntFieldUpdateOperationsInput | number
     grandTotal?: IntFieldUpdateOperationsInput | number
@@ -35466,6 +35603,8 @@ export namespace Prisma {
     reminderNextDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dp?: IntFieldUpdateOperationsInput | number
     discountPercent?: IntFieldUpdateOperationsInput | number
+    discountType?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    discountAmount?: IntFieldUpdateOperationsInput | number
     taxPercent?: IntFieldUpdateOperationsInput | number
     subtotal?: IntFieldUpdateOperationsInput | number
     grandTotal?: IntFieldUpdateOperationsInput | number
@@ -35536,6 +35675,8 @@ export namespace Prisma {
     reminderNextDate?: Date | string | null
     dp?: number
     discountPercent?: number
+    discountType?: $Enums.DiscountType
+    discountAmount?: number
     taxPercent?: number
     subtotal?: number
     grandTotal?: number
@@ -35569,6 +35710,8 @@ export namespace Prisma {
     reminderNextDate?: Date | string | null
     dp?: number
     discountPercent?: number
+    discountType?: $Enums.DiscountType
+    discountAmount?: number
     taxPercent?: number
     subtotal?: number
     grandTotal?: number
@@ -35731,6 +35874,8 @@ export namespace Prisma {
     reminderNextDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dp?: IntFieldUpdateOperationsInput | number
     discountPercent?: IntFieldUpdateOperationsInput | number
+    discountType?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    discountAmount?: IntFieldUpdateOperationsInput | number
     taxPercent?: IntFieldUpdateOperationsInput | number
     subtotal?: IntFieldUpdateOperationsInput | number
     grandTotal?: IntFieldUpdateOperationsInput | number
@@ -35764,6 +35909,8 @@ export namespace Prisma {
     reminderNextDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dp?: IntFieldUpdateOperationsInput | number
     discountPercent?: IntFieldUpdateOperationsInput | number
+    discountType?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    discountAmount?: IntFieldUpdateOperationsInput | number
     taxPercent?: IntFieldUpdateOperationsInput | number
     subtotal?: IntFieldUpdateOperationsInput | number
     grandTotal?: IntFieldUpdateOperationsInput | number
@@ -36394,6 +36541,8 @@ export namespace Prisma {
     reminderNextDate?: Date | string | null
     dp?: number
     discountPercent?: number
+    discountType?: $Enums.DiscountType
+    discountAmount?: number
     taxPercent?: number
     subtotal?: number
     grandTotal?: number
@@ -36427,6 +36576,8 @@ export namespace Prisma {
     reminderNextDate?: Date | string | null
     dp?: number
     discountPercent?: number
+    discountType?: $Enums.DiscountType
+    discountAmount?: number
     taxPercent?: number
     subtotal?: number
     grandTotal?: number
@@ -36573,6 +36724,8 @@ export namespace Prisma {
     reminderNextDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dp?: IntFieldUpdateOperationsInput | number
     discountPercent?: IntFieldUpdateOperationsInput | number
+    discountType?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    discountAmount?: IntFieldUpdateOperationsInput | number
     taxPercent?: IntFieldUpdateOperationsInput | number
     subtotal?: IntFieldUpdateOperationsInput | number
     grandTotal?: IntFieldUpdateOperationsInput | number
@@ -36606,6 +36759,8 @@ export namespace Prisma {
     reminderNextDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dp?: IntFieldUpdateOperationsInput | number
     discountPercent?: IntFieldUpdateOperationsInput | number
+    discountType?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    discountAmount?: IntFieldUpdateOperationsInput | number
     taxPercent?: IntFieldUpdateOperationsInput | number
     subtotal?: IntFieldUpdateOperationsInput | number
     grandTotal?: IntFieldUpdateOperationsInput | number
@@ -36938,6 +37093,8 @@ export namespace Prisma {
     reminderNextDate?: Date | string | null
     dp?: number
     discountPercent?: number
+    discountType?: $Enums.DiscountType
+    discountAmount?: number
     taxPercent?: number
     subtotal?: number
     grandTotal?: number
@@ -36971,6 +37128,8 @@ export namespace Prisma {
     reminderNextDate?: Date | string | null
     dp?: number
     discountPercent?: number
+    discountType?: $Enums.DiscountType
+    discountAmount?: number
     taxPercent?: number
     subtotal?: number
     grandTotal?: number
@@ -37123,6 +37282,8 @@ export namespace Prisma {
     reminderNextDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dp?: IntFieldUpdateOperationsInput | number
     discountPercent?: IntFieldUpdateOperationsInput | number
+    discountType?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    discountAmount?: IntFieldUpdateOperationsInput | number
     taxPercent?: IntFieldUpdateOperationsInput | number
     subtotal?: IntFieldUpdateOperationsInput | number
     grandTotal?: IntFieldUpdateOperationsInput | number
@@ -37156,6 +37317,8 @@ export namespace Prisma {
     reminderNextDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dp?: IntFieldUpdateOperationsInput | number
     discountPercent?: IntFieldUpdateOperationsInput | number
+    discountType?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    discountAmount?: IntFieldUpdateOperationsInput | number
     taxPercent?: IntFieldUpdateOperationsInput | number
     subtotal?: IntFieldUpdateOperationsInput | number
     grandTotal?: IntFieldUpdateOperationsInput | number
@@ -37415,6 +37578,8 @@ export namespace Prisma {
     reminderNextDate?: Date | string | null
     dp?: number
     discountPercent?: number
+    discountType?: $Enums.DiscountType
+    discountAmount?: number
     taxPercent?: number
     subtotal?: number
     grandTotal?: number
@@ -37530,6 +37695,8 @@ export namespace Prisma {
     reminderNextDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dp?: IntFieldUpdateOperationsInput | number
     discountPercent?: IntFieldUpdateOperationsInput | number
+    discountType?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    discountAmount?: IntFieldUpdateOperationsInput | number
     taxPercent?: IntFieldUpdateOperationsInput | number
     subtotal?: IntFieldUpdateOperationsInput | number
     grandTotal?: IntFieldUpdateOperationsInput | number
@@ -37562,6 +37729,8 @@ export namespace Prisma {
     reminderNextDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dp?: IntFieldUpdateOperationsInput | number
     discountPercent?: IntFieldUpdateOperationsInput | number
+    discountType?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    discountAmount?: IntFieldUpdateOperationsInput | number
     taxPercent?: IntFieldUpdateOperationsInput | number
     subtotal?: IntFieldUpdateOperationsInput | number
     grandTotal?: IntFieldUpdateOperationsInput | number
@@ -37592,6 +37761,8 @@ export namespace Prisma {
     reminderNextDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dp?: IntFieldUpdateOperationsInput | number
     discountPercent?: IntFieldUpdateOperationsInput | number
+    discountType?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    discountAmount?: IntFieldUpdateOperationsInput | number
     taxPercent?: IntFieldUpdateOperationsInput | number
     subtotal?: IntFieldUpdateOperationsInput | number
     grandTotal?: IntFieldUpdateOperationsInput | number
@@ -37717,6 +37888,8 @@ export namespace Prisma {
     reminderNextDate?: Date | string | null
     dp?: number
     discountPercent?: number
+    discountType?: $Enums.DiscountType
+    discountAmount?: number
     taxPercent?: number
     subtotal?: number
     grandTotal?: number
@@ -37814,6 +37987,8 @@ export namespace Prisma {
     reminderNextDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dp?: IntFieldUpdateOperationsInput | number
     discountPercent?: IntFieldUpdateOperationsInput | number
+    discountType?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    discountAmount?: IntFieldUpdateOperationsInput | number
     taxPercent?: IntFieldUpdateOperationsInput | number
     subtotal?: IntFieldUpdateOperationsInput | number
     grandTotal?: IntFieldUpdateOperationsInput | number
@@ -37846,6 +38021,8 @@ export namespace Prisma {
     reminderNextDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dp?: IntFieldUpdateOperationsInput | number
     discountPercent?: IntFieldUpdateOperationsInput | number
+    discountType?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    discountAmount?: IntFieldUpdateOperationsInput | number
     taxPercent?: IntFieldUpdateOperationsInput | number
     subtotal?: IntFieldUpdateOperationsInput | number
     grandTotal?: IntFieldUpdateOperationsInput | number
@@ -37876,6 +38053,8 @@ export namespace Prisma {
     reminderNextDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dp?: IntFieldUpdateOperationsInput | number
     discountPercent?: IntFieldUpdateOperationsInput | number
+    discountType?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    discountAmount?: IntFieldUpdateOperationsInput | number
     taxPercent?: IntFieldUpdateOperationsInput | number
     subtotal?: IntFieldUpdateOperationsInput | number
     grandTotal?: IntFieldUpdateOperationsInput | number
@@ -37974,6 +38153,8 @@ export namespace Prisma {
     reminderNextDate?: Date | string | null
     dp?: number
     discountPercent?: number
+    discountType?: $Enums.DiscountType
+    discountAmount?: number
     taxPercent?: number
     subtotal?: number
     grandTotal?: number
@@ -38011,6 +38192,8 @@ export namespace Prisma {
     reminderNextDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dp?: IntFieldUpdateOperationsInput | number
     discountPercent?: IntFieldUpdateOperationsInput | number
+    discountType?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    discountAmount?: IntFieldUpdateOperationsInput | number
     taxPercent?: IntFieldUpdateOperationsInput | number
     subtotal?: IntFieldUpdateOperationsInput | number
     grandTotal?: IntFieldUpdateOperationsInput | number
@@ -38043,6 +38226,8 @@ export namespace Prisma {
     reminderNextDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dp?: IntFieldUpdateOperationsInput | number
     discountPercent?: IntFieldUpdateOperationsInput | number
+    discountType?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    discountAmount?: IntFieldUpdateOperationsInput | number
     taxPercent?: IntFieldUpdateOperationsInput | number
     subtotal?: IntFieldUpdateOperationsInput | number
     grandTotal?: IntFieldUpdateOperationsInput | number
@@ -38073,6 +38258,8 @@ export namespace Prisma {
     reminderNextDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dp?: IntFieldUpdateOperationsInput | number
     discountPercent?: IntFieldUpdateOperationsInput | number
+    discountType?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    discountAmount?: IntFieldUpdateOperationsInput | number
     taxPercent?: IntFieldUpdateOperationsInput | number
     subtotal?: IntFieldUpdateOperationsInput | number
     grandTotal?: IntFieldUpdateOperationsInput | number

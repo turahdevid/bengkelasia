@@ -239,6 +239,8 @@ exports.Prisma.WorkOrderScalarFieldEnum = {
   reminderNextDate: 'reminderNextDate',
   dp: 'dp',
   discountPercent: 'discountPercent',
+  discountType: 'discountType',
+  discountAmount: 'discountAmount',
   taxPercent: 'taxPercent',
   subtotal: 'subtotal',
   grandTotal: 'grandTotal',
@@ -537,6 +539,11 @@ exports.WorkOrderStatus = exports.$Enums.WorkOrderStatus = {
   OPEN: 'OPEN',
   DONE: 'DONE',
   CANCELLED: 'CANCELLED'
+};
+
+exports.DiscountType = exports.$Enums.DiscountType = {
+  PERCENT: 'PERCENT',
+  AMOUNT: 'AMOUNT'
 };
 
 exports.PaymentMethod = exports.$Enums.PaymentMethod = {

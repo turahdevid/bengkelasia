@@ -86,6 +86,8 @@ type Draft = {
 
   dp: string;
   discountPercent: string;
+  discountType: "PERCENT" | "AMOUNT";
+  discountAmount: string;
   taxPercent: string;
   paidAmount: string;
   paymentMethod: "CASH" | "TRANSFER";
@@ -120,6 +122,22 @@ function makeClientId() {
 
 function formatRupiahInput(value: string) {
   return formatRupiah(parseRupiah(value), { prefix: false });
+}
+
+function calcGrandTotalClient(params: {
+  itemsSubtotal: number;
+  discountPercent: number;
+  discountType: "PERCENT" | "AMOUNT";
+  discountAmount: number;
+  taxPercent: number;
+}) {
+  const discountAmount =
+    params.discountType === "AMOUNT"
+      ? Math.max(0, Math.min(params.itemsSubtotal, params.discountAmount))
+      : Math.floor((params.itemsSubtotal * params.discountPercent) / 100);
+  const afterDiscount = Math.max(0, params.itemsSubtotal - discountAmount);
+  const taxAmount = Math.floor((afterDiscount * params.taxPercent) / 100);
+  return afterDiscount + taxAmount;
 }
 
 export default function WorkOrderFormPage() {
@@ -175,6 +193,8 @@ export default function WorkOrderFormPage() {
 
     dp: "0",
     discountPercent: "0",
+    discountType: "PERCENT",
+    discountAmount: "0",
     taxPercent: "0",
     paidAmount: "0",
     paymentMethod: "CASH",
@@ -241,6 +261,8 @@ export default function WorkOrderFormPage() {
       postCheck: wo.postCheck ?? "",
       dp: formatRupiah(wo.dp ?? 0, { prefix: false }),
       discountPercent: String(wo.discountPercent ?? 0),
+      discountType: wo.discountType === "AMOUNT" ? "AMOUNT" : "PERCENT",
+      discountAmount: formatRupiah(wo.discountAmount ?? 0, { prefix: false }),
       taxPercent: String(wo.taxPercent ?? 0),
       paidAmount: paidAmountTouched
         ? d.paidAmount
@@ -253,6 +275,103 @@ export default function WorkOrderFormPage() {
       paymentMethod: (wo.paymentMethod ?? "CASH") as "CASH" | "TRANSFER",
     }));
   }, [paidAmountTouched, woQuery.data]);
+
+  React.useEffect(() => {
+    const wo = woQuery.data;
+    if (!wo) return;
+    if (paidAmountTouched) return;
+
+    const itemsSubtotalFromItems = (wo.items ?? []).reduce((acc, it) => {
+      const qty = it.qty ?? 0;
+      const price = it.price ?? 0;
+      return acc + qty * price;
+    }, 0);
+
+    const itemsSubtotal = wo.subtotal && wo.subtotal > 0 ? wo.subtotal : itemsSubtotalFromItems;
+    const discountPercent = safeInt(draft.discountPercent);
+    const discountType = draft.discountType;
+    const discountAmount = parseRupiah(draft.discountAmount);
+    const taxPercent = safeInt(draft.taxPercent);
+    const dp = parseRupiah(draft.dp);
+
+    const grandTotal = calcGrandTotalClient({
+      itemsSubtotal,
+      discountPercent,
+      discountType,
+      discountAmount,
+      taxPercent,
+    });
+
+    const paidAmountFromDb = wo.paidAmount ?? 0;
+    const nextPaidAmount =
+      paidAmountFromDb > 0 ? paidAmountFromDb : Math.max(0, grandTotal - dp);
+    const nextPaidAmountLabel = formatRupiah(nextPaidAmount, { prefix: false });
+
+    if (draft.paidAmount !== nextPaidAmountLabel) {
+      setDraft((d) => ({
+        ...d,
+        paidAmount: nextPaidAmountLabel,
+      }));
+    }
+  }, [
+    draft.discountPercent,
+    draft.discountAmount,
+    draft.discountType,
+    draft.dp,
+    draft.paidAmount,
+    draft.taxPercent,
+    paidAmountTouched,
+    woQuery.data,
+  ]);
+
+  const paymentSummary = React.useMemo(() => {
+    const wo = woQuery.data;
+    const items = wo?.items ?? [];
+
+    const subtotal = items.reduce((acc, it) => {
+      const qty = it.qty ?? 0;
+      const price = it.price ?? 0;
+      return acc + qty * price;
+    }, 0);
+
+    const discountPercent = safeInt(draft.discountPercent);
+    const discountType = draft.discountType;
+    const discountAmount = parseRupiah(draft.discountAmount);
+    const taxPercent = safeInt(draft.taxPercent);
+    const dp = parseRupiah(draft.dp);
+    const paidAmount = parseRupiah(draft.paidAmount);
+
+    const grandTotal = calcGrandTotalClient({
+      itemsSubtotal: subtotal,
+      discountPercent,
+      discountType,
+      discountAmount,
+      taxPercent,
+    });
+
+    const sisaBayar = Math.max(0, grandTotal - dp);
+    const kembalian = Math.max(0, paidAmount - grandTotal);
+
+    return {
+      subtotal,
+      discountPercent,
+      discountType,
+      discountAmount,
+      taxPercent,
+      grandTotal,
+      dp,
+      sisaBayar,
+      kembalian,
+    };
+  }, [
+    draft.discountAmount,
+    draft.discountPercent,
+    draft.discountType,
+    draft.dp,
+    draft.paidAmount,
+    draft.taxPercent,
+    woQuery.data,
+  ]);
 
   const mechanicsQuery = api.service.listMechanics.useQuery();
   const advisorsQuery = api.service.listAdvisors.useQuery();
@@ -501,6 +620,8 @@ export default function WorkOrderFormPage() {
 
       dp: parseRupiah(draft.dp),
       discountPercent: safeInt(draft.discountPercent),
+      discountType: draft.discountType,
+      discountAmount: parseRupiah(draft.discountAmount),
       taxPercent: safeInt(draft.taxPercent),
       paidAmount: parseRupiah(draft.paidAmount),
       paymentMethod: draft.paymentMethod,
@@ -1439,12 +1560,44 @@ export default function WorkOrderFormPage() {
                   inputMode="numeric"
                 />
               </Field>
-              <Field label="Discount (%)">
-                <Input
-                  value={draft.discountPercent}
-                  onChange={(e) => setDraft((d) => ({ ...d, discountPercent: e.target.value }))}
-                  inputMode="numeric"
-                />
+              <Field label="Discount">
+                <div className="grid gap-2">
+                  <select
+                    className="h-10 w-full rounded-2xl border border-slate-200 bg-white px-3 text-sm"
+                    value={draft.discountType}
+                    onChange={(e) =>
+                      setDraft((d) => ({
+                        ...d,
+                        discountType: e.target.value === "AMOUNT" ? "AMOUNT" : "PERCENT",
+                      }))
+                    }
+                  >
+                    <option value="PERCENT">Persen (%)</option>
+                    <option value="AMOUNT">Rupiah (Rp)</option>
+                  </select>
+
+                  {draft.discountType === "AMOUNT" ? (
+                    <Input
+                      value={draft.discountAmount}
+                      onChange={(e) => setDraft((d) => ({ ...d, discountAmount: e.target.value }))}
+                      onBlur={(e) =>
+                        setDraft((d) => ({
+                          ...d,
+                          discountAmount: formatRupiahInput(e.target.value),
+                        }))
+                      }
+                      inputMode="numeric"
+                      placeholder="0"
+                    />
+                  ) : (
+                    <Input
+                      value={draft.discountPercent}
+                      onChange={(e) => setDraft((d) => ({ ...d, discountPercent: e.target.value }))}
+                      inputMode="numeric"
+                      placeholder="0"
+                    />
+                  )}
+                </div>
               </Field>
               <Field label="Tax / PPN (%)">
                 <Input
@@ -1474,47 +1627,47 @@ export default function WorkOrderFormPage() {
                   <div className="flex items-center justify-between">
                     <span className="text-slate-600">Subtotal</span>
                     <span className="font-semibold text-slate-900">
-                      {formatRupiah(woQuery.data?.subtotal ?? 0)}
+                      {formatRupiah(paymentSummary.subtotal)}
                     </span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-slate-600">Discount</span>
                     <span className="font-semibold text-slate-900">
-                      {safeInt(draft.discountPercent) > 0
-                        ? `${String(safeInt(draft.discountPercent))}%`
-                        : "0%"}
+                      {paymentSummary.discountType === "AMOUNT"
+                        ? formatRupiah(paymentSummary.discountAmount)
+                        : paymentSummary.discountPercent > 0
+                          ? `${String(paymentSummary.discountPercent)}%`
+                          : "0%"}
                     </span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-slate-600">Tax / PPN</span>
                     <span className="font-semibold text-slate-900">
-                      {safeInt(draft.taxPercent) > 0 ? `${String(safeInt(draft.taxPercent))}%` : "0%"}
+                      {paymentSummary.taxPercent > 0 ? `${String(paymentSummary.taxPercent)}%` : "0%"}
                     </span>
                   </div>
                   <div className="flex items-center justify-between border-t border-slate-100 pt-2">
                     <span className="text-slate-600">Grand Total</span>
                     <span className="font-semibold text-slate-900">
-                      {formatRupiah(woQuery.data?.grandTotal ?? 0)}
+                      {formatRupiah(paymentSummary.grandTotal)}
                     </span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-slate-600">DP</span>
                     <span className="font-semibold text-slate-900">
-                      {formatRupiah(woQuery.data?.dp ?? 0)}
+                      {formatRupiah(paymentSummary.dp)}
                     </span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-slate-600">Sisa Bayar</span>
                     <span className="font-semibold text-slate-900">
-                      {formatRupiah(
-                        Math.max(0, (woQuery.data?.grandTotal ?? 0) - (woQuery.data?.dp ?? 0)),
-                      )}
+                      {formatRupiah(paymentSummary.sisaBayar)}
                     </span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-slate-600">Kembalian</span>
                     <span className="font-semibold text-slate-900">
-                      {formatRupiah(woQuery.data?.changeAmount ?? 0)}
+                      {formatRupiah(paymentSummary.kembalian)}
                     </span>
                   </div>
                 </div>

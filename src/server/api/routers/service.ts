@@ -252,9 +252,14 @@ async function fifoDeductAndComputeHpp(params: {
 function calcGrandTotal(params: {
   itemsSubtotal: number;
   discountPercent: number;
+  discountType: "PERCENT" | "AMOUNT";
+  discountAmount: number;
   taxPercent: number;
 }) {
-  const discountAmount = Math.floor((params.itemsSubtotal * params.discountPercent) / 100);
+  const discountAmount =
+    params.discountType === "AMOUNT"
+      ? Math.max(0, Math.min(params.itemsSubtotal, params.discountAmount))
+      : Math.floor((params.itemsSubtotal * params.discountPercent) / 100);
   const afterDiscount = Math.max(0, params.itemsSubtotal - discountAmount);
   const taxAmount = Math.floor((afterDiscount * params.taxPercent) / 100);
   return afterDiscount + taxAmount;
@@ -270,6 +275,8 @@ async function recomputeWorkOrderTotals(tx: Prisma.TransactionClient, workOrderI
       where: { id: workOrderId },
       select: {
         discountPercent: true,
+        discountType: true,
+        discountAmount: true,
         taxPercent: true,
         paidAmount: true,
       },
@@ -280,6 +287,8 @@ async function recomputeWorkOrderTotals(tx: Prisma.TransactionClient, workOrderI
   const grandTotal = calcGrandTotal({
     itemsSubtotal: subtotal,
     discountPercent: woNow?.discountPercent ?? 0,
+    discountType: woNow?.discountType ?? "PERCENT",
+    discountAmount: woNow?.discountAmount ?? 0,
     taxPercent: woNow?.taxPercent ?? 0,
   });
   const changeAmount = Math.max(0, (woNow?.paidAmount ?? 0) - grandTotal);
@@ -343,6 +352,8 @@ const upsertWorkOrderSchema = z
     // Payment
     dp: moneySchema.default(0),
     discountPercent: percentSchema.default(0),
+    discountType: z.enum(["PERCENT", "AMOUNT"]).default("PERCENT"),
+    discountAmount: moneySchema.default(0),
     taxPercent: percentSchema.default(0),
     paidAmount: moneySchema.default(0),
     paymentMethod: z.enum(["CASH", "TRANSFER"]).default("CASH"),
@@ -821,6 +832,8 @@ export const serviceRouter = createTRPCRouter({
           reminderNextDate: true,
           dp: true,
           discountPercent: true,
+          discountType: true,
+          discountAmount: true,
           taxPercent: true,
           subtotal: true,
           grandTotal: true,
@@ -912,6 +925,8 @@ export const serviceRouter = createTRPCRouter({
         // Payment
         dp: moneySchema.optional(),
         discountPercent: percentSchema.optional(),
+        discountType: z.enum(["PERCENT", "AMOUNT"]).optional(),
+        discountAmount: moneySchema.optional(),
         taxPercent: percentSchema.optional(),
         paidAmount: moneySchema.optional(),
         paymentMethod: z.enum(["CASH", "TRANSFER"]).optional(),
@@ -1001,6 +1016,8 @@ export const serviceRouter = createTRPCRouter({
 
             ...(input.dp !== undefined ? { dp: input.dp } : {}),
             ...(input.discountPercent !== undefined ? { discountPercent: input.discountPercent } : {}),
+            ...(input.discountType !== undefined ? { discountType: input.discountType } : {}),
+            ...(input.discountAmount !== undefined ? { discountAmount: input.discountAmount } : {}),
             ...(input.taxPercent !== undefined ? { taxPercent: input.taxPercent } : {}),
             ...(input.paidAmount !== undefined ? { paidAmount: input.paidAmount } : {}),
             ...(input.paymentMethod !== undefined ? { paymentMethod: input.paymentMethod } : {}),
@@ -1031,6 +1048,8 @@ export const serviceRouter = createTRPCRouter({
           where: { id: updated.id },
           select: {
             discountPercent: true,
+            discountType: true,
+            discountAmount: true,
             taxPercent: true,
             paidAmount: true,
           },
@@ -1039,6 +1058,8 @@ export const serviceRouter = createTRPCRouter({
         const grandTotal = calcGrandTotal({
           itemsSubtotal: subtotal,
           discountPercent: woNow?.discountPercent ?? 0,
+          discountType: woNow?.discountType ?? "PERCENT",
+          discountAmount: woNow?.discountAmount ?? 0,
           taxPercent: woNow?.taxPercent ?? 0,
         });
         const changeAmount = Math.max(0, (woNow?.paidAmount ?? 0) - grandTotal);
@@ -1134,6 +1155,8 @@ export const serviceRouter = createTRPCRouter({
       const grandTotal = calcGrandTotal({
         itemsSubtotal: subtotal,
         discountPercent: input.discountPercent,
+        discountType: input.discountType,
+        discountAmount: input.discountAmount,
         taxPercent: input.taxPercent,
       });
 
@@ -1215,6 +1238,8 @@ export const serviceRouter = createTRPCRouter({
                     : null,
                   dp,
                   discountPercent: input.discountPercent,
+                  discountType: input.discountType,
+                  discountAmount: input.discountAmount,
                   taxPercent: input.taxPercent,
                   subtotal,
                   grandTotal,

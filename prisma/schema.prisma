@@ -178,6 +178,11 @@ enum WorkOrderStatus {
     CANCELLED
 }
 
+enum DiscountType {
+    PERCENT
+    AMOUNT
+}
+
 enum WorkOrderItemType {
     JASA
     SPAREPART
@@ -245,6 +250,8 @@ model WorkOrder {
 
     dp             Int @default(0)
     discountPercent Int @default(0)
+    discountType    DiscountType @default(PERCENT)
+    discountAmount  Int @default(0)
     taxPercent      Int @default(0)
 
     subtotal   Int @default(0)
